@@ -1,0 +1,17 @@
+<Prefab>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" DoNotAcceptEvents="true">
+      <Children>
+        <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                SuggestedWidth="@Size"
+                SuggestedHeight="@Size"
+                ScaledPositionXOffset="@ScreenX"
+                ScaledPositionYOffset="@ScreenY"
+                IsVisible="@IsVisible"
+                Sprite="BlankWhiteSquare_9"
+                Color="@Color"
+                DoNotAcceptEvents="true" />
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

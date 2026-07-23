@@ -7,6 +7,7 @@
     <CopyLocalLockFileAssemblies>true</CopyLocalLockFileAssemblies>
     <LangVersion>9.0</LangVersion>
     <Nullable>enable</Nullable>
+    <GenerateAssemblyInfo>false</GenerateAssemblyInfo>
     <BuildForWindows>false</BuildForWindows>
     <BuildForWindowsStore>false</BuildForWindowsStore>
     <ModuleId>$(MSBuildProjectName)</ModuleId>
@@ -71,6 +72,7 @@
   <ItemGroup>
     <Compile Remove="原版游戏本体代码1.4.5\**\*.cs" />
     <Compile Remove="Catapult Guide\**\*.cs" />
+    <Compile Remove="Battlefield UI\**\*.cs" />
     <None Include="原版游戏本体代码1.4.5\**\*.cs" />
   </ItemGroup>
 
