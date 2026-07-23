@@ -1,0 +1,53 @@
+<Prefab>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsEnabled" DoNotAcceptEvents="true">
+      <Children>
+        <Widget DataSource="{Items}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" DoNotAcceptEvents="true">
+          <ItemTemplate>
+            <ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="1" SuggestedHeight="36" ScaledPositionXOffset="@ScreenPositionX" ScaledPositionYOffset="@ScreenPositionY" IsVisible="@IsVisible" AlphaFactor="@Alpha" StackLayout.LayoutMethod="VerticalBottomToTop" DoNotAcceptEvents="true">
+              <Children>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="@BarWidth" SuggestedHeight="@BarHeight" PositionXOffset="@BarPositionX" PositionYOffset="@BarPositionY" HorizontalAlignment="Center" VerticalAlignment="Bottom" Sprite="BlankWhiteSquare_9" Color="@BackgroundColor" IsVisible="@ShowSquareBar" DoNotAcceptEvents="true">
+                  <Children>
+                    <FillBarWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="1" MarginRight="1" MarginTop="1" MarginBottom="1" FillWidget="FillVisualSquare" InitialAmountAsFloat="@HealthRatio" MaxAmountAsFloat="1" DoNotAcceptEvents="true">
+                      <Children>
+                        <Widget Id="FillVisualSquare" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Center" Sprite="BlankWhiteSquare_9" Color="@BarColor" DoNotAcceptEvents="true" />
+                      </Children>
+                    </FillBarWidget>
+                  </Children>
+                </Widget>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="@BarWidth" SuggestedHeight="@BarHeight" PositionXOffset="@BarPositionX" PositionYOffset="@BarPositionY" HorizontalAlignment="Center" VerticalAlignment="Bottom" Sprite="rounded_canvas_9" Color="@BackgroundColor" IsVisible="@ShowSmallRoundedBar" DoNotAcceptEvents="true">
+                  <Children>
+                    <FillBarWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="1" MarginRight="1" MarginTop="1" MarginBottom="1" FillWidget="FillVisualSmallRounded" InitialAmountAsFloat="@HealthRatio" MaxAmountAsFloat="1" DoNotAcceptEvents="true">
+                      <Children>
+                        <Widget Id="FillVisualSmallRounded" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Center" Sprite="rounded_canvas_9" Color="@BarColor" DoNotAcceptEvents="true" />
+                      </Children>
+                    </FillBarWidget>
+                  </Children>
+                </Widget>
+                <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="@BarWidth" SuggestedHeight="@BarHeight" PositionXOffset="@BarPositionX" PositionYOffset="@BarPositionY" HorizontalAlignment="Center" VerticalAlignment="Bottom" Sprite="SquareWRoundedCorners_9" Color="@BackgroundColor" IsVisible="@ShowLargeRoundedBar" DoNotAcceptEvents="true">
+                  <Children>
+                    <FillBarWidget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" MarginLeft="1" MarginRight="1" MarginTop="1" MarginBottom="1" FillWidget="FillVisualLargeRounded" InitialAmountAsFloat="@HealthRatio" MaxAmountAsFloat="1" DoNotAcceptEvents="true">
+                      <Children>
+                        <Widget Id="FillVisualLargeRounded" WidthSizePolicy="Fixed" HeightSizePolicy="StretchToParent" HorizontalAlignment="Left" VerticalAlignment="Center" Sprite="SquareWRoundedCorners_9" Color="@BarColor" DoNotAcceptEvents="true" />
+                      </Children>
+                    </FillBarWidget>
+                  </Children>
+                </Widget>
+                <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="240" SuggestedHeight="22" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="@Name" IsVisible="@ShowName" Brush="NameMarker.TextBrush" Brush.FontColor="#FFFFFFFF" Brush.FontSize="15" Brush.TextHorizontalAlignment="Center" Brush.TextVerticalAlignment="Bottom" ClipContents="false" DoNotAcceptEvents="true" />
+              </Children>
+            </ListPanel>
+          </ItemTemplate>
+        </Widget>
+        <Widget DataSource="{DamageNumbers}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" DoNotAcceptEvents="true">
+          <ItemTemplate>
+            <ListPanel WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="1" SuggestedHeight="42" ScaledPositionXOffset="@ScreenPositionX" ScaledPositionYOffset="@ScreenPositionY" IsVisible="@IsVisible" AlphaFactor="@Alpha" StackLayout.LayoutMethod="VerticalBottomToTop" DoNotAcceptEvents="true">
+              <Children>
+                <TextWidget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed" SuggestedWidth="160" SuggestedHeight="40" HorizontalAlignment="Center" VerticalAlignment="Bottom" Text="@Text" Brush="NameMarker.TextBrush" Brush.FontColor="@Color" Brush.FontSize="@FontSize" Brush.TextHorizontalAlignment="Center" Brush.TextVerticalAlignment="Center" ClipContents="false" DoNotAcceptEvents="true" />
+              </Children>
+            </ListPanel>
+          </ItemTemplate>
+        </Widget>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

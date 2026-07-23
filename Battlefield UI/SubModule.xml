@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Module>
+  <Name value="Battlefield UI" />
+  <Id value="BattlefieldUI" />
+  <Version value="v1.0.0" />
+  <DefaultModule value="false" />
+  <ModuleCategory value="Singleplayer" />
+  <ModuleType value="Community" />
+  <DependedModules>
+    <DependedModule Id="Bannerlord.Harmony" Optional="false" />
+    <DependedModule Id="Bannerlord.ButterLib" Optional="false" />
+    <DependedModule Id="Bannerlord.UIExtenderEx" Optional="false" />
+    <DependedModule Id="Bannerlord.MBOptionScreen" Optional="false" />
+    <DependedModule Id="Native" DependentVersion="v1.4.6" Optional="false" />
+    <DependedModule Id="SandBoxCore" DependentVersion="v1.4.6" Optional="false" />
+    <DependedModule Id="Sandbox" DependentVersion="v1.4.6" Optional="false" />
+    <DependedModule Id="StoryMode" DependentVersion="v1.4.6" Optional="true" />
+  </DependedModules>
+  <SubModules>
+    <SubModule>
+      <Name value="Battlefield UI" />
+      <DLLName value="BattlefieldUI.dll" />
+      <SubModuleClassType value="BattlefieldUI.SubModule" />
+      <Tags>
+        <Tag key="DedicatedServerType" value="none" />
+        <Tag key="IsNoRenderModeElement" value="false" />
+      </Tags>
+    </SubModule>
+  </SubModules>
+  <Xmls />
+</Module>
