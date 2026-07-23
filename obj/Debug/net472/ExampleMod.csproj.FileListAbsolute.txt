@@ -1,9 +1,0 @@
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.csproj.AssemblyReference.cache
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.GeneratedMSBuildEditorConfig.editorconfig
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.AssemblyInfoInputs.cache
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.AssemblyInfo.cs
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.csproj.CoreCompileInputs.cache
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\bin\Debug\net472\ExampleMod.dll
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\bin\Debug\net472\ExampleMod.pdb
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.dll
-F:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\ExampleMod\obj\Debug\net472\ExampleMod.pdb
