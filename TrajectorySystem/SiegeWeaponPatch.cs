@@ -23,7 +23,7 @@ namespace ExampleMod
             IsFiringNow = false;
         }
 
-        [HarmonyPatch(typeof(RangedSiegeWeapon), "MaximumBallisticError", new System.Type[] { })]
+        [HarmonyPatch(typeof(RangedSiegeWeapon), "get_MaximumBallisticError")]
         [HarmonyPrefix]
         public static bool Prefix_GetError(ref float __result)
         {
