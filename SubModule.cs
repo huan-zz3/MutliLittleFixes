@@ -46,6 +46,12 @@ namespace ExampleMod
             }
         }
 
+        public override void OnMissionBehaviorInitialize(Mission mission)
+        {
+            base.OnMissionBehaviorInitialize(mission);
+            mission.AddMissionBehavior(new SiegeTrajectoryBehavior());
+        }
+
         protected override void OnSubModuleUnloaded()
         {
             // 卸载 Harmony 补丁

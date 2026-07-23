@@ -70,6 +70,7 @@
 
   <ItemGroup>
     <Compile Remove="原版游戏本体代码1.4.5\**\*.cs" />
+    <Compile Remove="Catapult Guide\**\*.cs" />
     <None Include="原版游戏本体代码1.4.5\**\*.cs" />
   </ItemGroup>
 
