@@ -7,7 +7,7 @@ using TaleWorlds.ScreenSystem;
 
 namespace ExampleMod
 {
-    [DefaultView]
+    // [DefaultView]  // 取消注释以启用自动注册（当前使用手动注册，见 SubModule.cs）
     public class PlayerCircleView : MissionView
     {
         private WorldCircleRenderer _circle;
