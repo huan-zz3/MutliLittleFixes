@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+	<tags>
+		<tag language="简体中文" />
+	</tags>
+	<strings>
+		<string id="pt_mod_name" text="弹道指引"/>
+
+		<string id="pt_group_handheld" text="手持武器"/>
+		<string id="pt_group_siege" text="攻城器械"/>
+		<string id="pt_group_naval" text="海战辅助"/>
+
+		<string id="pt_handheld" text="显示手持武器轨迹"/>
+		<string id="pt_handheld_hint" text="开启/关闭 弓、弩、投掷武器 的弹道轨迹预览。"/>
+
+		<string id="pt_ballista" text="显示弩炮轨迹"/>
+		<string id="pt_ballista_hint" text="开启/关闭 弩炮的弹道轨迹预览。"/>
+
+		<string id="pt_mangonel" text="显示投石机轨迹"/>
+		<string id="pt_mangonel_hint" text="开启/关闭 投石机 的弹道轨迹预览。"/>
+
+		<string id="pt_naval" text="启用海战自瞄"/>
+		<string id="pt_naval_hint" text="允许在海战中使用弩炮时，按鼠标中键自动吸附锁定目标。"/>
+	</strings>
+</base>

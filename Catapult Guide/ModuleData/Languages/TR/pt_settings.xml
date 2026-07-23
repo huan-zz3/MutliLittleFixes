@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="Türkçe" />
+  </tags>
+  <strings>
+    <string id="pt_mod_name" text="Mancınık Kılavuzu"/>
+
+    <string id="pt_group_handheld" text="El Silahları"/>
+    <string id="pt_group_siege" text="Kuşatma Silahları"/>
+    <string id="pt_group_naval" text="Deniz Desteği"/>
+
+    <string id="pt_handheld" text="El Silahı Yörüngesi"/>
+    <string id="pt_handheld_hint" text="Yay, arbalet ve fırlatma silahları için yörünge önizlemesini açar veya kapatır."/>
+
+    <string id="pt_ballista" text="Balista Yörüngesi"/>
+    <string id="pt_ballista_hint" text="Balista ve akrep için yörünge önizlemesini açar veya kapatır."/>
+
+    <string id="pt_mangonel" text="Mancınık Yörüngesi"/>
+    <string id="pt_mangonel_hint" text="Mancınık ve tribüşe için yörünge önizlemesini açar veya kapatır."/>
+
+    <string id="pt_naval" text="Deniz Otomatik Nişan"/>
+    <string id="pt_naval_hint" text="Gemilerde balista ve mancınık kullanırken orta fare tuşuyla (MMB) hedefe otomatik kilitlenmeyi sağlar."/>
+  </strings>
+</base>

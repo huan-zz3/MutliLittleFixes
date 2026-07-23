@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LanguageData id="Türkçe" name="Türkçe" subtitle_extension="tr" supported_iso="tr-TR,tr" text_processor="TaleWorlds.Localization.TextProcessor.LanguageProcessors.TurkishTextProcessor" under_development="false">
+  <LanguageFile xml_path="TR/pt_settings.xml" />
+</LanguageData>

@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+    <Id value="CatapultGuide"/>
+    
+    <Name value="Catapult Guide"/>
+    
+    <Version value="v1.0.1"/>
+    <DefaultModule value="false"/>
+    <ModuleCategory value="Singleplayer"/>
+     
+    <DependedModules>
+        <DependedModule Id="Native"/>
+        <DependedModule Id="SandBoxCore"/>
+        <DependedModule Id="Sandbox"/>
+        <DependedModule Id="StoryMode"/>
+        <DependedModule Id="CustomBattle"/>
+         
+        <DependedModule Id="Bannerlord.MBOptionScreen"/>
+    </DependedModules>
+     
+    <SubModules>
+        <SubModule>
+            <Name value="Catapult Guide"/>
+            
+            <DLLName value="CatapultGuide.dll"/>
+            
+            <SubModuleClassType value="ProjectileTrajectorySystem.SubModule"/>
+        </SubModule>
+    </SubModules>
+</Module>

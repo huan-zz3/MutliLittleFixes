@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd = "http://www.w3.org/2001/XMLSchema" type = "string">
+	<tags>
+		<tag language = "Русский" />
+	</tags>
+  <strings>
+
+    <string id="pt_mod_name" text="Руководство по катапультам"/>
+
+    <string id="pt_group_handheld" text="Ручное оружие"/>
+    <string id="pt_group_siege" text="Осадные орудия"/>
+    <string id="pt_group_naval" text="Морские сражения"/>
+
+    <string id="pt_handheld" text="Траектория ручного оружия"/>
+    <string id="pt_handheld_hint" text="Включить или отключить отображение траектории для луков, арбалетов и метательного оружия."/>
+
+    <string id="pt_ballista" text="Траектория баллисты"/>
+    <string id="pt_ballista_hint" text="Включить или отключить отображение траектории для баллист и скорпионов."/>
+
+    <string id="pt_mangonel" text="Траектория метательных машин"/>
+    <string id="pt_mangonel_hint" text="Включить или отключить отображение траектории для мангонелей и требушетов."/>
+
+    <string id="pt_naval" text="Автоприцеливание в морском бою"/>
+    <string id="pt_naval_hint" text="Разрешить автоматическое наведение на цель средней кнопкой мыши при использовании баллисты в морских сражениях."/>
+  </strings>
+</base>

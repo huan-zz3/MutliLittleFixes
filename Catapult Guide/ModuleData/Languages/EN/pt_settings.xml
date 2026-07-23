@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi = "http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd = "http://www.w3.org/2001/XMLSchema" type = "string">
+	<tags>
+		<tag language = "English" />
+	</tags>
+  <strings>
+
+  <string id="pt_mod_name" text="Catapult Guide"/>
+
+  <string id="pt_group_handheld" text="Handheld weapons"/>
+  <string id="pt_group_siege" text="Siege engines"/>
+  <string id="pt_group_naval" text="Naval assistance"/>
+
+  <string id="pt_handheld" text="Show handheld weapon trajectory"/>
+  <string id="pt_handheld_hint" text="Enable or disable trajectory preview for bows, crossbows and thrown weapons."/>
+
+  <string id="pt_ballista" text="Show ballista trajectory"/>
+  <string id="pt_ballista_hint" text="Enable or disable trajectory preview for ballista and scorpion."/>
+
+  <string id="pt_mangonel" text="Show mangonel trajectory"/>
+  <string id="pt_mangonel_hint" text="Enable or disable trajectory preview for mangonel and trebuchet."/>
+
+  <string id="pt_naval" text="Enable naval auto-aim"/>
+  <string id="pt_naval_hint" text="Allow automatic target snapping with middle mouse button when using ballista in naval battles."/>
+
+  </strings>
+</base>
