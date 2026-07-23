@@ -11,7 +11,7 @@
                     ScaledPositionXOffset="@ScreenX"
                     ScaledPositionYOffset="@ScreenY"
                     IsVisible="@IsVisible"
-                    Sprite="BlankWhiteSquare_9"
+                    Sprite="BlankWhiteCircle"
                     Color="@DotColor"
                     DoNotAcceptEvents="true" />
           </ItemTemplate>

@@ -18,6 +18,32 @@ namespace ExampleMod
         private float _camYawOffset;
         private float _camPitchOffset;
 
+        // ---- 落点标记渲染器 ----
+
+        /// <summary>Lobber（投石机/抛石机）的圆环标记</summary>
+        private WorldCircleRenderer _circleRenderer;
+
+        /// <summary>Lobber 圆心粗点 / 弩炮落点标记</summary>
+        private WorldPointRenderer _pointRenderer;
+
+        /// <summary>上一次的命中结果，用于判断武器类型变化后重建渲染器</summary>
+        private bool _lastWasLobber;
+
+        // ============================================================
+        // 渲染器颜色常量
+        // ============================================================
+
+        /// <summary>圆环颜色：橙黄 (ARGB)</summary>
+        private const uint Color_Ring = 0xFFFFAA00;
+
+        /// <summary>圆心粗点颜色：亮红 (ARGB)</summary>
+        private const uint Color_CenterDot = 0xFFFF3333;
+
+        /// <summary>弩炮落点颜色：亮红 (ARGB)</summary>
+        private const uint Color_BallistaDot = 0xFFFF3333;
+
+        // ============================================================
+
         public override void OnAfterMissionCreated()
         {
             base.OnAfterMissionCreated();
@@ -29,7 +55,58 @@ namespace ExampleMod
         {
             base.OnEndMission();
             DisableRtsMode();
+            DisposeRenderers();
             _currentSiegeWeapon = null;
+        }
+
+        private void DisposeRenderers()
+        {
+            _circleRenderer?.Dispose();
+            _circleRenderer = null;
+            _pointRenderer?.Dispose();
+            _pointRenderer = null;
+        }
+
+        /// <summary>
+        /// 确保渲染器已初始化（每次武器变化时重建）。
+        /// </summary>
+        private void EnsureRenderersInitialized(MissionScreen missionScreen, bool isLobber)
+        {
+            if (isLobber != _lastWasLobber)
+            {
+                DisposeRenderers();
+            }
+
+            if (_circleRenderer == null && isLobber)
+            {
+                _circleRenderer = new WorldCircleRenderer(missionScreen, layerOrder: 11);
+                _circleRenderer.Radius = 3f;
+                _circleRenderer.Color = Color_Ring;
+                _circleRenderer.Alpha = 1f;
+                _circleRenderer.DotSize = 4f;
+                _circleRenderer.PointCount = 128;
+                _circleRenderer.Rotation = Mat3.Identity;
+            }
+
+            if (_pointRenderer == null)
+            {
+                _pointRenderer = new WorldPointRenderer(missionScreen, layerOrder: 12);
+                if (isLobber)
+                {
+                    // 圆心粗点：尺寸稍大，醒目
+                    _pointRenderer.Color = Color_CenterDot;
+                    _pointRenderer.Size = 12f;
+                }
+                else
+                {
+                    // 弩炮落点
+                    _pointRenderer.Color = Color_BallistaDot;
+                    _pointRenderer.Size = 10f;
+                }
+                _pointRenderer.Alpha = 1f;
+            }
+
+            _lastWasLobber = isLobber;
         }
 
         private static bool IsLobber(RangedSiegeWeapon w)
@@ -167,7 +244,10 @@ namespace ExampleMod
 
             MissionScreen missionScreen = ScreenManager.TopScreen as MissionScreen;
             if (missionScreen == null)
+            {
+                HideRenderers();
                 return;
+            }
 
             if (_isRtsModeEnabled && _currentSiegeWeapon != null)
             {
@@ -193,12 +273,72 @@ namespace ExampleMod
                 }
             }
 
-            // Draw trajectory after cameras are set up, so debug rendering works correctly
+            // ---- 轨迹模拟 + 落点标记渲染 ----
             Agent main = Agent.Main;
             if (main != null && main.IsActive() && _currentSiegeWeapon != null)
             {
-                ProjectileTrajectorySystem.UpdateTrajectory(main, _currentSiegeWeapon);
+                // 模拟轨迹，获取命中信息（不执行引擎 debug 渲染）
+                var hit = ProjectileTrajectorySystem.UpdateTrajectory(main, _currentSiegeWeapon);
+                bool isLobber = hit.IsLobber;
+
+                if (hit.HasHit)
+                {
+                    // 确保渲染器已就绪
+                    EnsureRenderersInitialized(missionScreen, isLobber);
+
+                    if (isLobber)
+                    {
+                        // Lobber：圆环 + 圆心粗点
+                        _circleRenderer.SetWorldPosition(hit.HitPosition);
+                        _circleRenderer.Rotation = CreateRotationFromNormal(hit.SurfaceNormal);
+                        _circleRenderer.Tick();
+
+                        _pointRenderer.SetWorldPosition(hit.HitPosition);
+                        _pointRenderer.Tick();
+                    }
+                    else
+                    {
+                        // 弩炮：单点
+                        _circleRenderer?.Hide();
+
+                        _pointRenderer.SetWorldPosition(hit.HitPosition);
+                        _pointRenderer.Tick();
+                    }
+                }
+                else
+                {
+                    // 未命中 → 隐藏标记
+                    HideRenderers();
+                }
             }
+            else
+            {
+                // 没有使用的攻城器械 → 隐藏标记
+                HideRenderers();
+            }
+        }
+
+        private void HideRenderers()
+        {
+            _circleRenderer?.Hide();
+            _pointRenderer?.Hide();
+        }
+
+        /// <summary>
+        /// 根据地形的法线向量构建旋转矩阵，使圆环贴合斜坡。
+        /// 返回 Mat3(side, forward, up=normal) —— 圆环的局部 XY 平面被映射到地形切平面。
+        /// 与 <see cref="ProjectileTrajectorySystem"/> 中的 CreateRotationFromUp 逻辑等价。
+        /// </summary>
+        private static Mat3 CreateRotationFromNormal(Vec3 normal)
+        {
+            Vec3 reference = MathF.Abs(normal.z) < 0.99f
+                ? new Vec3(0f, 0f, 1f, -1f)
+                : new Vec3(1f, 0f, 0f, -1f);
+            Vec3 side = Vec3.CrossProduct(reference, normal);
+            side.Normalize();
+            Vec3 forward = Vec3.CrossProduct(normal, side);
+            forward.Normalize();
+            return new Mat3(side, forward, normal);
         }
     }
 }

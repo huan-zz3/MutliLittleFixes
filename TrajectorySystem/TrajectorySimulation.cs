@@ -11,92 +11,6 @@ namespace ExampleMod
 {
 	public static class ProjectileTrajectorySystem
 	{
-		private static void InitDebugRender()
-		{
-			bool flag = ProjectileTrajectorySystem._renderLineMethod != null;
-			if (!flag)
-			{
-				try
-				{
-					Type type = Type.GetType("TaleWorlds.Engine.EngineApplicationInterface, TaleWorlds.Engine");
-					bool flag2 = type == null;
-					if (!flag2)
-					{
-						FieldInfo field = type.GetField("IDebug", BindingFlags.Static | BindingFlags.Public | BindingFlags.NonPublic);
-						object obj = ((field != null) ? field.GetValue(null) : null);
-						ProjectileTrajectorySystem._debugInterface = obj;
-						ProjectileTrajectorySystem._renderLineMethod = ((obj != null) ? obj.GetType().GetMethod("RenderDebugLine", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[]
-						{
-							typeof(Vec3),
-							typeof(Vec3),
-							typeof(uint),
-							typeof(bool),
-							typeof(float)
-						}, null) : null);
-						ProjectileTrajectorySystem._renderSphereMethod = ((obj != null) ? obj.GetType().GetMethod("RenderDebugSphere", BindingFlags.Instance | BindingFlags.Public | BindingFlags.NonPublic, null, new Type[]
-						{
-							typeof(Vec3),
-							typeof(float),
-							typeof(uint),
-							typeof(bool),
-							typeof(float)
-						}, null) : null);
-					}
-				}
-				catch
-				{
-				}
-			}
-		}
-
-		private static void RenderSphere(Vec3 pos, float radius, uint color)
-		{
-			bool flag = ProjectileTrajectorySystem._renderSphereMethod == null;
-			if (flag)
-			{
-				ProjectileTrajectorySystem.InitDebugRender();
-			}
-			try
-			{
-				MethodInfo renderSphereMethod = ProjectileTrajectorySystem._renderSphereMethod;
-				if (renderSphereMethod != null)
-				{
-					renderSphereMethod.Invoke(ProjectileTrajectorySystem._debugInterface, new object[] { pos, radius, color, false, 0f });
-				}
-			}
-			catch
-			{
-			}
-		}
-
-		internal static void RenderOneLine(Vec3 start, Vec3 end, uint color)
-		{
-			bool flag = ProjectileTrajectorySystem._renderLineMethod == null;
-			if (flag)
-			{
-				ProjectileTrajectorySystem.InitDebugRender();
-			}
-			try
-			{
-				MethodInfo renderLineMethod = ProjectileTrajectorySystem._renderLineMethod;
-				if (renderLineMethod != null)
-				{
-					renderLineMethod.Invoke(ProjectileTrajectorySystem._debugInterface, new object[]
-					{
-						start,
-						end - start,
-						color,
-						false,
-						0f
-					});
-				}
-			}
-			catch
-			{
-			}
-		}
-
-
 		private static bool IsBallistaEnabled
 		{
 			get
@@ -116,7 +30,7 @@ namespace ExampleMod
 		}
 
 
-		private static void SimulateTrajectory(Vec3 start, Vec3 velocity, float friction, float mass, float ignoreTime, Action<Vec3> onHit, bool drawPath, bool useQuadraticDrag)
+		private static void SimulateTrajectory(Vec3 start, Vec3 velocity, float friction, float mass, float ignoreTime, Action<Vec3> onHit, bool useQuadraticDrag)
 		{
 			velocity *= 0.9f;
 			Vec3 vec = start;
@@ -153,11 +67,6 @@ namespace ExampleMod
 						break;
 					}
 				}
-				bool flag4 = drawPath && num2 > ignoreTime;
-				if (flag4)
-				{
-					ProjectileTrajectorySystem.RenderOneLine(vec, vec3, uint.MaxValue);
-				}
 				vec = vec3;
 				bool flag5 = vec.z < -100f;
 				if (flag5)
@@ -191,7 +100,7 @@ namespace ExampleMod
 				{
 					predictedHit = hit;
 					gotHit = true;
-				}, false, false);
+				}, false);
 				bool gotHit2 = gotHit;
 				if (gotHit2)
 				{
@@ -205,13 +114,42 @@ namespace ExampleMod
 		}
 
 
-		public static void UpdateTrajectory(Agent agent, RangedSiegeWeapon siegeWeapon)
+		/// <summary>
+		/// 轨迹模拟的命中结果。
+		/// </summary>
+		public struct TrajectoryHitResult
 		{
+			/// <summary>是否命中（模拟到了碰撞）</summary>
+			public bool HasHit;
+
+			/// <summary>命中位置（世界坐标）</summary>
+			public Vec3 HitPosition;
+
+			/// <summary>命中点的地形法线（仅对 lobber 有效）</summary>
+			public Vec3 SurfaceNormal;
+
+			/// <summary>射弹类型（true = 抛射类, false = 直射类）</summary>
+			public bool IsLobber;
+
+			/// <summary>是否为弩炮类</summary>
+			public bool IsBallista => !IsLobber;
+		}
+
+		/// <summary>
+		/// 模拟轨迹并返回命中结果（不执行任何渲染）。
+		/// </summary>
+		public static TrajectoryHitResult UpdateTrajectory(Agent agent, RangedSiegeWeapon siegeWeapon)
+		{
+			TrajectoryHitResult result = default;
+			result.HasHit = false;
+
 			bool flag = siegeWeapon == null || !siegeWeapon.GameEntity.IsValid;
 			if (!flag)
 			{
 				string text = siegeWeapon.GetType().Name.ToLower();
 				bool isLobber = text.Contains("mangonel") || text.Contains("trebuchet") || text.Contains("onager");
+				result.IsLobber = isLobber;
+
 				bool flag2 = !isLobber;
 				bool flag4 = flag2 && !ProjectileTrajectorySystem.IsBallistaEnabled;
 				if (!flag4)
@@ -243,21 +181,19 @@ namespace ExampleMod
 							Vec3 vec3 = vec2 * shootingSpeed + parentVelocity;
 							ProjectileTrajectorySystem.SimulateTrajectory(vec, vec3, dynamicFriction, num, num2, delegate(Vec3 hitPos)
 							{
-								bool isLobber2 = isLobber;
-								if (isLobber2)
+								result.HasHit = true;
+								result.HitPosition = hitPos;
+								if (isLobber)
 								{
-									Vec3 vec4 = ProjectileTrajectorySystem.SampleSurfaceNormal(hitPos);
-									ProjectileTrajectorySystem.DrawImprintedRing(hitPos, vec4, 3f, 4294919424U);
+									result.SurfaceNormal = ProjectileTrajectorySystem.SampleSurfaceNormal(hitPos);
 								}
-								else
-								{
-									ProjectileTrajectorySystem.RenderSphere(hitPos, 0.5f, 4294901760U);
-								}
-							}, isLobber, isLobber);
+							}, isLobber);
 						}
 					}
 				}
 			}
+
+			return result;
 		}
 
 
@@ -516,49 +452,6 @@ namespace ExampleMod
 			return w.GameEntity.GetGlobalFrame().rotation.f;
 		}
 
-		private static void DrawImprintedRing(Vec3 center, Vec3 normal, float radius, uint color)
-		{
-			Mat3 mat = ProjectileTrajectorySystem.CreateRotationFromUp(normal);
-			MatrixFrame matrixFrame = new MatrixFrame(mat, center);
-			matrixFrame.origin += normal * 0.05f;
-			int num = 24;
-			float num2 = 6.2831855f / (float)num;
-			float num3 = MBCommon.GetApplicationTime();
-			float num4 = 1f + MathF.Sin(num3 * 5f) * 0.05f;
-			float num5 = radius * num4;
-			Vec3 vec = new Vec3(num5, 0f, 0f, -1f);
-			Vec3 vec2 = matrixFrame.TransformToParent(vec);
-			for (int i = 1; i <= num; i++)
-			{
-				float num6 = (float)i * num2;
-				Vec3 vec3;
-				vec3 = new Vec3(MathF.Cos(num6) * num5, MathF.Sin(num6) * num5, 0f, -1f);
-				Vec3 vec4 = matrixFrame.TransformToParent(vec3);
-				ProjectileTrajectorySystem.RenderOneLine(vec2, vec4, color);
-				vec2 = vec4;
-			}
-			float num7 = 0.3f * num4;
-			vec = new Vec3(-num7, 0f, 0f, -1f);
-			Vec3 vec5 = matrixFrame.TransformToParent(vec);
-			Vec3 vec6 = new Vec3(num7, 0f, 0f, -1f);
-			ProjectileTrajectorySystem.RenderOneLine(vec5, matrixFrame.TransformToParent(vec6), color);
-			vec = new Vec3(0f, -num7, 0f, -1f);
-			Vec3 vec7 = matrixFrame.TransformToParent(vec);
-			vec6 = new Vec3(0f, num7, 0f, -1f);
-			ProjectileTrajectorySystem.RenderOneLine(vec7, matrixFrame.TransformToParent(vec6), color);
-		}
-
-		private static Mat3 CreateRotationFromUp(Vec3 up)
-		{
-			Vec3 vec = up;
-			Vec3 vec2 = ((MathF.Abs(vec.z) < 0.99f) ? new Vec3(0f, 0f, 1f, -1f) : new Vec3(1f, 0f, 0f, -1f));
-			Vec3 vec3 = Vec3.CrossProduct(vec2, vec);
-			vec3.Normalize();
-			Vec3 vec4 = Vec3.CrossProduct(vec, vec3);
-			vec4.Normalize();
-			return new Mat3(vec3, vec4, vec);
-		}
-
 		private static Vec3 SampleSurfaceNormal(Vec3 c)
 		{
 			float num = 0f;
@@ -582,18 +475,8 @@ namespace ExampleMod
 
 		private static MethodInfo _gameAirFrictionMethod;
 
-		private const uint Color_FlightLine = 4294967295U;
-
-		private const uint Color_Impact = 4294901760U;
-
 		private const float Sim_MaxTime = 20f;
 
 		private const float Sim_Step = 0.02f;
-
-		private static MethodInfo _renderLineMethod;
-
-		private static object _debugInterface;
-
-		private static MethodInfo _renderSphereMethod;
 	}
 }
