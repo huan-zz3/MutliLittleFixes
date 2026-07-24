@@ -1,6 +1,8 @@
 ﻿using HarmonyLib;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.GameComponents;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.MountAndBlade;
 
 namespace ExampleMod
@@ -23,11 +25,8 @@ namespace ExampleMod
 
         private void ApplyConditionalPatches()
         {
-            Settings? settings = Settings.Instance;
-            if (settings == null)
-                return;
-
-            if (settings.PreventClanPartyRecruitment)
+            // PreventClanPartyRecruitmentPatch 内部有运行时 MCM 开关检查（null-safe），
+            // 所以始终安装 Patch，由运行时根据设置决定是否执行过滤。
             {
                 var original = AccessTools.Method(
                     typeof(DefaultArmyManagementCalculationModel), "CanLordCreateArmy");
@@ -36,10 +35,12 @@ namespace ExampleMod
                 _harmony!.Patch(original, postfix: postfix);
             }
 
-            if (settings.PreventClanPartyDonateTroops)
+            // PreventClanPartyDonateTroopPatch Patch ManageGarrisonForParty（而非 OnSettlementEntered），
+            // 只阻断驻军管理（含捐兵），不影响 OnSettlementEntered 中的军团主管理驻军等关键逻辑。
             {
                 var original = AccessTools.Method(
-                    typeof(GarrisonTroopsCampaignBehavior), "OnSettlementEntered");
+                    typeof(GarrisonTroopsCampaignBehavior), "ManageGarrisonForParty",
+                    new[] { typeof(MobileParty), typeof(Settlement) });
                 var prefix = new HarmonyMethod(
                     typeof(Patches.PreventClanPartyDonateTroopPatch), "Prefix");
                 _harmony!.Patch(original, prefix: prefix);

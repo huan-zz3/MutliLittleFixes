@@ -18,6 +18,11 @@ namespace ExampleMod.Patches
             ref MBList<MobileParty> possibleArmyMembers,
             ref bool __result)
         {
+            // 运行时检查 MCM 开关，关闭时不执行任何过滤。
+            // 使用 ?. 防止 Settings 尚未加载时 null 抛 NRE（Harmony 会静默吞掉异常导致过滤失效）
+            if (Settings.Instance?.PreventClanPartyRecruitment == false)
+                return;
+
             if (!__result || possibleArmyMembers == null || possibleArmyMembers.Count == 0)
                 return;
 

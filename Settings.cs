@@ -48,6 +48,22 @@ namespace ExampleMod
         [SettingPropertyGroup("家族部队控制")]
         public bool PreventClanPartyDonateTroops { get; set; } = true;
 
+        private bool _forceArmyCreationTest;
+        [SettingPropertyBool("强制创建军团测试", Order = 12, RequireRestart = false, HintText = "让我方非玩家家族领袖尝试创建军团，用于测试屏蔽效果")]
+        [SettingPropertyGroup("家族部队控制")]
+        public bool ForceArmyCreationTest
+        {
+            get => _forceArmyCreationTest;
+            set
+            {
+                if (value)
+                {
+                    _forceArmyCreationTest = false;
+                    Patches.TestArmyCreationHelper.TriggerTestArmyCreation();
+                }
+            }
+        }
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
