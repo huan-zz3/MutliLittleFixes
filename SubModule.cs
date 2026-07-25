@@ -1,15 +1,21 @@
-﻿using HarmonyLib;
+﻿using Bannerlord.UIExtenderEx;
+using HarmonyLib;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.MountAndBlade;
+using TaleWorlds.SaveSystem;
+
+using ExampleMod.Behaviors;
 
 namespace ExampleMod
 {
     public class SubModule : MBSubModuleBase
     {
         private Harmony? _harmony;
+        private UIExtender? _uiExtender;
 
         protected override void OnSubModuleLoad()
         {
@@ -21,6 +27,23 @@ namespace ExampleMod
 
             // 条件性补丁 — 仅 MCM 开关开启时才安装，关闭则完全不 patch 原版方法
             ApplyConditionalPatches();
+
+            // ── 注册领主强度行为 ───────────────────────────────────────────────
+            // AddBehavior 是幂等的 — 每次加载都可以安全调用
+            Campaign.Current?.CampaignBehaviorManager.AddBehavior(new LordTroopRestorationBehavior());
+            Campaign.Current?.CampaignBehaviorManager.AddBehavior(new KingdomTerritoryBonusBehavior());
+
+            // LordStrengthTypeDefiner 由存档系统自动发现。
+            // 存档系统会扫描所有程序集，查找非抽象的 SaveableTypeDefiner 子类，
+            // 并通过 Activator.CreateInstance 自动实例化它们（详见 DefinitionContext.cs:297-299）。
+            // 无需显式注册。
+
+            // ── 启用 UIExtenderEx UI 注入 ──────────────────────────────────
+            // 扫描当前程序集，自动发现 [PrefabExtension] 和 [ViewModelMixin] 并注册。
+            // 在 OnBeforeInitialModuleScreenSetAsRoot 时生效，对当前运行无影响。
+            _uiExtender = UIExtender.Create("ExampleMod");
+            _uiExtender.Register(typeof(SubModule).Assembly);
+            _uiExtender.Enable();
         }
 
         private void ApplyConditionalPatches()

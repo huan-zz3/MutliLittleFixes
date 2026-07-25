@@ -68,6 +68,66 @@ namespace ExampleMod
             }
         }
 
+        [SettingPropertyBool("启用领主释放补兵", Order = 20, RequireRestart = false, HintText = "启用/禁用领主释放后补兵功能")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public bool RestorationEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("补兵所需天数", 1f, 30f, "0.0", Order = 21, RequireRestart = false, HintText = "释放后补兵所需天数")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public float RestorationDays { get; set; } = 7f;
+
+        [SettingPropertyFloatingInteger("恢复兵力比例", 0.0f, 1.0f, "0.0", Order = 22, RequireRestart = false, HintText = "恢复兵力占队伍上限的比例(0=关闭)")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public float RestorationPartySizeRatio { get; set; } = 0.6f;
+
+        [SettingPropertyFloatingInteger("Tier1-2兵种占比", 0.0f, 1.0f, "0.0", Order = 23, RequireRestart = false, HintText = "Tier1-2兵种占比")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public float RestorationTier12Ratio { get; set; } = 0.50f;
+
+        [SettingPropertyFloatingInteger("Tier3-4兵种占比", 0.0f, 1.0f, "0.0", Order = 24, RequireRestart = false, HintText = "Tier3-4兵种占比")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public float RestorationTier34Ratio { get; set; } = 0.35f;
+
+        [SettingPropertyFloatingInteger("Tier5-6兵种占比", 0.0f, 1.0f, "0.0", Order = 25, RequireRestart = false, HintText = "Tier5-6兵种占比")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public float RestorationTier56Ratio { get; set; } = 0.15f;
+
+        [SettingPropertyFloatingInteger("每兵金币", 0f, 100000f, "0.0", Order = 26, RequireRestart = false, HintText = "每兵给予领主的金币数量(0=不给金币)")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public float RestorationGoldPerTroop { get; set; } = 0f;
+
+        [SettingPropertyBool("启用领土带兵上限", Order = 27, RequireRestart = false, HintText = "启用/禁用领土丧失补偿功能")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public bool TerritoryBonusEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("城镇补偿值", 0f, 50f, "0.0", Order = 28, RequireRestart = false, HintText = "每丢失一座城镇增加的队伍上限(衰减前)")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public float TerritoryBonusTownValue { get; set; } = 5.0f;
+
+        [SettingPropertyFloatingInteger("城堡补偿值", 0f, 50f, "0.0", Order = 29, RequireRestart = false, HintText = "每丢失一座城堡增加的队伍上限(衰减前)")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public float TerritoryBonusCastleValue { get; set; } = 3.0f;
+
+        [SettingPropertyFloatingInteger("城镇削减值", 0f, 50f, "0.0", Order = 30, RequireRestart = false, HintText = "每征服一座城镇减少的补偿值")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public float TerritoryBonusTownReduction { get; set; } = 5.0f;
+
+        [SettingPropertyFloatingInteger("城堡削减值", 0f, 50f, "0.0", Order = 31, RequireRestart = false, HintText = "每征服一座城堡减少的补偿值")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public float TerritoryBonusCastleReduction { get; set; } = 3.0f;
+
+        [SettingPropertyFloatingInteger("衰减乘数", 0.0f, 1.0f, "0.0", Order = 32, RequireRestart = false, HintText = "连续丢失领土的衰减乘数(1.0=线性)")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public float TerritoryBonusDiminishRate { get; set; } = 0.85f;
+
+        [SettingPropertyFloatingInteger("最大补偿上限", 0f, 500f, "0.0", Order = 33, RequireRestart = false, HintText = "王国可累积的最大补偿值")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public float TerritoryBonusMaxCap { get; set; } = 200f;
+
+        [SettingPropertyBool("仅封臣生效", Order = 34, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public bool TerritoryBonusVassalsOnly { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
