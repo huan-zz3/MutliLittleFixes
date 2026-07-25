@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Library;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
@@ -35,26 +36,41 @@ namespace ExampleMod.Behaviors
             EndCaptivityDetail detail, bool showNotification)
         {
             if (Settings.Instance?.RestorationEnabled != true)
+            {
+                LogDebug($"[补兵] 功能已禁用，跳过释放事件");
                 return;
+            }
 
             if (prisoner == null || prisoner == Hero.MainHero || prisoner.IsPlayerCompanion)
+            {
+                LogDebug($"[补兵] 跳过释放: prisoner=null={prisoner == null}, MainHero={prisoner == Hero.MainHero}, companion={prisoner?.IsPlayerCompanion}");
                 return;
+            }
 
             if (prisoner.Clan == null)
+            {
+                LogDebug($"[补兵] 跳过释放: {prisoner.Name} 无家族");
                 return;
+            }
 
             int partySizeLimit = GetPartySizeLimit(prisoner);
             int totalTroops = (int)(partySizeLimit * (Settings.Instance?.RestorationPartySizeRatio ?? 0.6f));
 
             if (totalTroops <= 0)
+            {
+                LogDebug($"[补兵] 跳过释放: {prisoner.Name} totalTroops={totalTroops} (上限={partySizeLimit}, 比例={Settings.Instance?.RestorationPartySizeRatio ?? 0.6f})");
                 return;
+            }
 
             float t12 = Settings.Instance?.RestorationTier12Ratio ?? 0.50f;
             float t34 = Settings.Instance?.RestorationTier34Ratio ?? 0.35f;
             float t56 = Settings.Instance?.RestorationTier56Ratio ?? 0.15f;
+            // 强制归一化：即使三个比例之和≠1，也保证加起来正好等于1
+            float totalRatio = t12 + t34 + t56;
+            if (totalRatio > 0f) { t12 /= totalRatio; t34 /= totalRatio; t56 /= totalRatio; }
 
             string cultureId = DetermineCultureId(prisoner);
-            int days = Math.Max(1, (int)(Settings.Instance?.RestorationDays ?? 7f));
+            int days = Math.Max(1, Settings.Instance?.RestorationDays ?? 7);
             int goldTotal = totalTroops * (int)(Settings.Instance?.RestorationGoldPerTroop ?? 0f);
 
             var pending = new PendingRestoration
@@ -71,6 +87,8 @@ namespace ExampleMod.Behaviors
             };
 
             _pendingRestorations[prisoner] = pending;
+
+            LogDebug($"[补兵] {GetHeroFactionPrefix(prisoner)}{prisoner.Name?.ToString()} 释放: 总量={totalTroops} 兵, {days}天, 金币={goldTotal}");
         }
 
         // ── 事件：英雄每日触发 ─────────────────────────────────────────────
@@ -84,22 +102,27 @@ namespace ExampleMod.Behaviors
 
             if (pending.DaysRemaining <= 0 || pending.TotalTroopsToDeliver <= 0)
             {
+                LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 恢复完成，移除");
                 _pendingRestorations.Remove(hero);
                 return;
             }
 
             MobileParty party = hero.PartyBelongedTo;
             if (party == null)
+            {
+                LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 今日无队伍，跳过(剩余{pending.DaysRemaining}天/待交付{pending.TotalTroopsToDeliver}兵)");
                 return; // 英雄还没有队伍 — 保留待办，明天再试
+            }
 
             // ── 交付部队 ──────────────────────────────────────────────
             int troopsToday = (pending.DaysRemaining == 1)
                 ? pending.TotalTroopsToDeliver
                 : pending.TroopsPerDay;
 
+            List<CharacterObject> chosen = new List<CharacterObject>();
             if (troopsToday > 0 && pending.TotalTroopsToDeliver > 0)
             {
-                List<CharacterObject> chosen = GetTroopsForToday(pending, troopsToday);
+                chosen = GetTroopsForToday(pending, troopsToday);
                 foreach (CharacterObject troop in chosen)
                     party.MemberRoster.AddToCounts(troop, 1);
 
@@ -119,8 +142,21 @@ namespace ExampleMod.Behaviors
 
             pending.DaysRemaining--;
 
+            // 从部队 roster 中直接读取实际总兵数（而非简单相加）
+            int totalTroopsNow = party.MemberRoster.TotalManCount;
+            int lowCount = chosen.Count(t => t.Tier >= 1 && t.Tier <= 2);
+            int midCount = chosen.Count(t => t.Tier >= 3 && t.Tier <= 4);
+            int highCount = chosen.Count(t => t.Tier >= 5 && t.Tier <= 6);
+            string troopSummary = chosen.Count > 0
+                ? $"【低级兵{lowCount}个，中级兵{midCount}个，高级兵{highCount}个】"
+                : "(无)";
+            LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 交付: +{troopsToday}兵 {troopSummary}, 现有总计{totalTroopsNow}兵, 剩余{pending.DaysRemaining}天/待{pending.TotalTroopsToDeliver}兵");
+
             if (pending.DaysRemaining <= 0 || pending.TotalTroopsToDeliver <= 0)
+            {
+                LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 恢复全部完成");
                 _pendingRestorations.Remove(hero);
+            }
         }
 
         // ── 查询接口 ─────────────────────────────────────────────────────
@@ -138,6 +174,12 @@ namespace ExampleMod.Behaviors
         }
 
         // ── 辅助方法 ─────────────────────────────────────────────────────
+
+        private static string GetHeroFactionPrefix(Hero hero)
+        {
+            string kingdomName = hero.Clan?.Kingdom?.Name?.ToString();
+            return string.IsNullOrEmpty(kingdomName) ? "" : $"{kingdomName}-";
+        }
 
         private static int GetPartySizeLimit(Hero hero)
         {
@@ -227,6 +269,15 @@ namespace ExampleMod.Behaviors
                 result.Add(source[rng.Next(source.Count)]);
 
             return result;
+        }
+
+        // ── 调试日志（屏幕左下角）────────────────────────────────────────
+
+        private static void LogDebug(string message)
+        {
+            if (Settings.Instance?.EnableDebugLogging != true) return;
+            InformationManager.DisplayMessage(
+                new InformationMessage(message, Color.FromUint(0x00FFFFu)));
         }
     }
 }

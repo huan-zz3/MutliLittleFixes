@@ -4,6 +4,7 @@ using System.Runtime.CompilerServices;
 using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.ViewModels;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
 using TaleWorlds.Library;
 
@@ -62,6 +63,7 @@ namespace ExampleMod.UI
         [DataSourceMethod]
         public void ExecuteShowBonus()
         {
+            LogDebug("[UI刷新] ExecuteShowBonus 被调用");
             ViewModel.Clan.Show = false;
             ViewModel.Settlement.Show = false;
             ViewModel.Policy.Show = false;
@@ -79,6 +81,14 @@ namespace ExampleMod.UI
                 mixin.IsBonusTabSelected = false;
         }
 
+        // ── 调试日志 ─────────────────────────────────────────────────────
+
+        private static void LogDebug(string message)
+        {
+            if (Settings.Instance?.EnableDebugLogging != true) return;
+            InformationManager.DisplayMessage(
+                new InformationMessage(message, Color.FromUint(0x00FFFFu)));
+        }
 
     }
 
@@ -112,8 +122,18 @@ namespace ExampleMod.UI
             KingdomList = new MBBindingList<BonusKingdomItemVM>();
         }
 
+        // ── 调试日志 ─────────────────────────────────────────────────────
+
+        private static void LogDebug(string message)
+        {
+            if (Settings.Instance?.EnableDebugLogging != true) return;
+            InformationManager.DisplayMessage(
+                new InformationMessage(message, Color.FromUint(0x00FFFFu)));
+        }
+
         public void RefreshKingdoms()
         {
+            LogDebug("[UI刷新] RefreshKingdoms 开始");
             KingdomList.Clear();
 
             var bonusBehavior = Campaign.Current?.GetCampaignBehavior<KingdomTerritoryBonusBehavior>();
@@ -134,6 +154,8 @@ namespace ExampleMod.UI
 
             foreach (var item in items)
                 KingdomList.Add(item);
+
+            LogDebug($"[UI刷新] RefreshKingdoms 完成: {items.Count} 个王国");
         }
     }
 

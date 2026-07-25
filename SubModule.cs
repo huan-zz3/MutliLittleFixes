@@ -5,6 +5,7 @@ using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.SaveSystem;
 
@@ -27,11 +28,6 @@ namespace ExampleMod
 
             // 条件性补丁 — 仅 MCM 开关开启时才安装，关闭则完全不 patch 原版方法
             ApplyConditionalPatches();
-
-            // ── 注册领主强度行为 ───────────────────────────────────────────────
-            // AddBehavior 是幂等的 — 每次加载都可以安全调用
-            Campaign.Current?.CampaignBehaviorManager.AddBehavior(new LordTroopRestorationBehavior());
-            Campaign.Current?.CampaignBehaviorManager.AddBehavior(new KingdomTerritoryBonusBehavior());
 
             // LordStrengthTypeDefiner 由存档系统自动发现。
             // 存档系统会扫描所有程序集，查找非抽象的 SaveableTypeDefiner 子类，
@@ -78,6 +74,18 @@ namespace ExampleMod
             // 手动注册 PlayerCircleView（调试用圆圈/点渲染）
             // 取消注释下一行即可启用
             // mission.AddMissionBehavior(new PlayerCircleView());
+        }
+
+        protected override void OnGameStart(Game game, IGameStarter gameStarterObject)
+        {
+            base.OnGameStart(game, gameStarterObject);
+
+            // 注册领主强度行为 — 使用 CampaignGameStarter 标准模式
+            if (game.GameType is Campaign && gameStarterObject is CampaignGameStarter campaignStarter)
+            {
+                campaignStarter.AddBehavior(new LordTroopRestorationBehavior());
+                campaignStarter.AddBehavior(new KingdomTerritoryBonusBehavior());
+            }
         }
 
         protected override void OnSubModuleUnloaded()

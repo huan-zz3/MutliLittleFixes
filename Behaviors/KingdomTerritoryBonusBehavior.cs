@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.Core;
+using TaleWorlds.Library;
 
 namespace ExampleMod.Behaviors
 {
@@ -64,7 +66,11 @@ namespace ExampleMod.Behaviors
             Hero capturerHero,
             ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
         {
-            if (Settings.Instance?.TerritoryBonusEnabled != true) return;
+            if (Settings.Instance?.TerritoryBonusEnabled != true)
+            {
+                LogDebug($"[领土补偿] 功能已禁用，跳过: {settlement.Name?.ToString()}");
+                return;
+            }
 
             // 只追踪要塞（城镇和城堡），不追踪村庄
             if (!settlement.IsTown && !settlement.IsCastle) return;
@@ -73,7 +79,13 @@ namespace ExampleMod.Behaviors
             Kingdom newKingdom = newOwner?.Clan?.Kingdom;
 
             // 同王国内部交易 = 不变
-            if (oldKingdom == newKingdom && oldKingdom != null) return;
+            if (oldKingdom == newKingdom && oldKingdom != null)
+            {
+                LogDebug($"[领土补偿] 内部转让，跳过: {settlement.Name?.ToString()} → 仍在 {oldKingdom.Name?.ToString()}");
+                return;
+            }
+
+            LogDebug($"[领土补偿] 事件触发: {settlement.Name?.ToString()} ({(settlement.IsTown ? "城镇" : "城堡")}) {oldKingdom?.Name?.ToString() ?? "无王国"}→{newKingdom?.Name?.ToString() ?? "无王国"}");
 
             bool isTown = settlement.IsTown;
 
@@ -92,11 +104,14 @@ namespace ExampleMod.Behaviors
                 float diminishing = (float)Math.Pow(diminishRate, totalLosses);
                 float effectiveIncrement = baseIncrement * diminishing;
 
+                float previousBonus = data.AccumulatedBonus;
                 float maxCap = Settings.Instance?.TerritoryBonusMaxCap ?? 200f;
                 data.AccumulatedBonus = Math.Min(maxCap, data.AccumulatedBonus + effectiveIncrement);
 
                 if (isTown) data.TownsLost++;
                 else data.CastlesLost++;
+
+                LogDebug($"[领土补偿] {oldKingdom.Name} 丢失 {(isTown?"城镇":"城堡")} {settlement.Name}: 加成 {previousBonus} → {data.AccumulatedBonus} (+{effectiveIncrement:F2})");
             }
 
             // 新王国征服定居点 → 加成减少
@@ -109,10 +124,13 @@ namespace ExampleMod.Behaviors
                     ? (Settings.Instance?.TerritoryBonusTownReduction ?? 5f)
                     : (Settings.Instance?.TerritoryBonusCastleReduction ?? 3f);
 
+                float previousBonus = data.AccumulatedBonus;
                 data.AccumulatedBonus = Math.Max(0f, data.AccumulatedBonus - reduction);
 
                 if (isTown) data.TownsConquered++;
                 else data.CastlesConquered++;
+
+                LogDebug($"[领土补偿] {newKingdom.Name} 征服 {(isTown?"城镇":"城堡")} {settlement.Name}: 加成 {previousBonus} → {data.AccumulatedBonus} (-{reduction})");
             }
         }
 
@@ -128,7 +146,17 @@ namespace ExampleMod.Behaviors
                     TownsConquered = 0,
                     CastlesConquered = 0
                 };
+                LogDebug($"[领土补偿] 初始化数据: {kingdom.Name?.ToString() ?? kingdom.StringId}");
             }
+        }
+
+        // ── 调试日志（屏幕左下角）────────────────────────────────────────
+
+        private static void LogDebug(string message)
+        {
+            if (Settings.Instance?.EnableDebugLogging != true) return;
+            InformationManager.DisplayMessage(
+                new InformationMessage(message, Color.FromUint(0x00FFFFu)));
         }
     }
 }
