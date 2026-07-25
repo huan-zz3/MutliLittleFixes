@@ -49,7 +49,11 @@ namespace ExampleMod
         public bool PreventClanPartyDonateTroops { get; set; } = true;
 
         private bool _forceArmyCreationTest;
-        [SettingPropertyBool("强制创建军团测试", Order = 12, RequireRestart = false, HintText = "让我方非玩家家族领袖尝试创建军团，用于测试屏蔽效果")]
+        [SettingPropertyBool("俘虏特殊NPC标注", Order = 12, RequireRestart = false, HintText = "在部队界面的俘虏标签页中，为统治者/领主/雇佣兵头子标注身份")]
+        [SettingPropertyGroup("UI")]
+        public bool PrisonerSpecialLabel { get; set; } = true;
+
+        [SettingPropertyBool("强制创建军团测试", Order = 13, RequireRestart = false, HintText = "让我方非玩家家族领袖尝试创建军团，用于测试屏蔽效果")]
         [SettingPropertyGroup("家族部队控制")]
         public bool ForceArmyCreationTest
         {
