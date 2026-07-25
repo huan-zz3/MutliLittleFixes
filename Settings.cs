@@ -40,6 +40,34 @@ namespace ExampleMod
         [SettingPropertyGroup("属性增长倍率")]
         public float IntelligenceMultiplier { get; set; } = 1.0f;
 
+        [SettingPropertyInteger("全局默认上限", 10, 1024, "0", Order = 7, RequireRestart = false, HintText = "所有技能的默认等级上限（1024=原版硬上限）")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int SkillCapDefault { get; set; } = 1024;
+
+        [SettingPropertyInteger("活力 (Vigor)", 10, 1024, "0", Order = 8, RequireRestart = false, HintText = "活力类技能（单手/双手/长杆）的等级上限")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int VigorSkillCap { get; set; } = 1024;
+
+        [SettingPropertyInteger("控制 (Control)", 10, 1024, "0", Order = 9, RequireRestart = false, HintText = "控制类技能（弓/弩/投掷）的等级上限")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int ControlSkillCap { get; set; } = 1024;
+
+        [SettingPropertyInteger("耐力 (Endurance)", 10, 1024, "0", Order = 10, RequireRestart = false, HintText = "耐力类技能（骑术/跑动/锻造）的等级上限")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int EnduranceSkillCap { get; set; } = 1024;
+
+        [SettingPropertyInteger("狡诈 (Cunning)", 10, 1024, "0", Order = 11, RequireRestart = false, HintText = "狡诈类技能（侦查/战术/流氓）的等级上限")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int CunningSkillCap { get; set; } = 1024;
+
+        [SettingPropertyInteger("社交 (Social)", 10, 1024, "0", Order = 12, RequireRestart = false, HintText = "社交类技能（魅力/统御/交易）的等级上限")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int SocialSkillCap { get; set; } = 1024;
+
+        [SettingPropertyInteger("智力 (Intelligence)", 10, 1024, "0", Order = 13, RequireRestart = false, HintText = "智力类技能（管理/医术/工程）的等级上限")]
+        [SettingPropertyGroup("技能等级上限")]
+        public int IntelligenceSkillCap { get; set; } = 1024;
+
         [SettingPropertyBool("禁止家族部队被征召", Order = 10, RequireRestart = false, HintText = "阻止AI领主将玩家家族的非主角部队征召入军团")]
         [SettingPropertyGroup("家族部队控制")]
         public bool PreventClanPartyRecruitment { get; set; } = true;
@@ -147,6 +175,39 @@ namespace ExampleMod
             if (attribute == DefaultCharacterAttributes.Intelligence)
                 return IntelligenceMultiplier;
             return 1.0f;
+        }
+
+        public int GetSkillCap(SkillObject skill)
+        {
+            int cap = SkillCapDefault;
+            CharacterAttribute[]? attributes = skill.Attributes;
+            if (attributes != null)
+            {
+                foreach (CharacterAttribute attr in attributes)
+                {
+                    int attrCap = GetAttributeCap(attr);
+                    if (attrCap < cap)
+                        cap = attrCap;
+                }
+            }
+            return cap;
+        }
+
+        private int GetAttributeCap(CharacterAttribute attribute)
+        {
+            if (attribute == DefaultCharacterAttributes.Vigor)
+                return VigorSkillCap;
+            if (attribute == DefaultCharacterAttributes.Control)
+                return ControlSkillCap;
+            if (attribute == DefaultCharacterAttributes.Endurance)
+                return EnduranceSkillCap;
+            if (attribute == DefaultCharacterAttributes.Cunning)
+                return CunningSkillCap;
+            if (attribute == DefaultCharacterAttributes.Social)
+                return SocialSkillCap;
+            if (attribute == DefaultCharacterAttributes.Intelligence)
+                return IntelligenceSkillCap;
+            return SkillCapDefault;
         }
     }
 }

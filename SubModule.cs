@@ -85,6 +85,7 @@ namespace ExampleMod
             {
                 campaignStarter.AddBehavior(new LordTroopRestorationBehavior());
                 campaignStarter.AddBehavior(new KingdomTerritoryBonusBehavior());
+                campaignStarter.AddBehavior(new SkillLevelCapBehavior());
             }
         }
 
