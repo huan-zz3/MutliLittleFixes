@@ -37,11 +37,11 @@ namespace ExampleMod.Patches
             if (kingdom == null)
                 return;
 
-            // 可选：跳过雇佣兵/小派系家族
+            // 可选：跳过雇佣兵（仅有活跃雇佣合同的家族）
             if (Settings.Instance?.TerritoryBonusVassalsOnly == true)
             {
                 Clan clan = leader.Clan;
-                if (clan != null && clan.IsMinorFaction)
+                if (clan != null && clan.IsUnderMercenaryService)
                     return;
             }
 

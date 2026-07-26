@@ -110,8 +110,16 @@ namespace ExampleMod.Behaviors
             MobileParty party = hero.PartyBelongedTo;
             if (party == null)
             {
-                LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 今日无队伍，跳过(剩余{pending.DaysRemaining}天/待交付{pending.TotalTroopsToDeliver}兵)");
-                return; // 英雄还没有队伍 — 保留待办，明天再试
+                pending.DaysWithoutParty++;
+                int abandonDays = Settings.Instance?.RestorationAbandonDays ?? 15;
+                if (abandonDays > 0 && pending.DaysWithoutParty >= abandonDays)
+                {
+                    LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 已超过{abandonDays}天无队伍，放弃补兵");
+                    _pendingRestorations.Remove(hero);
+                    return;
+                }
+                LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 今日无队伍，跳过(无队伍第{pending.DaysWithoutParty}天/剩余{pending.DaysRemaining}天/待交付{pending.TotalTroopsToDeliver}兵)");
+                return;
             }
 
             // ── 交付部队 ──────────────────────────────────────────────

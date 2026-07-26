@@ -124,15 +124,19 @@ namespace ExampleMod
         [SettingPropertyGroup("领主释放补兵")]
         public int RestorationGoldPerTroop { get; set; } = 0;
 
-        [SettingPropertyBool("启用领土带兵上限", Order = 27, RequireRestart = false, HintText = "启用/禁用领土丧失补偿功能")]
+        [SettingPropertyInteger("放弃补兵天数", 1, 60, "0", Order = 27, RequireRestart = false, HintText = "超过此天数领主仍无队伍则放弃补兵")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public int RestorationAbandonDays { get; set; } = 15;
+
+        [SettingPropertyBool("启用领土带兵上限", Order = 28, RequireRestart = false, HintText = "启用/禁用领土丧失补偿功能")]
         [SettingPropertyGroup("领土带兵上限")]
         public bool TerritoryBonusEnabled { get; set; } = true;
 
-        [SettingPropertyInteger("城镇补偿值", 0, 50, "0", Order = 28, RequireRestart = false, HintText = "每丢失一座城镇增加的队伍上限(衰减前)")]
+        [SettingPropertyInteger("城镇补偿值", 0, 50, "0", Order = 29, RequireRestart = false, HintText = "每丢失一座城镇增加的队伍上限(衰减前)")]
         [SettingPropertyGroup("领土带兵上限")]
         public int TerritoryBonusTownValue { get; set; } = 5;
 
-        [SettingPropertyInteger("城堡补偿值", 0, 50, "0", Order = 29, RequireRestart = false, HintText = "每丢失一座城堡增加的队伍上限(衰减前)")]
+        [SettingPropertyInteger("城堡补偿值", 0, 50, "0", Order = 30, RequireRestart = false, HintText = "每丢失一座城堡增加的队伍上限(衰减前)")]
         [SettingPropertyGroup("领土带兵上限")]
         public float TerritoryBonusCastleValue { get; set; } = 3.0f;
 

@@ -25,6 +25,20 @@ namespace ExampleMod.Behaviors
         /// 运行时通过 MBObjectManager.Instance.GetObject&lt;CultureObject&gt;(id) 解析。
         /// </summary>
         [SaveableField(9)] public string TroopCultureId = string.Empty;
+
+        /// <summary>
+        /// 自创建以来没有队伍的天数。超过 MCM 配置的放弃天数后会被清理。
+        /// </summary>
+        [SaveableField(10)] public int DaysWithoutParty;
+    }
+
+    /// <summary>
+    /// 单次定居点丢失记录，用于栈式补偿计算。
+    /// 每次丢失推入列表，每次征服弹出最新一条，补偿基于栈中剩余记录重算。
+    /// </summary>
+    public class SettlementLossRecord
+    {
+        [SaveableField(1)] public bool IsTown;
     }
 
     /// <summary>
