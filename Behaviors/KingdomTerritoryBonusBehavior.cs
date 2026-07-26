@@ -97,6 +97,10 @@ namespace ExampleMod.Behaviors
         /// </summary>
         private void TryMigrateFromOldFormat(KingdomTerritoryData data, Kingdom kingdom)
         {
+            // 旧存档兼容：反序列化时字段初始化器不会执行，Events 可能为 null
+            if (data.Events == null)
+                data.Events = new List<TerritoryEvent>();
+
 #pragma warning disable 612,618
             if (data.Events.Count > 0)
                 return;
