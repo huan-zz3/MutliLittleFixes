@@ -35,12 +35,7 @@ namespace ExampleMod.Behaviors
             Hero prisoner, PartyBase party, IFaction capturerFaction,
             EndCaptivityDetail detail, bool showNotification)
         {
-            if (Settings.Instance?.RestorationEnabled != true)
-            {
-                LogDebug($"[补兵] 功能已禁用，跳过释放事件");
-                return;
-            }
-
+            // 无论开关状态，始终记录释放事件（开关只控制是否发兵）
             if (prisoner == null || prisoner == Hero.MainHero || prisoner.IsPlayerCompanion)
             {
                 LogDebug($"[补兵] 跳过释放: prisoner=null={prisoner == null}, MainHero={prisoner == Hero.MainHero}, companion={prisoner?.IsPlayerCompanion}");
@@ -95,8 +90,6 @@ namespace ExampleMod.Behaviors
 
         private void OnDailyTickHero(Hero hero)
         {
-            if (Settings.Instance?.RestorationEnabled != true) return;
-
             if (!_pendingRestorations.TryGetValue(hero, out PendingRestoration pending))
                 return;
 
@@ -107,6 +100,7 @@ namespace ExampleMod.Behaviors
                 return;
             }
 
+            // ── DaysWithoutParty 追踪（不受开关控制）────────────────────
             MobileParty party = hero.PartyBelongedTo;
             if (party == null)
             {
@@ -119,6 +113,13 @@ namespace ExampleMod.Behaviors
                     return;
                 }
                 LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 今日无队伍，跳过(无队伍第{pending.DaysWithoutParty}天/剩余{pending.DaysRemaining}天/待交付{pending.TotalTroopsToDeliver}兵)");
+                return;
+            }
+
+            // ── 开关控制是否发兵（不扣天数，记录保留以衔接）────────────
+            if (Settings.Instance?.RestorationEnabled != true)
+            {
+                LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 功能已禁用，保留记录待启用");
                 return;
             }
 

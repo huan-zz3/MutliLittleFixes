@@ -144,11 +144,7 @@ namespace ExampleMod.Behaviors
             Hero capturerHero,
             ChangeOwnerOfSettlementAction.ChangeOwnerOfSettlementDetail detail)
         {
-            if (Settings.Instance?.TerritoryBonusEnabled != true)
-            {
-                LogDebug($"[领土补偿] 功能已禁用，跳过: {settlement.Name?.ToString()}");
-                return;
-            }
+            // 无论开关状态，始终记录领土变化事件（开关只控制 GetTerritoryBonus 的返回值）
 
             // 只追踪要塞（城镇和城堡），不追踪村庄
             if (!settlement.IsTown && !settlement.IsCastle) return;
