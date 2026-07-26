@@ -13,12 +13,15 @@ using ExampleMod.Behaviors;
 namespace ExampleMod.UI
 {
     // ════════════════════════════════════════════════════════
-    //  1. ViewModelMixin — 向 KingdomManagementVM 注入加成标签页
+    //  ViewModelMixin — 向 KingdomManagementVM 注入加成标签页
     // ════════════════════════════════════════════════════════
 
     /// <summary>
     /// 为 KingdomManagementVM 注入"国家加成"标签页所需的全部属性和命令。
-    /// 对应教程 §6 ViewModelMixin + §7 Harmony 标签切换协调。
+    /// 严格遵循 UIExtenderEx 教程的标签页模式：
+    ///   - 注入子 VM Bonus（≈ 教程的 Agenda）
+    ///   - XML 使用 DataSource='{Bonus}' 导航到子 VM
+    ///   - ExecuteShowBonus 中显式调 ViewModel.OnPropertyChanged 通知父 VM
     /// </summary>
     [ViewModelMixin("RefreshValues", true)]
     internal sealed class BonusTabVMMixin
@@ -64,24 +67,40 @@ namespace ExampleMod.UI
         public void ExecuteShowBonus()
         {
             LogDebug("[UI刷新] ExecuteShowBonus 被调用");
+
             ViewModel.Clan.Show = false;
             ViewModel.Settlement.Show = false;
             ViewModel.Policy.Show = false;
             ViewModel.Army.Show = false;
             ViewModel.Diplomacy.Show = false;
 
-            IsBonusTabSelected = true;
+            // 步骤 1: 刷新数据（先于可见性，避免空帧）
             Bonus.RefreshKingdoms();
+
+            // 步骤 2: 切换选中状态
+            IsBonusTabSelected = true;
+
+            // 步骤 3: 在父 VM 上显式通知（教程 §6.3 第 4 步）
+            // 仅靠 Mixin 的 OnPropertyChangedWithValue 可能不传播到 Gauntlet 绑定系统
+            ViewModel.OnPropertyChanged("IsBonusTabSelected");
+            ViewModel.OnPropertyChanged("Bonus");
+
+            LogDebug($"[UI刷新] 完成: IsBonusTabSelected={IsBonusTabSelected}, KingdomList.Count={Bonus.KingdomList?.Count ?? -1}, HasItems={Bonus.HasItems}");
+            if (Bonus.KingdomList != null && Bonus.KingdomList.Count > 0)
+                LogDebug($"[UI刷新] 首条: {Bonus.KingdomList[0].KingdomName} / {Bonus.KingdomList[0].TerritoryBonusText}");
         }
 
         /// <summary>Harmony 补丁入口：当其他标签被选中时清除本标签。</summary>
         internal static void TryClear(KingdomManagementVM vm)
         {
             if (_instances.TryGetValue(vm, out var mixin))
+            {
                 mixin.IsBonusTabSelected = false;
+                mixin.ViewModel.OnPropertyChanged("IsBonusTabSelected");
+            }
         }
 
-        // ── 调试日志 ─────────────────────────────────────────────────────
+        // ── 调试日志 ─────────────────────────────────────
 
         private static void LogDebug(string message)
         {
@@ -89,11 +108,10 @@ namespace ExampleMod.UI
             InformationManager.DisplayMessage(
                 new InformationMessage(message, Color.FromUint(0x00FFFFu)));
         }
-
     }
 
     // ════════════════════════════════════════════════════════
-    //  2. BonusTabVM — 标签页子 VM，持有国家列表
+    //  BonusTabVM — 标签页子 VM，持有国家列表
     // ════════════════════════════════════════════════════════
 
     internal class BonusTabVM : ViewModel
@@ -110,19 +128,32 @@ namespace ExampleMod.UI
                 {
                     _kingdomList = value;
                     OnPropertyChanged(nameof(KingdomList));
+                    OnPropertyChanged(nameof(HasItems));
                 }
             }
         }
 
+        private bool _hasItems;
         [DataSourceProperty]
-        public bool HasItems => _kingdomList?.Count > 0;
+        public bool HasItems
+        {
+            get => _hasItems;
+            set
+            {
+                if (value != _hasItems)
+                {
+                    _hasItems = value;
+                    OnPropertyChangedWithValue(value, "HasItems");
+                }
+            }
+        }
 
         public BonusTabVM()
         {
             KingdomList = new MBBindingList<BonusKingdomItemVM>();
         }
 
-        // ── 调试日志 ─────────────────────────────────────────────────────
+        // ── 调试日志 ─────────────────────────────────────
 
         private static void LogDebug(string message)
         {
@@ -139,7 +170,6 @@ namespace ExampleMod.UI
             var restoreBehavior = Campaign.Current?.GetCampaignBehavior<LordTroopRestorationBehavior>();
             var kingdoms = Campaign.Current?.Kingdoms ?? Enumerable.Empty<Kingdom>();
 
-            // 过滤已灭国 + 按加成值降序排列
             var activeKingdoms = kingdoms
                 .Where(k => !k.IsEliminated)
                 .Select(k => new
@@ -150,9 +180,7 @@ namespace ExampleMod.UI
                 .OrderByDescending(x => x.Bonus)
                 .ToList();
 
-            // ── 原地更新已有 item，新增缺失的，移除已灭国的 ──────────────
-
-            // ── 移除已灭国的 ──────────────────────────────────────────
+            // ── 移除已灭国的 ────────────────────────────
             var idsToKeep = new HashSet<string>(
                 activeKingdoms.Select(x => x.Kingdom.StringId));
 
@@ -162,7 +190,7 @@ namespace ExampleMod.UI
                     KingdomList.RemoveAt(i);
             }
 
-            // 刷新现有 item + 创建缺失的（保持 activeKingdoms 的排序）
+            // 刷新现有 item + 创建缺失的
             var existingByKingdomId = KingdomList
                 .ToDictionary(item => item.KingdomId, item => item);
 
@@ -181,12 +209,14 @@ namespace ExampleMod.UI
                 }
             }
 
+            HasItems = KingdomList.Count > 0;
+
             LogDebug($"[UI刷新] RefreshKingdoms 完成: {KingdomList.Count} 个王国");
         }
     }
 
     // ════════════════════════════════════════════════════════
-    //  3. BonusKingdomItemVM — 单个王国的加成数据行
+    //  BonusKingdomItemVM — 单个王国的加成数据行
     // ════════════════════════════════════════════════════════
 
     internal class BonusKingdomItemVM : ViewModel
@@ -220,10 +250,6 @@ namespace ExampleMod.UI
             ApplyLiveData();
         }
 
-        /// <summary>
-        /// 原地刷新：从行为中重新读取实时数据并触发 UI 更新。
-        /// 调用此方法比重新创建 VM 更高效，且能保持 UI 元素状态。
-        /// </summary>
         public void Refresh(
             KingdomTerritoryBonusBehavior? bonusBehavior,
             LordTroopRestorationBehavior? restoreBehavior)
@@ -235,15 +261,12 @@ namespace ExampleMod.UI
 
         private void ApplyLiveData()
         {
-            // ── 领土加成（每次从 Behavior 实时读取）──
             int bonus = (int)(_bonusBehavior?.GetTerritoryBonus(_kingdom) ?? 0f);
             TerritoryBonusText = $"+{bonus}";
 
-            // ── 补兵统计（每次从 _pendingRestorations 实时读取）──
             int count = _restoreBehavior?.GetPendingRestorationCount(_kingdom) ?? 0;
             RestorationCountText = $"{count}人";
 
-            // 通知 UI 绑定更新
             OnPropertyChanged(nameof(TerritoryBonusText));
             OnPropertyChanged(nameof(RestorationCountText));
         }

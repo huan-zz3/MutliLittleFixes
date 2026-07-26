@@ -100,7 +100,7 @@ namespace ExampleMod.UI
                 "          MarginLeft='50' MarginRight='50' " +
                 "          StackLayout.LayoutMethod='VerticalTopToBottom'>" +
                 "          <ItemTemplate>" +
-                  "            <ListPanel WidthSizePolicy='StretchToParent' " +
+                "            <ListPanel WidthSizePolicy='StretchToParent' " +
                 "              HeightSizePolicy='Fixed' SuggestedHeight='35' " +
                 "              StackLayout.LayoutMethod='HorizontalLeftToRight'>" +
                 "              <Children>" +
