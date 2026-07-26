@@ -148,11 +148,19 @@ namespace ExampleMod
         [SettingPropertyGroup("领土带兵上限")]
         public int TerritoryBonusMaxCap { get; set; } = 200;
 
-        [SettingPropertyBool("仅封臣生效", Order = 33, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
+        [SettingPropertyInteger("征服固化天数", 0, 365, "0", Order = 33, RequireRestart = false, HintText = "占领城池超过此天数后视作本国领土，不再抵消丢失产生的补偿(0=关闭，84=一年)")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public int ConquestSolidifyDays { get; set; } = 21;
+
+        [SettingPropertyInteger("丢失过期天数", 0, 365, "0", Order = 34, RequireRestart = false, HintText = "丢失城池超过此天数后视作他国领土，不再参与补偿计算(0=关闭，84=一年)")]
+        [SettingPropertyGroup("领土带兵上限")]
+        public int LossExpireDays { get; set; } = 21;
+
+        [SettingPropertyBool("仅封臣生效", Order = 35, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
         [SettingPropertyGroup("领土带兵上限")]
         public bool TerritoryBonusVassalsOnly { get; set; } = true;
 
-        [SettingPropertyBool("启用调试日志", Order = 34, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
+        [SettingPropertyBool("启用调试日志", Order = 36, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
         [SettingPropertyGroup("调试")]
         public bool EnableDebugLogging { get; set; } = false;
 

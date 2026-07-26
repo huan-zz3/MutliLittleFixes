@@ -48,38 +48,104 @@ namespace ExampleMod.Behaviors
         }
 
         /// <summary>
-        /// 遍历全部事件，先计算净丢失数（丢失-征服，钳制到0），
-        /// 再对净丢失序列按时间顺序应用衰减，算出最终加成。
-        /// 征服事件不直接扣减加成，只减少净丢失计数。
-        /// 只在领土事件发生时调用，其他时候不重算。
+        /// 三阶段计算：
+        ///   ① 同城配对：按 SettlementId 分组，同一城相邻的丢失↔征服配对抵消（栈算法，不修改 Events）。
+        ///   ② 过期过滤：未配对事件检查天数阈值：
+        ///      - 丢失超过 LossExpireDays 天 → 过期不计
+        ///      - 征服超过 ConquestSolidifyDays 天 → 已固化，不计入跨城抵消
+        ///      - 旧存档事件(SettlementId=null, EventDay≤1)永不过期
+        ///   ③ 跨城抵消 + 衰减：有效未配对丢失数 - 征服数 → 净丢失 → 衰减累加
         /// </summary>
         private float RecalculateFromEvents(KingdomTerritoryData data)
         {
             if (data.Events == null || data.Events.Count == 0)
                 return 0f;
 
+            // ── 旧存档兼容：将 EventDay==0 的事件设为 Day 1 ──────────────
+            foreach (var e in data.Events)
+            {
+                if (e.EventDay == 0)
+                    e.EventDay = 1;
+            }
+
             float townValue = Settings.Instance?.TerritoryBonusTownValue ?? 5f;
             float castleValue = Settings.Instance?.TerritoryBonusCastleValue ?? 3f;
             float diminishRate = Settings.Instance?.TerritoryBonusDiminishRate ?? 0.85f;
             float maxCap = Settings.Instance?.TerritoryBonusMaxCap ?? 200f;
+            int solidifyDays = Settings.Instance?.ConquestSolidifyDays ?? 30;
+            int expireDays = Settings.Instance?.LossExpireDays ?? 30;
+            int currentDay = GetCurrentCampaignDay();
 
-            // 第一步：计算净丢失数（征服会抵消之前的丢失）
-            int netTowns = 0, netCastles = 0;
+            // ── 阶段一：按 SettlementId 分组，同城得失配对 ──────────────
+            var bySettlement = new Dictionary<string, List<int>>(StringComparer.Ordinal);
             for (int i = 0; i < data.Events.Count; i++)
             {
-                if (data.Events[i].IsLoss)
+                string key = data.Events[i].SettlementId ?? "__null__";
+                if (!bySettlement.ContainsKey(key))
+                    bySettlement[key] = new List<int>();
+                bySettlement[key].Add(i);
+            }
+
+            var paired = new HashSet<int>();
+
+            foreach (var kvp in bySettlement)
+            {
+                var indices = kvp.Value;
+                var stack = new List<int>(); // 临时栈，只存索引
+
+                foreach (int idx in indices)
                 {
-                    if (data.Events[i].IsTown) netTowns++;
+                    stack.Add(idx);
+                    // 栈顶两个类型相反 → 配对抵消
+                    while (stack.Count >= 2)
+                    {
+                        int top = stack[stack.Count - 1];
+                        int second = stack[stack.Count - 2];
+                        if (data.Events[top].IsLoss != data.Events[second].IsLoss)
+                        {
+                            paired.Add(top);
+                            paired.Add(second);
+                            stack.RemoveAt(stack.Count - 1);
+                            stack.RemoveAt(stack.Count - 1);
+                        }
+                        else break;
+                    }
+                }
+            }
+
+            // ── 阶段二：未配对事件按过期阈值过滤 ──────────────────
+            int netTowns = 0, netCastles = 0;
+
+            for (int i = 0; i < data.Events.Count; i++)
+            {
+                if (paired.Contains(i))
+                    continue;
+
+                var e = data.Events[i];
+                bool isLegacy = (e.SettlementId == null && e.EventDay <= 1);
+                int age = currentDay - e.EventDay;
+
+                if (e.IsLoss)
+                {
+                    // 旧存档永不过期；非旧存档且超过 LossExpireDays → 过期
+                    if (!isLegacy && expireDays > 0 && age >= expireDays)
+                        continue;
+
+                    if (e.IsTown) netTowns++;
                     else netCastles++;
                 }
                 else // 征服
                 {
-                    if (data.Events[i].IsTown) netTowns = Math.Max(0, netTowns - 1);
+                    // 旧存档永不固化；非旧存档且超过 ConquestSolidifyDays → 已固化，不抵消丢失
+                    if (!isLegacy && solidifyDays > 0 && age >= solidifyDays)
+                        continue;
+
+                    if (e.IsTown) netTowns = Math.Max(0, netTowns - 1);
                     else netCastles = Math.Max(0, netCastles - 1);
                 }
             }
 
-            // 第二步：城镇和城堡各自独立衰减计算，最后相加
+            // ── 阶段三：衰减累加 ──────────────────────────────────
             float total = 0f;
             for (int i = 0; i < netTowns; i++)
                 total += townValue * (float)Math.Pow(diminishRate, i);
@@ -87,6 +153,16 @@ namespace ExampleMod.Behaviors
                 total += castleValue * (float)Math.Pow(diminishRate, i);
 
             return Math.Min(total, maxCap);
+        }
+
+        /// <summary>
+        /// 返回游戏界面显示的战役天数（从战役开始到现在的经过天数）。
+        /// 注意：CampaignTime.Now.ToDays 返回的是卡拉丁纪元总天数（包含纪元偏移），
+        /// 而游戏 UI 显示的是 CampaignStartTime 到现在的经过天数。
+        /// </summary>
+        private static int GetCurrentCampaignDay()
+        {
+            return (int)Campaign.Current.Models.CampaignTimeModel.CampaignStartTime.ElapsedDaysUntilNow;
         }
 
         /// <summary>
@@ -115,9 +191,9 @@ namespace ExampleMod.Behaviors
                 return;
 
             for (int i = 0; i < netTowns; i++)
-                data.Events.Add(new TerritoryEvent { IsTown = true, IsLoss = true });
+                data.Events.Add(new TerritoryEvent { IsTown = true, IsLoss = true, EventDay = 1, SettlementId = null });
             for (int i = 0; i < netCastles; i++)
-                data.Events.Add(new TerritoryEvent { IsTown = false, IsLoss = true });
+                data.Events.Add(new TerritoryEvent { IsTown = false, IsLoss = true, EventDay = 1, SettlementId = null });
 
             data.AccumulatedBonus = RecalculateFromEvents(data);
             LogDebug($"[领土补偿] 旧存档迁移: {kingdom.Name} 转换 {netTowns}城+{netCastles}堡 → Events({data.Events.Count}条), 缓存加成={data.AccumulatedBonus:F2}");
@@ -162,6 +238,8 @@ namespace ExampleMod.Behaviors
             LogDebug($"[领土补偿] 事件触发: {settlement.Name?.ToString()} ({(settlement.IsTown ? "城镇" : "城堡")}) {oldKingdom?.Name?.ToString() ?? "无王国"}→{newKingdom?.Name?.ToString() ?? "无王国"}");
 
             bool isTown = settlement.IsTown;
+            int currentDay = GetCurrentCampaignDay();
+            string settlementId = settlement.StringId;
 
             // ── 旧王国丢失定居点 → 追加一条丢失事件 ────────────────
             if (oldKingdom != null)
@@ -171,10 +249,10 @@ namespace ExampleMod.Behaviors
                 TryMigrateFromOldFormat(data, oldKingdom);
 
                 float previousBonus = data.AccumulatedBonus;
-                data.Events.Add(new TerritoryEvent { IsTown = isTown, IsLoss = true });
+                data.Events.Add(new TerritoryEvent { IsTown = isTown, IsLoss = true, EventDay = currentDay, SettlementId = settlementId });
                 data.AccumulatedBonus = RecalculateFromEvents(data);
 
-                LogDebug($"[领土补偿] {oldKingdom.Name} 丢失 {(isTown?"城镇":"城堡")} {settlement.Name}: 加成 {previousBonus:F2} → {data.AccumulatedBonus:F2}");
+                LogDebug($"[领土补偿] {oldKingdom.Name} 丢失 {(isTown?"城镇":"城堡")} {settlement.Name} (day{currentDay}): 加成 {previousBonus:F2} → {data.AccumulatedBonus:F2}");
             }
 
             // ── 新王国征服定居点 → 追加一条征服事件 ──────────────
@@ -185,10 +263,10 @@ namespace ExampleMod.Behaviors
                 TryMigrateFromOldFormat(data, newKingdom);
 
                 float previousBonus = data.AccumulatedBonus;
-                data.Events.Add(new TerritoryEvent { IsTown = isTown, IsLoss = false });
+                data.Events.Add(new TerritoryEvent { IsTown = isTown, IsLoss = false, EventDay = currentDay, SettlementId = settlementId });
                 data.AccumulatedBonus = RecalculateFromEvents(data);
 
-                LogDebug($"[领土补偿] {newKingdom.Name} 征服 {(isTown?"城镇":"城堡")} {settlement.Name}: 加成 {previousBonus:F2} → {data.AccumulatedBonus:F2}");
+                LogDebug($"[领土补偿] {newKingdom.Name} 征服 {(isTown?"城镇":"城堡")} {settlement.Name} (day{currentDay}): 加成 {previousBonus:F2} → {data.AccumulatedBonus:F2}");
             }
         }
 

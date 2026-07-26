@@ -36,13 +36,19 @@ namespace ExampleMod.Behaviors
 
     /// <summary>
     /// 单次领土事件记录。全部追加，永不删除。
-    /// 计算加成时先算净丢失数，再对净丢失序列应用衰减。
-    /// 征服事件只减少净丢失计数，不直接扣减加成值。
+    /// 计算加成时先按 SettlementId 配对同城得失，再对未配对事件做过期过滤，
+    /// 最后跨城抵消算出净丢失数，对净丢失序列应用衰减。
+    /// 
+    /// EventDay：事件发生的游戏天数（CampaignTime.Now.ToDays），用于过期判断。
+    /// SettlementId：城池的 StringId，用于同城得失配对。
+    /// 旧存档迁移时 EventDay=1, SettlementId=null（永不过期）。
     /// </summary>
     public class TerritoryEvent
     {
         [SaveableField(1)] public bool IsTown;
         [SaveableField(2)] public bool IsLoss; // true=丢失, false=征服
+        [SaveableField(3)] public int EventDay;          // 事件发生的游戏天数
+        [SaveableField(4)] public string SettlementId;   // 城池 StringId，用于配对；null=旧存档无法配对
     }
 
     /// <summary>
