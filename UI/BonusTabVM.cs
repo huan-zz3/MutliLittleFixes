@@ -134,14 +134,13 @@ namespace ExampleMod.UI
         public void RefreshKingdoms()
         {
             LogDebug("[UI刷新] RefreshKingdoms 开始");
-            KingdomList.Clear();
 
             var bonusBehavior = Campaign.Current?.GetCampaignBehavior<KingdomTerritoryBonusBehavior>();
             var restoreBehavior = Campaign.Current?.GetCampaignBehavior<LordTroopRestorationBehavior>();
             var kingdoms = Campaign.Current?.Kingdoms ?? Enumerable.Empty<Kingdom>();
 
             // 过滤已灭国 + 按加成值降序排列
-            var items = kingdoms
+            var activeKingdoms = kingdoms
                 .Where(k => !k.IsEliminated)
                 .Select(k => new
                 {
@@ -149,13 +148,40 @@ namespace ExampleMod.UI
                     Bonus = (int)(bonusBehavior?.GetTerritoryBonus(k) ?? 0f)
                 })
                 .OrderByDescending(x => x.Bonus)
-                .Select(x => new BonusKingdomItemVM(x.Kingdom, bonusBehavior, restoreBehavior))
                 .ToList();
 
-            foreach (var item in items)
-                KingdomList.Add(item);
+            // ── 原地更新已有 item，新增缺失的，移除已灭国的 ──────────────
 
-            LogDebug($"[UI刷新] RefreshKingdoms 完成: {items.Count} 个王国");
+            // ── 移除已灭国的 ──────────────────────────────────────────
+            var idsToKeep = new HashSet<string>(
+                activeKingdoms.Select(x => x.Kingdom.StringId));
+
+            for (int i = KingdomList.Count - 1; i >= 0; i--)
+            {
+                if (!idsToKeep.Contains(KingdomList[i].KingdomId))
+                    KingdomList.RemoveAt(i);
+            }
+
+            // 刷新现有 item + 创建缺失的（保持 activeKingdoms 的排序）
+            var existingByKingdomId = KingdomList
+                .ToDictionary(item => item.KingdomId, item => item);
+
+            foreach (var x in activeKingdoms)
+            {
+                string kid = x.Kingdom.StringId;
+                if (existingByKingdomId.TryGetValue(kid, out var existing))
+                {
+                    existing.Refresh(bonusBehavior, restoreBehavior);
+                }
+                else
+                {
+                    var item = new BonusKingdomItemVM(x.Kingdom, bonusBehavior, restoreBehavior);
+                    KingdomList.Add(item);
+                    existingByKingdomId[kid] = item;
+                }
+            }
+
+            LogDebug($"[UI刷新] RefreshKingdoms 完成: {KingdomList.Count} 个王国");
         }
     }
 
@@ -165,6 +191,13 @@ namespace ExampleMod.UI
 
     internal class BonusKingdomItemVM : ViewModel
     {
+        private readonly Kingdom _kingdom;
+        private KingdomTerritoryBonusBehavior? _bonusBehavior;
+        private LordTroopRestorationBehavior? _restoreBehavior;
+
+        /// <summary>用于列表原地查找的稳定标识符。</summary>
+        public string KingdomId => _kingdom.StringId;
+
         [DataSourceProperty]
         public string KingdomName { get; set; }
 
@@ -179,13 +212,40 @@ namespace ExampleMod.UI
             KingdomTerritoryBonusBehavior? bonusBehavior,
             LordTroopRestorationBehavior? restoreBehavior)
         {
+            _kingdom = kingdom;
+            _bonusBehavior = bonusBehavior;
+            _restoreBehavior = restoreBehavior;
+
             KingdomName = kingdom.Name?.ToString() ?? kingdom.StringId;
+            ApplyLiveData();
+        }
 
-            int bonus = (int)(bonusBehavior?.GetTerritoryBonus(kingdom) ?? 0f);
-            TerritoryBonusText = $"领土丧失补偿: +{bonus}";
+        /// <summary>
+        /// 原地刷新：从行为中重新读取实时数据并触发 UI 更新。
+        /// 调用此方法比重新创建 VM 更高效，且能保持 UI 元素状态。
+        /// </summary>
+        public void Refresh(
+            KingdomTerritoryBonusBehavior? bonusBehavior,
+            LordTroopRestorationBehavior? restoreBehavior)
+        {
+            _bonusBehavior = bonusBehavior;
+            _restoreBehavior = restoreBehavior;
+            ApplyLiveData();
+        }
 
-            int count = restoreBehavior?.GetPendingRestorationCount(kingdom) ?? 0;
-            RestorationCountText = $"领主恢复中: {count}人";
+        private void ApplyLiveData()
+        {
+            // ── 领土加成（每次从 Behavior 实时读取）──
+            int bonus = (int)(_bonusBehavior?.GetTerritoryBonus(_kingdom) ?? 0f);
+            TerritoryBonusText = $"+{bonus}";
+
+            // ── 补兵统计（每次从 _pendingRestorations 实时读取）──
+            int count = _restoreBehavior?.GetPendingRestorationCount(_kingdom) ?? 0;
+            RestorationCountText = $"{count}人";
+
+            // 通知 UI 绑定更新
+            OnPropertyChanged(nameof(TerritoryBonusText));
+            OnPropertyChanged(nameof(RestorationCountText));
         }
     }
 }
