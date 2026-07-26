@@ -20,12 +20,14 @@ namespace ExampleMod.Behaviors
         {
             AddClassDefinition(typeof(PendingRestoration), 1);
             AddClassDefinition(typeof(KingdomTerritoryData), 2);
+            AddClassDefinition(typeof(TerritoryEvent), 3);
         }
 
         protected override void DefineContainerDefinitions()
         {
             ConstructContainerDefinition(typeof(Dictionary<Hero, PendingRestoration>));
             ConstructContainerDefinition(typeof(Dictionary<Kingdom, KingdomTerritoryData>));
+            ConstructContainerDefinition(typeof(List<TerritoryEvent>));
         }
     }
 }

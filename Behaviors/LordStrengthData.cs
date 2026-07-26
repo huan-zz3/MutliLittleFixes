@@ -1,3 +1,5 @@
+using System;
+using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
@@ -33,24 +35,41 @@ namespace ExampleMod.Behaviors
     }
 
     /// <summary>
-    /// 单次定居点丢失记录，用于栈式补偿计算。
-    /// 每次丢失推入列表，每次征服弹出最新一条，补偿基于栈中剩余记录重算。
+    /// 单次领土事件记录。全部追加，永不删除。
+    /// 计算加成时先算净丢失数，再对净丢失序列应用衰减。
+    /// 征服事件只减少净丢失计数，不直接扣减加成值。
     /// </summary>
-    public class SettlementLossRecord
+    public class TerritoryEvent
     {
         [SaveableField(1)] public bool IsTown;
+        [SaveableField(2)] public bool IsLoss; // true=丢失, false=征服
     }
 
     /// <summary>
-    /// 王国领土动态数据。追踪失去/征服的定居点，
-    /// 以及用于调整领主队伍规模的累积加成（领土丧失时增加，征服时减少）。
+    /// 王国领土动态数据。记录全部领土事件历史，
+    /// 并缓存计算后的队伍规模加成值。
     /// </summary>
     public class KingdomTerritoryData
     {
+        /// <summary>缓存加成值。只在领土事件发生时重算，读取时直接返回。</summary>
         [SaveableField(1)] public float AccumulatedBonus;
-        [SaveableField(2)] public int TownsLost;
-        [SaveableField(3)] public int CastlesLost;
-        [SaveableField(4)] public int TownsConquered;
-        [SaveableField(5)] public int CastlesConquered;
+
+#pragma warning disable 612,618 // 旧存档兼容字段
+        /// <summary>旧存档兼容（v1 计数器，已废弃，仅用于加载旧存档数据供迁移）</summary>
+        [SaveableField(2)] [Obsolete] public int TownsLost;
+        /// <summary>旧存档兼容</summary>
+        [SaveableField(3)] [Obsolete] public int CastlesLost;
+        /// <summary>旧存档兼容</summary>
+        [SaveableField(4)] [Obsolete] public int TownsConquered;
+        /// <summary>旧存档兼容</summary>
+        [SaveableField(5)] [Obsolete] public int CastlesConquered;
+#pragma warning restore 612,618
+
+        /// <summary>
+        /// 按时间顺序排列的全部领土事件（最早在前，最新在后）。
+        /// 丢失和征服全部追加，永不删除。计算时先算净丢失数，
+        /// 再对净丢失序列按衰减累加（征服不直接扣减加成）。
+        /// </summary>
+        [SaveableField(6)] public List<TerritoryEvent> Events = new List<TerritoryEvent>();
     }
 }

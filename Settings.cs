@@ -140,27 +140,19 @@ namespace ExampleMod
         [SettingPropertyGroup("领土带兵上限")]
         public float TerritoryBonusCastleValue { get; set; } = 3.0f;
 
-        [SettingPropertyInteger("城镇削减值", 0, 50, "0", Order = 30, RequireRestart = false, HintText = "每征服一座城镇减少的补偿值")]
-        [SettingPropertyGroup("领土带兵上限")]
-        public int TerritoryBonusTownReduction { get; set; } = 5;
-
-        [SettingPropertyInteger("城堡削减值", 0, 50, "0", Order = 31, RequireRestart = false, HintText = "每征服一座城堡减少的补偿值")]
-        [SettingPropertyGroup("领土带兵上限")]
-        public int TerritoryBonusCastleReduction { get; set; } = 3;
-
-        [SettingPropertyFloatingInteger("衰减乘数", 0.0f, 1.0f, "0.0", Order = 32, RequireRestart = false, HintText = "连续丢失领土的衰减乘数(1.0=线性)")]
+        [SettingPropertyFloatingInteger("衰减乘数", 0.0f, 1.0f, "0.0", Order = 31, RequireRestart = false, HintText = "连续丢失领土的衰减乘数(1.0=线性)")]
         [SettingPropertyGroup("领土带兵上限")]
         public float TerritoryBonusDiminishRate { get; set; } = 0.85f;
 
-        [SettingPropertyInteger("最大补偿上限", 0, 500, "0", Order = 33, RequireRestart = false, HintText = "王国可累积的最大补偿值")]
+        [SettingPropertyInteger("最大补偿上限", 0, 500, "0", Order = 32, RequireRestart = false, HintText = "王国可累积的最大补偿值")]
         [SettingPropertyGroup("领土带兵上限")]
         public int TerritoryBonusMaxCap { get; set; } = 200;
 
-        [SettingPropertyBool("仅封臣生效", Order = 34, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
+        [SettingPropertyBool("仅封臣生效", Order = 33, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
         [SettingPropertyGroup("领土带兵上限")]
         public bool TerritoryBonusVassalsOnly { get; set; } = true;
 
-        [SettingPropertyBool("启用调试日志", Order = 35, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
+        [SettingPropertyBool("启用调试日志", Order = 34, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
         [SettingPropertyGroup("调试")]
         public bool EnableDebugLogging { get; set; } = false;
 
