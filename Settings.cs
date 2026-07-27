@@ -165,8 +165,8 @@ namespace ExampleMod
         [SettingPropertyGroup("海战设置")]
         public int NavalBattleShipLimit { get; set; } = 3;
 
-        [SettingPropertyBool("启用同伴自动召回", Order = 37, RequireRestart = false, HintText = "启用/禁用家族成员被释放后自动创建部队")]
-        [SettingPropertyGroup("家族部队控制")]
+        [SettingPropertyBool("家族成员可用提醒", Order = 37, RequireRestart = false, HintText = "家族成员从俘虏释放/逃脱变为可用状态时，在屏幕中央弹出 toast 提示")]
+        [SettingPropertyGroup("通知")]
         public bool CompanionAutoRecallEnabled { get; set; } = true;
 
         [SettingPropertyBool("启用调试日志", Order = 38, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
