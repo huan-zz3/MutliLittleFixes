@@ -160,7 +160,12 @@ namespace ExampleMod
         [SettingPropertyGroup("领土带兵上限")]
         public bool TerritoryBonusVassalsOnly { get; set; } = true;
 
-        [SettingPropertyBool("启用调试日志", Order = 36, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
+        [SettingPropertyInteger("海战船只上限", 3, 8, "0", Order = 36, RequireRestart = false,
+            HintText = "参与海战/沿海掠夺时，玩家可同时出战的最大船只数量（至少3艘，最多8艘）")]
+        [SettingPropertyGroup("海战设置")]
+        public int NavalBattleShipLimit { get; set; } = 3;
+
+        [SettingPropertyBool("启用调试日志", Order = 37, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
         [SettingPropertyGroup("调试")]
         public bool EnableDebugLogging { get; set; } = false;
 
