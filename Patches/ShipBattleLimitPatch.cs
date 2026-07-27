@@ -1,82 +1,43 @@
-using System.Collections.Generic;
+using System;
 using System.Linq;
 using System.Reflection;
-using System.Reflection.Emit;
 using HarmonyLib;
-using Helpers;
-using TaleWorlds.CampaignSystem.GameMenus;
-using TaleWorlds.CampaignSystem.MapEvents;
-using TaleWorlds.CampaignSystem.Naval;
-using TaleWorlds.Core;
+using TaleWorlds.CampaignSystem.Party;
 
 namespace ExampleMod.Patches
 {
     // ──────────────────────────────────────────────────────────────
-    // 补丁1: ShipHelper.GetOrderedNavalRaidShipsOfPlayerParty
+    // 补丁: NavalDLCShipDeploymentModel.GetShipDeploymentLimit
     // ──────────────────────────────────────────────────────────────
-    // 通过 Postfix 替换返回列表，应用 MCM 设置的船只上限。
-    // 被 EncounterGameMenuBehavior / VillageHostileActionCampaignBehavior
-    // 等调用，用于判断菜单按钮是否可用。
-    // ──────────────────────────────────────────────────────────────
-    [HarmonyPatch(typeof(ShipHelper), "GetOrderedNavalRaidShipsOfPlayerParty")]
-    internal static class ShipHelperGetShipsPatch
-    {
-        internal static void Postfix(ref List<Ship> __result)
-        {
-            int limit = Settings.Instance?.NavalBattleShipLimit ?? 3;
-            // 原方法内部已经 .Take(3) 了一次，我们用设置值再 Take 一遍
-            __result = __result.Take(limit).ToList();
-        }
-    }
-
-    // ──────────────────────────────────────────────────────────────
-    // 补丁2: MenuHelper.StartSeaRaidMission
-    // ──────────────────────────────────────────────────────────────
-    // 用 Transpiler 替换方法中唯一的 .Take(3) 调用，
-    // 将其常数参数 3 替换为 MCM 设置值。
+    // 覆盖战帆DLC中每支队伍（玩家/友军/敌军）的船只部署上限。
+    // 用 Postfix 将 DLC 默认 base 值（3）替换为 MCM 设置值（3~8）。
+    // DLC 原有的 Perk 加成保持不变，总结果上限 8（DLC 硬编码上限）。
     //
-    // 为什么用 Transpiler？
-    //   StartSeaRaidMission 是 private static 方法，无法用 Postfix
-    //   修改其局部变量 selectedShips。Transpiler 在 IL 层面将
-    //   ldc.i4.3 + call Enumerable.Take 替换为 ldc.i4.s limit。
-    //
-    // 安全分析：方法内唯一的"加载常数3 + 调用 Take"出现在
-    // 第410行的 ship 选择上。其他 Take(count/maxSelectableTroopCount)
-    // 用的都是变量而非常数3，不会被误匹配。
+    // 为什么不直接设置 Perk 值？
+    //   DLC 的 base 是固定常数 3，Perk 加成在上层累加。
+    //   我们替换 base 部分，Perk 加成自动继承，最终上限 8。
     // ──────────────────────────────────────────────────────────────
     [HarmonyPatch]
-    internal static class MenuHelperStartSeaRaidPatch
+    internal static class NavalDeployLimitPatch
     {
         [HarmonyTargetMethod]
         internal static MethodBase TargetMethod()
         {
+            var type = AccessTools.TypeByName(
+                "NavalDLC.GameComponents.NavalDLCShipDeploymentModel");
+            if (type == null)
+                return null;
             return AccessTools.Method(
-                typeof(MenuHelper),
-                "StartSeaRaidMission",
-                new[] { typeof(MapEvent), typeof(BattleSideEnum), typeof(MenuCallbackArgs) });
+                type,
+                "GetShipDeploymentLimit",
+                new[] { typeof(MobileParty) });
         }
 
-        internal static IEnumerable<CodeInstruction> Transpiler(
-            IEnumerable<CodeInstruction> instructions)
+        internal static void Postfix(ref int __result)
         {
-            int limit = Settings.Instance?.NavalBattleShipLimit ?? 3;
-
-            var codes = instructions.ToList();
-            for (int i = 0; i < codes.Count; i++)
-            {
-                if (codes[i].opcode == OpCodes.Call
-                    && codes[i].operand is MethodInfo methodInfo
-                    && methodInfo.Name == nameof(Enumerable.Take)
-                    && methodInfo.DeclaringType == typeof(Enumerable)
-                    && i > 0
-                    && codes[i - 1].opcode == OpCodes.Ldc_I4_3)
-                {
-                    // 将 ldc.i4.3 替换为用户设置的船只上限值
-                    codes[i - 1] = new CodeInstruction(OpCodes.Ldc_I4_S, (byte)limit);
-                }
-            }
-
-            return codes;
+            int userLimit = Settings.Instance?.NavalBattleShipLimit ?? 3;
+            // 替换 base 值（原本是 3），保留 Perk 加成，上限 8
+            __result = Math.Min(__result - 3 + userLimit, 8);
         }
     }
 }

@@ -73,7 +73,9 @@
     <Compile Remove="原版游戏本体代码1.4.5\**\*.cs" />
     <Compile Remove="Catapult Guide\**\*.cs" />
     <Compile Remove="Battlefield UI\**\*.cs" />
+    <Compile Remove="战帆DLC代码1.2.6\**\*.cs" />
     <None Include="原版游戏本体代码1.4.5\**\*.cs" />
+    <None Include="战帆DLC代码1.2.6\**\*.cs" />
   </ItemGroup>
 
 </Project>
