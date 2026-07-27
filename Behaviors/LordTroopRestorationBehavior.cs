@@ -36,9 +36,9 @@ namespace ExampleMod.Behaviors
             EndCaptivityDetail detail, bool showNotification)
         {
             // 无论开关状态，始终记录释放事件（开关只控制是否发兵）
-            if (prisoner == null || prisoner == Hero.MainHero || prisoner.IsPlayerCompanion)
+            if (prisoner == null || prisoner == Hero.MainHero)
             {
-                LogDebug($"[补兵] 跳过释放: prisoner=null={prisoner == null}, MainHero={prisoner == Hero.MainHero}, companion={prisoner?.IsPlayerCompanion}");
+                LogDebug($"[补兵] 跳过释放: prisoner=null={prisoner == null}, MainHero={prisoner == Hero.MainHero}");
                 return;
             }
 
