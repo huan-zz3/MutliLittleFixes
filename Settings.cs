@@ -173,6 +173,10 @@ namespace ExampleMod
         [SettingPropertyGroup("调试")]
         public bool EnableDebugLogging { get; set; } = false;
 
+        [SettingPropertyBool("禁止AI自动宣战", Order = 40, RequireRestart = false, HintText = "玩家是国王时，禁止属下领主（AI）自动发起宣战决策")]
+        [SettingPropertyGroup("外交设置")]
+        public bool PreventAIWarDeclaration { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
