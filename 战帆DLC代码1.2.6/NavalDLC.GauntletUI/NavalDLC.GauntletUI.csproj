@@ -1,0 +1,117 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{3D655B01-6F79-413D-AE8A-AB3EC166DFB7}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NavalDLC.GauntletUI</RootNamespace>
+    <AssemblyName>NavalDLC.GauntletUI</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="SandBox" />
+    <Reference Include="SandBox.GauntletUI" />
+    <Reference Include="SandBox.View" />
+    <Reference Include="SandBox.ViewModelCollection" />
+    <Reference Include="StoryMode.GauntletUI" />
+    <Reference Include="System.Numerics.Vectors" />
+    <Reference Include="TaleWorlds.CampaignSystem" />
+    <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.DotNet" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.Engine.GauntletUI" />
+    <Reference Include="TaleWorlds.GauntletUI" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.GauntletUI" />
+    <Reference Include="TaleWorlds.MountAndBlade.View" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.ScreenSystem" />
+    <Reference Include="TaleWorlds.TwoDimension" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CharacterDeveloper\GauntletNavalCharacterDeveloperScreen.cs" />
+    <Compile Include="Clan\NavalGauntletClanScreen.cs" />
+    <Compile Include="GauntletNavalLoadingWindowManager.cs" />
+    <Compile Include="KingdomManagement\NavalGauntletKingdomScreen.cs" />
+    <Compile Include="Map\GauntletNavalMapAnchorTrackerView.cs" />
+    <Compile Include="Map\GauntletNavalMapBarGlobalLayer.cs" />
+    <Compile Include="Map\GauntletNavalMapBarView.cs" />
+    <Compile Include="Menu\GauntletNavalMenuTroopSelectionView.cs" />
+    <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
+    <Compile Include="MissionViews\MissionGauntletCaptivityMissionView.cs" />
+    <Compile Include="MissionViews\MissionGauntletFloatingFortressView.cs" />
+    <Compile Include="MissionViews\MissionGauntletHelpingAnAllyMissionView.cs" />
+    <Compile Include="MissionViews\MissionGauntletNavalAgentStatus.cs" />
+    <Compile Include="MissionViews\MissionGauntletNavalCaptureShipView.cs" />
+    <Compile Include="MissionViews\MissionGauntletNavalKillNotificationSingleplayerUIHandler.cs" />
+    <Compile Include="MissionViews\MissionGauntletNavalOrderOfBattleView.cs" />
+    <Compile Include="MissionViews\MissionGauntletNavalOrderUIHandler.cs" />
+    <Compile Include="MissionViews\MissionGauntletNavalShipMarker.cs" />
+    <Compile Include="MissionViews\MissionGauntletPirateBattleMissionView.cs" />
+    <Compile Include="MissionViews\MissionGauntletQuest5SetPieceBattleMissionView.cs" />
+    <Compile Include="MissionViews\MissionGauntletShipControlView.cs" />
+    <Compile Include="NavalDLCGauntletUISubModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Quest\GauntletNavalQuestsScreen.cs" />
+    <Compile Include="Screens\GauntletPortScreen.cs" />
+    <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+    <Compile Include="Tutorial\NavalDLCGettingCompanionsStep1Tutorial.cs" />
+    <Compile Include="Tutorial\ShipBoardingApproachTutorial.cs" />
+    <Compile Include="Tutorial\ShipBoardingAttemptBoardingTutorial.cs" />
+    <Compile Include="Tutorial\ShipBoardingTroopChargeTutorial.cs" />
+    <Compile Include="Tutorial\ShipCameraTutorial.cs" />
+    <Compile Include="Tutorial\ShipCloseSailTutorial.cs" />
+    <Compile Include="Tutorial\ShipCommandingShipsTutorial.cs" />
+    <Compile Include="Tutorial\ShipControlTutorial.cs" />
+    <Compile Include="Tutorial\ShipCutLooseTutorial.cs" />
+    <Compile Include="Tutorial\ShipOarsmanTutorial.cs" />
+    <Compile Include="Tutorial\ShipSailTutorial.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NavalDLC.ViewModelCollection\NavalDLC.ViewModelCollection.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFBA}</Project>
+      <Name>NavalDLC.ViewModelCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NavalDLC.View\NavalDLC.View.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFB9}</Project>
+      <Name>NavalDLC.View</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NavalDLC\NavalDLC.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFB5}</Project>
+      <Name>NavalDLC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

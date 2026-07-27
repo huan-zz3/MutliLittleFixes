@@ -1,0 +1,120 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{3D655B01-6F79-413D-AE8A-AB3EC166DFBA}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NavalDLC.ViewModelCollection</RootNamespace>
+    <AssemblyName>NavalDLC.ViewModelCollection</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="SandBox.ViewModelCollection" />
+    <Reference Include="TaleWorlds.CampaignSystem" />
+    <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Core.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Microsoft\CodeAnalysis\EmbeddedAttribute.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\ClanManagement\NavalClanFiefsVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\ClanManagement\NavalClanManagementVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\ClanManagement\NavalClanSettlementItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Encyclopedia\NavalEncyclopediaSettlementPageVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\GameMenus\NavalGameMenuShipItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\GameMenus\NavalGameMenuTroopSelectionVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\HUD\ShipMarker\NavalShipMarkerItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\HUD\ShipMarker\NavalShipMarkersVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Kingdom\NavalKingdomManagementVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Kingdom\NavalKingdomSettlementItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Kingdom\NavalKingdomSettlementVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Map\MapAnchorTrackerVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Map\MapBar\NavalMapBarVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Map\MapBar\NavalMapInfoVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Map\MapBar\ShipHealthPercentageComparer.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Map\NavalSettlementMenuOverlayVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Missions\CaptureShip\NavalMissionCaptureShipVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Missions\NameMarkers\AgentBindsMachineMarkerTargetVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Missions\NameMarkers\NavalMissionShipControlPointMarkerTargetVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Missions\ShipControl\MissionHitPointPropertiesVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Missions\ShipControl\MissionShipControlVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\NavalCustomBattleScoreboardVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\NavalScoreboardVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\NavalShipHUDVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\NavalTestVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\NavalUIHelper.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\OrderOfBattle\NavalOrderOfBattleFormationItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\OrderOfBattle\NavalOrderOfBattleHeroItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\OrderOfBattle\NavalOrderOfBattleShipItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\OrderOfBattle\NavalOrderOfBattleVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Order\NavalMissionOrderTroopControllerVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Order\NavalMissionOrderVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Order\NavalOrderTroopItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortActionVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortActionInfo.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortChangeInfo.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenLootModeHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenManageFleetModeHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenManageOtherFleetModeHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenRestrictedModeHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenStoryModeHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortScreenHandlers\PortScreenTradeModeHandler.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\PortVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipFigureheadSlotVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipFigureheadVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipItemVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipRosterVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipStatsVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipStatVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipUpgradeContainerVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipUpgradePieceBaseVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipUpgradePieceVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipUpgradeSlotBaseVM.cs" />
+    <Compile Include="NavalDLC\ViewModelCollection\Port\ShipUpgradeSlotVM.cs" />
+    <Compile Include="NavalDLC\View\NavalTooltipRefresherCollection.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="System\Runtime\CompilerServices\IsReadOnlyAttribute.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NavalDLC\NavalDLC.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFB5}</Project>
+      <Name>NavalDLC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

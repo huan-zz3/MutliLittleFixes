@@ -1,0 +1,133 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{3D655B01-6F79-413D-AE8A-AB3EC166DFB9}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NavalDLC.View</RootNamespace>
+    <AssemblyName>NavalDLC.View</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="SandBox" />
+    <Reference Include="SandBox.View" />
+    <Reference Include="SandBox.ViewModelCollection" />
+    <Reference Include="StoryMode" />
+    <Reference Include="TaleWorlds.CampaignSystem" />
+    <Reference Include="TaleWorlds.CampaignSystem.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Core.ViewModelCollection" />
+    <Reference Include="TaleWorlds.DotNet" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.View" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.PSAI" />
+    <Reference Include="TaleWorlds.ScreenSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Cinematic\PopupSceneShipController.cs" />
+    <Compile Include="GameMenus\NavalMenuTroopSelectionView.cs" />
+    <Compile Include="GameMenus\NavalMenuViewContext.cs" />
+    <Compile Include="Map\Managers\AnchorVisualManager.cs" />
+    <Compile Include="Map\Managers\NavalMobilePartyVisualManager.cs" />
+    <Compile Include="Map\Managers\StormVisualManager.cs" />
+    <Compile Include="Map\NavalMapAnchorTrackerView.cs" />
+    <Compile Include="Map\NavalMapScreen.cs" />
+    <Compile Include="Map\Navigation\ManageFleetNavigationElement.cs" />
+    <Compile Include="Map\Navigation\NavalMapNavigationHandler.cs" />
+    <Compile Include="Map\Visuals\AnchorVisual.cs" />
+    <Compile Include="Map\Visuals\NavalMobilePartyVisual.cs" />
+    <Compile Include="Map\Visuals\StormVisual.cs" />
+    <Compile Include="Missions\NavalMissionNameMarkerProvider.cs" />
+    <Compile Include="Missions\NavalStorylineCaptivityMissionNameMarkerProvider.cs" />
+    <Compile Include="MissionViews\BlockedEstuaryView.cs" />
+    <Compile Include="MissionViews\FloatingFortressView.cs" />
+    <Compile Include="MissionViews\MissionShipControlView.cs" />
+    <Compile Include="MissionViews\NavalDeploymentMissionView.cs" />
+    <Compile Include="MissionViews\NavalFinalConversationMissionView.cs" />
+    <Compile Include="MissionViews\NavalMissionCaptureShipView.cs" />
+    <Compile Include="MissionViews\NavalMissionDeploymentBoundaryMarker.cs" />
+    <Compile Include="MissionViews\NavalMissionOrderUIHandler.cs" />
+    <Compile Include="MissionViews\NavalMissionPrepareView.cs" />
+    <Compile Include="MissionViews\NavalMissionShipHighlightView.cs" />
+    <Compile Include="MissionViews\NavalMissionShipMarkerUIHandler.cs" />
+    <Compile Include="MissionViews\NavalOrderOfBattleView.cs" />
+    <Compile Include="MissionViews\NavalShipTargetSelectionHandler.cs" />
+    <Compile Include="MissionViews\NavalStorylineAlleyFightCinematicView.cs" />
+    <Compile Include="MissionViews\NavalStorylinePirateBattleMissionView.cs" />
+    <Compile Include="MissionViews\Order\NavalOrderFlag.cs" />
+    <Compile Include="MissionViews\Order\NavalOrderTroopPlacer.cs" />
+    <Compile Include="MissionViews\Storyline\HelpingAnAllyMissionView.cs" />
+    <Compile Include="MissionViews\Storyline\NavalCaptivityBattleMissionView.cs" />
+    <Compile Include="MissionViews\Storyline\Quest5SetPieceBattleBossFightCameraView.cs" />
+    <Compile Include="MissionViews\Storyline\Quest5SetPieceBattleInteriorConversationCameraView.cs" />
+    <Compile Include="MissionViews\Storyline\Quest5SetPieceBattleMissionView.cs" />
+    <Compile Include="MissionViews\WoundedBeastView.cs" />
+    <Compile Include="MusicNavalBattleMissionView.cs" />
+    <Compile Include="NavalAmbientShoutsView.cs" />
+    <Compile Include="NavalDLCViewCheats.cs" />
+    <Compile Include="NavalDLCViewHelpers.cs" />
+    <Compile Include="NavalDLCViewSubModule.cs" />
+    <Compile Include="NavalMapSceneWrapper.cs" />
+    <Compile Include="NavalMissionScreen.cs" />
+    <Compile Include="NavalShipsPreloadView.cs" />
+    <Compile Include="NavalViewExtensions.cs" />
+    <Compile Include="NavalViews.cs" />
+    <Compile Include="Overlay\NavalGameMenuOverlayProvider.cs" />
+    <Compile Include="Permissions\NavalPermissionsSystem.cs" />
+    <Compile Include="PirateSpawnPoint.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="TaleWorlds\MountAndBlade\View\NavalViewCreator.cs" />
+    <Compile Include="VisualOrders\NavalRaidVisualOrderProvider.cs" />
+    <Compile Include="VisualOrders\NavalShipVisualOrderProvider.cs" />
+    <Compile Include="VisualOrders\NavalTroopVisualOrderProvider.cs" />
+    <Compile Include="VisualOrders\Orders\NavalChargeVisualOrder.cs" />
+    <Compile Include="VisualOrders\Orders\NavalMovementOrder.cs" />
+    <Compile Include="VisualOrders\Orders\NavalSkirmishOrder.cs" />
+    <Compile Include="VisualOrders\Orders\NavalToggleVisualOrder.cs" />
+    <Compile Include="VisualOrders\Orders\TroopOrders\NavalTroopDefendShipOrder.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NavalDLC.ViewModelCollection\NavalDLC.ViewModelCollection.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFBA}</Project>
+      <Name>NavalDLC.ViewModelCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NavalDLC\NavalDLC.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFB5}</Project>
+      <Name>NavalDLC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>

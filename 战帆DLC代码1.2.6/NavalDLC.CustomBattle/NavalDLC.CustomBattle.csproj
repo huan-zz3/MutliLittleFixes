@@ -1,0 +1,106 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">x64</Platform>
+    <ProjectGuid>{3D655B01-6F79-413D-AE8A-AB3EC166DFB4}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>NavalDLC.CustomBattle</RootNamespace>
+    <AssemblyName>NavalDLC.CustomBattle</AssemblyName>
+    <TargetFrameworkVersion>v2.0</TargetFrameworkVersion>
+    <TargetFrameworkIdentifier>.NETStandard</TargetFrameworkIdentifier>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x64' ">
+    <PlatformTarget>x64</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="netstandard" />
+    <Reference Include="SandBox.ViewModelCollection" />
+    <Reference Include="TaleWorlds.CampaignSystem" />
+    <Reference Include="TaleWorlds.Core" />
+    <Reference Include="TaleWorlds.Core.ViewModelCollection" />
+    <Reference Include="TaleWorlds.Engine" />
+    <Reference Include="TaleWorlds.Engine.GauntletUI" />
+    <Reference Include="TaleWorlds.InputSystem" />
+    <Reference Include="TaleWorlds.Library" />
+    <Reference Include="TaleWorlds.Localization" />
+    <Reference Include="TaleWorlds.MountAndBlade" />
+    <Reference Include="TaleWorlds.MountAndBlade.View" />
+    <Reference Include="TaleWorlds.MountAndBlade.ViewModelCollection" />
+    <Reference Include="TaleWorlds.ObjectSystem" />
+    <Reference Include="TaleWorlds.ScreenSystem" />
+  </ItemGroup>
+  <ItemGroup>
+    <AppDesigner Include="Properties\" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="CustomBattleObjects\NavalCustomBattleBannerEffects.cs" />
+    <Compile Include="CustomBattleShip.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleArmyCompositionGroupVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleArmyCompositionItemVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleCompositionData.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleData.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleFactionSelectionVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleGameTypeSelectionGroupVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleHelper.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleMapSelectionGroupVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattlePlayerSide.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleScreen.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleShipSelectionGroupVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleShipSelectionItemVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleShipSelectionPopUpVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleSideVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleTimeOfDay.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleTroopTypeSelectionPopUpVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleTroopTypeVM.cs" />
+    <Compile Include="CustomBattle\NavalCustomBattleVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleCharacterItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleFactionItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleMapItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattlePlayerSideItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleSeasonItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleShipHullItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleShipItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleTimeOfDayItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleWindDirectionItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalCustomBattleWindStrengthItemVM.cs" />
+    <Compile Include="CustomBattle\SelectionItem\NavalGameTypeItemVM.cs" />
+    <Compile Include="CustomNavalMissions.cs" />
+    <Compile Include="NavalCustomBattleProvider.cs" />
+    <Compile Include="NavalCustomBattleSceneData.cs" />
+    <Compile Include="NavalCustomBattleState.cs" />
+    <Compile Include="NavalCustomGame.cs" />
+    <Compile Include="NavalCustomGameManager.cs" />
+    <Compile Include="NavalDLCCustomBattleSubModule.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\NavalDLC.ViewModelCollection\NavalDLC.ViewModelCollection.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFBA}</Project>
+      <Name>NavalDLC.ViewModelCollection</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\NavalDLC\NavalDLC.csproj">
+      <Project>{3D655B01-6F79-413D-AE8A-AB3EC166DFB5}</Project>
+      <Name>NavalDLC</Name>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
