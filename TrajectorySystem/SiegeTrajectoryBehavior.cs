@@ -1,4 +1,5 @@
-﻿using TaleWorlds.Core;
+﻿using System.Collections.Generic;
+using TaleWorlds.Core;
 using TaleWorlds.Engine;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
@@ -43,6 +44,20 @@ namespace ExampleMod
         private const uint Color_BallistaDot = 0xFFFF3333;
 
         // ============================================================
+        // 坐标投掷目标系统
+        // ============================================================
+
+        /// <summary>玩家设定的坐标投掷目标标记 — 圆环</summary>
+        private WorldCircleRenderer? _coordTargetCircle;
+
+        /// <summary>玩家设定的坐标投掷目标标记 — 圆心点</summary>
+        private WorldPointRenderer? _coordTargetPoint;
+
+        /// <summary>目标标记颜色：圆环青色，中心点红色</summary>
+        private const uint Color_CoordRing = 0xFF00E5FF;
+        private const uint Color_CoordDot = 0xFFFF3333;
+
+        // ============================================================
 
         public override void OnAfterMissionCreated()
         {
@@ -56,6 +71,8 @@ namespace ExampleMod
             base.OnEndMission();
             DisableRtsMode();
             DisposeRenderers();
+            DisposeCoordTargetRenderers();
+            CoordinateTargetManager.ClearAll();
             _currentSiegeWeapon = null;
         }
 
@@ -65,6 +82,14 @@ namespace ExampleMod
             _circleRenderer = null;
             _pointRenderer?.Dispose();
             _pointRenderer = null;
+        }
+
+        private void DisposeCoordTargetRenderers()
+        {
+            _coordTargetCircle?.Dispose();
+            _coordTargetCircle = null;
+            _coordTargetPoint?.Dispose();
+            _coordTargetPoint = null;
         }
 
         /// <summary>
@@ -236,6 +261,107 @@ namespace ExampleMod
                 if (_isRtsModeEnabled)
                     DisableRtsMode();
             }
+
+            // ── 玩家坐标投掷指令：按 . 设定/取消目标 ────────────────
+            if (Input.IsKeyPressed(InputKey.Period))
+            {
+                HandleCoordinateTargetInput();
+            }
+        }
+
+        /// <summary>
+        /// 处理玩家按 . 键：取消已有目标 / 设定新的投掷目标。
+        /// </summary>
+        private void HandleCoordinateTargetInput()
+        {
+            // 如果已有活跃目标 → 取消
+            if (CoordinateTargetManager.IsActive)
+            {
+                CoordinateTargetManager.ClearAll();
+                InformationManager.DisplayMessage(
+                    new InformationMessage("投石机目标已取消，返回原版AI", Colors.White));
+                return;
+            }
+
+            // 玩家不在战场上 → 忽略
+            Agent main = Agent.Main;
+            if (main == null || !main.IsActive())
+                return;
+
+            // 玩家正在使用投石机 → 忽略（应该在地面引导）
+            if (_currentSiegeWeapon != null)
+            {
+                InformationManager.DisplayMessage(
+                    new InformationMessage("请离开投石机后在战场上引导目标", Colors.Red));
+                return;
+            }
+
+            // 从屏幕中心发射射线，获取目标地面坐标
+            MissionScreen missionScreen = ScreenManager.TopScreen as MissionScreen;
+            if (missionScreen?.CombatCamera == null)
+                return;
+
+            Vec3 rayStart, rayEnd;
+            missionScreen.ScreenPointToWorldRay(new Vec2(0.5f, 0.5f), out rayStart, out rayEnd);
+
+            // 向外延伸射线以确保能撞到地面/建筑
+            Vec3 farPoint = rayStart + (rayEnd - rayStart).NormalizedCopy() * 1000f;
+            float hitDistance;
+            Vec3 hitPos;
+            WeakGameEntity hitEntity;
+            bool hasHit = Mission.Current.Scene.RayCastForClosestEntityOrTerrain(
+                rayStart, farPoint, out hitDistance, out hitPos, out hitEntity,
+                0.01f, BodyFlags.CommonFocusRayCastExcludeFlags);
+
+            if (!hasHit)
+            {
+                InformationManager.DisplayMessage(
+                    new InformationMessage("未命中地面或建筑，请对准目标位置", Colors.Red));
+                return;
+            }
+
+            // 查找可用的投石机
+            var availableWeapons = FindAvailableSiegeWeapons(hitPos);
+            if (availableWeapons.Count == 0)
+            {
+                InformationManager.DisplayMessage(
+                    new InformationMessage("无可用投石机（无存活、有弹药、能射到该点的投石机）", Colors.Red));
+                return;
+            }
+
+            // 设定目标
+            CoordinateTargetManager.SetTarget(availableWeapons, hitPos);
+            InformationManager.DisplayMessage(
+                new InformationMessage(
+                    $"已设定投石机目标！{availableWeapons.Count} 台投石机正在瞄准该点",
+                    Colors.Cyan));
+        }
+
+        /// <summary>
+        /// 查找所有可用投石机：存活 + 有弹药 + 玩家方 + 非玩家操控 + Lobber + 可射到目标点。
+        /// </summary>
+        private List<RangedSiegeWeapon> FindAvailableSiegeWeapons(Vec3 hitPos)
+        {
+            List<RangedSiegeWeapon> result = new List<RangedSiegeWeapon>();
+
+            foreach (var mo in Mission.Current.ActiveMissionObjects)
+            {
+                if (mo is RangedSiegeWeapon weapon
+                    && !weapon.IsDestroyed
+                    && weapon.AmmoCount > 0
+                    && weapon.Side == (Agent.Main?.Team?.Side ?? BattleSideEnum.Attacker)
+                    && IsLobber(weapon)
+                    && weapon.CanShootAtPoint(hitPos))
+                {
+                    // 排除玩家当前正在操控的这台
+                    if (_currentSiegeWeapon != null && weapon == _currentSiegeWeapon)
+                        continue;
+
+                    result.Add(weapon);
+                }
+            }
+
+            return result;
         }
 
         public override void OnPreDisplayMissionTick(float dt)
@@ -316,6 +442,46 @@ namespace ExampleMod
                 // 没有使用的攻城器械 → 隐藏标记
                 HideRenderers();
             }
+
+            // ── 玩家坐标投掷目标标记渲染 ─────────────────────────────
+            if (CoordinateTargetManager.IsActive && CoordinateTargetManager.GlobalTargetPosition.HasValue)
+            {
+                Vec3 targetPos = CoordinateTargetManager.GlobalTargetPosition.Value;
+
+                // 延迟初始化渲染器（首次使用时创建）
+                if (_coordTargetCircle == null)
+                {
+                    _coordTargetCircle = new WorldCircleRenderer(missionScreen, layerOrder: 13);
+                    _coordTargetCircle.Radius = 2.5f;
+                    _coordTargetCircle.Color = Color_CoordRing;
+                    _coordTargetCircle.Alpha = 1f;
+                    _coordTargetCircle.DotSize = 5f;
+                    _coordTargetCircle.PointCount = 64;
+                    _coordTargetCircle.Rotation = Mat3.Identity;
+                }
+                if (_coordTargetPoint == null)
+                {
+                    _coordTargetPoint = new WorldPointRenderer(missionScreen, layerOrder: 14);
+                    _coordTargetPoint.Color = Color_CoordDot;
+                    _coordTargetPoint.Alpha = 1f;
+                    _coordTargetPoint.Size = 16f;
+                }
+
+                // 获取地形法线让圆环贴合地面
+                Vec3 normal = SampleGroundNormal(targetPos);
+                _coordTargetCircle.Rotation = CreateRotationFromNormal(normal);
+
+                _coordTargetCircle.SetWorldPosition(targetPos);
+                _coordTargetCircle.Tick();
+
+                _coordTargetPoint.SetWorldPosition(targetPos);
+                _coordTargetPoint.Tick();
+            }
+            else
+            {
+                _coordTargetCircle?.Hide();
+                _coordTargetPoint?.Hide();
+            }
         }
 
         private void HideRenderers()
@@ -339,6 +505,26 @@ namespace ExampleMod
             Vec3 forward = Vec3.CrossProduct(normal, side);
             forward.Normalize();
             return new Mat3(side, forward, normal);
+        }
+
+        /// <summary>
+        /// 在地面坐标周围采样高度推算法线（与 TrajectorySimulation 中的逻辑等价）。
+        /// </summary>
+        private static Vec3 SampleGroundNormal(Vec3 pos)
+        {
+            float h0 = 0f, h1 = 0f, h2 = 0f;
+            Scene scene = Mission.Current.Scene;
+            scene.GetHeightAtPoint(pos.AsVec2, 0, ref h0);
+            scene.GetHeightAtPoint(pos.AsVec2 + new Vec2(0.5f, 0f), 0, ref h1);
+            scene.GetHeightAtPoint(pos.AsVec2 + new Vec2(0f, 0.5f), 0, ref h2);
+
+            if (MathF.Abs(h0 - pos.z) > 1.5f)
+                return Vec3.Up;
+
+            Vec3 normal = Vec3.CrossProduct(
+                new Vec3(0.5f, 0f, h1 - h0, -1f),
+                new Vec3(0f, 0.5f, h2 - h0, -1f)).NormalizedCopy();
+            return normal.IsValid ? normal : Vec3.Up;
         }
     }
 }
