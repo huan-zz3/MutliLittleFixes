@@ -137,12 +137,25 @@ namespace ExampleMod.Patches
                 }
             }
 
-            // ── 从原始候选列表中找回玩家的 outcome 并追加 ──────
+            // ── 从原始候选列表中找回玩家的 outcome 并替换第3名 ──
+            // 原版 NarrowDownCandidates 只保留 top 3，直接追加会变成第4名
+            // 导致 UI 显示错位。因此先移除末位（最低分），再追加玩家。
+            for (int i = narrowedCandidates.Count - 1; i >= 0; i--)
+            {
+                if (narrowedCandidates[i] is SettlementClaimantDecision.ClanAsDecisionOutcome clanOutcome
+                    && clanOutcome.Clan == playerClan)
+                {
+                    return; // 玩家已在结果中（虽然 count > maxCandidateCount，兜底处理）
+                }
+            }
+
             foreach (var outcome in initialCandidates)
             {
                 if (outcome is SettlementClaimantDecision.ClanAsDecisionOutcome clanOutcome
                     && clanOutcome.Clan == playerClan)
                 {
+                    // 移除末位（当前第3名），追加玩家 -> 玩家成为新的第3名
+                    narrowedCandidates.RemoveAt(narrowedCandidates.Count - 1);
                     narrowedCandidates.Add(outcome);
                     return;
                 }

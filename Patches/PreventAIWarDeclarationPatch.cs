@@ -25,6 +25,10 @@ namespace ExampleMod.Patches
             if (!__result)
                 return;
 
+            // 玩家自己发起宣战，不拦截
+            if (__instance.ProposerClan == Clan.PlayerClan)
+                return;
+
             Kingdom? playerKingdom = Clan.PlayerClan?.Kingdom;
             if (playerKingdom == null || playerKingdom.RulingClan?.Leader != Hero.MainHero)
                 return; // 玩家不是国王
