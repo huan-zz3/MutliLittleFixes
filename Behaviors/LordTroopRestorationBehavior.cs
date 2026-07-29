@@ -170,8 +170,8 @@ namespace ExampleMod.Behaviors
 
         // ── 查询接口 ─────────────────────────────────────────────────────
         //
-        // 返回给定王国当前正在等待补兵的领主数量。
-        // 无论是尚未有队伍还是正在交付中的都计入统计。
+        // 返回给定王国当前正在等待补兵的领主总数（包含等候和正在补兵）。
+        // 兼容旧存档和已有调用。
 
         public int GetPendingRestorationCount(Kingdom kingdom)
         {
@@ -180,6 +180,36 @@ namespace ExampleMod.Behaviors
 
             return _pendingRestorations.Count(kvp =>
                 kvp.Key.Clan?.Kingdom == kingdom);
+        }
+
+        /// <summary>
+        /// 等候补兵人数：进入补兵队列但尚未实际开始接收部队的领主数量。
+        /// 原因包括：无队伍（party==null）、功能被禁用但记录保留。
+        /// </summary>
+        public int GetWaitingRestorationCount(Kingdom kingdom)
+        {
+            if (kingdom == null) return 0;
+            bool restorationEnabled = Settings.Instance?.RestorationEnabled ?? true;
+
+            return _pendingRestorations.Count(kvp =>
+                kvp.Key.Clan?.Kingdom == kingdom
+                && (kvp.Key.PartyBelongedTo == null || !restorationEnabled));
+        }
+
+        /// <summary>
+        /// 正在补兵人数：有队伍且功能开启，正在每日接收部队的领主数量。
+        /// </summary>
+        public int GetActiveRestorationCount(Kingdom kingdom)
+        {
+            if (kingdom == null) return 0;
+            bool restorationEnabled = Settings.Instance?.RestorationEnabled ?? true;
+
+            return _pendingRestorations.Count(kvp =>
+                kvp.Key.Clan?.Kingdom == kingdom
+                && kvp.Key.PartyBelongedTo != null
+                && restorationEnabled
+                && kvp.Value.DaysRemaining > 0
+                && kvp.Value.TotalTroopsToDeliver > 0);
         }
 
         // ── 辅助方法 ─────────────────────────────────────────────────────

@@ -76,50 +76,58 @@ namespace ExampleMod.UI
                 "          WidthSizePolicy='CoverChildren' HeightSizePolicy='CoverChildren' " +
                 "          HorizontalAlignment='Center' " +
                 "          Brush='Kingdom.Paragraph.Text' MarginBottom='25' />" +
-                "        <ListPanel WidthSizePolicy='StretchToParent' " +
-                "          HeightSizePolicy='Fixed' SuggestedHeight='35' " +
-                "          MarginLeft='50' MarginRight='50' MarginBottom='5' " +
-                "          StackLayout.LayoutMethod='HorizontalLeftToRight'>" +
-                "          <Children>" +
-                "            <TextWidget WidthSizePolicy='StretchToParent' " +
-                "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
-                "              HorizontalAlignment='Center' " +
-                "              Brush='Clan.TabControl.Text' Text='国家' />" +
-                "            <TextWidget WidthSizePolicy='StretchToParent' " +
-                "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
-                "              HorizontalAlignment='Center' " +
-                "              Brush='Clan.TabControl.Text' Text='领土丢失补偿部队上限' />" +
-                "            <TextWidget WidthSizePolicy='StretchToParent' " +
-                "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
-                "              HorizontalAlignment='Center' " +
-                "              Brush='Clan.TabControl.Text' Text='等候补兵领主人数' />" +
-                "          </Children>" +
-                "        </ListPanel>" +
-                "        <NavigatableListPanel DataSource='{KingdomList}' " +
-                "          WidthSizePolicy='StretchToParent' HeightSizePolicy='CoverChildren' " +
-                "          MarginLeft='50' MarginRight='50' " +
-                "          StackLayout.LayoutMethod='VerticalTopToBottom'>" +
-                "          <ItemTemplate>" +
-                "            <ListPanel WidthSizePolicy='StretchToParent' " +
-                "              HeightSizePolicy='Fixed' SuggestedHeight='35' " +
-                "              StackLayout.LayoutMethod='HorizontalLeftToRight'>" +
-                "              <Children>" +
-                "                <TextWidget WidthSizePolicy='StretchToParent' " +
-                "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
-                "                  HorizontalAlignment='Center' " +
-                "                  Brush='Kingdom.ParagraphSmall.Text' Text='@KingdomName' />" +
-                "                <TextWidget WidthSizePolicy='StretchToParent' " +
-                "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
-                "                  HorizontalAlignment='Center' " +
-                "                  Brush='Kingdom.ParagraphSmall.Text' Text='@TerritoryBonusText' />" +
-                "                <TextWidget WidthSizePolicy='StretchToParent' " +
-                "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
-                "                  HorizontalAlignment='Center' " +
-                "                  Brush='Kingdom.ParagraphSmall.Text' Text='@RestorationCountText' />" +
-                "              </Children>" +
-                "            </ListPanel>" +
-                "          </ItemTemplate>" +
-                "        </NavigatableListPanel>" +
+        "        <ListPanel WidthSizePolicy='StretchToParent' " +
+        "          HeightSizePolicy='Fixed' SuggestedHeight='35' " +
+        "          MarginLeft='50' MarginRight='50' MarginBottom='5' " +
+        "          StackLayout.LayoutMethod='HorizontalLeftToRight'>" +
+        "          <Children>" +
+        "            <TextWidget WidthSizePolicy='StretchToParent' " +
+        "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "              HorizontalAlignment='Center' " +
+        "              Brush='Clan.TabControl.Text' Text='国家' />" +
+        "            <TextWidget WidthSizePolicy='StretchToParent' " +
+        "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "              HorizontalAlignment='Center' " +
+        "              Brush='Clan.TabControl.Text' Text='领土丢失补偿部队上限' />" +
+        "            <TextWidget WidthSizePolicy='StretchToParent' " +
+        "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "              HorizontalAlignment='Center' " +
+        "              Brush='Clan.TabControl.Text' Text='等候补兵人数' />" +
+        "            <TextWidget WidthSizePolicy='StretchToParent' " +
+        "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "              HorizontalAlignment='Center' " +
+        "              Brush='Clan.TabControl.Text' Text='正在补兵人数' />" +
+        "          </Children>" +
+        "        </ListPanel>" +
+        "        <NavigatableListPanel DataSource='{KingdomList}' " +
+        "          WidthSizePolicy='StretchToParent' HeightSizePolicy='CoverChildren' " +
+        "          MarginLeft='50' MarginRight='50' " +
+        "          StackLayout.LayoutMethod='VerticalTopToBottom'>" +
+        "          <ItemTemplate>" +
+        "            <ListPanel WidthSizePolicy='StretchToParent' " +
+        "              HeightSizePolicy='Fixed' SuggestedHeight='35' " +
+        "              StackLayout.LayoutMethod='HorizontalLeftToRight'>" +
+        "              <Children>" +
+        "                <TextWidget WidthSizePolicy='StretchToParent' " +
+        "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "                  HorizontalAlignment='Center' " +
+        "                  Brush='Kingdom.ParagraphSmall.Text' Text='@KingdomName' />" +
+        "                <TextWidget WidthSizePolicy='StretchToParent' " +
+        "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "                  HorizontalAlignment='Center' " +
+        "                  Brush='Kingdom.ParagraphSmall.Text' Text='@TerritoryBonusText' />" +
+        "                <TextWidget WidthSizePolicy='StretchToParent' " +
+        "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "                  HorizontalAlignment='Center' " +
+        "                  Brush='Kingdom.ParagraphSmall.Text' Text='@WaitingCountText' />" +
+        "                <TextWidget WidthSizePolicy='StretchToParent' " +
+        "                  HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
+        "                  HorizontalAlignment='Center' " +
+        "                  Brush='Kingdom.ParagraphSmall.Text' Text='@ActiveCountText' />" +
+        "              </Children>" +
+        "            </ListPanel>" +
+        "          </ItemTemplate>" +
+        "        </NavigatableListPanel>" +
                 "      </Children>" +
                 "    </ListPanel>" +
                 "  </Children>" +

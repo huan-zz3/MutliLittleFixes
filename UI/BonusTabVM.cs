@@ -237,6 +237,14 @@ namespace ExampleMod.UI
         [DataSourceProperty]
         public string RestorationCountText { get; set; }
 
+        /// <summary>等候补兵人数（进入队列但尚未实际发兵）</summary>
+        [DataSourceProperty]
+        public string WaitingCountText { get; set; }
+
+        /// <summary>正在补兵人数（有队伍且正在每日发兵）</summary>
+        [DataSourceProperty]
+        public string ActiveCountText { get; set; }
+
         public BonusKingdomItemVM(
             Kingdom kingdom,
             KingdomTerritoryBonusBehavior? bonusBehavior,
@@ -264,11 +272,18 @@ namespace ExampleMod.UI
             int bonus = (int)(_bonusBehavior?.GetTerritoryBonus(_kingdom) ?? 0f);
             TerritoryBonusText = $"+{bonus}";
 
-            int count = _restoreBehavior?.GetPendingRestorationCount(_kingdom) ?? 0;
-            RestorationCountText = $"{count}人";
+            int waiting = _restoreBehavior?.GetWaitingRestorationCount(_kingdom) ?? 0;
+            int active  = _restoreBehavior?.GetActiveRestorationCount(_kingdom) ?? 0;
+            int total   = waiting + active;
+
+            RestorationCountText = $"{total}人";
+            WaitingCountText     = $"{waiting}人";
+            ActiveCountText      = $"{active}人";
 
             OnPropertyChanged(nameof(TerritoryBonusText));
             OnPropertyChanged(nameof(RestorationCountText));
+            OnPropertyChanged(nameof(WaitingCountText));
+            OnPropertyChanged(nameof(ActiveCountText));
         }
     }
 }
