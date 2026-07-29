@@ -1,0 +1,1382 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<style>
+@font-face {
+  font-family: octicons-link;
+  src: url(data:font/woff;charset=utf-8;base64,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) format('woff');
+}
+
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body .anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #24292e;
+  line-height: 1.5;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body .pl-c {
+  color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #6f42c1;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
+  color: #24292e;
+}
+
+.markdown-body .pl-ent {
+  color: #22863a;
+}
+
+.markdown-body .pl-k {
+  color: #d73a49;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.markdown-body .pl-smw,
+.markdown-body .pl-v {
+  color: #e36209;
+}
+
+.markdown-body .pl-bu {
+  color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+  background-color: #b31d28;
+  color: #fafbfc;
+}
+
+.markdown-body .pl-c2 {
+  background-color: #d73a49;
+  color: #fafbfc;
+}
+
+.markdown-body .pl-c2:before {
+  content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+  color: #22863a;
+  font-weight: 700;
+}
+
+.markdown-body .pl-ml {
+  color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  color: #005cc5;
+  font-weight: 700;
+}
+
+.markdown-body .pl-mi {
+  color: #24292e;
+  font-style: italic;
+}
+
+.markdown-body .pl-mb {
+  color: #24292e;
+  font-weight: 700;
+}
+
+.markdown-body .pl-md {
+  background-color: #ffeef0;
+  color: #b31d28;
+}
+
+.markdown-body .pl-mi1 {
+  background-color: #f0fff4;
+  color: #22863a;
+}
+
+.markdown-body .pl-mc {
+  background-color: #ffebda;
+  color: #e36209;
+}
+
+.markdown-body .pl-mi2 {
+  background-color: #005cc5;
+  color: #f6f8fa;
+}
+
+.markdown-body .pl-mdr {
+  color: #6f42c1;
+  font-weight: 700;
+}
+
+.markdown-body .pl-ba {
+  color: #586069;
+}
+
+.markdown-body .pl-sg {
+  color: #959da5;
+}
+
+.markdown-body .pl-corl {
+  color: #032f62;
+  text-decoration: underline;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.markdown-body hr:before {
+  content: "";
+  display: table;
+}
+
+.markdown-body hr:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.markdown-body .border {
+  border: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .border-0 {
+  border: 0!important;
+}
+
+.markdown-body .border-bottom {
+  border-bottom: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .rounded-1 {
+  border-radius: 3px!important;
+}
+
+.markdown-body .bg-white {
+  background-color: #fff!important;
+}
+
+.markdown-body .bg-gray-light {
+  background-color: #fafbfc!important;
+}
+
+.markdown-body .text-gray-light {
+  color: #6a737d!important;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-bottom: 8px!important;
+  margin-top: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-bottom: 0!important;
+  padding-top: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-bottom: 8px!important;
+  padding-top: 8px!important;
+}
+
+.markdown-body .pl-3,
+.markdown-body .px-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .px-3 {
+  padding-right: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .f6 {
+  font-size: 12px!important;
+}
+
+.markdown-body .lh-condensed {
+  line-height: 1.25!important;
+}
+
+.markdown-body .text-bold {
+  font-weight: 600!important;
+}
+
+.markdown-body:before {
+  content: "";
+  display: table;
+}
+
+.markdown-body:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.markdown-body hr {
+  background-color: #e1e4e8;
+  border: 0;
+  height: .25em;
+  margin: 24px 0;
+  padding: 0;
+}
+
+.markdown-body blockquote {
+  border-left: .25em solid #dfe2e5;
+  color: #6a737d;
+  padding: 0 1em;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #fafbfc;
+  border: 1px solid #c6cbd1;
+  border-bottom-color: #959da5;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #959da5;
+  color: #444d56;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 10px;
+  padding: 3px 5px;
+  vertical-align: middle;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: .3em;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  color: #6a737d;
+  font-size: .85em;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+  margin-top: 16px;
+  padding: 0;
+}
+
+.markdown-body dl dd {
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+
+.markdown-body table {
+  display: block;
+  overflow: auto;
+  width: 100%;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  background-color: #fff;
+  box-sizing: content-box;
+  max-width: 100%;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  padding: .2em .4em;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  word-break: normal;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
+}
+
+.markdown-body pre code {
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  max-width: auto;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+}
+
+.markdown-body .commit-tease-sha {
+  color: #444d56;
+  display: inline-block;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 90%;
+}
+
+.markdown-body .blob-wrapper {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-body .blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.markdown-body .blob-num {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  color: rgba(27,31,35,.3);
+  cursor: pointer;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 12px;
+  line-height: 20px;
+  min-width: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: right;
+  user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.markdown-body .blob-num:hover {
+  color: rgba(27,31,35,.6);
+}
+
+.markdown-body .blob-num:before {
+  content: attr(data-line-number);
+}
+
+.markdown-body .blob-code {
+  line-height: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  vertical-align: top;
+}
+
+.markdown-body .blob-code-inner {
+  color: #24292e;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 12px;
+  overflow: visible;
+  white-space: pre;
+  word-wrap: normal;
+}
+
+.markdown-body .pl-token.active,
+.markdown-body .pl-token:hover {
+  background: #ffea7f;
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-bottom-color: #c6cbd1;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #c6cbd1;
+  color: #444d56;
+  display: inline-block;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  line-height: 10px;
+  padding: 3px 5px;
+  vertical-align: middle;
+}
+
+.markdown-body :checked+.radio-label {
+  border-color: #0366d6;
+  position: relative;
+  z-index: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="1"] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="2"] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.markdown-body .tab-size[data-tab-size="3"] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.markdown-body .tab-size[data-tab-size="4"] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.markdown-body .tab-size[data-tab-size="5"] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.markdown-body .tab-size[data-tab-size="6"] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.markdown-body .tab-size[data-tab-size="7"] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.markdown-body .tab-size[data-tab-size="8"] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.markdown-body .tab-size[data-tab-size="9"] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.markdown-body .tab-size[data-tab-size="10"] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.markdown-body .tab-size[data-tab-size="11"] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.markdown-body .tab-size[data-tab-size="12"] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 .2em .25em -1.6em;
+  vertical-align: middle;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .pl-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .pl-7 {
+  padding-left: 48px!important;
+}
+
+.markdown-body .pl-8 {
+  padding-left: 64px!important;
+}
+
+.markdown-body .pl-9 {
+  padding-left: 80px!important;
+}
+
+.markdown-body .pl-10 {
+  padding-left: 96px!important;
+}
+
+.markdown-body .pl-11 {
+  padding-left: 112px!important;
+}
+
+.markdown-body .pl-12 {
+  padding-left: 128px!important;
+}
+
+</style>
+</head>
+<body class="markdown-body">
+<h1 id="rts-camera">RTS Camera</h1>
+<p>A mod for Mount&amp;Blade II Bannerlord that provides free camera and better commanding in battle.</p>
+<h2 id="save-compability">Save Compability</h2>
+<p>This mod does not read or write stuffs to your game save. Installing or removing this mod has no impact on your game save.</p>
+<h2 id="main-features">Main features</h2>
+<p>This mod is composed of 2 parts, RTS Camera and Command System.</p>
+<ul>
+<li><p>RTS Camera</p>
+<ul>
+<li><p>Smoothly toggle free camera mode at any time in a battle.</p>
+</li>
+<li><p>Stick camera to selected formation.</p>
+</li>
+<li><p>Control one of your soldiers and continue fighting/commanding after player character is injured in battle.</p>
+</li>
+<li><p>Time speed control in battle. Automatic fast forward in hideout battle.</p>
+</li>
+</ul>
+</li>
+<li><p>Command System</p>
+<ul>
+<li><p>Reworked the command system in the base game.</p>
+</li>
+<li><p>Troops with throwing weapons will correctly keep distance under advance order.</p>
+</li>
+<li><p>Allows to give a series of orders and let your troops execute them one by one. For example, move along a given path and then shooting/charging.</p>
+</li>
+<li><p>When giving orders to multiple formations:</p>
+<ul>
+<li><p>Relative positions/directions of selected formations are locked in moving order and turning order.</p>
+</li>
+<li><p>Layout between selected formations are improved when player drags on the ground.</p>
+</li>
+</ul>
+</li>
+<li><p>Add volley order.</p>
+<ul>
+<li><p>Auto Volley: soldiers will aim and wait for others and fire when most soldiers are ready.</p>
+</li>
+<li><p>Manual Volley: soldiers will aim and wait for your orders to fire.</p>
+</li>
+<li><p>Volley Fire: Let soldiers in manual volley to fire.</p>
+</li>
+</ul>
+</li>
+<li><p>In siege battle you can click on siege weapons to make your troops stop using it.</p>
+</li>
+<li><p>Square and Circle formations are improved.</p>
+</li>
+<li><p>Fix issues related with formation width and unit spacing in the base game.</p>
+</li>
+<li><p>Fix the issue in the base game that engage order for ranged troops may cause the game freeze.</p>
+</li>
+<li><p>Issue focus charge command by clicking middle button on enemy units.</p>
+</li>
+<li><p>Select your troops by clicking middle button on units.</p>
+</li>
+<li><p>Set attack target without interrupting previous movement orders. For example, <strong>let your archers focus shooting while holding position</strong>.</p>
+</li>
+<li><p>Facing to enemy order now has an optional enemy formation target.</p>
+</li>
+<li><p>Movement target becomes more visible.</p>
+</li>
+<li><p>Select your troops and give orders by directly clicking on order UI.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h2 id="main-usage">Main usage</h2>
+<ul>
+<li><p>RTS Camera</p>
+<ul>
+<li><p>You can press <code>F10</code> to toggle free camera.</p>
+</li>
+<li><p>In free camera mode, while command UI is open, you can press <code>E</code> to stick camera to selected formation.</p>
+</li>
+<li><p>After your character is killed in battle, you can press <code>E</code> to follow one of your soldiers and press <code>E</code> again to control it and continue fighting.</p>
+<ul>
+<li>You can press <code>L</code> to open menu and set <code>When To Control Ally After Death</code> option to 'Always&quot;, so that you will control another unit automatically after you are down.</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>Command System</p>
+<ul>
+<li><p>Hold <code>Shift</code> and give orders to add orders to queue. Your troops will execute them one by one.</p>
+</li>
+<li><p>If you move/turn multiple formations at the same time, their relative positions/directions will be locked.</p>
+<ul>
+<li><p>If you give move order by dragging on the ground, formations will be placed better than they are in the base game.</p>
+</li>
+<li><p>Hold <code>Ctrl</code> while dragging on the ground, formations' widths and relative positions will be locked.</p>
+</li>
+<li><p>Hold <code>Alt</code> to disable the locking behavior described above.</p>
+</li>
+</ul>
+</li>
+<li><p>You can make your formation charge to the enemy formation by clicking middle mouse button on enemy units.</p>
+<ul>
+<li>Hold <code>Alt</code> while clicking to target the enemy without interrupting previous movement orders. For example, <strong>let your archers focus shooting while holding position</strong>.</li>
+</ul>
+</li>
+<li><p>You can select your formations by clicking middle mouse button on soldiers.</p>
+</li>
+<li><p>You can select your formations by clicking on troop cards and give orders by clicking on order buttons.</p>
+<ul>
+<li>Hold <code>Alt</code> to show the mouse.</li>
+</ul>
+</li>
+<li><p>Auto Volley: Press <code>F3 F6</code> (if using legacy order layout, <code>F8 F1</code>) or <code>H</code>.</p>
+</li>
+<li><p>Manual Volley: Press <code>F3 F7</code> (if using legacy order layout, <code>F8 F2</code>) or <code>J</code>.</p>
+</li>
+<li><p>Volley Fire: Press <code>F3 F8</code> (if using legacy order layout, <code>F8 F3</code>) or <code>K</code>.</p>
+</li>
+</ul>
+</li>
+<li><p>For more features, you can read <code>Details</code> below or press <code>L</code> to open mod menu.</p>
+</li>
+</ul>
+<h2 id="how-to-install">How to Install</h2>
+<ul>
+<li>Unzip the downloaded zip file. Copy <code>RTSCamera</code> and <code>RTSCamera.CommandSystem</code> folder you downloaded into Bannerlord <code>Modules</code> folder.</li>
+<li>Unblock all the dlls at (GamePath)\Modules\RTSCamera\bin\Win64_Shipping_Client and (GamePath)\Modules\RTSCamera.CommandSystem\bin\Win64_Shipping_Client:
+<ul>
+<li>Right click on each dll, click Properties and check &quot;Unblock&quot;.</li>
+<li>Or: go to (GamePath)\Modules, right click, open Powershell, and then run:  gci -Recurse RTSCamera* | Unblock-File</li>
+</ul>
+</li>
+</ul>
+<h2 id="details">Details</h2>
+<ul>
+<li><p>In a battle, press <code>L</code> to open detailed menu of this mod.</p>
+<ul>
+<li><p>Switch between options of <code>RTS Camera</code> or <code>Command System</code> by clicking tab list on the left of the menu.</p>
+</li>
+<li><p>You can close the menu by pressing <code>esc</code>, left clicking outside the menu or right clicking anywhere.</p>
+</li>
+</ul>
+</li>
+</ul>
+<h3 id="rts-camera-1">RTS Camera</h3>
+<ul>
+<li><p>Press <code>F10</code> to toggle free camera.</p>
+<p>Player character will be controlled by AI when switched to free camera.</p>
+<ul>
+<li><p>If it shows “can’t give orders in this moment”, it's because your character is down and you are not controlling any unit. Press E twice to control a unit, then you can continue to issue orders.</p>
+</li>
+<li><p>Order UI will be opened automatically.</p>
+</li>
+<li><p>You can enable <code>Switch Camera on Ordering</code> option, to always give orders in free camera.</p>
+</li>
+<li><p>When command UI is open in free camera mode, you can press <code>E</code> to stick camera to selected formation.</p>
+</li>
+<li><p>You can enable `Slow Motion On RTS view&quot;, to turn on slow motion in free camera.</p>
+</li>
+<li><p>Controls in free camera:</p>
+<ul>
+<li><p>Use <code>W</code>, <code>A</code>, <code>S</code>, <code>D</code>, <code>Space</code>, <code>Z</code> and mouse middle button to move the camera.</p>
+</li>
+<li><p>Use <code>shift</code> to speed up camera movement.</p>
+</li>
+<li><p>Move your mouse to rotate the camera, or when order panel is opened, drag right mouse button to rotate the camera.</p>
+</li>
+<li><p>Left click on the ground and drag to change the position, direction and width of the formation you selected.</p>
+</li>
+<li><p>Hold <code>right ctrl</code> and <code>up</code> or <code>down</code> to adjust camera movement speed.</p>
+</li>
+<li><p>Hold <code>right ctrl</code> and click middle mouse button to reset camera movement speed.</p>
+</li>
+<li><p>Hold <code>ctrl</code> and drag middle mouse button vertically to adjust camera height.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>After your character is killed in battle, you can press <code>E</code> to follow one of your soldiers and press <code>E</code> again to control it and continue fighting.</p>
+<ul>
+<li><p>You can immediately control one of your soldiers to avoid all your formations been delegated to AI when your character dies, by setting <code>When To Control Ally After Death</code> option to <code>Always</code>. It's always enabled in free camera mode to ensure a smooth gaming experience.</p>
+</li>
+<li><p>Soldiers in the same formation as player character will be considered first when deciding which soldier to control.</p>
+</li>
+</ul>
+</li>
+<li><p>When the camera is following a character, you can press <code>E</code> to control the character. You can make the camera follow a character in the following ways:</p>
+<ul>
+<li><p>In free camera mode press <code>E</code> to follow the player character.</p>
+</li>
+<li><p>Press <code>L</code> to open the menu and selecting a hero in <code>Watch Another Hero</code> drop-down list.</p>
+</li>
+<li><p>Press <code>;</code> and click a character, then pressing <code>E</code>.</p>
+</li>
+<li><p>Press left/right mouse button to change the character that the camera is following.</p>
+</li>
+</ul>
+</li>
+<li><p>If your character is injured in campaign map and you encounter an enemy party, you can still choose <code>Command the battle</code> option to begin the battle. In this battle you can command your troops in free camera but cannot directly control a character and fighting.</p>
+</li>
+<li><p>Camera distance to player character can be limited by enabling <code>Limit Camera Distance</code> option.</p>
+<ul>
+<li><p>Distance limit is determined by scouting and tactics level.</p>
+</li>
+<li><p>After <code>Limit Camera Distance</code> is enabled, using free camera and ordering in free camera can improve scouting and tactics skill level.</p>
+</li>
+</ul>
+</li>
+<li><p>Click on castle gate won't attack the enemy formation behind the gate, which is an issue in the base game.</p>
+</li>
+</ul>
+<h3 id="command-system">Command System</h3>
+<ul>
+<li><p>Hold <code>Shift</code> when giving orders to add the order to queue. Your troops will execute orders in queue one by one.</p>
+<ul>
+<li><p>Order queue will be cleared if you give new orders without holding <code>Shift</code>.</p>
+</li>
+<li><p>Movement targets in queue will be marked as flags.</p>
+</li>
+<li><p>In free camera mode, movement paths will be marked using arrows.</p>
+</li>
+</ul>
+</li>
+<li><p>If you move/turn multiple formations at the same time, their relative positions/directions will be locked.</p>
+<ul>
+<li><p>If you give move order by dragging on the ground, formations will be placed better than they are in the base game.</p>
+</li>
+<li><p>Hold <code>Ctrl</code> while dragging on the ground, formations relative positions and widths will be locked.</p>
+</li>
+<li><p>If you don't want the locking behavior described above, hold <code>Alt</code> and the behavior will be reverted to original.</p>
+</li>
+</ul>
+</li>
+<li><p>Improved square and circle formation:</p>
+<ul>
+<li><p>When switching between square/circle formation and other formations, the unit count in the outside rank is kept the same as the unit count of the first rank of line/shield wall/loose formation if possible.</p>
+<p>This allows soldiers to form formations more quickly and avoids them crowding together.</p>
+</li>
+<li><p>In the base game when the unit count in square formation is square number, the center unit is not correctly placed. This is fixed in RTS.</p>
+</li>
+<li><p>Player can use hollow square formation. Not enabled for AI.</p>
+</li>
+<li><p>When formation is switched to circle formation, the circle formation will be tighter. This can be changed in option.</p>
+</li>
+</ul>
+</li>
+<li><p>Fixed the following issues in the base game (at least exists in v1.2.12):</p>
+<ul>
+<li><p>Issue: If you switch to circle formation and back to line formation, formation width becomes much longer as it should be.</p>
+</li>
+<li><p>Issue: If you drag on the ground to lower the formation width and unit spacing, and in the next order move the formation, the unit spacing in preview is inconsistent with the actual order given.</p>
+</li>
+<li><p>Issue: If you place the formation to a narrow place by clicking on the ground, and in the next order move it back, the formation width is not recovered. In this mod the formation width is changed only when you drag on the ground.</p>
+</li>
+<li><p>Issue: (Especially to circle/square formation) If you drag on the ground to set the formation width to minimum, press <code>F1</code> and place the order flag next to a wall without actually giving orders, the frame rate will drop dramatically.</p>
+</li>
+<li><p>Issue: If you try to give order to attack the gate in siege, it may results in a order attacking the enemy formation behind the gate.</p>
+</li>
+</ul>
+</li>
+<li><p>You can make your formation charge to the enemy formation by clicking middle mouse button on enemy units.</p>
+<ul>
+<li><p>After the enemy formation is eliminated, your troops will stay at where they are. To change this behavior, you can press <code>L</code> to open menu, and set the option <code>After enemy formation eliminated</code> to <code>Charge</code>.</p>
+</li>
+<li><p>The target enemy formation that your selected troops are charging to will be highlighted with red color when you open command panel.</p>
+</li>
+</ul>
+</li>
+<li><p>Hold <code>Alt</code> while clicking to target the enemy without interrupting previous movement orders.</p>
+<ul>
+<li><p>For archers they can shoot target enemy while holding positions.</p>
+</li>
+<li><p>Note that for melee units, they will still follow previous movement orders, which may limit their ability to reach the target.</p>
+</li>
+</ul>
+</li>
+<li><p>Place your mouse on the enemy formation marker and giving facing to enemy order. You formation will facing to the selected enemy formation only.</p>
+</li>
+<li><p>Movement target marker is more visible. The original marker is hard to see if camera is too high.</p>
+</li>
+<li><p>You can select your formations by clicking middle mouse button on soldiers.</p>
+<ul>
+<li>Selected troops will be highlighted with green color when you open command panel.</li>
+</ul>
+</li>
+<li><p>Your formation targeted by the enemy formation will be highlighted with dark blue color when you open command panel.</p>
+</li>
+<li><p>Movement orders will be shown under troop cards.</p>
+</li>
+<li><p>Fix direction of units on the corner of square formation.</p>
+</li>
+</ul>
+<h2 id="hotkeys">Hotkeys</h2>
+<p>You can config hotkeys by pressing <code>L</code> to open menu, and click <code>Config Key</code>.</p>
+<p>You can click <code>Add Shortcut</code> to add a new way to trigger hotkey.</p>
+<p>You can click <code>Extend Key Combo</code> to add more keys into key combo. The hotkey will be triggered when all the keys in a key combo are pressed.</p>
+<p>Here is a list of default hotkeys:</p>
+<p>RTS Camera:</p>
+<ul>
+<li><p><code>L</code>: open mod menu.</p>
+</li>
+<li><p><code>F10</code>: Toggle free camera.</p>
+</li>
+<li><p><code>E</code>: Focus on troop/formation; Control troop.</p>
+</li>
+<li><p><code>;</code>: Select character.</p>
+</li>
+<li><p><code>w</code>, <code>A</code>, <code>S</code>, <code>D</code>: Camera movement.</p>
+</li>
+<li><p><code>Space</code>, <code>Z</code>: Camera up/down.</p>
+</li>
+<li><p><code>Right Shift</code> + <code>=</code>, <code>Right Shift</code> + <code>-</code>: Increase/Decrease camera distance limit.</p>
+</li>
+</ul>
+<p>Command System:</p>
+<ul>
+<li><p><code>Middle Mouse Button</code>: Select formation.</p>
+</li>
+<li><p><code>Left Alt</code> or <code>Right Alt</code>: Keep movement order when attacking the enemy formation; Toggle formation lock behavior.</p>
+</li>
+<li><p><code>Left Shift</code> or <code>Right Shift</code>: Add command to queue.</p>
+</li>
+<li><p><code>Left Ctrl</code> or <code>Right Ctrl</code>: Keep formation width when dragging.</p>
+</li>
+<li><p><code>H</code>: Auto volley.</p>
+</li>
+<li><p><code>J</code>: Manual volley.</p>
+</li>
+<li><p><code>K</code>: Volley fire.</p>
+</li>
+</ul>
+<p>There're more hotkeys configurable but are disabled by default. You can configure them by pressing L and click Config Key on the top.</p>
+<h2 id="configuration">Configuration</h2>
+<ul>
+<li><p>The configuration files are saved in directory <code>(user directory)\Documents\Mount and Blade II Bannerlord\Configs\RTSCamera\</code> and <code>(user directory)\Documents\Mount and Blade II Bannerlord\Configs\MissionLibrary\</code>.</p>
+<p>The main config is saved in files <code>RTSCameraConfig.xml</code> and <code>CommandSystemConfig.xml</code>.</p>
+<p>The hot key config is saved in file <code>RTSCameraGameKeyConfig.xml</code> and <code>CommandSystemGameKeyConfig.xml</code>.</p>
+<p>The hot key that opens the menu is saved in file <code>(user directory)\Documents\Mount and Blade II Bannerlord\Configs\MissionLibrary\GeneralGameKeyConfig.xml</code>.</p>
+<p>You can modify them manually, but if you edit them incorrectly or remove them, the configuration will be reset to default.</p>
+</li>
+</ul>
+<h2 id="war-sail-dlc-related">War Sail DLC Related</h2>
+<h3 id="rts-camera-2">RTS Camera</h3>
+<ul>
+<li><p>When switch to free camera mode, AI will control your character and pilot player ship. You can give ship orders to player ship, such as Engage, Skirmish, etc.</p>
+</li>
+<li><p>When player ship is piloted by AI, selecting all formations will no longer exclude the playe ship, so that it will be easier to give orders like &quot;all ships attack!&quot;.</p>
+</li>
+<li><p>When player is injured and switched to another soldier on the other ship, ship orders will be updated accordingly so that you can give ship orders to the old ship (engage, skirmish, etc.) and troop orders to the new ship (defend ship, charge, etc.).</p>
+</li>
+<li><p>When you are controlling your character and not piloting your ship, a new order (with hotkey F5) to toggle soldier piloting your ship will be added. This is the same as the Helmsman mod.</p>
+<p>To avoid conflict and weird behavior, when RTS Camera detects Helmsman is installed, it will not add the new order for the first ship.</p>
+<p>For the other ships, Helmsman doesn't take effect, so RTS Camera will add the new order for them.</p>
+<ul>
+<li>Note that in this case, as of Helmsman v1.0.0, using Helmsman to toggle controller of the first ship when you are piloting other ships may cause your player character stops piloting.</li>
+</ul>
+</li>
+</ul>
+<h2 id="troubleshoot">Troubleshoot</h2>
+<ul>
+<li><p>If the launcher can not start:</p>
+<ul>
+<li>Uninstall all the third-party mods and reinstall them one by one to detect which one cause the launcher cannot start.</li>
+</ul>
+</li>
+<li><p>If it shows &quot;Unable to initialize Steam API&quot;:</p>
+<ul>
+<li>Please start steam first, and make sure that Bannerlord is in your steam account.</li>
+</ul>
+</li>
+<li><p>If the game crashed after starting:</p>
+<ul>
+<li><p>If it shows: <code>Cannot load: ..\..\Modules\RTSCamera\bin\Win64_Shipping_Client\RTSCamera.dll</code>，please unblock all the dll files under <code>Modules\RTSCamera</code> and <code>Modules\RTSCamera.CommandSystem</code>.</p>
+</li>
+<li><p>I would appreciate it if you send dump file to me to help me to solve the crash by followinig steps below:</p>
+<ul>
+<li><p>Click <code>Yes</code> when the game crashes and ask whether to collect information.</p>
+</li>
+<li><p>Before sending files to TaleWorlds, go to <code>C:\ProgramData\Mount and Blade II Bannerlord\crashes</code>(<strong>Not the game installation path</strong>) and find the folder related to the crash by timestamp.</p>
+</li>
+<li><p>Then send <code>dump.dmp</code> file in the folder to me.</p>
+</li>
+</ul>
+</li>
+</ul>
+</li>
+<li><p>If you forget the hotkey set for opening menu:</p>
+<ul>
+<li>You can remove the config file so that config will be reset to default.</li>
+</ul>
+</li>
+</ul>
+<h2 id="optional-file">Optional File</h2>
+<ul>
+<li><p><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/2672">&quot;Battle Mini Map&quot;</a>: Battle mini map.</p>
+</li>
+<li><p><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/449/">&quot;Improved Combat AI&quot;</a>: Adjusting combat AI.</p>
+</li>
+<li><p><a href="https://www.nexusmods.com/mountandblade2bannerlord/mods/1627">&quot;Cinematic Camera&quot;</a>: Adjusting camera parameters such as moving speed, depth of field, etc.</p>
+</li>
+</ul>
+<h2 id="source-code">Source Code</h2>
+<p>You can get source code at <a href="https://github.com/lzh-mb-mod/RTSCamera">github.com</a>.</p>
+<h2 id="donate">Donate</h2>
+<p>By me a coffee at <a href="https://ko-fi.com/lizhenhuan1019">https://ko-fi.com/lizhenhuan1019</a></p>
+<h2 id="contact-with-me">Contact with me</h2>
+<ul>
+<li><p>Email:</p>
+<ul>
+<li><p>lizhenhuan1019@outlook.com</p>
+</li>
+<li><p>lizhenhuan1019@qq.com</p>
+</li>
+</ul>
+</li>
+</ul>
+
+</body>
+</html>

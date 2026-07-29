@@ -1,0 +1,158 @@
+﻿using System;
+using System.IO;
+using System.Security.Cryptography;
+using Mono.Cecil.PE;
+using Mono.Security.Cryptography;
+
+namespace Mono.Cecil
+{
+	// Token: 0x020002BC RID: 700
+	internal static class CryptoService
+	{
+		// Token: 0x060011DE RID: 4574 RVA: 0x000371F2 File Offset: 0x000353F2
+		private static SHA1 CreateSHA1()
+		{
+			return new SHA1CryptoServiceProvider();
+		}
+
+		// Token: 0x060011DF RID: 4575 RVA: 0x000371FC File Offset: 0x000353FC
+		public static byte[] GetPublicKey(WriterParameters parameters)
+		{
+			byte[] array3;
+			using (RSA rsa = parameters.CreateRSA())
+			{
+				byte[] array = CryptoConvert.ToCapiPublicKeyBlob(rsa);
+				byte[] array2 = new byte[12 + array.Length];
+				Buffer.BlockCopy(array, 0, array2, 12, array.Length);
+				array2[1] = 36;
+				array2[4] = 4;
+				array2[5] = 128;
+				array2[8] = (byte)array.Length;
+				array2[9] = (byte)(array.Length >> 8);
+				array2[10] = (byte)(array.Length >> 16);
+				array2[11] = (byte)(array.Length >> 24);
+				array3 = array2;
+			}
+			return array3;
+		}
+
+		// Token: 0x060011E0 RID: 4576 RVA: 0x00037288 File Offset: 0x00035488
+		public static void StrongName(Stream stream, ImageWriter writer, WriterParameters parameters)
+		{
+			int num;
+			byte[] array = CryptoService.CreateStrongName(parameters, CryptoService.HashStream(stream, writer, out num));
+			CryptoService.PatchStrongName(stream, num, array);
+		}
+
+		// Token: 0x060011E1 RID: 4577 RVA: 0x000372AD File Offset: 0x000354AD
+		private static void PatchStrongName(Stream stream, int strong_name_pointer, byte[] strong_name)
+		{
+			stream.Seek((long)strong_name_pointer, SeekOrigin.Begin);
+			stream.Write(strong_name, 0, strong_name.Length);
+		}
+
+		// Token: 0x060011E2 RID: 4578 RVA: 0x000372C4 File Offset: 0x000354C4
+		private static byte[] CreateStrongName(WriterParameters parameters, byte[] hash)
+		{
+			byte[] array2;
+			using (RSA rsa = parameters.CreateRSA())
+			{
+				RSAPKCS1SignatureFormatter rsapkcs1SignatureFormatter = new RSAPKCS1SignatureFormatter(rsa);
+				rsapkcs1SignatureFormatter.SetHashAlgorithm("SHA1");
+				byte[] array = rsapkcs1SignatureFormatter.CreateSignature(hash);
+				Array.Reverse(array);
+				array2 = array;
+			}
+			return array2;
+		}
+
+		// Token: 0x060011E3 RID: 4579 RVA: 0x00037314 File Offset: 0x00035514
+		private static byte[] HashStream(Stream stream, ImageWriter writer, out int strong_name_pointer)
+		{
+			Section text = writer.text;
+			int headerSize = (int)writer.GetHeaderSize();
+			int pointerToRawData = (int)text.PointerToRawData;
+			DataDirectory strongNameSignatureDirectory = writer.GetStrongNameSignatureDirectory();
+			if (strongNameSignatureDirectory.Size == 0U)
+			{
+				throw new InvalidOperationException();
+			}
+			strong_name_pointer = (int)((long)pointerToRawData + (long)((ulong)(strongNameSignatureDirectory.VirtualAddress - text.VirtualAddress)));
+			int size = (int)strongNameSignatureDirectory.Size;
+			SHA1 sha = CryptoService.CreateSHA1();
+			byte[] array = new byte[8192];
+			using (CryptoStream cryptoStream = new CryptoStream(Stream.Null, sha, CryptoStreamMode.Write))
+			{
+				stream.Seek(0L, SeekOrigin.Begin);
+				CryptoService.CopyStreamChunk(stream, cryptoStream, array, headerSize);
+				stream.Seek((long)pointerToRawData, SeekOrigin.Begin);
+				CryptoService.CopyStreamChunk(stream, cryptoStream, array, strong_name_pointer - pointerToRawData);
+				stream.Seek((long)size, SeekOrigin.Current);
+				CryptoService.CopyStreamChunk(stream, cryptoStream, array, (int)(stream.Length - (long)(strong_name_pointer + size)));
+			}
+			return sha.Hash;
+		}
+
+		// Token: 0x060011E4 RID: 4580 RVA: 0x00037400 File Offset: 0x00035600
+		public static void CopyStreamChunk(Stream stream, Stream dest_stream, byte[] buffer, int length)
+		{
+			while (length > 0)
+			{
+				int num = stream.Read(buffer, 0, Math.Min(buffer.Length, length));
+				dest_stream.Write(buffer, 0, num);
+				length -= num;
+			}
+		}
+
+		// Token: 0x060011E5 RID: 4581 RVA: 0x00037434 File Offset: 0x00035634
+		public static byte[] ComputeHash(string file)
+		{
+			if (!File.Exists(file))
+			{
+				return Empty<byte>.Array;
+			}
+			byte[] array;
+			using (FileStream fileStream = new FileStream(file, FileMode.Open, FileAccess.Read, FileShare.Read))
+			{
+				array = CryptoService.ComputeHash(fileStream);
+			}
+			return array;
+		}
+
+		// Token: 0x060011E6 RID: 4582 RVA: 0x00037480 File Offset: 0x00035680
+		public static byte[] ComputeHash(Stream stream)
+		{
+			SHA1 sha = CryptoService.CreateSHA1();
+			byte[] array = new byte[8192];
+			using (CryptoStream cryptoStream = new CryptoStream(Stream.Null, sha, CryptoStreamMode.Write))
+			{
+				CryptoService.CopyStreamChunk(stream, cryptoStream, array, (int)stream.Length);
+			}
+			return sha.Hash;
+		}
+
+		// Token: 0x060011E7 RID: 4583 RVA: 0x000374DC File Offset: 0x000356DC
+		public static byte[] ComputeHash(params ByteBuffer[] buffers)
+		{
+			SHA1 sha = CryptoService.CreateSHA1();
+			using (CryptoStream cryptoStream = new CryptoStream(Stream.Null, sha, CryptoStreamMode.Write))
+			{
+				for (int i = 0; i < buffers.Length; i++)
+				{
+					cryptoStream.Write(buffers[i].buffer, 0, buffers[i].length);
+				}
+			}
+			return sha.Hash;
+		}
+
+		// Token: 0x060011E8 RID: 4584 RVA: 0x00037544 File Offset: 0x00035744
+		public static Guid ComputeGuid(byte[] hash)
+		{
+			byte[] array = new byte[16];
+			Buffer.BlockCopy(hash, 0, array, 0, 16);
+			array[7] = (array[7] & 15) | 64;
+			array[8] = (array[8] & 63) | 128;
+			return new Guid(array);
+		}
+	}
+}

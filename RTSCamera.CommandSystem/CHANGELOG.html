@@ -1,0 +1,2258 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+<style>
+@font-face {
+  font-family: octicons-link;
+  src: url(data:font/woff;charset=utf-8;base64,d09GRgABAAAAAAZwABAAAAAACFQAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAABEU0lHAAAGaAAAAAgAAAAIAAAAAUdTVUIAAAZcAAAACgAAAAoAAQAAT1MvMgAAAyQAAABJAAAAYFYEU3RjbWFwAAADcAAAAEUAAACAAJThvmN2dCAAAATkAAAABAAAAAQAAAAAZnBnbQAAA7gAAACyAAABCUM+8IhnYXNwAAAGTAAAABAAAAAQABoAI2dseWYAAAFsAAABPAAAAZwcEq9taGVhZAAAAsgAAAA0AAAANgh4a91oaGVhAAADCAAAABoAAAAkCA8DRGhtdHgAAAL8AAAADAAAAAwGAACfbG9jYQAAAsAAAAAIAAAACABiATBtYXhwAAACqAAAABgAAAAgAA8ASm5hbWUAAAToAAABQgAAAlXu73sOcG9zdAAABiwAAAAeAAAAME3QpOBwcmVwAAAEbAAAAHYAAAB/aFGpk3jaTY6xa8JAGMW/O62BDi0tJLYQincXEypYIiGJjSgHniQ6umTsUEyLm5BV6NDBP8Tpts6F0v+k/0an2i+itHDw3v2+9+DBKTzsJNnWJNTgHEy4BgG3EMI9DCEDOGEXzDADU5hBKMIgNPZqoD3SilVaXZCER3/I7AtxEJLtzzuZfI+VVkprxTlXShWKb3TBecG11rwoNlmmn1P2WYcJczl32etSpKnziC7lQyWe1smVPy/Lt7Kc+0vWY/gAgIIEqAN9we0pwKXreiMasxvabDQMM4riO+qxM2ogwDGOZTXxwxDiycQIcoYFBLj5K3EIaSctAq2kTYiw+ymhce7vwM9jSqO8JyVd5RH9gyTt2+J/yUmYlIR0s04n6+7Vm1ozezUeLEaUjhaDSuXHwVRgvLJn1tQ7xiuVv/ocTRF42mNgZGBgYGbwZOBiAAFGJBIMAAizAFoAAABiAGIAznjaY2BkYGAA4in8zwXi+W2+MjCzMIDApSwvXzC97Z4Ig8N/BxYGZgcgl52BCSQKAA3jCV8CAABfAAAAAAQAAEB42mNgZGBg4f3vACQZQABIMjKgAmYAKEgBXgAAeNpjYGY6wTiBgZWBg2kmUxoDA4MPhGZMYzBi1AHygVLYQUCaawqDA4PChxhmh/8ODDEsvAwHgMKMIDnGL0x7gJQCAwMAJd4MFwAAAHjaY2BgYGaA4DAGRgYQkAHyGMF8NgYrIM3JIAGVYYDT+AEjAwuDFpBmA9KMDEwMCh9i/v8H8sH0/4dQc1iAmAkALaUKLgAAAHjaTY9LDsIgEIbtgqHUPpDi3gPoBVyRTmTddOmqTXThEXqrob2gQ1FjwpDvfwCBdmdXC5AVKFu3e5MfNFJ29KTQT48Ob9/lqYwOGZxeUelN2U2R6+cArgtCJpauW7UQBqnFkUsjAY/kOU1cP+DAgvxwn1chZDwUbd6CFimGXwzwF6tPbFIcjEl+vvmM/byA48e6tWrKArm4ZJlCbdsrxksL1AwWn/yBSJKpYbq8AXaaTb8AAHja28jAwOC00ZrBeQNDQOWO//sdBBgYGRiYWYAEELEwMTE4uzo5Zzo5b2BxdnFOcALxNjA6b2ByTswC8jYwg0VlNuoCTWAMqNzMzsoK1rEhNqByEyerg5PMJlYuVueETKcd/89uBpnpvIEVomeHLoMsAAe1Id4AAAAAAAB42oWQT07CQBTGv0JBhagk7HQzKxca2sJCE1hDt4QF+9JOS0nbaaYDCQfwCJ7Au3AHj+LO13FMmm6cl7785vven0kBjHCBhfpYuNa5Ph1c0e2Xu3jEvWG7UdPDLZ4N92nOm+EBXuAbHmIMSRMs+4aUEd4Nd3CHD8NdvOLTsA2GL8M9PODbcL+hD7C1xoaHeLJSEao0FEW14ckxC+TU8TxvsY6X0eLPmRhry2WVioLpkrbp84LLQPGI7c6sOiUzpWIWS5GzlSgUzzLBSikOPFTOXqly7rqx0Z1Q5BAIoZBSFihQYQOOBEdkCOgXTOHA07HAGjGWiIjaPZNW13/+lm6S9FT7rLHFJ6fQbkATOG1j2OFMucKJJsxIVfQORl+9Jyda6Sl1dUYhSCm1dyClfoeDve4qMYdLEbfqHf3O/AdDumsjAAB42mNgYoAAZQYjBmyAGYQZmdhL8zLdDEydARfoAqIAAAABAAMABwAKABMAB///AA8AAQAAAAAAAAAAAAAAAAABAAAAAA==) format('woff');
+}
+
+.markdown-body .octicon {
+  display: inline-block;
+  fill: currentColor;
+  vertical-align: text-bottom;
+}
+
+.markdown-body .anchor {
+  float: left;
+  line-height: 1;
+  margin-left: -20px;
+  padding-right: 4px;
+}
+
+.markdown-body .anchor:focus {
+  outline: none;
+}
+
+.markdown-body h1 .octicon-link,
+.markdown-body h2 .octicon-link,
+.markdown-body h3 .octicon-link,
+.markdown-body h4 .octicon-link,
+.markdown-body h5 .octicon-link,
+.markdown-body h6 .octicon-link {
+  color: #1b1f23;
+  vertical-align: middle;
+  visibility: hidden;
+}
+
+.markdown-body h1:hover .anchor,
+.markdown-body h2:hover .anchor,
+.markdown-body h3:hover .anchor,
+.markdown-body h4:hover .anchor,
+.markdown-body h5:hover .anchor,
+.markdown-body h6:hover .anchor {
+  text-decoration: none;
+}
+
+.markdown-body h1:hover .anchor .octicon-link,
+.markdown-body h2:hover .anchor .octicon-link,
+.markdown-body h3:hover .anchor .octicon-link,
+.markdown-body h4:hover .anchor .octicon-link,
+.markdown-body h5:hover .anchor .octicon-link,
+.markdown-body h6:hover .anchor .octicon-link {
+  visibility: visible;
+}
+
+.markdown-body {
+  -ms-text-size-adjust: 100%;
+  -webkit-text-size-adjust: 100%;
+  color: #24292e;
+  line-height: 1.5;
+  font-family: -apple-system,BlinkMacSystemFont,Segoe UI,Helvetica,Arial,sans-serif,Apple Color Emoji,Segoe UI Emoji,Segoe UI Symbol;
+  font-size: 16px;
+  line-height: 1.5;
+  word-wrap: break-word;
+}
+
+.markdown-body .pl-c {
+  color: #6a737d;
+}
+
+.markdown-body .pl-c1,
+.markdown-body .pl-s .pl-v {
+  color: #005cc5;
+}
+
+.markdown-body .pl-e,
+.markdown-body .pl-en {
+  color: #6f42c1;
+}
+
+.markdown-body .pl-s .pl-s1,
+.markdown-body .pl-smi {
+  color: #24292e;
+}
+
+.markdown-body .pl-ent {
+  color: #22863a;
+}
+
+.markdown-body .pl-k {
+  color: #d73a49;
+}
+
+.markdown-body .pl-pds,
+.markdown-body .pl-s,
+.markdown-body .pl-s .pl-pse .pl-s1,
+.markdown-body .pl-sr,
+.markdown-body .pl-sr .pl-cce,
+.markdown-body .pl-sr .pl-sra,
+.markdown-body .pl-sr .pl-sre {
+  color: #032f62;
+}
+
+.markdown-body .pl-smw,
+.markdown-body .pl-v {
+  color: #e36209;
+}
+
+.markdown-body .pl-bu {
+  color: #b31d28;
+}
+
+.markdown-body .pl-ii {
+  background-color: #b31d28;
+  color: #fafbfc;
+}
+
+.markdown-body .pl-c2 {
+  background-color: #d73a49;
+  color: #fafbfc;
+}
+
+.markdown-body .pl-c2:before {
+  content: "^M";
+}
+
+.markdown-body .pl-sr .pl-cce {
+  color: #22863a;
+  font-weight: 700;
+}
+
+.markdown-body .pl-ml {
+  color: #735c0f;
+}
+
+.markdown-body .pl-mh,
+.markdown-body .pl-mh .pl-en,
+.markdown-body .pl-ms {
+  color: #005cc5;
+  font-weight: 700;
+}
+
+.markdown-body .pl-mi {
+  color: #24292e;
+  font-style: italic;
+}
+
+.markdown-body .pl-mb {
+  color: #24292e;
+  font-weight: 700;
+}
+
+.markdown-body .pl-md {
+  background-color: #ffeef0;
+  color: #b31d28;
+}
+
+.markdown-body .pl-mi1 {
+  background-color: #f0fff4;
+  color: #22863a;
+}
+
+.markdown-body .pl-mc {
+  background-color: #ffebda;
+  color: #e36209;
+}
+
+.markdown-body .pl-mi2 {
+  background-color: #005cc5;
+  color: #f6f8fa;
+}
+
+.markdown-body .pl-mdr {
+  color: #6f42c1;
+  font-weight: 700;
+}
+
+.markdown-body .pl-ba {
+  color: #586069;
+}
+
+.markdown-body .pl-sg {
+  color: #959da5;
+}
+
+.markdown-body .pl-corl {
+  color: #032f62;
+  text-decoration: underline;
+}
+
+.markdown-body details {
+  display: block;
+}
+
+.markdown-body summary {
+  display: list-item;
+}
+
+.markdown-body a {
+  background-color: transparent;
+}
+
+.markdown-body a:active,
+.markdown-body a:hover {
+  outline-width: 0;
+}
+
+.markdown-body strong {
+  font-weight: inherit;
+  font-weight: bolder;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+  margin: .67em 0;
+}
+
+.markdown-body img {
+  border-style: none;
+}
+
+.markdown-body code,
+.markdown-body kbd,
+.markdown-body pre {
+  font-family: monospace,monospace;
+  font-size: 1em;
+}
+
+.markdown-body hr {
+  box-sizing: content-box;
+  height: 0;
+  overflow: visible;
+}
+
+.markdown-body input {
+  font: inherit;
+  margin: 0;
+}
+
+.markdown-body input {
+  overflow: visible;
+}
+
+.markdown-body [type=checkbox] {
+  box-sizing: border-box;
+  padding: 0;
+}
+
+.markdown-body * {
+  box-sizing: border-box;
+}
+
+.markdown-body input {
+  font-family: inherit;
+  font-size: inherit;
+  line-height: inherit;
+}
+
+.markdown-body a {
+  color: #0366d6;
+  text-decoration: none;
+}
+
+.markdown-body a:hover {
+  text-decoration: underline;
+}
+
+.markdown-body strong {
+  font-weight: 600;
+}
+
+.markdown-body hr {
+  background: transparent;
+  border: 0;
+  border-bottom: 1px solid #dfe2e5;
+  height: 0;
+  margin: 15px 0;
+  overflow: hidden;
+}
+
+.markdown-body hr:before {
+  content: "";
+  display: table;
+}
+
+.markdown-body hr:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.markdown-body table {
+  border-collapse: collapse;
+  border-spacing: 0;
+}
+
+.markdown-body td,
+.markdown-body th {
+  padding: 0;
+}
+
+.markdown-body details summary {
+  cursor: pointer;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.markdown-body h1 {
+  font-size: 32px;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  font-weight: 600;
+}
+
+.markdown-body h2 {
+  font-size: 24px;
+}
+
+.markdown-body h3 {
+  font-size: 20px;
+}
+
+.markdown-body h3,
+.markdown-body h4 {
+  font-weight: 600;
+}
+
+.markdown-body h4 {
+  font-size: 16px;
+}
+
+.markdown-body h5 {
+  font-size: 14px;
+}
+
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+}
+
+.markdown-body h6 {
+  font-size: 12px;
+}
+
+.markdown-body p {
+  margin-bottom: 10px;
+  margin-top: 0;
+}
+
+.markdown-body blockquote {
+  margin: 0;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  margin-bottom: 0;
+  margin-top: 0;
+  padding-left: 0;
+}
+
+.markdown-body ol ol,
+.markdown-body ul ol {
+  list-style-type: lower-roman;
+}
+
+.markdown-body ol ol ol,
+.markdown-body ol ul ol,
+.markdown-body ul ol ol,
+.markdown-body ul ul ol {
+  list-style-type: lower-alpha;
+}
+
+.markdown-body dd {
+  margin-left: 0;
+}
+
+.markdown-body code,
+.markdown-body pre {
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 12px;
+}
+
+.markdown-body pre {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.markdown-body input::-webkit-inner-spin-button,
+.markdown-body input::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  appearance: none;
+  margin: 0;
+}
+
+.markdown-body .border {
+  border: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .border-0 {
+  border: 0!important;
+}
+
+.markdown-body .border-bottom {
+  border-bottom: 1px solid #e1e4e8!important;
+}
+
+.markdown-body .rounded-1 {
+  border-radius: 3px!important;
+}
+
+.markdown-body .bg-white {
+  background-color: #fff!important;
+}
+
+.markdown-body .bg-gray-light {
+  background-color: #fafbfc!important;
+}
+
+.markdown-body .text-gray-light {
+  color: #6a737d!important;
+}
+
+.markdown-body .mb-0 {
+  margin-bottom: 0!important;
+}
+
+.markdown-body .my-2 {
+  margin-bottom: 8px!important;
+  margin-top: 8px!important;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .py-0 {
+  padding-bottom: 0!important;
+  padding-top: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .py-2 {
+  padding-bottom: 8px!important;
+  padding-top: 8px!important;
+}
+
+.markdown-body .pl-3,
+.markdown-body .px-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .px-3 {
+  padding-right: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .f6 {
+  font-size: 12px!important;
+}
+
+.markdown-body .lh-condensed {
+  line-height: 1.25!important;
+}
+
+.markdown-body .text-bold {
+  font-weight: 600!important;
+}
+
+.markdown-body:before {
+  content: "";
+  display: table;
+}
+
+.markdown-body:after {
+  clear: both;
+  content: "";
+  display: table;
+}
+
+.markdown-body>:first-child {
+  margin-top: 0!important;
+}
+
+.markdown-body>:last-child {
+  margin-bottom: 0!important;
+}
+
+.markdown-body a:not([href]) {
+  color: inherit;
+  text-decoration: none;
+}
+
+.markdown-body blockquote,
+.markdown-body dl,
+.markdown-body ol,
+.markdown-body p,
+.markdown-body pre,
+.markdown-body table,
+.markdown-body ul {
+  margin-bottom: 16px;
+  margin-top: 0;
+}
+
+.markdown-body hr {
+  background-color: #e1e4e8;
+  border: 0;
+  height: .25em;
+  margin: 24px 0;
+  padding: 0;
+}
+
+.markdown-body blockquote {
+  border-left: .25em solid #dfe2e5;
+  color: #6a737d;
+  padding: 0 1em;
+}
+
+.markdown-body blockquote>:first-child {
+  margin-top: 0;
+}
+
+.markdown-body blockquote>:last-child {
+  margin-bottom: 0;
+}
+
+.markdown-body kbd {
+  background-color: #fafbfc;
+  border: 1px solid #c6cbd1;
+  border-bottom-color: #959da5;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #959da5;
+  color: #444d56;
+  display: inline-block;
+  font-size: 11px;
+  line-height: 10px;
+  padding: 3px 5px;
+  vertical-align: middle;
+}
+
+.markdown-body h1,
+.markdown-body h2,
+.markdown-body h3,
+.markdown-body h4,
+.markdown-body h5,
+.markdown-body h6 {
+  font-weight: 600;
+  line-height: 1.25;
+  margin-bottom: 16px;
+  margin-top: 24px;
+}
+
+.markdown-body h1 {
+  font-size: 2em;
+}
+
+.markdown-body h1,
+.markdown-body h2 {
+  border-bottom: 1px solid #eaecef;
+  padding-bottom: .3em;
+}
+
+.markdown-body h2 {
+  font-size: 1.5em;
+}
+
+.markdown-body h3 {
+  font-size: 1.25em;
+}
+
+.markdown-body h4 {
+  font-size: 1em;
+}
+
+.markdown-body h5 {
+  font-size: .875em;
+}
+
+.markdown-body h6 {
+  color: #6a737d;
+  font-size: .85em;
+}
+
+.markdown-body ol,
+.markdown-body ul {
+  padding-left: 2em;
+}
+
+.markdown-body ol ol,
+.markdown-body ol ul,
+.markdown-body ul ol,
+.markdown-body ul ul {
+  margin-bottom: 0;
+  margin-top: 0;
+}
+
+.markdown-body li {
+  word-wrap: break-all;
+}
+
+.markdown-body li>p {
+  margin-top: 16px;
+}
+
+.markdown-body li+li {
+  margin-top: .25em;
+}
+
+.markdown-body dl {
+  padding: 0;
+}
+
+.markdown-body dl dt {
+  font-size: 1em;
+  font-style: italic;
+  font-weight: 600;
+  margin-top: 16px;
+  padding: 0;
+}
+
+.markdown-body dl dd {
+  margin-bottom: 16px;
+  padding: 0 16px;
+}
+
+.markdown-body table {
+  display: block;
+  overflow: auto;
+  width: 100%;
+}
+
+.markdown-body table th {
+  font-weight: 600;
+}
+
+.markdown-body table td,
+.markdown-body table th {
+  border: 1px solid #dfe2e5;
+  padding: 6px 13px;
+}
+
+.markdown-body table tr {
+  background-color: #fff;
+  border-top: 1px solid #c6cbd1;
+}
+
+.markdown-body table tr:nth-child(2n) {
+  background-color: #f6f8fa;
+}
+
+.markdown-body img {
+  background-color: #fff;
+  box-sizing: content-box;
+  max-width: 100%;
+}
+
+.markdown-body img[align=right] {
+  padding-left: 20px;
+}
+
+.markdown-body img[align=left] {
+  padding-right: 20px;
+}
+
+.markdown-body code {
+  background-color: rgba(27,31,35,.05);
+  border-radius: 3px;
+  font-size: 85%;
+  margin: 0;
+  padding: .2em .4em;
+}
+
+.markdown-body pre {
+  word-wrap: normal;
+}
+
+.markdown-body pre>code {
+  background: transparent;
+  border: 0;
+  font-size: 100%;
+  margin: 0;
+  padding: 0;
+  white-space: pre;
+  word-break: normal;
+}
+
+.markdown-body .highlight {
+  margin-bottom: 16px;
+}
+
+.markdown-body .highlight pre {
+  margin-bottom: 0;
+  word-break: normal;
+}
+
+.markdown-body .highlight pre,
+.markdown-body pre {
+  background-color: #f6f8fa;
+  border-radius: 3px;
+  font-size: 85%;
+  line-height: 1.45;
+  overflow: auto;
+  padding: 16px;
+}
+
+.markdown-body pre code {
+  background-color: transparent;
+  border: 0;
+  display: inline;
+  line-height: inherit;
+  margin: 0;
+  max-width: auto;
+  overflow: visible;
+  padding: 0;
+  word-wrap: normal;
+}
+
+.markdown-body .commit-tease-sha {
+  color: #444d56;
+  display: inline-block;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 90%;
+}
+
+.markdown-body .blob-wrapper {
+  border-bottom-left-radius: 3px;
+  border-bottom-right-radius: 3px;
+  overflow-x: auto;
+  overflow-y: hidden;
+}
+
+.markdown-body .blob-wrapper-embedded {
+  max-height: 240px;
+  overflow-y: auto;
+}
+
+.markdown-body .blob-num {
+  -moz-user-select: none;
+  -ms-user-select: none;
+  -webkit-user-select: none;
+  color: rgba(27,31,35,.3);
+  cursor: pointer;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 12px;
+  line-height: 20px;
+  min-width: 50px;
+  padding-left: 10px;
+  padding-right: 10px;
+  text-align: right;
+  user-select: none;
+  vertical-align: top;
+  white-space: nowrap;
+  width: 1%;
+}
+
+.markdown-body .blob-num:hover {
+  color: rgba(27,31,35,.6);
+}
+
+.markdown-body .blob-num:before {
+  content: attr(data-line-number);
+}
+
+.markdown-body .blob-code {
+  line-height: 20px;
+  padding-left: 10px;
+  padding-right: 10px;
+  position: relative;
+  vertical-align: top;
+}
+
+.markdown-body .blob-code-inner {
+  color: #24292e;
+  font-family: SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  font-size: 12px;
+  overflow: visible;
+  white-space: pre;
+  word-wrap: normal;
+}
+
+.markdown-body .pl-token.active,
+.markdown-body .pl-token:hover {
+  background: #ffea7f;
+  cursor: pointer;
+}
+
+.markdown-body kbd {
+  background-color: #fafbfc;
+  border: 1px solid #d1d5da;
+  border-bottom-color: #c6cbd1;
+  border-radius: 3px;
+  box-shadow: inset 0 -1px 0 #c6cbd1;
+  color: #444d56;
+  display: inline-block;
+  font: 11px SFMono-Regular,Consolas,Liberation Mono,Menlo,Courier,monospace;
+  line-height: 10px;
+  padding: 3px 5px;
+  vertical-align: middle;
+}
+
+.markdown-body :checked+.radio-label {
+  border-color: #0366d6;
+  position: relative;
+  z-index: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="1"] {
+  -moz-tab-size: 1;
+  tab-size: 1;
+}
+
+.markdown-body .tab-size[data-tab-size="2"] {
+  -moz-tab-size: 2;
+  tab-size: 2;
+}
+
+.markdown-body .tab-size[data-tab-size="3"] {
+  -moz-tab-size: 3;
+  tab-size: 3;
+}
+
+.markdown-body .tab-size[data-tab-size="4"] {
+  -moz-tab-size: 4;
+  tab-size: 4;
+}
+
+.markdown-body .tab-size[data-tab-size="5"] {
+  -moz-tab-size: 5;
+  tab-size: 5;
+}
+
+.markdown-body .tab-size[data-tab-size="6"] {
+  -moz-tab-size: 6;
+  tab-size: 6;
+}
+
+.markdown-body .tab-size[data-tab-size="7"] {
+  -moz-tab-size: 7;
+  tab-size: 7;
+}
+
+.markdown-body .tab-size[data-tab-size="8"] {
+  -moz-tab-size: 8;
+  tab-size: 8;
+}
+
+.markdown-body .tab-size[data-tab-size="9"] {
+  -moz-tab-size: 9;
+  tab-size: 9;
+}
+
+.markdown-body .tab-size[data-tab-size="10"] {
+  -moz-tab-size: 10;
+  tab-size: 10;
+}
+
+.markdown-body .tab-size[data-tab-size="11"] {
+  -moz-tab-size: 11;
+  tab-size: 11;
+}
+
+.markdown-body .tab-size[data-tab-size="12"] {
+  -moz-tab-size: 12;
+  tab-size: 12;
+}
+
+.markdown-body .task-list-item {
+  list-style-type: none;
+}
+
+.markdown-body .task-list-item+.task-list-item {
+  margin-top: 3px;
+}
+
+.markdown-body .task-list-item input {
+  margin: 0 .2em .25em -1.6em;
+  vertical-align: middle;
+}
+
+.markdown-body hr {
+  border-bottom-color: #eee;
+}
+
+.markdown-body .pl-0 {
+  padding-left: 0!important;
+}
+
+.markdown-body .pl-1 {
+  padding-left: 4px!important;
+}
+
+.markdown-body .pl-2 {
+  padding-left: 8px!important;
+}
+
+.markdown-body .pl-3 {
+  padding-left: 16px!important;
+}
+
+.markdown-body .pl-4 {
+  padding-left: 24px!important;
+}
+
+.markdown-body .pl-5 {
+  padding-left: 32px!important;
+}
+
+.markdown-body .pl-6 {
+  padding-left: 40px!important;
+}
+
+.markdown-body .pl-7 {
+  padding-left: 48px!important;
+}
+
+.markdown-body .pl-8 {
+  padding-left: 64px!important;
+}
+
+.markdown-body .pl-9 {
+  padding-left: 80px!important;
+}
+
+.markdown-body .pl-10 {
+  padding-left: 96px!important;
+}
+
+.markdown-body .pl-11 {
+  padding-left: 112px!important;
+}
+
+.markdown-body .pl-12 {
+  padding-left: 128px!important;
+}
+
+</style>
+</head>
+<body class="markdown-body">
+<h1 id="changelog">Changelog</h1>
+<h2 id="v5.4.8-2026-07-03">[v5.4.8] - 2026-07-03</h2>
+<h3 id="added">Added</h3>
+<ul>
+<li>Add an option to highlight units without a formation.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li><p>Fix elevated camera rising speed so camera elevation matches the expected timing.</p>
+</li>
+<li><p>Fix formation target marker updates when charging to a target formation.</p>
+</li>
+<li><p>Fix command queue issues after switching the player team.</p>
+</li>
+</ul>
+<h2 id="v5.4.7-2026-06-28">[v5.4.7] - 2026-06-28</h2>
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+<li>Fix the toggle widget indicator for option categories hidden by default.</li>
+</ul>
+<h3 id="improved">Improved</h3>
+<ul>
+<li><p>Improve order queue preview rendering and interaction.</p>
+</li>
+<li><p>Make formations start queued orders together and reduce queued-order message spam.</p>
+</li>
+<li><p>Keep the order flag and formation movement target preview at the original screen position while dragging in free camera.</p>
+</li>
+</ul>
+<h3 id="changed">Changed</h3>
+<ul>
+<li>Remove the fast forward prompt in hideout.</li>
+</ul>
+<h2 id="v5.4.6-2026-06-23">[v5.4.6] - 2026-06-23</h2>
+<h3 id="added-1">Added</h3>
+<ul>
+<li>Added options to adjust trigger condition and movement speed of elevated camera.</li>
+</ul>
+<h3 id="fixed-2">Fixed</h3>
+<ul>
+<li>Fix the bug that elevated camera moves too slow when slow down is enabled.</li>
+</ul>
+<h3 id="improved-1">Improved</h3>
+<ul>
+<li>Formation target marker is shown as light green.</li>
+</ul>
+<h2 id="v5.4.5-2026-06-21">[v5.4.5] - 2026-06-21</h2>
+<h3 id="added-2">Added</h3>
+<ul>
+<li>Add option &quot;Elevate Camera with Movement Order Only&quot;.</li>
+</ul>
+<h3 id="fixed-3">Fixed</h3>
+<ul>
+<li><p>Fix the issue that elevated camera may stay enabled after switching &quot;Camera Mode on Ordering&quot; to a non-elevated mode.</p>
+</li>
+<li><p>Fix Command System order UI refresh after troop transfer in free camera and elevated camera.</p>
+</li>
+</ul>
+<h3 id="improved-2">Improved</h3>
+<ul>
+<li>Improve formation highlight and mouse-over colors in Command System.</li>
+</ul>
+<h2 id="v5.4.4-2026-06-19">[v5.4.4] - 2026-06-19</h2>
+<h2 id="improved-3">Improved</h2>
+<ul>
+<li>Improve elevated camera.</li>
+</ul>
+<h2 id="changed-1">Changed</h2>
+<ul>
+<li>Reorganized options in mod menu.</li>
+</ul>
+<h2 id="v5.4.3-2026-06-17">[v5.4.3] - 2026-06-17</h2>
+<h2 id="fixed-4">Fixed</h2>
+<ul>
+<li>Fix camera issue in naval battle when piloting ship. Caused by elevated camera in v5.4.2.</li>
+</ul>
+<h3 id="improved-4">Improved</h3>
+<ul>
+<li><p>Improve behavior of elevated camera.</p>
+</li>
+<li><p>Elevated height is saved in configuration.</p>
+</li>
+</ul>
+<h2 id="v5.4.2-2026-06-16">[v5.4.2] - 2026-06-16</h2>
+<h2 id="added-3">Added</h2>
+<ul>
+<li>When giving orders, camera will be elevated. Corresponding option is added.</li>
+</ul>
+<h2 id="v5.4.1-2026-06-15">[v5.4.1] - 2026-06-15</h2>
+<h3 id="fixed-5">Fixed</h3>
+<ul>
+<li>Support naval raid battle.</li>
+</ul>
+<h3 id="improved-5">Improved</h3>
+<ul>
+<li><p>In naval battle bind &quot;Soldier Pilot Ship&quot; command back to F5. Now F6 is delegate command for player ship.</p>
+</li>
+<li><p>In naval battle, add an option to switch &quot;retreat (f6)&quot; order with &quot;delegate command (F8)&quot; order for AI ship. Now F6 is delegate command, and F8 is retreat. This improves consistency with player ship.</p>
+</li>
+<li><p>&quot;Soldier Pilot Ship&quot; command is shown when player pilots ship. &quot;Soldier Pilot Ship&quot; will be turned on when player gives &quot;delegate command&quot; order.</p>
+</li>
+<li><p>Improve camera sliding behavior when locking to new units.</p>
+</li>
+</ul>
+<h2 id="v5.4.0-2026-06-13">[v5.4.0] - 2026-06-13</h2>
+<h3 id="fixed-6">Fixed</h3>
+<ul>
+<li><p>Keep compatible with game v1.4.6.</p>
+</li>
+<li><p>Fix the issue that the option &quot;Highlight Troops When Showing Indicators&quot; is always reset to default on game start.</p>
+</li>
+<li><p>Fix potential crash with other mods that creates new custom units.</p>
+</li>
+</ul>
+<h3 id="improved-6">Improved</h3>
+<ul>
+<li>After dragging mouse right button to rotate camera, mouse position will be recovered to the position before dragging, instead of to the center of window.</li>
+</ul>
+<h2 id="v5.3.25-2026-01-25">[v5.3.25] - 2026-01-25</h2>
+<h2 id="fixed-7">Fixed</h2>
+<ul>
+<li>Fix crash when moving AI controlled formation.</li>
+</ul>
+<h3 id="improved-7">Improved</h3>
+<ul>
+<li><p>Improve performance when giving orders in RTS view.</p>
+</li>
+<li><p>Improve behavior of facing order when selecting multiple formations.</p>
+</li>
+</ul>
+<h2 id="v5.3.24-2026-01-23">[v5.3.24] - 2026-01-23</h2>
+<h3 id="fixed-8">Fixed</h3>
+<ul>
+<li>Fix the issue in the base game that engage order for ranged troops may cause the game freeze.</li>
+</ul>
+<h3 id="added-4">Added</h3>
+<ul>
+<li>Movement target will fade out after giving orders.</li>
+</ul>
+<h3 id="improved-8">Improved</h3>
+<ul>
+<li>Improve speed sync behavior in facing order.</li>
+</ul>
+<h2 id="v5.3.23-2026-01-20">[v5.3.23] - 2026-01-20</h2>
+<h3 id="fixed-9">Fixed</h3>
+<ul>
+<li><p>Fix crash when attacked siege weapon is destroyed.</p>
+</li>
+<li><p>Fix the issue that when player character likes to ride horse when controlled by AI.</p>
+</li>
+<li><p>Fix the issue that Command System may create too much materials and make the game unstable.</p>
+</li>
+</ul>
+<h2 id="v5.3.22-2026-01-19">[v5.3.22] - 2026-01-19</h2>
+<h3 id="fixed-10">Fixed</h3>
+<ul>
+<li><p>Fix incorrect hint text when stop using siege weapon.</p>
+</li>
+<li><p>Skip using that siege weapon order in command queue when the siege weapon is destroyed.</p>
+</li>
+</ul>
+<h2 id="v5.3.21-2026-01-18">[v5.3.21] - 2026-01-18</h2>
+<h3 id="added-5">Added</h3>
+<ul>
+<li>Add hint text when giving orders to use siege weapons.</li>
+</ul>
+<h3 id="improved-9">Improved</h3>
+<ul>
+<li>After clicking on siege weapon to stop using it, prevent formation from automatically using it again.</li>
+</ul>
+<h3 id="fixed-11">Fixed</h3>
+<ul>
+<li><p>Fix missing volley hotkey text.</p>
+</li>
+<li><p>Fix the issue that order UI is always closed when clicking on siege weapons in RTS view.</p>
+</li>
+</ul>
+<h2 id="v5.3.20-2026-01-18">[v5.3.20] - 2026-01-18</h2>
+<h3 id="fixed-12">Fixed</h3>
+<ul>
+<li>Fix crash caused by auto volley hotkey in non-battle mission.</li>
+</ul>
+<h2 id="v5.3.19-2026-01-17">[v5.3.19] - 2026-01-17</h2>
+<h3 id="added-6">Added</h3>
+<ul>
+<li><p>Add auto volley order and related options.</p>
+</li>
+<li><p>Hero list in mod menu will be sorted by order in player party member roster.</p>
+</li>
+</ul>
+<h3 id="fixed-13">Fixed</h3>
+<ul>
+<li>Fix possible out of bound issue.</li>
+</ul>
+<h2 id="v5.3.18-2026-01-11">[v5.3.18] - 2026-01-11</h2>
+<h3 id="improved-10">Improved</h3>
+<ul>
+<li>Improve performance when clicking on ground to move formations.</li>
+</ul>
+<h2 id="v5.3.17-2026-01-09">[v5.3.17] - 2026-01-09</h2>
+<h3 id="fixed-14">Fixed</h3>
+<ul>
+<li><p>Fix crash in tournament after a round, if watching the round and locking camera on a unit.</p>
+</li>
+<li><p>Fix crash in loading screen when trying to defending the castle in the last stand.</p>
+</li>
+</ul>
+<h2 id="v5.3.16-2026-01-08">[v5.3.16] - 2026-01-08</h2>
+<h3 id="added-7">Added</h3>
+<ul>
+<li><p>Add volley order.</p>
+</li>
+<li><p>Add an option for disable native attack.</p>
+</li>
+<li><p>Add an option for formation speeds sync behavior.</p>
+</li>
+<li><p>Add an option to adjust the threshold for ratio of mounted units in a formation to determine whether to increase spacing between units. In vanilla the threshold is 0.1.</p>
+</li>
+</ul>
+<h3 id="fixed-15">Fixed</h3>
+<ul>
+<li><p>Fix the issue that player character cannot be controlled after deployment if free camera is turned off in deployment stage.</p>
+</li>
+<li><p>Fix the issue that trying to control a unit who is picking up items and then switch to free camera, the unit AI will be stuck in picking up state.</p>
+</li>
+<li><p>Fix the issue that when multiple formations are given orders in command queue, they will not consume orders correctly.</p>
+</li>
+</ul>
+<h3 id="improved-11">Improved</h3>
+<ul>
+<li>Slightly improved performance of movement order.</li>
+</ul>
+<h2 id="v5.3.15-2025-12-28">[v5.3.15] - 2025-12-28</h2>
+<h3 id="fixed-16">Fixed</h3>
+<ul>
+<li>Fix crash with game version lower than v1.3.12, caused by distance fix in RTS mode.</li>
+</ul>
+<h2 id="v5.3.14-2025-12-28">[v5.3.14] - 2025-12-28</h2>
+<h3 id="fixed-17">Fixed</h3>
+<ul>
+<li><p>Fix the crash when war sail DLC is absent.</p>
+</li>
+<li><p>Fix distance shown in RTS mode.</p>
+</li>
+</ul>
+<h3 id="added-8">Added</h3>
+<ul>
+<li>Add an option to sync speed of locked formations under movement order. Locked formations will adjust movement speed to arrive at the target simultaneously.</li>
+</ul>
+<h2 id="v5.3.13-2025-12-18">[v5.3.13] - 2025-12-18</h2>
+<h3 id="fixed-18">Fixed</h3>
+<ul>
+<li><p>Fix the issue that RTS cannot be selected in BLSE launcher if game version is earlier than v1.3.11.</p>
+</li>
+<li><p>Add hideout fastforward option back.</p>
+</li>
+</ul>
+<h2 id="v5.3.12-2025-12-15">[v5.3.12] - 2025-12-15</h2>
+<h3 id="improved-12">Improved</h3>
+<ul>
+<li><p>The unit's ground marker can be seen below.</p>
+</li>
+<li><p>Improve square formation when unit count is square number.</p>
+</li>
+<li><p>Improve unit position in square and circle formation.</p>
+</li>
+<li><p>Improve performance when movement orders are shown.</p>
+</li>
+</ul>
+<h3 id="fixed-19">Fixed</h3>
+<ul>
+<li><p>Fix potential crash at the end of siege.</p>
+</li>
+<li><p>Fix order issue in sea battle when option &quot;Switch Camera on Ordering&quot; is turned on.</p>
+</li>
+</ul>
+<h2 id="v5.3.11-2025-12-13">[v5.3.11] - 2025-12-13</h2>
+<h3 id="fixed-20">Fixed</h3>
+<ul>
+<li><p>Fix startup crash when there're other mods failing to load.</p>
+</li>
+<li><p>Fix the issue that background of game option in campaign becomes transparent after exiting a scene.</p>
+</li>
+<li><p>Fix the issue that clicking middle mouse button on the enemy formation or giving facing order using mouse button may close order UI in rts camera mode.</p>
+</li>
+<li><p>Fix the issue that banner bearer is never highlighted.</p>
+</li>
+</ul>
+<h2 id="v5.3.10-2025-12-11">[v5.3.10] - 2025-12-11</h2>
+<h3 id="added-9">Added</h3>
+<ul>
+<li>Troops in formations are highlighted when pressing alt.</li>
+</ul>
+<h3 id="fixed-21">Fixed</h3>
+<ul>
+<li><p>Fix time speed option.</p>
+</li>
+<li><p>Fix the issue that background of game option becomes transparent after binding hotkey in the mod.</p>
+</li>
+<li><p>Fix performance issue when giving orders.</p>
+</li>
+</ul>
+<h2 id="v5.3.9-2025-12-11">[v5.3.9] - 2025-12-11</h2>
+<h3 id="fixed-22">Fixed</h3>
+<ul>
+<li><p>Fix startup crash on some environment.</p>
+</li>
+<li><p>Fix crash in Naval battle on some environment.</p>
+</li>
+<li><p>Fix performance issue when giving orders.</p>
+</li>
+<li><p>Fix compatibility with Torch mod in Command Battle mode.</p>
+</li>
+<li><p>Fix possible crash when time speed and fast forward both enabled.</p>
+</li>
+<li><p>Disable mod menu popup in conversation.</p>
+</li>
+</ul>
+<h2 id="added-10">Added</h2>
+<ul>
+<li>Add French translation.</li>
+</ul>
+<h2 id="v5.3.8-2025-12-08">[v5.3.8] - 2025-12-08</h2>
+<h3 id="fixed-23">Fixed</h3>
+<ul>
+<li><p>Fix the issue that in ship battle, when soldier pilot ship on, current movement order is not highlighted in order UI.</p>
+</li>
+<li><p>Fix the issue that unit marker is still shown after being removed from formation in rare case.</p>
+</li>
+<li><p>Fix the issue that setting hotkey of openning menu to left mouse button or right mouse button making it impossible to open hotkey UI.</p>
+</li>
+</ul>
+<h3 id="improved-13">Improved</h3>
+<ul>
+<li>Improve the default formation width after changing formation arrangement.</li>
+</ul>
+<h2 id="added-11">Added</h2>
+<ul>
+<li>Apply fix to advance order for throwing formation.</li>
+</ul>
+<h2 id="v5.3.7-2025-12-06">[v5.3.7] - 2025-12-06</h2>
+<h3 id="fixed-24">Fixed</h3>
+<ul>
+<li><p>Fix crash on startup when failing to loading game texts. This may happen when other mods have broken text files.</p>
+</li>
+<li><p>Fix the issue that in winter season, the target arrow and unit marker will be covered by snow.</p>
+</li>
+</ul>
+<h3 id="added-12">Added</h3>
+<ul>
+<li>Support keeping options hidden in mod menu.</li>
+</ul>
+<h2 id="v5.3.6-2025-12-05">[v5.3.6] - 2025-12-05</h2>
+<h3 id="fixed-25">Fixed</h3>
+<ul>
+<li><p>Fix crashes when starting battle and finishing deployment.</p>
+</li>
+<li><p>Fix crash when player loses connection to ship and try to capture a new ship.</p>
+</li>
+<li><p>Fix the issue that player is not AI controlled when default to free camera in battle.</p>
+</li>
+<li><p>Disable and Hide formation option in naval battle.</p>
+</li>
+</ul>
+<h2 id="v5.3.5-2025-12-01">[v5.3.5] - 2025-12-01</h2>
+<h3 id="fixed-26">Fixed</h3>
+<ul>
+<li><p>Fix the issue in the base game that player character cannot be teleported in deployment mode. Now during deployment stage player character can be teleported when controlled by AI in free camera mode.</p>
+</li>
+<li><p>Fix the issue in previous version that order UI is closed after giving orders in deployment stage.</p>
+</li>
+<li><p>Fix the issue in previous version that transfer troops UI cannot be opened.</p>
+</li>
+</ul>
+<h3 id="improved-14">Improved</h3>
+<ul>
+<li>Improved &quot;Soldier Control Ship&quot; command in sea battle.</li>
+</ul>
+<h2 id="v5.3.4-2025-11-29">[v5.3.4] - 2025-11-29</h2>
+<h3 id="fixed-27">Fixed</h3>
+<ul>
+<li>Fix a crash when switching camera frequently on ship.</li>
+</ul>
+<h2 id="v5.3.3-2025-11-29">[v5.3.3] - 2025-11-29</h2>
+<h3 id="added-13">Added</h3>
+<ul>
+<li>Add command &quot;Soldier Control Ship On&quot; and &quot;Soldier Control Ship Off&quot; if player is not piloting the ship. When turned on the ship will be piloted by soldier.</li>
+</ul>
+<h3 id="improved-15">Improved</h3>
+<ul>
+<li>In sea battle, available commands depends on current camera mode and soldier control mode and will be refreshed instantly.</li>
+</ul>
+<h3 id="fixed-28">Fixed</h3>
+<ul>
+<li>Fix the issue that player cannot give orders to the first ship, when player is down and control units on other ships.</li>
+</ul>
+<h2 id="v5.3.2-2025-11-27">[v5.3.2] - 2025-11-27</h2>
+<h3 id="fixed-29">Fixed</h3>
+<ul>
+<li>Fix the crash when player is injured and command a sea battle.</li>
+</ul>
+<h2 id="v5.3.1-2025-11-26">[v5.3.1] - 2025-11-26</h2>
+<h3 id="fixed-30">Fixed</h3>
+<ul>
+<li>Fix the issue that player cannot use ship weapon.</li>
+</ul>
+<h2 id="v5.3.0-2025-11-26">[v5.3.0] - 2025-11-26</h2>
+<h3 id="fixed-31">Fixed</h3>
+<ul>
+<li>Support v1.3.4 and War Sail DLC.</li>
+</ul>
+<h2 id="v5.2.3-2025-09-24">[v5.2.3] - 2025-09-24</h2>
+<h3 id="fixed-32">Fixed</h3>
+<ul>
+<li>Fix support to select formations using left mouse button.</li>
+</ul>
+<h2 id="v5.2.2-2025-09-22">[v5.2.2] - 2025-09-22</h2>
+<h3 id="fixed-33">Fixed</h3>
+<ul>
+<li>Fix the issue that player cannot leaving in sneaking toturial mission.</li>
+</ul>
+<h2 id="v5.2.1-2025-09-22">[v5.2.1] - 2025-09-22</h2>
+<h3 id="fixed-34">Fixed</h3>
+<ul>
+<li><p>Fix crash related with incompatible shader.</p>
+</li>
+<li><p>Fix crash when player is down.</p>
+</li>
+</ul>
+<h3 id="changed-2">Changed</h3>
+<ul>
+<li>Camera will not lock to other units automatically when the unit that camera is locking to is killed.</li>
+</ul>
+<h2 id="v5.2.0-2025-09-19">[v5.2.0] - 2025-09-19</h2>
+<h3 id="fixed-35">Fixed</h3>
+<ul>
+<li>Keep compatible with game v1.3.0.</li>
+</ul>
+<h2 id="v5.1.13-2025-09-14">[v5.1.13] - 2025-09-14</h2>
+<h3 id="fixed-36">Fixed</h3>
+<ul>
+<li><p>Fix crash in commanding mode when player party is in army.</p>
+</li>
+<li><p>Fix the issue that agent may ride horses after switching to free camera</p>
+</li>
+<li><p>Fix black screen when fast forwarding in hideout.</p>
+</li>
+</ul>
+<h3 id="improved-16">Improved</h3>
+<ul>
+<li>Size of circle formation is smaller when circle formation preference is set to &quot;Tight&quot;.</li>
+</ul>
+<h2 id="v5.1.12-2025-09-12">[v5.1.12] - 2025-09-12</h2>
+<h3 id="fixed-37">Fixed</h3>
+<ul>
+<li><p>Fixed facing order in order queue.</p>
+</li>
+<li><p>Fix highlight of focus attack.</p>
+</li>
+</ul>
+<h2 id="v5.1.11-2025-09-10">[v5.1.11] - 2025-09-10</h2>
+<h3 id="fixed-38">Fixed</h3>
+<ul>
+<li>Fix the display of facing to enemy formation order.</li>
+</ul>
+<h2 id="v5.1.10-2025-09-10">[v5.1.10] - 2025-09-10</h2>
+<h3 id="added-14">Added</h3>
+<ul>
+<li><p>Support facing to specific enemy formation.</p>
+</li>
+<li><p>Add option for circle formation tight/loose preference.</p>
+</li>
+<li><p>Add option for clickable UI extension to allow setting command target when giving order by clicking UI.</p>
+</li>
+</ul>
+<h3 id="fix">Fix</h3>
+<ul>
+<li><p>Fix performance issue of hollow square formation.</p>
+</li>
+<li><p>Fix the issue that facing order is determined by the formation with most units when moving multiple formations together.</p>
+</li>
+</ul>
+<h2 id="v5.1.9-2025-09-09">[v5.1.9] - 2025-09-09</h2>
+<h3 id="added-15">Added</h3>
+<ul>
+<li><p>Support targeting when clicking advance or facing button by holding Alt.</p>
+</li>
+<li><p>Add hotkey to fastforward.</p>
+</li>
+<li><p>Add option to face the enemy by default.</p>
+</li>
+<li><p>Add preview arrow for focus attack order.</p>
+</li>
+</ul>
+<h3 id="fixed-39">Fixed</h3>
+<ul>
+<li><p>Fix several order position preview issues.</p>
+</li>
+<li><p>Fix the issue that player may be stuck in walk mode after deployment.</p>
+</li>
+<li><p>Fix the issue that hotkey config is reset on second startup.</p>
+</li>
+</ul>
+<h3 id="changed-3">Changed</h3>
+<ul>
+<li>Move clickable order UI to Command System.</li>
+</ul>
+<h2 id="v5.1.8-2025-09-01">[v5.1.8] - 2025-09-01</h2>
+<h3 id="fixed-40">Fixed</h3>
+<ul>
+<li>Fix the issue that in arena practice fight, ground marker is shown with black color.</li>
+</ul>
+<h3 id="changed-4">Changed</h3>
+<ul>
+<li>Changed player formation option.</li>
+</ul>
+<h2 id="v5.1.7-2025-08-21">[v5.1.7] - 2025-08-21</h2>
+<h3 id="fixed-41">Fixed</h3>
+<ul>
+<li>Fix crash in The Old Realms.</li>
+</ul>
+<h2 id="v5.1.6-2025-08-20">[v5.1.6] - 2025-08-20</h2>
+<h3 id="added-16">Added</h3>
+<ul>
+<li>Make order button clickable.</li>
+<li>Add option to change movement target style.</li>
+</ul>
+<h2 id="v5.1.5-2025-08-18">[v5.1.5] - 2025-08-18</h2>
+<h3 id="added-17">Added</h3>
+<ul>
+<li>Linux is supported.</li>
+</ul>
+<h3 id="fixed-42">Fixed</h3>
+<ul>
+<li>Minor formation layout issue.</li>
+</ul>
+<h2 id="v5.1.4-2025-08-16">[v5.1.4] - 2025-08-16</h2>
+<h3 id="fixed-43">Fixed</h3>
+<ul>
+<li>Fix formation frame when AI controls formation.</li>
+</ul>
+<h2 id="v5.1.3-2025-08-16">[v5.1.3] - 2025-08-16</h2>
+<h3 id="added-18">Added</h3>
+<ul>
+<li>Add unit ground marker.</li>
+<li>Add formation frame marker.</li>
+<li>Add hollow square formation for player.</li>
+</ul>
+<h3 id="fixed-44">Fixed</h3>
+<ul>
+<li>Fix direction of corner units in square formation.</li>
+</ul>
+<h2 id="v5.1.1-2025-08-16">[v5.1.1] - 2025-08-16</h2>
+<h3 id="added-19">Added</h3>
+<ul>
+<li>Add option to not keep order UI open in free camera mode.</li>
+</ul>
+<h3 id="fixed-45">Fixed</h3>
+<ul>
+<li>Fix camera vertical movement speed.</li>
+</ul>
+<h3 id="changed-5">Changed</h3>
+<ul>
+<li>Make movement target more visible at night by default.</li>
+</ul>
+<h2 id="v5.1.0-2025-08-13">[v5.1.0] - 2025-08-13</h2>
+<h3 id="added-20">Added</h3>
+<ul>
+<li>Hold shift to add orders to queue so that troops will execute them one by one. For example, let cavalry follow a given path and then charge.</li>
+<li>Multiple formations will be locked when moving together.</li>
+</ul>
+<h2 id="v5.0.7-2025-07-25">[v5.0.7] - 2025-07-25</h2>
+<h3 id="added-21">Added</h3>
+<ul>
+<li>Add option to fast forward in hideout.</li>
+</ul>
+<h2 id="v5.0.6-2025-07-24">[v5.0.6] - 2025-07-24</h2>
+<h3 id="changed-6">Changed</h3>
+<ul>
+<li>Remake hotkey page to support multiple shortcuts. Note that shortcut config will be reset.</li>
+<li>Support controller input in free camera mode.</li>
+</ul>
+<h3 id="fixed-46">Fixed</h3>
+<ul>
+<li>Fix startup issue when Command system is enabled alone.</li>
+</ul>
+<h2 id="v5.0.5-2025-07-21">[v5.0.5] - 2025-07-21</h2>
+<h3 id="changed-7">Changed</h3>
+<ul>
+<li>Replace option &quot;Control ally after death&quot; with &quot;Control ally after death timing&quot;.</li>
+<li>Fast forward UI will be shown in free camera mode. In previous versions it's only shown when Control ally after death option is enabled.</li>
+<li>By default, switching to free camera will automatically control a unit if player unit is down to avoid issue that orders cannot be given.</li>
+</ul>
+<h2 id="v5.0.4-2025-07-19">[v5.0.4] - 2025-07-19</h2>
+<h3 id="fixed-47">Fixed</h3>
+<ul>
+<li>Fix crash caused by selectable troop cards.</li>
+</ul>
+<h2 id="v5.0.3-2025-07-18">[v5.0.3] - 2025-07-18</h2>
+<h3 id="fixed-48">Fixed</h3>
+<ul>
+<li>Fix an error message when issuing movement orders.</li>
+</ul>
+<h2 id="v5.0.2-2025-07-18">[v5.0.2] - 2025-07-18</h2>
+<h3 id="fixed-49">Fixed</h3>
+<ul>
+<li>Fix the issue in base game: the order position preview is not consistent with final order when dragging formation on the ground.</li>
+<li>Fix the issue in base game: narrowed width of a formation cannot be kept after a movement command.</li>
+</ul>
+<h3 id="added-22">Added</h3>
+<ul>
+<li>Added an option to show hotkey hint in free camera mode.</li>
+<li>Added an option to decide whether to rotate camera when switching from free camera.</li>
+</ul>
+<h2 id="v5.0.1-2025-07-13">[v5.0.1] - 2025-07-13</h2>
+<h3 id="fixed-50">Fixed</h3>
+<ul>
+<li>Fix crash when player is dead and switch to agent camera, if 'control ally after death' option is disabled.</li>
+</ul>
+<h2 id="v5.0.0-2025-07-12">[v5.0.0] - 2025-07-12</h2>
+<h3 id="added-23">Added</h3>
+<ul>
+<li>In free camera mode, while command UI is open, you can press <code>E</code> to stick camera to selected formation.</li>
+<li>Press <code>Alt</code> while middle-button clicking to target the enemy without interrupting previous movement orders. For example, <strong>let your archers focus shooting while holding position</strong>.</li>
+<li>Add option for always giving orders in free camera.</li>
+<li>Add slow motion in free camera.</li>
+<li>Automatically open ordering UI in free camera.</li>
+<li>Automatically switch to free camera in deployment stage.</li>
+</ul>
+<h3 id="changed-8">Changed</h3>
+<ul>
+<li>Remove some default hotkeys to avoid accidental triggering.</li>
+</ul>
+<h2 id="e4.1.16-2022-10-14">[e4.1.16] - 2022-10-14</h2>
+<h3 id="fixed-51">Fixed</h3>
+<ul>
+<li><p>Fix crash in custom battle when issue orders.</p>
+</li>
+<li><p>Fix the &quot;Player Controller In Free Camera&quot; option.</p>
+</li>
+<li><p>Fix the issue that camera is not restricted by deployment boundary.</p>
+</li>
+</ul>
+<h2 id="e4.1.15-2022-10-12">[e4.1.15] - 2022-10-12</h2>
+<h3 id="fixed-52">Fixed</h3>
+<ul>
+<li>Fix the issue that control hint doesn't correctly disappear when free camera mode isn't on.</li>
+</ul>
+<h3 id="changed-9">Changed</h3>
+<ul>
+<li>Change the &quot;Always Set Player Formation&quot; bool option to dropdown option &quot;Auto Set Player Formation&quot; that contains &quot;Never&quot;, &quot;Deployment Stage&quot; and &quot;Always&quot;.</li>
+</ul>
+<h3 id="improved-17">Improved</h3>
+<ul>
+<li>Optimized the algorithm of looking for character to control. Hero appears first in party member list will be selected first.</li>
+</ul>
+<h2 id="e4.1.11-2022-09-10">[e4.1.11] - 2022-09-10</h2>
+<h3 id="fixed-53">Fixed</h3>
+<ul>
+<li>Fix the issue that pressing <code>G</code> will cause player drop weapon in free camera mode.</li>
+</ul>
+<h2 id="e4.1.8-2022-09-05">[e4.1.8] - 2022-09-05</h2>
+<h3 id="added-24">Added</h3>
+<ul>
+<li><p>Limit camera distance by Tactics and Scouting skill.</p>
+</li>
+<li><p>Use free camera and issue orders in free camera will give Scouting and Tactics skill xp.</p>
+</li>
+</ul>
+<h2 id="e4.1.0-2022-08-23">[e4.1.0] - 2022-08-23</h2>
+<h3 id="fixed-54">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannerlord e1.8.0</li>
+</ul>
+<h2 id="e4.0.0-2022-07-23">[e4.0.0] - 2022-07-23</h2>
+<h3 id="fixed-55">Fixed</h3>
+<ul>
+<li><p>Keep compatible with Bannlerord e1.7.2.</p>
+</li>
+<li><p>Fix the issue that switching to free camera after victory may cause the game crash.</p>
+<p>I found that the game may crash if letting AI control the player character after victory.</p>
+<p>So the solution is not to set the player to AI mode after victory.</p>
+</li>
+</ul>
+<h2 id="e3.9.25-2021-03-14">[e3.9.25] - 2021-03-14</h2>
+<h3 id="fixed-56">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannerlord e1.5.9.</li>
+</ul>
+<h2 id="e3.9.24-2021-02-18">[e3.9.24] - 2021-02-18</h2>
+<h3 id="fixed-57">Fixed</h3>
+<ul>
+<li><p>Remove modification to infantry AI when Realistic Battle AI Module is enabled to avoid problems.</p>
+</li>
+<li><p>Improve stability.</p>
+</li>
+</ul>
+<h2 id="e3.9.21-e3.9.22-2021-02-01">[e3.9.21] [e3.9.22] - 2021-02-01</h2>
+<h3 id="fixed-58">Fixed</h3>
+<ul>
+<li><p>Fix the problem that the player character may not be able to be controlled when battle wins in free camera mode.</p>
+</li>
+<li><p>Fix a crash when there's only player in the team, battle wins, then switch to free camera.</p>
+</li>
+</ul>
+<h2 id="e3.9.19-e3.9.20-2021-01-31">[e3.9.19] [e3.9.20] - 2021-01-31</h2>
+<h3 id="fixed-59">Fixed</h3>
+<ul>
+<li><p>Fix wrong format of version number.</p>
+</li>
+<li><p>Fix a crash when wander around in a city, switch to free camera, and press alt.</p>
+</li>
+<li><p>Fix the problem that after victory, switch to free camera will cause the enemy cannot retreat.</p>
+</li>
+</ul>
+<h2 id="e3.9.17-e3.9.18-2021-01-30">[e3.9.17] [e3.9.18] - 2021-01-30</h2>
+<h3 id="fixed-60">Fixed</h3>
+<ul>
+<li>Fix the bug when player is not the general and the 'always set player formation option' is on, the formation that player are assigned to will not be controlled by AI.</li>
+</ul>
+<h2 id="e3.9.15-e3.9.16-2021-01-24">[e3.9.15] [e3.9.16] - 2021-01-24</h2>
+<h3 id="fixed-61">Fixed</h3>
+<ul>
+<li>Fix the bug that player cannot be assigned to the infantry formation.</li>
+</ul>
+<h2 id="e3.9.13-e3.9.14-2021-01-16">[e3.9.13] [e3.9.14] - 2021-01-16</h2>
+<h3 id="added-25">Added</h3>
+<ul>
+<li><p>Add hotkey option for selecting formation.</p>
+</li>
+<li><p>Add hint text for &quot;Charge to formation&quot; order.</p>
+</li>
+</ul>
+<h3 id="fixed-62">Fixed</h3>
+<ul>
+<li>Fix the problem that disabling &quot;Attack specific formation&quot; option has no effect.</li>
+</ul>
+<h3 id="changed-10">Changed</h3>
+<ul>
+<li>Improved AI under &quot;Charge to Formation&quot; order.</li>
+</ul>
+<h3 id="removed">Removed</h3>
+<ul>
+<li>Remove &quot;Fix circular arrangement&quot; option.</li>
+</ul>
+<h2 id="e3.9.11-e3.9.12">[e3.9.11] [e3.9.12]</h2>
+<h3 id="fixed-63">Fixed</h3>
+<ul>
+<li>Fix the problem that when CommandSystem is disabled, after switching to enemy team, the order troop placer still gives order to original team.</li>
+</ul>
+<h2 id="e3.9.9-e3.9.10">[e3.9.9] [e3.9.10]</h2>
+<h3 id="fixed-64">Fixed</h3>
+<ul>
+<li>Fix the problem that hotkey are not saved.</li>
+<li>Fix crash when watch tournament and open the mod menu.</li>
+</ul>
+<h2 id="e3.9.8">[e3.9.8]</h2>
+<h3 id="fixed-65">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannerlord e1.5.6</li>
+</ul>
+<h2 id="e3.9.7">[e3.9.7]</h2>
+<h3 id="fixed-66">Fixed</h3>
+<p>Keep compatible with Bannerlord e1.5.5.</p>
+<h3 id="changed-11">Changed</h3>
+<p>Refactored the UI system.
+Move features related to command system to a new mod called RTSCamera.CommandSystem.</p>
+<h2 id="e3.9.6-2020-10-25">[e3.9.6] - 2020-10-25</h2>
+<h3 id="fixed-67">Fixed</h3>
+<ul>
+<li><p>Fix the problem that config key page is transparent.</p>
+</li>
+<li><p>Fix the problem that troop cards all show infantry icon, regardless of the actual troop type.</p>
+</li>
+<li><p>Fix several minor problems.</p>
+</li>
+</ul>
+<h2 id="e3.9.5-2020-10-20">[e3.9.5] - 2020-10-20</h2>
+<h3 id="fixed-68">Fixed</h3>
+<ul>
+<li>Fix the problem that UI becomes transparent in Bannerlord e1.5.4.</li>
+</ul>
+<h2 id="e3.9.4-2020-10-19">[e3.9.4] - 2020-10-19</h2>
+<h3 id="fixed-69">Fixed</h3>
+<ul>
+<li><p>Fix the problem that switch team doesn't work.</p>
+</li>
+<li><p>Fix the problem that shift to accelerate camera does not work in e1.5.4.</p>
+</li>
+</ul>
+<h2 id="e3.9.3-2020-10-19">[e3.9.3] - 2020-10-19</h2>
+<h3 id="changed-12">Changed</h3>
+<ul>
+<li>Minor changes.</li>
+</ul>
+<h3 id="fixed-70">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannerlord e1.5.4.</li>
+</ul>
+<h2 id="e3.9.2-2020-10-16">[e3.9.2] - 2020-10-16</h2>
+<h3 id="fixed-71">Fixed</h3>
+<ul>
+<li>Fix the problem that in transfer command, cursor is not shown.</li>
+</ul>
+<h2 id="e3.9.1-2020-10-15">[e3.9.1] - 2020-10-15</h2>
+<h3 id="fixed-72">Fixed</h3>
+<ul>
+<li>Fix minor problems.</li>
+</ul>
+<h2 id="e3.9.0-2020-10-15">[e3.9.0] - 2020-10-15</h2>
+<h3 id="added-26">Added</h3>
+<ul>
+<li>Player can select formations by clicking troop card.</li>
+</ul>
+<h3 id="fixed-73">Fixed</h3>
+<ul>
+<li><p>Fix a problem that player may be added twice to the same formation arrangement. It happens when player is using a siege weapon and switch to free camera mode. Now player character will stop use siege weapon when switch to free camera mode to avoid this problem.</p>
+</li>
+<li><p>Fix the problem that in free camera mode pressing F may still make player character interact with other characters or siege weapons.</p>
+</li>
+</ul>
+<h3 id="changed-13">Changed</h3>
+<ul>
+<li>Change &quot;Control Another Hero&quot; to &quot;Watch Another Hero&quot;. You can press F to control the hero when watching it.</li>
+</ul>
+<h2 id="e3.8.2-2020-10-05">[e3.8.2] - 2020-10-05</h2>
+<h3 id="fixed-74">Fixed</h3>
+<ul>
+<li><p>Fix a rare crash in base game.</p>
+</li>
+<li><p>Fix the problem that movement command cannot be given when paused.</p>
+</li>
+<li><p>Fix the problem that selecting formation with middle mouse button does not work when paused.</p>
+</li>
+</ul>
+<h3 id="changed-14">Changed</h3>
+<ul>
+<li>Improve the behavior of choosing character to control when the player character is killed in battle.</li>
+</ul>
+<h2 id="e3.8.1-2020-10-02">[e3.8.1] - 2020-10-02</h2>
+<h3 id="added-27">Added</h3>
+<ul>
+<li>Highlight order flag to make it more conspicuous.</li>
+</ul>
+<h3 id="changed-15">Changed</h3>
+<ul>
+<li>Optimize performance.</li>
+</ul>
+<h3 id="fixed-75">Fixed</h3>
+<ul>
+<li>Fix bug of selecting formation.</li>
+</ul>
+<h2 id="e3.8.0-2020-09-28">[e3.8.0] - 2020-09-28</h2>
+<h3 id="added-28">Added</h3>
+<ul>
+<li>Add fix for circular arrangement of the base game.</li>
+</ul>
+<h3 id="fixed-76">Fixed</h3>
+<ul>
+<li>Fix compatibility with extension.</li>
+</ul>
+<h2 id="e3.7.2-2020-09-26">[e3.7.2] - 2020-09-26</h2>
+<h3 id="fixed-77">Fixed</h3>
+<ul>
+<li>Fix cavalry AI in &quot;Charge to formation&quot; mode.</li>
+</ul>
+<h2 id="e3.7.1-2020-09-26">[e3.7.1] - 2020-09-26</h2>
+<h3 id="fixed-78">Fixed</h3>
+<ul>
+<li>Fix crash in Bannerlord 1.5.1.</li>
+</ul>
+<h2 id="e3.7.0-2020-09-26">[e3.7.0] - 2020-09-26</h2>
+<h3 id="added-29">Added</h3>
+<ul>
+<li>Add &quot;Watch battle&quot; menu option when player is injured. You can command your troops in free camera but cannot take control of any units and directly fighting.</li>
+</ul>
+<h3 id="fixed-79">Fixed</h3>
+<ul>
+<li><p>Fix the problem that camera elevation angle and camera height may suddenly change when switching between player camera and free camera.</p>
+<p>Now the movement of the camera is smoother.</p>
+</li>
+</ul>
+<h3 id="changed-16">Changed</h3>
+<ul>
+<li>Now cheat options are only enabled when cheat mode of the base game is enabled.</li>
+</ul>
+<h2 id="e3.6.3-2020-09-19">[e3.6.3] - 2020-09-19</h2>
+<h3 id="fixed-80">Fixed</h3>
+<ul>
+<li>Fix a crash when pressing F at the end of tournament.</li>
+</ul>
+<h2 id="e3.6.2-2020-09-18">[e3.6.2] - 2020-09-18</h2>
+<h3 id="fixed-81">Fixed</h3>
+<ul>
+<li>Fix a crash in free camera when click &quot;Begin Assault&quot; button in siege.</li>
+</ul>
+<h2 id="e3.6.1-2020-09-18">[e3.6.1] - 2020-09-18</h2>
+<h3 id="fixed-82">Fixed</h3>
+<ul>
+<li>Enable &quot;Attack Specific Formation&quot; by default.</li>
+</ul>
+<h2 id="e3.6.0-2020-09-18">[e3.6.0] - 2020-09-18</h2>
+<h3 id="added-30">Added</h3>
+<ul>
+<li><p>Add &quot;charge to formation&quot; feature. You can click mouse middle button to an enemy formation and your soldiers will charge to it.</p>
+</li>
+<li><p>Add camera smooth movement when camera mode changes or player character changes, etc.</p>
+</li>
+<li><p>Free camera now uses smooth rotation by default.</p>
+</li>
+</ul>
+<h3 id="changed-17">Changed</h3>
+<ul>
+<li><p>Use middle mouse button instead of left mouse button to select formation to avoid accidentally giving movement orders when &quot;Click to Select Formation&quot; is enabled.</p>
+</li>
+<li><p>Optimize behavior of click formation.</p>
+</li>
+</ul>
+<h3 id="fixed-83">Fixed</h3>
+<ul>
+<li><p>Fix a rare crash that occurred when switch free camera too quickly.</p>
+</li>
+<li><p>Fix the problem that player may charge to enemy alone.</p>
+</li>
+<li><p>Fix the problem that player character may goes out of battle field and causes retreat in free camera mode.</p>
+</li>
+<li><p>Fix the problem that banner on player character is not shown in free camera mode.</p>
+</li>
+</ul>
+<h3 id="removed-1">Removed</h3>
+<ul>
+<li>Remove &quot;Prevent Player Fighting&quot; option because the related problem has been fixed.</li>
+</ul>
+<h2 id="e3.5.15-2020-09-05">[e3.5.15] - 2020-09-05</h2>
+<h3 id="fixed-84">Fixed</h3>
+<ul>
+<li><p>Fix the problem of that ctrl or alt key does not work. Now camera speed can be adjusted by pressing ctrl + mosue scroll again.</p>
+</li>
+<li><p>When the HUD is hidden, opening any focused view (such as when entering a conversation, pressing esc, etc.) will cause the HUD to be temporarily enabled.</p>
+</li>
+<li><p>Fix player AI in arena practice after switched to free camera.</p>
+</li>
+<li><p>Fix the problem that multiple player character may be spawned when switched to free camera in arena practice.</p>
+</li>
+</ul>
+<h2 id="e3.5.14-2020-08-24">[e3.5.14] - 2020-08-24</h2>
+<h3 id="fixed-85">Fixed</h3>
+<ul>
+<li>Fix the problem that ally formation is wrong highlighted when &quot;show contour&quot; is enabled.</li>
+</ul>
+<h2 id="e3.5.13-2020-08-19">[e3.5.13] - 2020-08-19</h2>
+<h3 id="fixed-86">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannelord e1.5.0.</li>
+</ul>
+<h2 id="e3.5.12-2020-08-15">[e3.5.12] - 2020-08-15</h2>
+<h3 id="fixed-87">Fixed</h3>
+<ul>
+<li>Fix hint text when selecting character.</li>
+</ul>
+<h3 id="changed-18">Changed</h3>
+<ul>
+<li>Optimize behavior when pressing F key.</li>
+</ul>
+<h2 id="e3.5.11-2020-08-15">[e3.5.11] - 2020-08-15</h2>
+<h3 id="changed-19">Changed</h3>
+<ul>
+<li>Rearrange UI of mod menu.</li>
+</ul>
+<h3 id="added-31">Added</h3>
+<ul>
+<li>Add hint for each button in mod menu.</li>
+</ul>
+<h2 id="e3.5.10-2020-08-09">[e3.5.10] - 2020-08-09</h2>
+<h3 id="fixed-88">Fixed</h3>
+<ul>
+<li><p>Fix key configuration.</p>
+</li>
+<li><p>Fix crash when controlling soldier in hideout.</p>
+</li>
+</ul>
+<h3 id="changed-20">Changed</h3>
+<ul>
+<li><p>Soldiers within 20 meters will be considered first when looking for soldier to control.</p>
+</li>
+<li><p>Enable selecting formation feature by default.</p>
+</li>
+<li><p>Slow motion config will be saved when changed using hotkey.</p>
+</li>
+</ul>
+<h2 id="e3.5.9-2020-08-02">[e3.5.9] - 2020-08-02</h2>
+<h3 id="added-32">Added</h3>
+<ul>
+<li>Enable feature that you can select formation by directly click on them.</li>
+</ul>
+<h3 id="fixed-89">Fixed</h3>
+<ul>
+<li>Fix crash when entering battle, assigning player to an empty formation and then giving an order such as shield wall.</li>
+</ul>
+<h2 id="e3.5.8-2020-08-01">[e3.5.8] - 2020-08-01</h2>
+<h3 id="fixed-90">Fixed</h3>
+<ul>
+<li>Fix the problem that cursor is not shown when give commands in free camera mode.</li>
+</ul>
+<h2 id="e3.5.7-2020-07-31">[e3.5.7] - 2020-07-31</h2>
+<h3 id="fixed-91">Fixed</h3>
+<ul>
+<li>Fix selecting character feature.</li>
+</ul>
+<h2 id="e3.5.6-2020-07-31">[e3.5.6] - 2020-07-31</h2>
+<h3 id="fixed-92">Fixed</h3>
+<ul>
+<li>Fix the problem that selecting character hint may be shown after conversation.</li>
+</ul>
+<h2 id="e3.5.5-2020-07-31">[e3.5.5] - 2020-07-31</h2>
+<h3 id="fixed-93">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannerlord e1.4.3.</li>
+</ul>
+<h2 id="e3.5.4-2020-07-31">[e3.5.4] - 2020-07-31</h2>
+<h3 id="added-33">Added</h3>
+<ul>
+<li><p>Add feature: You can press <code>;</code> then left click to select a soldier, then lock camera to it or control it by pressing <code>F</code>.</p>
+</li>
+<li><p>Add an option to prevent player fighting, to solve the problem that player character may charge into enemy formation when switched to free camera mode.</p>
+</li>
+<li><p>Add an option to always set player's formation.</p>
+</li>
+</ul>
+<h3 id="changed-21">Changed</h3>
+<ul>
+<li>The default key to open RTS menu is changed from 'O' to 'L'.</li>
+</ul>
+<h2 id="e3.5.3-2020-06-07">[e3.5.3] - 2020-06-07</h2>
+<h3 id="fixed-94">Fixed</h3>
+<ul>
+<li>Fix the problem that changing config file may not work.</li>
+</ul>
+<h2 id="e3.5.2-2020-06-07">[e3.5.2] - 2020-06-07</h2>
+<h3 id="changed-22">Changed</h3>
+<ul>
+<li>Disable show contour feature to avoid problems.</li>
+</ul>
+<h2 id="e3.5.1-2020-06-06">[e3.5.1] - 2020-06-06</h2>
+<h3 id="added-34">Added</h3>
+<ul>
+<li>Add an option for disabling hotkey for switching team.</li>
+</ul>
+<h3 id="changed-23">Changed</h3>
+<ul>
+<li>Reset hotkeys of previous version to prevent problems relating to hotkeys.</li>
+</ul>
+<h2 id="e3.5.0-2020-06-04">[e3.5.0] - 2020-06-04</h2>
+<h3 id="added-35">Added</h3>
+<ul>
+<li><p>Add feature: Now player can select troops by directly clicking on them.</p>
+</li>
+<li><p>Troops that will be selected and has been selected will be highlighted with contour.</p>
+</li>
+</ul>
+<h3 id="changed-24">Changed</h3>
+<ul>
+<li>Player formation logic is reverted to the previous version.</li>
+</ul>
+<h2 id="e3.4.0-2020-06-02">[e3.4.0] - 2020-06-02</h2>
+<h3 id="fixed-95">Fixed</h3>
+<ul>
+<li><p>Fix the problem that in RTS camera mode, when player starts to use ranged siege machine, the camera will be fixed on the siege machine.</p>
+</li>
+<li><p>Fix the problem that when player are using siege machine, switch RTS Camera on and off may cause the player unable to use siege machine by AI any more.</p>
+</li>
+</ul>
+<h3 id="changed-25">Changed</h3>
+<ul>
+<li>Now player will only be added to formation when switching to RTS Camera mode and will be removed from formation when switching back.</li>
+</ul>
+<h2 id="e3.3.2-2020-05-31">[e3.3.2] - 2020-05-31</h2>
+<h3 id="fixed-96">Fixed</h3>
+<ul>
+<li>Fix broken hot key for switching team.</li>
+</ul>
+<h2 id="e3.3.1-2020-05-31">[e3.3.1] - 2020-05-31</h2>
+<h3 id="added-36">Added</h3>
+<ul>
+<li>Add switch team feature. Press F12 by default to use it.</li>
+</ul>
+<h2 id="e3.3.0-2020-05-29">[e3.3.0] - 2020-05-29</h2>
+<h3 id="fixed-97">Fixed</h3>
+<ul>
+<li>Fix harmony patch.</li>
+</ul>
+<h3 id="added-37">Added</h3>
+<ul>
+<li><p>Add &quot;constant speed&quot; option: Camera speed will not be affected by camera height after toggled on.</p>
+</li>
+<li><p>Add &quot;outdoor&quot; option: After toggled off, camera can go into houses.</p>
+</li>
+<li><p>Add &quot;restrict by boundaries&quot; option: After toggled off, camera can go out of scene boundary.</p>
+</li>
+</ul>
+<h2 id="e3.2.2-2020-05-27">[e3.2.2] - 2020-05-27</h2>
+<h3 id="fixed-98">Fixed</h3>
+<ul>
+<li>Fix crash in tournament when controlling ally after player dead.</li>
+</ul>
+<h2 id="e3.2.1-2020-05-25">[e3.2.1] - 2020-05-25</h2>
+<h3 id="changed-26">Changed</h3>
+<ul>
+<li><p>Change logic of controlling companions.</p>
+</li>
+<li><p>Change the thickness of raycast that determines depth of field distance from 0.01 to 0.5.</p>
+</li>
+</ul>
+<h3 id="fixed-99">Fixed</h3>
+<ul>
+<li><p>Fix crash in siege.</p>
+</li>
+<li><p>Fix a problem that adjusting camera parameters in Cinematic Camera may cause camera rotates.</p>
+</li>
+</ul>
+<h2 id="e3.2.0-2020-05-23">[e3.2.0] - 2020-05-23</h2>
+<h3 id="changed-27">Changed</h3>
+<ul>
+<li>rename Module folder to RTSCamera; rename project to RTS Camera.</li>
+</ul>
+<h2 id="e3.1.0-2020-05-21">[e3.1.0] - 2020-05-21</h2>
+<h3 id="added-38">Added</h3>
+<ul>
+<li><p>Add options for controlling ally.</p>
+</li>
+<li><p>Add support for Cinematic Camera.</p>
+</li>
+</ul>
+<h2 id="e3.0.0-2020-04-25">[e3.0.0] - 2020-04-25</h2>
+<h3 id="fixed-100">Fixed</h3>
+<ul>
+<li>Keep compatible with Bannerlord e1.3.0.</li>
+</ul>
+<h2 id="e2.0.1-2020-04-25">[e2.0.1] - 2020-04-25</h2>
+<h3 id="fixed-101">Fixed</h3>
+<ul>
+<li>Fix the problem that change to target reticule during a battle will be reverted after battle.</li>
+</ul>
+<h3 id="changed-28">Changed</h3>
+<ul>
+<li>Change mod name to RTS Camera.</li>
+</ul>
+<h2 id="e2.0.0-2020-04-17">[e2.0.0] - 2020-04-17</h2>
+<h3 id="fixed-102">Fixed</h3>
+<ul>
+<li><p>Fix the bug that the quit text may become &quot;retreat&quot; rather than done after victory.</p>
+</li>
+<li><p>Fix the bug that the targeting reticule may be hidden accidentally.</p>
+</li>
+</ul>
+<h3 id="changed-29">Changed</h3>
+<ul>
+<li>Overhaul the extension feature.</li>
+</ul>
+<h2 id="e1.0.11-2020-04-15">[e1.0.11] - 2020-04-15</h2>
+<h3 id="added-39">Added</h3>
+<ul>
+<li><p>When switch to rts camera, it will be raised to a configurable height.</p>
+</li>
+<li><p>Now rts camera can lock agents by left click or right click when order UI is closed.</p>
+</li>
+</ul>
+<h3 id="changed-30">Changed</h3>
+<ul>
+<li><p>Remove restriction that config key cannot conflict with each other.</p>
+</li>
+<li><p>Now opening mod menu will cause HUD temporarily enabled to show the menu.</p>
+</li>
+</ul>
+<h3 id="fixed-103">Fixed</h3>
+<ul>
+<li>Fix the problems that when game is paused, the rts camera cannot be rotated by putting mouse on the edge on the screen.</li>
+</ul>
+<h2 id="e1.0.10-2020-04-14">[e1.0.10] - 2020-04-14</h2>
+<h3 id="fixed-104">Fixed</h3>
+<ul>
+<li>Fix the bug that after clicking &quot;toggle HUD&quot; button in mod menu, the mod menu is not closed.</li>
+</ul>
+<h2 id="e1.0.9-2020-04-14">[e1.0.9] - 2020-04-14</h2>
+<h3 id="added-40">Added</h3>
+<ul>
+<li><p>Add toggle HUD feature.</p>
+<p>You can press <code>]</code> key to toggle HUD. Or if you rebind the key and forget what you have set it to, you can press <code>Home</code> key to toggle UI, which always works.</p>
+</li>
+</ul>
+<h3 id="changed-31">Changed</h3>
+<ul>
+<li>Change default key for disable death to <code>End</code>.</li>
+</ul>
+<h3 id="fixed-105">Fixed</h3>
+<ul>
+<li><p>Fix the problem that targeting reticule is shown when rts camera is enabled and player is using ranged weapon.</p>
+</li>
+<li><p>Fix a crash when switching to free camera after victory.</p>
+</li>
+</ul>
+<h2 id="e1.0.8-2020-04-13">[e1.0.8] - 2020-04-13</h2>
+<h3 id="fixed-106">Fixed</h3>
+<ul>
+<li>Fixed the bug that display message option is not saved.</li>
+</ul>
+<h2 id="e1.0.7-2020-04-13">[e1.0.7] - 2020-04-13</h2>
+<h3 id="changed-32">Changed</h3>
+<ul>
+<li>Change slow motion mode logic.</li>
+</ul>
+<h3 id="add">Add</h3>
+<ul>
+<li><p>Add hot key for slow motion mode. Default to ' key.</p>
+</li>
+<li><p>Add display message option.</p>
+</li>
+</ul>
+<h2 id="e1.0.6-2020-04-12">[e1.0.6] - 2020-04-12</h2>
+<h3 id="added-41">Added</h3>
+<ul>
+<li>Save config for &quot;change combat ai&quot; and &quot;use realistic blocking&quot; options.</li>
+</ul>
+<h2 id="e1.0.5-2020-04-12">[e1.0.5] - 2020-04-12</h2>
+<h3 id="fixed-107">Fixed</h3>
+<ul>
+<li>Support Bannerlord e1.1.0</li>
+</ul>
+<h3 id="changed-33">Changed</h3>
+<ul>
+<li>Move &quot;use realistic blocking&quot; and &quot;change combat ai&quot; feature to another mod called &quot;EnhancedMission Change AI&quot;(renamed to &quot;Improved Combat AI&quot; now).</li>
+</ul>
+<h2 id="e1.0.4-2020-04-12">[e1.0.4] - 2020-04-12</h2>
+<h3 id="added-42">Added</h3>
+<ul>
+<li><p>Add &quot;use free camera by default&quot; option.</p>
+</li>
+<li><p>Use mouse to move camera.</p>
+</li>
+</ul>
+<h3 id="changed-34">Changed</h3>
+<ul>
+<li>Now RTS camera will not be interrupted by player's death.</li>
+</ul>
+<h3 id="fixed-108">Fixed</h3>
+<ul>
+<li>Player can drag on the ground when game is paused or slow down, defictive though.</li>
+</ul>
+<h2 id="e1.0.3-hotfix-2020-04-11">[e1.0.3-hotfix] - 2020-04-11</h2>
+<ul>
+<li>Fix bug that hot key config will be reset to default after each game start.</li>
+</ul>
+<h2 id="e1.0.3-2020-04-11">[e1.0.3] - 2020-04-11</h2>
+<h3 id="fixed-109">Fixed</h3>
+<ul>
+<li>Fix crash when new config for hot key is created.</li>
+</ul>
+<h3 id="changed-35">Changed</h3>
+<ul>
+<li>Enable smooth mode for rts camera.</li>
+</ul>
+<h2 id="e1.0.2-2020-04-10">[e1.0.2] - 2020-04-10</h2>
+<h3 id="fixed-110">Fixed</h3>
+<ul>
+<li>Fix the bug that player can control enemy troop after player dead.</li>
+</ul>
+<h2 id="e1.0.1-2020-04-10">[e1.0.1] - 2020-04-10</h2>
+<h3 id="added-43">Added</h3>
+<ul>
+<li>Add key rebinding feature.</li>
+</ul>
+<h2 id="e1.0.0-2020-04-09">[e1.0.0] - 2020-04-09</h2>
+<h3 id="added-44">Added</h3>
+<ul>
+<li><p>Switch to rts-style camera and issue orders.</p>
+<p>Add player to a individual formation.</p>
+</li>
+<li><p>Control your troop after dead.</p>
+</li>
+<li><p>Pause mission.</p>
+</li>
+<li><p>Adjust mission speed.</p>
+</li>
+<li><p>Adjust combat AI.</p>
+</li>
+<li><p>Option to use realistic blocking introduced in b0.8.1.</p>
+</li>
+<li><p>disable and enable damage.</p>
+</li>
+</ul>
+
+</body>
+</html>
