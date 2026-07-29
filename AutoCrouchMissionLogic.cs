@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using TaleWorlds.Core;
+using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
 namespace ExampleMod
@@ -7,8 +8,9 @@ namespace ExampleMod
     /// <summary>
     /// 阵型蹲下逻辑：
     /// 在纯步兵/纯远程小队中（百分比大于95%），当Agents所属小队处于Hold状态，
-    /// 且Agents自身不在移动中，且阵型属于线阵/盾阵时，
-    /// 士兵会蹲下（步兵则是只有第一排、远程兵则是前一半的排）。
+    /// 且Agents自身不在移动中时：
+    /// - 线阵/盾阵：步兵首排蹲下、远程前半排蹲下
+    /// - 松散阵：步兵不蹲、远程全体蹲下
     ///
     /// 下马的骑兵视为步兵，下马的骑射手视为远程。
     /// 其它任何状态、任何阵型都不触发蹲下。
@@ -18,7 +20,6 @@ namespace ExampleMod
         private const float CheckInterval = 0.5f;
         private const float PurityThreshold = 0.95f;
         private const float MovingSpeedThresholdSq = 0.01f;
-
         private float _checkTimer;
 
         public override void OnMissionTick(float dt)
@@ -33,6 +34,9 @@ namespace ExampleMod
 
             foreach (Team team in Mission.Teams)
             {
+                if (team != Mission.PlayerTeam && team != Mission.PlayerAllyTeam)
+                    continue;
+
                 foreach (Formation formation in team.FormationsIncludingEmpty)
                 {
                     if (formation.CountOfUnits == 0)
@@ -57,13 +61,31 @@ namespace ExampleMod
                     float infantryRatio = (float)effectiveInfantry / totalEffective;
                     float rangedRatio = (float)effectiveRanged / totalEffective;
 
+                    bool isLoose = formation.ArrangementOrder.OrderEnum == ArrangementOrder.ArrangementOrderEnum.Loose;
+
                     if (infantryRatio >= PurityThreshold)
                     {
-                        ApplyCrouchForInfantryFormation(formation);
+                        if (isLoose)
+                        {
+                            // 松散阵下步兵不蹲
+                            ForceFormationToStand(formation);
+                        }
+                        else
+                        {
+                            ApplyCrouchForInfantryFormation(formation);
+                        }
                     }
                     else if (rangedRatio >= PurityThreshold)
                     {
-                        ApplyCrouchForRangedFormation(formation);
+                        if (isLoose)
+                        {
+                            // 松散阵下远程全体蹲下
+                            ApplyCrouchForRangedLooseFormation(formation);
+                        }
+                        else
+                        {
+                            ApplyCrouchForRangedFormation(formation);
+                        }
                     }
                     else
                     {
@@ -75,6 +97,7 @@ namespace ExampleMod
 
         /// <summary>
         /// 阵型级快速过滤：检查 MovementState 和 ArrangementOrder。
+        /// 允许线阵、盾阵、松散阵（松散阵下蹲逻辑由调用方进一步限制）。
         /// </summary>
         private static bool IsFormationEligibleByState(Formation formation)
         {
@@ -82,10 +105,11 @@ namespace ExampleMod
             if (formation.GetMovementState() != MovementOrder.MovementStateEnum.Hold)
                 return false;
 
-            // 阵型排列必须是线阵、盾阵两者之一
+            // 阵型排列必须是线阵、盾阵、松散阵三者之一
             var arrangement = formation.ArrangementOrder.OrderEnum;
             if (arrangement != ArrangementOrder.ArrangementOrderEnum.Line &&
-                arrangement != ArrangementOrder.ArrangementOrderEnum.ShieldWall)
+                arrangement != ArrangementOrder.ArrangementOrderEnum.ShieldWall &&
+                arrangement != ArrangementOrder.ArrangementOrderEnum.Loose)
                 return false;
 
             return true;
@@ -205,6 +229,26 @@ namespace ExampleMod
                 int rank = ((IFormationUnit)agent).FormationRankIndex;
                 agent.SetCrouchMode(rank <= thresholdRank);
             });
+        }
+
+        /// <summary>
+        /// 远程松散阵蹲下：所有不移动的 eligible agent 全体蹲下。
+        /// 松散阵使用 LineFormation 行为（非 detached），行列索引有效，
+        /// MovementVelocity 判定在 LineFormation 行为下正常工作。
+        /// 使用 GetAllFormationAgents 确保覆盖率（与 ApplyActionOnEachUnit 等效但更全面）。
+        /// </summary>
+        private static void ApplyCrouchForRangedLooseFormation(Formation formation)
+        {
+            foreach (var agent in GetAllFormationAgents(formation))
+            {
+                if (!IsCrouchEligibleAgent(agent))
+                {
+                    agent.SetCrouchMode(false);
+                    continue;
+                }
+
+                agent.SetCrouchMode(true);
+            }
         }
 
         /// <summary>
