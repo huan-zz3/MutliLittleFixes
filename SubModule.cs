@@ -70,6 +70,7 @@ namespace ExampleMod
         {
             base.OnMissionBehaviorInitialize(mission);
             mission.AddMissionBehavior(new SiegeTrajectoryBehavior());
+            mission.AddMissionBehavior(new AutoCrouchMissionLogic());
 
             // 手动注册 PlayerCircleView（调试用圆圈/点渲染）
             // 取消注释下一行即可启用
