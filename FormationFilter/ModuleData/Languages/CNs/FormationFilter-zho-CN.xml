@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="简体中文" />
+  </tags>
+  <strings>
+    <string id="FormationFilter_formation_filter" text="编队筛选器" />
+
+    <string id="FormationFilter_squad_name" text="小队 {NUMBER}" />
+
+    <string id="FormationFilter_formation_filter_description_OneHanded" text="包含/排除有单手武器的士兵。" />
+    <string id="FormationFilter_formation_filter_description_TwoHanded" text="包含/排除有双手武器的士兵。" />
+    <string id="FormationFilter_formation_filter_description_Spear" text="包含/排除有长杆武器的士兵。" />
+    <string id="FormationFilter_formation_filter_description_Thrown" text="包含/排除有投掷武器的士兵。" />
+    <string id="FormationFilter_formation_filter_description_Shield" text="包含/排除有盾牌的士兵。" />
+    <string id="FormationFilter_formation_filter_description_Heavy" text="包含/排除重甲士兵。" />
+    <string id="FormationFilter_formation_filter_description_LowTier" text="包含/排除低阶士兵。" />
+    <string id="FormationFilter_formation_filter_description_HighTier" text="包含/排除高阶士兵。" />
+    <string id="FormationFilter_formation_filter_description_Bow" text="包含/排除有弓的士兵。" />
+    <string id="FormationFilter_formation_filter_description_Crossbow" text="包含/排除有弩的士兵。" />
+    <string id="FormationFilter_formation_filter_description_Sling" text="包含/排除有投石器的士兵。" />
+
+    <string id="FormationFilter_formation_filter_value_Invalid" text="无效" />
+    <string id="FormationFilter_formation_filter_value_Included" text="包含" />
+    <string id="FormationFilter_formation_filter_value_Excluded" text="排除" />
+    <string id="FormationFilter_formation_filter_value_Any" text="任意" />
+
+
+    <string id="FormationFilter_result_success" text="所有单位都满足编队筛选条件。" />
+    <string id="FormationFilter_result_fail" text="有{number}个单位不满足任何编队筛选条件。第一个是{name}。" />
+
+    <string id="FormationFilter_assign_reinforcement_according_to_formation_filter" text="根据筛选器将增援分配到编队" />
+    <string id="FormationFilter_treat_swing_polearm_as_two_handed_weapon" text="将挥砍长杆视为双手武器" />
+    <string id="FormationFilter_treat_throwing_spear_as_polearm" text="将投矛视为长杆武器" />
+    <string id="FormationFilter_treat_throwing_spear_as_throwing_weapon" text="将投矛视为投掷武器" />
+    <string id="FormationFilter_high_tier_threshold" text="被视为高阶的最低等级" />
+    <string id="FormationFilter_low_tier_threshold" text="被视为低阶的最高等级" />
+  </strings>
+</base>

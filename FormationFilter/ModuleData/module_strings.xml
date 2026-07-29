@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<strings>
+  <string id="str_formation_filter_formation_filter" text="{=FormationFilter_formation_filter}Formation Filter" />
+
+  <string id="str_formation_filter_squad_name" text="{=FormationFilter_squad_name}Squad {NUMBER}" />
+
+  <string id="str_formation_filter_type.Unset" text="{=w7Yrbi5t}Unset" />
+  <string id="str_formation_filter_description.Unset" text="{=w7Yrbi5t}Unset" />
+  <string id="str_formation_filter_type.OneHanded" text="{=PiHpR4QL}One Handed" />
+  <string id="str_formation_filter_description.OneHanded" text="{=FormationFilter_formation_filter_description_OneHanded}Include/Exclude troops having one handed weapon." />
+  <string id="str_formation_filter_type.TwoHanded" text="{=t78atYqH}Two Handed" />
+  <string id="str_formation_filter_description.TwoHanded" text="{=FormationFilter_formation_filter_description_TwoHanded}Include/Exclude troops having two handed weapon." />
+  <string id="str_formation_filter_type.Spear" text="{=f83FU4X6}Polearm" />
+  <string id="str_formation_filter_description.Spear" text="{=FormationFilter_formation_filter_description_Spear}Include/Exclude troops having polearm." />
+  <string id="str_formation_filter_type.Thrown" text="{=Ea3K1PVR}Thrown Weapons" />
+  <string id="str_formation_filter_description.Thrown" text="{=FormationFilter_formation_filter_description_Thrown}Include/Exclude troops having thrown weapon." />
+  <string id="str_formation_filter_type.Shield" text="{=PSN8IaIg}Shields" />
+  <string id="str_formation_filter_description.Shield" text="{=FormationFilter_formation_filter_description_Shield}Include/Exclude troops having shield." />
+  <string id="str_formation_filter_type.Heavy" text="{=Jw0GMgzv}Heavy Armors" />
+  <string id="str_formation_filter_description.Heavy" text="{=FormationFilter_formation_filter_description_Heavy}Include/Exclude troops having heavy armor." />
+  <string id="str_formation_filter_type.LowTier" text="{=qaPgbwZv}Low Tier" />
+  <string id="str_formation_filter_description.LowTier" text="{=FormationFilter_formation_filter_description_LowTier}Include/Exclude troops having low tier." />
+  <string id="str_formation_filter_type.HighTier" text="{=DzAkCzwd}High Tier" />
+  <string id="str_formation_filter_description.HighTier" text="{=FormationFilter_formation_filter_description_HighTier}Include/Exclude troops having high tier." />
+  <string id="str_formation_filter_type.Bow" text="{=5rj7xQE4}Bow" />
+  <string id="str_formation_filter_description.Bow" text="{=FormationFilter_formation_filter_description_Bow}Include/Exclude troops having bow." />
+  <string id="str_formation_filter_type.Crossbow" text="{=TTWL7RLe}Crossbow" />
+  <string id="str_formation_filter_description.Crossbow" text="{=FormationFilter_formation_filter_description_Crossbow}Include/Exclude troops having crossbow." />
+  <string id="str_formation_filter_type.Sling" text="{=bDfKz5SZ}Sling" />
+  <string id="str_formation_filter_description.Sling" text="{=FormationFilter_formation_filter_description_Sling}Include/Exclude troops having sling." />
+
+  <string id="str_formation_filter_value.Invalid" text="{=FormationFilter_formation_filter_value_Invalid}Invalid" />
+  <string id="str_formation_filter_value.Yes" text="{=FormationFilter_formation_filter_value_Included}Included" />
+  <string id="str_formation_filter_value.No" text="{=FormationFilter_formation_filter_value_Excluded}Excluded" />
+  <string id="str_formation_filter_value.Any" text="{=FormationFilter_formation_filter_value_Any}Any" />
+
+  <string id="str_formation_filter_result_success" text="{=FormationFilter_result_success}All units satisfy formation filters." />
+  <string id="str_formation_filter_result_fail" text="{=FormationFilter_result_fail}There're {number} units doesn't satisfy any formation filter. The first is {name}." />
+</strings>

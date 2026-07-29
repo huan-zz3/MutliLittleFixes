@@ -1,0 +1,11 @@
+<Prefab>
+  <Window>
+    <Widget DoNotAcceptEvents="true" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" >
+      <Children>
+        <TextWidget Text="@SuccessString" IsVisible="@SuccessStringVisible" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="200" Brush="FormationFilter.FilterResult.Success" />
+      
+        <TextWidget Text="@FailString" IsVisible="@FailStringVisible" WidthSizePolicy="CoverChildren" HeightSizePolicy="CoverChildren" HorizontalAlignment="Center" VerticalAlignment="Top" MarginTop="200" Brush="FormationFilter.FilterResult.Fail" />
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>

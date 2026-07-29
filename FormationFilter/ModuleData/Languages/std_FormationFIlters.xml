@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+  <tags>
+    <tag language="English" />
+  </tags>
+  <strings>
+    <string id="FormationFilter_formation_filter" text="Formation Filter" />
+
+  <string id="FormationFilter_squad_name" text="Squad {NUMBER}" />
+    
+    <string id="FormationFilter_formation_filter_description_OneHanded" text="Include/Exclude troops having one handed weapon." />
+    <string id="FormationFilter_formation_filter_description_TwoHanded" text="Include/Exclude troops having two handed weapon." />
+    <string id="FormationFilter_formation_filter_description_Spear" text="Include/Exclude troops having polearm." />
+    <string id="FormationFilter_formation_filter_description_Thrown" text="Include/Exclude troops having thrown weapon." />
+    <string id="FormationFilter_formation_filter_description_Shield" text="Include/Exclude troops having shield." />
+    <string id="FormationFilter_formation_filter_description_Heavy" text="Include/Exclude troops having heavy armor." />
+    <string id="FormationFilter_formation_filter_description_LowTier" text="Include/Exclude troops having low tier." />
+    <string id="FormationFilter_formation_filter_description_HighTier" text="Include/Exclude troops having high tier." />
+    <string id="FormationFilter_formation_filter_description_Bow" text="Include/Exclude troops having bow." />
+    <string id="FormationFilter_formation_filter_description_Crossbow" text="Include/Exclude troops having crossbow." />
+    <string id="FormationFilter_formation_filter_description_Sling" text="Include/Exclude troops having sling." />
+
+    <string id="FormationFilter_formation_filter_value_Invalid" text="Invalid" />
+    <string id="FormationFilter_formation_filter_value_Included" text="Included" />
+    <string id="FormationFilter_formation_filter_value_Excluded" text="Excluded" />
+    <string id="FormationFilter_formation_filter_value_Any" text="Any" />
+
+    <string id="FormationFilter_result_success" text="All units satisfy formation filters." />
+    <string id="FormationFilter_result_fail" text="There're {number} units doesn't satisfy any formation filter. The first is {name}." />
+
+    <string id="FormationFilter_assign_reinforcement_according_to_formation_filter" text="Assign reinforcements to formations according to filter" />
+    <string id="FormationFilter_treat_swing_polearm_as_two_handed_weapon" text="Treat swing polearm as two handed weapon" />
+    <string id="FormationFilter_treat_throwing_spear_as_polearm" text="Treat throwing spear as polearm" />
+    <string id="FormationFilter_treat_throwing_spear_as_throwing_weapon" text="Treat throwing spear as throwing weapon" />
+    <string id="FormationFilter_high_tier_threshold" text="The lowest tier to be considered as high tier" />
+    <string id="FormationFilter_low_tier_threshold" text="The highest tier to be considered as low tier" />
+  </strings>
+</base>

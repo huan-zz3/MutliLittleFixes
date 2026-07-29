@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Module>
+  <Id value="FormationFilter" />
+  <Name value="FormationFilter" />
+  <Version value="v1.0.3" />
+  <SingleplayerModule value="true" />
+  <MultiplayerModule value="false" />
+  <DefaultModule value="false" />
+  <ModuleCategory value="Singleplayer"/>
+  <ModuleType value="Community" />
+  <Url value="" />
+  <DependedModules>
+    <DependedModule Id="Bannerlord.Harmony" DependentVersion="v2.4.2" />
+    <DependedModule Id="Bannerlord.ButterLib" DependentVersion="v2.10.4" />
+    <DependedModule Id="Bannerlord.UIExtenderEx" DependentVersion="v2.13.2" />
+    <DependedModule Id="Bannerlord.MBOptionScreen" DependentVersion="v5.12.1" />
+    <DependedModule Id="Native" DependentVersion="v1.4.6" />
+    <DependedModule Id="SandBoxCore" DependentVersion="v1.4.6" />
+    <DependedModule Id="Sandbox" DependentVersion="v1.4.6" />
+    <DependedModule Id="StoryMode" DependentVersion="v1.4.6" />
+    <DependedModule Id="CustomBattle" DependentVersion="v1.4.6" />
+  </DependedModules>
+  <!-- Community Dependency Metadata -->
+  <!-- https://github.com/BUTR/Bannerlord.BLSE#community-dependency-metadata -->
+  <DependedModuleMetadatas>
+    <DependedModuleMetadata id="Bannerlord.Harmony" order="LoadBeforeThis" version="v2.4.2" />
+    <DependedModuleMetadata id="Bannerlord.ButterLib" order="LoadBeforeThis" version="v2.10.4" />
+    <DependedModuleMetadata id="Bannerlord.UIExtenderEx" order="LoadBeforeThis" version="v2.13.2" />
+    <DependedModuleMetadata id="Bannerlord.MBOptionScreen" order="LoadBeforeThis" version="v5.12.1" />
+    <DependedModuleMetadata id="Native" order="LoadBeforeThis" version="v1.4.6.*" />
+    <DependedModuleMetadata id="SandBoxCore" order="LoadBeforeThis" version="v1.4.6.*" />
+    <DependedModuleMetadata id="Sandbox" order="LoadBeforeThis" version="v1.4.6.*" />
+    <DependedModuleMetadata id="StoryMode" order="LoadBeforeThis" version="v1.4.6.*" />
+    <DependedModuleMetadata id="CustomBattle" order="LoadBeforeThis" version="v1.4.6.*" />
+  </DependedModuleMetadatas>
+  <SubModules>
+    <SubModule>
+      <Name value="FormationFilter" />
+      <DLLName value="FormationFilter.v1.4.6.dll" />
+      <SubModuleClassType value="FormationFilter.SubModule" />
+      <Tags>
+        <Tag key="DedicatedServerType" value="none" />
+        <Tag key="IsNoRenderModeElement" value="false" />
+      </Tags>
+    </SubModule>
+  </SubModules>
+  <Xmls>
+    <XmlNode>
+      <XmlName id="GameText" path="module_strings"/>
+    </XmlNode>
+  </Xmls>
+</Module>
