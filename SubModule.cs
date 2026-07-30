@@ -71,6 +71,11 @@ namespace ExampleMod
             base.OnMissionBehaviorInitialize(mission);
             mission.AddMissionBehavior(new SiegeTrajectoryBehavior());
             mission.AddMissionBehavior(new AutoCrouchMissionLogic());
+            mission.AddMissionBehavior(new RangedNoAmmoBehavior());
+
+            // 调试: 按 , 键随机 5% 远程士兵弹药归零（测试 RangedNoAmmoBehavior 用）
+            // 正式发布前可删除或注释掉此行
+            mission.AddMissionBehavior(new RangedNoAmmoDebugBehavior());
 
             // 手动注册 PlayerCircleView（调试用圆圈/点渲染）
             // 取消注释下一行即可启用
