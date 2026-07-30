@@ -37,7 +37,7 @@ namespace ExampleMod
                 if (team != Mission.PlayerTeam && team != Mission.PlayerAllyTeam)
                     continue;
 
-                foreach (Formation formation in team.FormationsIncludingEmpty)
+                foreach (Formation formation in team.FormationsIncludingSpecialAndEmpty)
                 {
                     if (formation.CountOfUnits == 0)
                         continue;
