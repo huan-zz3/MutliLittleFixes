@@ -173,6 +173,10 @@ namespace ExampleMod
         [SettingPropertyGroup("调试")]
         public bool EnableDebugLogging { get; set; } = false;
 
+        [SettingPropertyBool("远程弹药归零调试（按,键）", Order = 39, RequireRestart = false, HintText = "战斗中按 , 键随机将 5% 远程士兵弹药强制归零，用于测试第9队移交逻辑")]
+        [SettingPropertyGroup("调试")]
+        public bool RangedNoAmmoDebugEnabled { get; set; } = false;
+
         [SettingPropertyBool("禁止AI自动宣战", Order = 40, RequireRestart = false, HintText = "玩家是国王时，禁止属下领主（AI）自动发起宣战决策")]
         [SettingPropertyGroup("外交设置")]
         public bool PreventAIWarDeclaration { get; set; } = true;
