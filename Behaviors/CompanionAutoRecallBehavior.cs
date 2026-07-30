@@ -91,7 +91,7 @@ namespace ExampleMod.Behaviors
 
         private static void LogDebug(string message)
         {
-            if (Settings.Instance?.EnableDebugLogging != true)
+            if (Settings.Instance?.EnableCompanionRecallDebugLog != true)
                 return;
 
             InformationManager.DisplayMessage(

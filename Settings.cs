@@ -169,15 +169,23 @@ namespace ExampleMod
         [SettingPropertyGroup("通知")]
         public bool CompanionAutoRecallEnabled { get; set; } = true;
 
-        [SettingPropertyBool("启用调试日志", Order = 38, RequireRestart = false, HintText = "在游戏界面左下角显示调试日志信息，用于排查功能问题")]
+        [SettingPropertyBool("领主释放补兵调试日志", Order = 38, RequireRestart = false, HintText = "在游戏界面左下角显示领主释放补兵功能的调试日志信息，用于排查补兵逻辑问题")]
         [SettingPropertyGroup("调试")]
-        public bool EnableDebugLogging { get; set; } = false;
+        public bool EnableRestorationDebugLog { get; set; } = false;
 
-        [SettingPropertyBool("远程弹药归零调试（按,键）", Order = 39, RequireRestart = false, HintText = "战斗中按 , 键随机将 5% 远程士兵弹药强制归零，用于测试第9队移交逻辑")]
+        [SettingPropertyBool("领土丧失补偿调试日志", Order = 39, RequireRestart = false, HintText = "在游戏界面左下角显示领土丧失补偿功能的调试日志信息，用于排查补偿计算和UI刷新问题")]
+        [SettingPropertyGroup("调试")]
+        public bool EnableTerritoryBonusDebugLog { get; set; } = false;
+
+        [SettingPropertyBool("家族成员提醒调试日志", Order = 40, RequireRestart = false, HintText = "在游戏界面左下角显示家族成员可用提醒功能的调试日志信息")]
+        [SettingPropertyGroup("调试")]
+        public bool EnableCompanionRecallDebugLog { get; set; } = false;
+
+        [SettingPropertyBool("远程弹药归零调试（按,键）", Order = 41, RequireRestart = false, HintText = "战斗中按 , 键随机将 5% 远程士兵弹药强制归零，用于测试第9队移交逻辑")]
         [SettingPropertyGroup("调试")]
         public bool RangedNoAmmoDebugEnabled { get; set; } = false;
 
-        [SettingPropertyBool("禁止AI自动宣战", Order = 40, RequireRestart = false, HintText = "玩家是国王时，禁止属下领主（AI）自动发起宣战决策")]
+        [SettingPropertyBool("禁止AI自动宣战", Order = 42, RequireRestart = false, HintText = "玩家是国王时，禁止属下领主（AI）自动发起宣战决策")]
         [SettingPropertyGroup("外交设置")]
         public bool PreventAIWarDeclaration { get; set; } = true;
 

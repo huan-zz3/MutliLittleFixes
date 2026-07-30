@@ -287,7 +287,7 @@ namespace ExampleMod.Behaviors
 
         private static void LogDebug(string message)
         {
-            if (Settings.Instance?.EnableDebugLogging != true) return;
+            if (Settings.Instance?.EnableTerritoryBonusDebugLog != true) return;
             InformationManager.DisplayMessage(
                 new InformationMessage(message, Color.FromUint(0x00FFFFu)));
         }
