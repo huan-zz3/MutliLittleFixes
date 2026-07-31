@@ -21,7 +21,7 @@ namespace ExampleMod
     /// </summary>
     public class RangedNoAmmoBehavior : MissionLogic
     {
-        private const float CheckInterval = 1.0f;
+        private const float CheckInterval = 2.0f;
         private const FormationClass NoAmmoFormationClass = (FormationClass)8;
 
         private float _checkTimer;
@@ -113,42 +113,38 @@ namespace ExampleMod
 
         /// <summary>
         /// 扫描单个阵型中弹药耗尽的 Agent，移入第9队。
-        /// 遍历所有编队而非仅 Ranged/HorseArcher，以覆盖 F3+F5 转移后的情况。
+        /// 先收集需要移动的 Agent 列表，遍历结束后再统一执行移动，
+        /// 避免在 ApplyActionOnEachUnit 遍历期间修改阵型内 Agent.Formation 导致集合变更异常。
         /// </summary>
         private void ScanFormationForNoAmmo(Formation formation)
         {
-            int moved = 0;
-            foreach (Agent agent in GetAllFormationAgents(formation))
+            var agentsToMove = new List<Agent>();
+
+            formation.ApplyActionOnEachUnit(agent =>
             {
                 if (agent == Mission.MainAgent)
-                    continue;
+                    return;
 
                 if (_movedAgents.ContainsKey(agent))
-                    continue;
+                    return;
 
                 if (IsOutOfAmmo(agent))
                 {
-                    MoveToNoAmmoFormation(agent, formation.Team);
-                    moved++;
+                    agentsToMove.Add(agent);
                 }
+            });
+
+            int moved = agentsToMove.Count;
+            foreach (Agent agent in agentsToMove)
+            {
+                MoveToNoAmmoFormation(agent, formation.Team);
             }
 
             if (moved > 0)
             {
-                string label = formation.FormationIndex switch
-                {
-                    FormationClass.Infantry => "步兵",
-                    FormationClass.Ranged => "弓手",
-                    FormationClass.Cavalry => "骑兵",
-                    FormationClass.HorseArcher => "骑射手",
-                    FormationClass.Skirmisher => "散兵",
-                    FormationClass.HeavyInfantry => "重步兵",
-                    FormationClass.LightCavalry => "轻骑兵",
-                    FormationClass.HeavyCavalry => "重骑兵",
-                    _ => "单位",
-                };
+                int squadIndex = (int)formation.FormationIndex + 1;
                 InformationManager.DisplayMessage(new InformationMessage(
-                    $"[第9队] 从{label}阵型检测到 {moved} 名远程弹药耗尽，已移入第9队"));
+                    $"[第9队] 从第{squadIndex}小队检测到 {moved} 名远程弹药耗尽，已移入第9队"));
             }
         }
 
@@ -373,23 +369,5 @@ namespace ExampleMod
             openToggleOrder?.Invoke(vm, new object[] { false, true });
         }
 
-        // ── 辅助 ──────────────────────────────────────────────────────────
-
-        /// <summary>
-        /// 获取阵型中所有活跃的、人类 Agent。
-        /// 与 AutoCrouchMissionLogic 同模式，覆盖 detached 单位。
-        /// </summary>
-        private static List<Agent> GetAllFormationAgents(Formation formation)
-        {
-            var agents = new List<Agent>(formation.CountOfUnits);
-            foreach (Agent agent in formation.Team.ActiveAgents)
-            {
-                if (agent.Formation == formation && agent.IsActive() && agent.IsHuman)
-                {
-                    agents.Add(agent);
-                }
-            }
-            return agents;
-        }
     }
 }
