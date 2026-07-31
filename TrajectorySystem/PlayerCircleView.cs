@@ -23,6 +23,10 @@ namespace ExampleMod
             if (_initAttempted) return;
             _initAttempted = true;
 
+            // MCM 调试开关 — 关闭时不创建渲染器
+            if (Settings.Instance?.PlayerCircleViewEnabled != true)
+                return;
+
             try
             {
                 _circle = new WorldCircleRenderer(base.MissionScreen, layerOrder: 10);
@@ -65,6 +69,14 @@ namespace ExampleMod
         public override void OnMissionScreenTick(float dt)
         {
             base.OnMissionScreenTick(dt);
+
+            // MCM 调试开关 — 关闭时隐藏渲染器
+            if (Settings.Instance?.PlayerCircleViewEnabled != true)
+            {
+                _circle?.Hide();
+                _point?.Hide();
+                return;
+            }
 
             Agent main = Agent.Main;
             if (main == null || !main.IsActive())

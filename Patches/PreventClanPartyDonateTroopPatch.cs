@@ -13,7 +13,7 @@ namespace ExampleMod.Patches
     /// 注意：只 Patch ManageGarrisonForParty，不堵 OnSettlementEntered。
     /// OnSettlementEntered 还包含军团主管理驻军等关键逻辑，堵了会导致状态不同步崩溃。
     ///
-    /// 不带 [HarmonyPatch] 属性，由 SubModule 手动安装。
+    /// 不带 [HarmonyPatch] 属性，由 HarmonyPatchRegistry 显式注册。
     /// 运行时开关检查：关闭时 Prefix 直接 return true 放行，零开销。
     /// </summary>
     internal static class PreventClanPartyDonateTroopPatch

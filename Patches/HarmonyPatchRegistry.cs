@@ -1,0 +1,235 @@
+﻿using System;
+using System.Reflection;
+using HarmonyLib;
+using TaleWorlds.CampaignSystem.Actions;
+using TaleWorlds.CampaignSystem.CampaignBehaviors;
+using TaleWorlds.CampaignSystem.CharacterDevelopment;
+using TaleWorlds.CampaignSystem.Election;
+using TaleWorlds.CampaignSystem.GameComponents;
+using TaleWorlds.CampaignSystem.Party;
+using TaleWorlds.CampaignSystem.Settlements;
+using TaleWorlds.CampaignSystem.Siege;
+using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
+using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
+using TaleWorlds.MountAndBlade;
+using TaleWorlds.MountAndBlade.ComponentInterfaces;
+using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
+
+namespace ExampleMod.Patches
+{
+    /// <summary>
+    /// 集中注册所有 Harmony 补丁（显式注册，替代 PatchAll 自动发现）。
+    ///
+    /// 规则：
+    /// - 所有补丁必须在本类 Register() 中逐条显式挂载，禁止在补丁类上使用 [HarmonyPatch] 属性。
+    /// - 带 MCM 开关的补丁始终注册，由补丁方法在运行时检查开关（实时生效）。
+    /// - 动态目标（DLC 类型、多目标方法）在此统一处理。
+    /// </summary>
+    internal static class HarmonyPatchRegistry
+    {
+        public static void Register(Harmony harmony)
+        {
+            RegisterBannerBearerPosition(harmony);
+            RegisterBonusTabCoordination(harmony);
+            RegisterCharacterDevelopmentModel(harmony);
+            RegisterHeroDeveloper(harmony);
+            RegisterPartySizeLimitTerritoryBonus(harmony);
+            RegisterPlayerCapturedFief(harmony);
+            RegisterPreventAIWarDeclaration(harmony);
+            RegisterPreventClanPartyDonateTroop(harmony);
+            RegisterPreventClanPartyRecruitment(harmony);
+            RegisterPrisonerSpecialLabel(harmony);
+            RegisterScoreboardSortOrder(harmony);
+            RegisterShieldDirectionForCrouch(harmony);
+            RegisterShipBattleLimit(harmony);
+            RegisterSiegeTargetSelection(harmony);
+            RegisterSiegeWeapon(harmony);
+            RegisterCoordinateTargetAI(harmony);
+        }
+
+        /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
+        private static HarmonyMethod Patch(Type patchType, string methodName)
+        {
+            MethodInfo method = AccessTools.Method(patchType, methodName);
+            if (method == null)
+            {
+                throw new MissingMethodException(
+                    $"HarmonyPatchRegistry: 找不到补丁方法 {patchType.FullName}.{methodName}");
+            }
+            return new HarmonyMethod(method);
+        }
+
+        // ── 旗帜士兵站位 ────────────────────────────────────────────
+
+        private static void RegisterBannerBearerPosition(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultFormationArrangementModel), "GetBannerBearerPositions");
+            harmony.Patch(original,
+                postfix: Patch(typeof(BannerBearerPositionPatch), "RepositionBannerBearerToLastRowCenter"));
+        }
+
+        // ── 王国加成标签页协调（5 个原生标签） ───────────────────────
+
+        private static void RegisterBonusTabCoordination(Harmony harmony)
+        {
+            RegisterBonusTabPostfix(harmony, "ExecuteShowClan", "ClearOnClan");
+            RegisterBonusTabPostfix(harmony, "ExecuteShowFiefs", "ClearOnFiefs");
+            RegisterBonusTabPostfix(harmony, "ExecuteShowPolicies", "ClearOnPolicies");
+            RegisterBonusTabPostfix(harmony, "ExecuteShowArmy", "ClearOnArmy");
+            RegisterBonusTabPostfix(harmony, "ExecuteShowDiplomacy", "ClearOnDiplomacy");
+        }
+
+        private static void RegisterBonusTabPostfix(Harmony harmony, string targetMethod, string patchMethod)
+        {
+            var original = AccessTools.Method(typeof(KingdomManagementVM), targetMethod);
+            harmony.Patch(original, postfix: Patch(typeof(BonusTabCoordinationPatch), patchMethod));
+        }
+
+        // ── 属性红利学习倍率 ─────────────────────────────────────────
+
+        private static void RegisterCharacterDevelopmentModel(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultCharacterDevelopmentModel), "CalculateLearningRate");
+            harmony.Patch(original,
+                postfix: Patch(typeof(CharacterDevelopmentModelPatch), "Postfix"));
+        }
+
+        // ── 经验倍率 ────────────────────────────────────────────────
+
+        private static void RegisterHeroDeveloper(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(HeroDeveloper), "GainRawXp");
+            harmony.Patch(original,
+                prefix: Patch(typeof(HeroDeveloperPatch), "Prefix"));
+        }
+
+        // ── 领土带兵上限（补丁侧加成） ───────────────────────────────
+
+        private static void RegisterPartySizeLimitTerritoryBonus(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultPartySizeLimitModel), "GetPartyMemberSizeLimit");
+            harmony.Patch(original,
+                postfix: Patch(typeof(PartySizeLimitTerritoryBonusPatch), "Postfix"));
+        }
+
+        // ── 玩家攻城候选（1 前缀 + 1 后缀） ──────────────────────────
+
+        private static void RegisterPlayerCapturedFief(Harmony harmony)
+        {
+            var applyBySiege = AccessTools.Method(
+                typeof(ChangeOwnerOfSettlementAction), "ApplyBySiege");
+            harmony.Patch(applyBySiege,
+                prefix: Patch(typeof(PlayerCapturedFiefPatch), "RecordPlayerCaptured"));
+
+            var narrowDown = AccessTools.Method(typeof(KingdomDecision), "NarrowDownCandidates");
+            harmony.Patch(narrowDown,
+                postfix: Patch(typeof(PlayerCapturedFiefPatch), "EnsurePlayerIsCandidate"));
+        }
+
+        // ── 禁止 AI 自动宣战 ────────────────────────────────────────
+
+        private static void RegisterPreventAIWarDeclaration(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(DeclareWarDecision), "IsAllowed");
+            harmony.Patch(original,
+                postfix: Patch(typeof(PreventAIWarDeclarationPatch), "Postfix"));
+        }
+
+        // ── 禁止家族部队捐兵（原手动注册） ───────────────────────────
+
+        private static void RegisterPreventClanPartyDonateTroop(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(GarrisonTroopsCampaignBehavior), "ManageGarrisonForParty",
+                new[] { typeof(MobileParty), typeof(Settlement) });
+            harmony.Patch(original,
+                prefix: Patch(typeof(PreventClanPartyDonateTroopPatch), "Prefix"));
+        }
+
+        // ── 禁止家族部队被征召（原手动注册） ─────────────────────────
+
+        private static void RegisterPreventClanPartyRecruitment(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultArmyManagementCalculationModel), "CanLordCreateArmy");
+            harmony.Patch(original,
+                postfix: Patch(typeof(PreventClanPartyRecruitmentPatch), "Postfix"));
+        }
+
+        // ── 俘虏特殊 NPC 标注 ───────────────────────────────────────
+
+        private static void RegisterPrisonerSpecialLabel(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(PartyCharacterVM), "RefreshValues");
+            harmony.Patch(original,
+                postfix: Patch(typeof(PrisonerSpecialLabelPatch), "Postfix"));
+        }
+
+        // ── 战斗结算排序（6 个目标方法，逐个注册） ───────────────────
+
+        private static void RegisterScoreboardSortOrder(Harmony harmony)
+        {
+            var transpiler = Patch(typeof(ScoreboardSortOrderPatch), "Transpiler");
+            foreach (var name in ScoreboardSortOrderPatch.TargetMethodNames)
+            {
+                var original = AccessTools.Method(typeof(SPScoreboardSortControllerVM), name);
+                if (original != null)
+                    harmony.Patch(original, transpiler: transpiler);
+            }
+        }
+
+        // ── 蹲下时盾牌方向 ──────────────────────────────────────────
+
+        private static void RegisterShieldDirectionForCrouch(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(ArrangementOrder), "GetShieldDirectionOfUnit");
+            harmony.Patch(original,
+                postfix: Patch(typeof(ShieldDirectionForCrouchPatch), "AdjustForCrouch"));
+        }
+
+        // ── 海战船只上限（DLC 类型动态解析，未装 DLC 时跳过） ────────
+
+        private static void RegisterShipBattleLimit(Harmony harmony)
+        {
+            var original = NavalDeployLimitPatch.TargetMethod();
+            if (original != null) // 未安装战帆 DLC 时 TargetMethod 返回 null，安全跳过
+                harmony.Patch(original, postfix: Patch(typeof(NavalDeployLimitPatch), "Postfix"));
+        }
+
+        // ── 攻城目标选择 ────────────────────────────────────────────
+
+        private static void RegisterSiegeTargetSelection(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(BesiegerCamp), "GetAttackTarget");
+            harmony.Patch(original,
+                prefix: Patch(typeof(SiegeTargetSelectionPatch), "Prefix"));
+        }
+
+        // ── 玩家投石精准（2 个目标共 3 个方法） ──────────────────────
+
+        private static void RegisterSiegeWeapon(Harmony harmony)
+        {
+            var shoot = AccessTools.Method(typeof(RangedSiegeWeapon), "Shoot");
+            harmony.Patch(shoot,
+                prefix: Patch(typeof(SiegeWeaponPatch), "Prefix_Shoot"),
+                postfix: Patch(typeof(SiegeWeaponPatch), "Postfix_Shoot"));
+
+            var maxError = AccessTools.PropertyGetter(
+                typeof(RangedSiegeWeapon), "MaximumBallisticError");
+            harmony.Patch(maxError,
+                prefix: Patch(typeof(SiegeWeaponPatch), "Prefix_GetError"));
+        }
+
+        // ── 标定坐标指挥 AI 投石 ────────────────────────────────────
+
+        private static void RegisterCoordinateTargetAI(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(RangedSiegeWeaponAi), "UpdateAim");
+            harmony.Patch(original,
+                prefix: Patch(typeof(CoordinateTargetAIPatch), "Prefix_UpdateAim"));
+        }
+    }
+}

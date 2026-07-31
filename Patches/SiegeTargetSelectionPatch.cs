@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 
@@ -9,11 +8,9 @@ namespace ExampleMod.Patches
     /// 只有敌方没有任何存活器械时才允许攻击城墙。
     /// AI vs AI 场景不受影响（原版加权随机逻辑）。
     /// </summary>
-    [HarmonyPatch(typeof(BesiegerCamp), "GetAttackTarget")]
     internal static class SiegeTargetSelectionPatch
     {
-        [HarmonyPrefix]
-        private static bool Prefix(
+        internal static bool Prefix(
             BesiegerCamp __instance,
             ISiegeEventSide siegeEventSide,
             SiegeEngineType siegeEngine,
@@ -23,6 +20,10 @@ namespace ExampleMod.Patches
         {
             targetType = SiegeBombardTargets.None;
             targetIndex = -1;
+
+            // MCM 运行时开关 — 关闭时放行原版逻辑
+            if (Settings.Instance?.SiegeTargetSelectionEnabled != true)
+                return true;
 
             // 仅在玩家是围城进攻方时生效，AI 场景走原版逻辑
             if (!__instance.SiegeEvent.IsPlayerSiegeEvent)

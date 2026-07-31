@@ -1,13 +1,8 @@
 ﻿using Bannerlord.UIExtenderEx;
 using HarmonyLib;
-using TaleWorlds.CampaignSystem.CampaignBehaviors;
-using TaleWorlds.CampaignSystem.GameComponents;
-using TaleWorlds.CampaignSystem.Party;
-using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
-using TaleWorlds.SaveSystem;
 
 using ExampleMod.Behaviors;
 
@@ -22,12 +17,10 @@ namespace ExampleMod
         {
             base.OnSubModuleLoad();
 
-            // 注册 Harmony 补丁 — PatchAll 自动发现带 [HarmonyPatch] 的补丁
+            // 注册 Harmony 补丁 — 全部显式注册（见 Patches/HarmonyPatchRegistry.cs），
+            // 不使用 PatchAll 自动发现。新补丁必须在注册器中逐条登记。
             _harmony = new Harmony("ExampleMod");
-            _harmony.PatchAll();
-
-            // 条件性补丁 — 仅 MCM 开关开启时才安装，关闭则完全不 patch 原版方法
-            ApplyConditionalPatches();
+            Patches.HarmonyPatchRegistry.Register(_harmony);
 
             // LordStrengthTypeDefiner 由存档系统自动发现。
             // 存档系统会扫描所有程序集，查找非抽象的 SaveableTypeDefiner 子类，
@@ -42,30 +35,6 @@ namespace ExampleMod
             _uiExtender.Enable();
         }
 
-        private void ApplyConditionalPatches()
-        {
-            // PreventClanPartyRecruitmentPatch 内部有运行时 MCM 开关检查（null-safe），
-            // 所以始终安装 Patch，由运行时根据设置决定是否执行过滤。
-            {
-                var original = AccessTools.Method(
-                    typeof(DefaultArmyManagementCalculationModel), "CanLordCreateArmy");
-                var postfix = new HarmonyMethod(
-                    typeof(Patches.PreventClanPartyRecruitmentPatch), "Postfix");
-                _harmony!.Patch(original, postfix: postfix);
-            }
-
-            // PreventClanPartyDonateTroopPatch Patch ManageGarrisonForParty（而非 OnSettlementEntered），
-            // 只阻断驻军管理（含捐兵），不影响 OnSettlementEntered 中的军团主管理驻军等关键逻辑。
-            {
-                var original = AccessTools.Method(
-                    typeof(GarrisonTroopsCampaignBehavior), "ManageGarrisonForParty",
-                    new[] { typeof(MobileParty), typeof(Settlement) });
-                var prefix = new HarmonyMethod(
-                    typeof(Patches.PreventClanPartyDonateTroopPatch), "Prefix");
-                _harmony!.Patch(original, prefix: prefix);
-            }
-        }
-
         public override void OnMissionBehaviorInitialize(Mission mission)
         {
             base.OnMissionBehaviorInitialize(mission);
@@ -77,9 +46,8 @@ namespace ExampleMod
             // 由 MCM "调试 → 远程弹药归零调试" 开关控制，游戏中实时启用/禁用
             mission.AddMissionBehavior(new RangedNoAmmoDebugBehavior());
 
-            // 手动注册 PlayerCircleView（调试用圆圈/点渲染）
-            // 取消注释下一行即可启用
-            // mission.AddMissionBehavior(new PlayerCircleView());
+            // 调试圈/点渲染视图（由 MCM "调试 → 调试圈/点渲染视图" 开关实时控制）
+            mission.AddMissionBehavior(new PlayerCircleView());
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)

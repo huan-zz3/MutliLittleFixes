@@ -26,6 +26,13 @@ namespace ExampleMod
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // MCM 实时开关 — 关闭时强制站起所有可能被本功能蹲下的士兵
+            if (Settings.Instance?.AutoCrouchEnabled != true)
+            {
+                ForceAllFormationsToStand();
+                return;
+            }
+
             _checkTimer += dt;
             if (_checkTimer < CheckInterval)
                 return;
@@ -256,6 +263,26 @@ namespace ExampleMod
                 if (agent.CrouchMode)
                     agent.SetCrouchMode(false);
             });
+        }
+
+        /// <summary>
+        /// 遍历玩家/友军全部阵型强制站起（MCM 开关关闭时调用，
+        /// 防止士兵保持本功能造成的蹲姿）。
+        /// </summary>
+        private void ForceAllFormationsToStand()
+        {
+            foreach (Team team in Mission.Teams)
+            {
+                if (team != Mission.PlayerTeam && team != Mission.PlayerAllyTeam)
+                    continue;
+
+                foreach (Formation formation in team.FormationsIncludingSpecialAndEmpty)
+                {
+                    if (formation.CountOfUnits == 0)
+                        continue;
+                    ForceFormationToStand(formation);
+                }
+            }
         }
     }
 }

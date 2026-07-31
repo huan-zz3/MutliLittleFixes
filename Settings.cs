@@ -16,9 +16,17 @@ namespace ExampleMod
         [SettingPropertyGroup("经验设置")]
         public float ExperienceMultiplier { get; set; } = 1.0f;
 
+        [SettingPropertyBool("启用经验倍率", Order = 1, RequireRestart = false, HintText = "实时开关：关闭后经验倍率功能整体失效（数值保持但不生效）")]
+        [SettingPropertyGroup("经验设置")]
+        public bool ExperienceMultiplierEnabled { get; set; } = true;
+
         [SettingPropertyFloatingInteger("活力 (Vigor)", 0.1f, 1000.0f, "#0.0x", Order = 1, RequireRestart = false, HintText = "活力对应技能的红利学习倍率")]
         [SettingPropertyGroup("属性增长倍率")]
         public float VigorMultiplier { get; set; } = 1.0f;
+
+        [SettingPropertyBool("启用属性红利倍率", Order = 0, RequireRestart = false, HintText = "实时开关：关闭后属性红利学习倍率功能整体失效（数值保持但不生效）")]
+        [SettingPropertyGroup("属性增长倍率")]
+        public bool AttributeLearningBonusEnabled { get; set; } = true;
 
         [SettingPropertyFloatingInteger("控制 (Control)", 0.1f, 1000.0f, "#0.0x", Order = 2, RequireRestart = false, HintText = "控制对应技能的红利学习倍率")]
         [SettingPropertyGroup("属性增长倍率")]
@@ -43,6 +51,10 @@ namespace ExampleMod
         [SettingPropertyInteger("全局默认上限", 10, 1024, "0", Order = 7, RequireRestart = false, HintText = "所有技能的默认等级上限（1024=原版硬上限）")]
         [SettingPropertyGroup("技能等级上限")]
         public int SkillCapDefault { get; set; } = 1024;
+
+        [SettingPropertyBool("启用技能等级上限", Order = 6, RequireRestart = false, HintText = "实时开关：关闭后技能上限功能整体失效（数值保持但不生效）")]
+        [SettingPropertyGroup("技能等级上限")]
+        public bool SkillLevelCapEnabled { get; set; } = true;
 
         [SettingPropertyInteger("活力 (Vigor)", 10, 1024, "0", Order = 8, RequireRestart = false, HintText = "活力类技能（单手/双手/长杆）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
@@ -188,6 +200,38 @@ namespace ExampleMod
         [SettingPropertyBool("禁止AI自动宣战", Order = 42, RequireRestart = false, HintText = "玩家是国王时，禁止属下领主（AI）自动发起宣战决策")]
         [SettingPropertyGroup("外交设置")]
         public bool PreventAIWarDeclaration { get; set; } = true;
+
+        [SettingPropertyBool("玩家攻城必定候选", Order = 43, RequireRestart = false, HintText = "玩家亲自率军攻下的城池，在分封投票中必定进入候选名单")]
+        [SettingPropertyGroup("攻城")]
+        public bool PlayerFiefCandidacyEnabled { get; set; } = true;
+
+        [SettingPropertyBool("攻城器械优先攻击器械", Order = 44, RequireRestart = false, HintText = "玩家进攻方时，攻城器械优先攻击敌方远程器械")]
+        [SettingPropertyGroup("攻城")]
+        public bool SiegeTargetSelectionEnabled { get; set; } = true;
+
+        [SettingPropertyBool("自动蹲下", Order = 45, RequireRestart = false, HintText = "纯步兵/纯远程小队在 Hold 静止时自动蹲下（线阵首排/远程前半排/松散阵远程全蹲）")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool AutoCrouchEnabled { get; set; } = true;
+
+        [SettingPropertyBool("蹲下时举盾向上", Order = 46, RequireRestart = false, HintText = "前排士兵蹲下时盾牌方向由防下改为防上")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool CrouchShieldDirectionEnabled { get; set; } = true;
+
+        [SettingPropertyBool("旗帜士兵站位优化", Order = 47, RequireRestart = false, HintText = "将旗手站位从最左前列调整到最后排中间")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool BannerBearerPositionEnabled { get; set; } = true;
+
+        [SettingPropertyBool("无弹药远程移交第9队", Order = 48, RequireRestart = false, HintText = "弹药射完的远程士兵自动移入第9队，恢复弹药后归队")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool RangedNoAmmoEnabled { get; set; } = true;
+
+        [SettingPropertyBool("战斗结算排序反转", Order = 49, RequireRestart = false, HintText = "结算窗口点击表头排序循环反转为：默认→降序→升序")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool ScoreboardSortOrderEnabled { get; set; } = true;
+
+        [SettingPropertyBool("调试圈/点渲染视图", Order = 50, RequireRestart = false, HintText = "玩家脚下显示红色圆圈+前方黄色点（调试用）")]
+        [SettingPropertyGroup("调试")]
+        public bool PlayerCircleViewEnabled { get; set; } = false;
 
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {

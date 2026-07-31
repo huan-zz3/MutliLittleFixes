@@ -26,6 +26,10 @@ namespace ExampleMod.Behaviors
             if (hero != Hero.MainHero)
                 return;
 
+            // MCM 实时开关 — 关闭时不执行钳位
+            if (Settings.Instance?.SkillLevelCapEnabled != true)
+                return;
+
             Settings? settings = Settings.Instance;
             if (settings == null)
                 return;

@@ -263,11 +263,22 @@ namespace ExampleMod
             }
 
             // ── 玩家坐标投掷指令：按 . 设定/取消目标 ────────────────
-            if (Input.IsKeyPressed(InputKey.Period))
+            // 受 MCM 开关 CoordinateTargetingEnabled 控制（实时生效）
+            if (Input.IsKeyPressed(InputKey.Period)
+                && IsCoordinateTargetingEnabled())
             {
                 HandleCoordinateTargetInput();
             }
         }
+
+        /// <summary>
+        /// 坐标标定功能是否开启（MCM 实时开关，与 CoordinateTargetAIPatch 保持一致）。
+        /// 语义：仅在设置显式为 true 时开启；设置未加载（Instance 为 null）时视为关闭，
+        /// 与 CoordinateTargetAIPatch 的 "!= true 即放行原版 AI" 保持一致。
+        /// </summary>
+        private static bool IsCoordinateTargetingEnabled()
+            => MCM.Abstractions.Base.Global.GlobalSettings<SiegeTrajectoryConfig>.Instance
+                ?.CoordinateTargetingEnabled == true;
 
         /// <summary>
         /// 处理玩家按 . 键：取消已有目标 / 设定新的投掷目标。
@@ -444,7 +455,10 @@ namespace ExampleMod
             }
 
             // ── 玩家坐标投掷目标标记渲染 ─────────────────────────────
-            if (CoordinateTargetManager.IsActive && CoordinateTargetManager.GlobalTargetPosition.HasValue)
+            // 开关关闭时不渲染目标标记（已设定的目标由 AIPatch 门控自然失效）
+            if (IsCoordinateTargetingEnabled()
+                && CoordinateTargetManager.IsActive
+                && CoordinateTargetManager.GlobalTargetPosition.HasValue)
             {
                 Vec3 targetPos = CoordinateTargetManager.GlobalTargetPosition.Value;
 

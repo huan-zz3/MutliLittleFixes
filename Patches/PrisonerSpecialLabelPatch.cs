@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
@@ -11,10 +10,8 @@ namespace ExampleMod.Patches
     /// - 一国领主（氏族族长） → "领主"
     /// - 雇佣兵头子 → "雇佣兵头"
     /// </summary>
-    [HarmonyPatch(typeof(PartyCharacterVM), "RefreshValues")]
     internal static class PrisonerSpecialLabelPatch
     {
-        [HarmonyPostfix]
         internal static void Postfix(PartyCharacterVM __instance)
         {
             // MCM 运行时开关 — 关闭时不执行任何操作

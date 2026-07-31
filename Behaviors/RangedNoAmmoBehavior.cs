@@ -38,6 +38,18 @@ namespace ExampleMod
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // MCM 实时开关 — 关闭时归还第9队士兵并重置状态，重新启用时重新初始化
+            if (Settings.Instance?.RangedNoAmmoEnabled != true)
+            {
+                if (_initialized)
+                {
+                    ReturnAllMovedAgents();
+                    _initialized = false;
+                    _startupLogged = false;
+                }
+                return;
+            }
+
             // 启动诊断（仅首次）
             if (!_startupLogged)
             {
@@ -63,6 +75,49 @@ namespace ExampleMod
 
             ProcessNoAmmoDetection();
             ProcessReturnDetection();
+        }
+
+        /// <summary>
+        /// 开关关闭时调用：将所有仍滞留在第9队的士兵归还其原始阵型并清空记录。
+        /// </summary>
+        private void ReturnAllMovedAgents()
+        {
+            if (_movedAgents.Count == 0)
+                return;
+
+            var toRemove = new List<Agent>(_movedAgents.Count);
+            int returned = 0;
+
+            foreach (var kvp in _movedAgents)
+            {
+                Agent agent = kvp.Key;
+                Formation originalFormation = kvp.Value;
+
+                // 已死亡 → 仅清理记录
+                if (!agent.IsActive())
+                {
+                    toRemove.Add(agent);
+                    continue;
+                }
+
+                if (originalFormation != null)
+                {
+                    agent.Formation = originalFormation;
+                    toRemove.Add(agent);
+                    returned++;
+                }
+            }
+
+            foreach (Agent agent in toRemove)
+            {
+                _movedAgents.Remove(agent);
+            }
+
+            if (returned > 0)
+            {
+                InformationManager.DisplayMessage(new InformationMessage(
+                    $"[第9队] 功能已关闭，{returned} 名弓手已归还至原阵型"));
+            }
         }
 
         // ── 初始化 ────────────────────────────────────────────────────────

@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.GameComponents;
@@ -7,7 +6,6 @@ using TaleWorlds.Localization;
 
 namespace ExampleMod.Patches
 {
-    [HarmonyPatch(typeof(DefaultCharacterDevelopmentModel), "CalculateLearningRate")]
     internal static class CharacterDevelopmentModelPatch
     {
         private static readonly TextObject _modText = new TextObject("ExampleMod 属性倍率");
@@ -21,6 +19,10 @@ namespace ExampleMod.Patches
             bool includeDescriptions,
             ref ExplainedNumber __result)
         {
+            // MCM 运行时开关 — 关闭时不干预
+            if (Settings.Instance?.AttributeLearningBonusEnabled != true)
+                return;
+
             // 仅对主角生效
             if (Hero.MainHero?.CharacterAttributes != characterAttributes)
                 return;

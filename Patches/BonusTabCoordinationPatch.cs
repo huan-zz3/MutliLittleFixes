@@ -1,6 +1,5 @@
 using System;
 using System.IO;
-using HarmonyLib;
 using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
 using ExampleMod.UI;
 
@@ -16,36 +15,25 @@ namespace ExampleMod.Patches
     /// 本补丁只保留原生标签（Clan/Fiefs/Policies/Army/Diplomacy）被选中时
     /// 清除本 Mod 标签的逻辑。
     /// </summary>
-    [HarmonyPatch]
     internal static class BonusTabCoordinationPatch
     {
         // ════════════════════════════════════════════════════════
         // 原生标签被选中 → 清除本 Mod 标签
         // ════════════════════════════════════════════════════════
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(KingdomManagementVM), "ExecuteShowClan")]
-        private static void ClearOnClan(KingdomManagementVM __instance)
+        internal static void ClearOnClan(KingdomManagementVM __instance)
             => ClearSelf(__instance);
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(KingdomManagementVM), "ExecuteShowFiefs")]
-        private static void ClearOnFiefs(KingdomManagementVM __instance)
+        internal static void ClearOnFiefs(KingdomManagementVM __instance)
             => ClearSelf(__instance);
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(KingdomManagementVM), "ExecuteShowPolicies")]
-        private static void ClearOnPolicies(KingdomManagementVM __instance)
+        internal static void ClearOnPolicies(KingdomManagementVM __instance)
             => ClearSelf(__instance);
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(KingdomManagementVM), "ExecuteShowArmy")]
-        private static void ClearOnArmy(KingdomManagementVM __instance)
+        internal static void ClearOnArmy(KingdomManagementVM __instance)
             => ClearSelf(__instance);
 
-        [HarmonyPostfix]
-        [HarmonyPatch(typeof(KingdomManagementVM), "ExecuteShowDiplomacy")]
-        private static void ClearOnDiplomacy(KingdomManagementVM __instance)
+        internal static void ClearOnDiplomacy(KingdomManagementVM __instance)
             => ClearSelf(__instance);
 
         // ════════════════════════════════════════════════════════

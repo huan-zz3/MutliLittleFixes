@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Election;
 
@@ -9,10 +8,9 @@ namespace ExampleMod.Patches
     /// 玩家是国王时，禁止属下领主的 DeclareWarDecision 通过 IsAllowed 检查，
     /// 使该决策不会被添加到未决议程中。
     ///
-    /// 带 [HarmonyPatch] 属性，由 SubModule 的 PatchAll() 自动发现并安装。
+    /// 带 MCM 开关，由 HarmonyPatchRegistry 显式注册。
     /// MCM 开关实时生效，无需重启。
     /// </summary>
-    [HarmonyPatch(typeof(DeclareWarDecision), "IsAllowed")]
     internal static class PreventAIWarDeclarationPatch
     {
         internal static void Postfix(DeclareWarDecision __instance, ref bool __result)

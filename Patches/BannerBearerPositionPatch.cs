@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using HarmonyLib;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
@@ -13,14 +12,16 @@ namespace ExampleMod.Patches
     ///     不影响的阵型：Circle（圆阵）、Skein（楔形）、Square（方阵）— 已有安全位置
     ///     Column（纵队）无旗手机制，不受影响。
     /// </summary>
-    [HarmonyPatch(typeof(DefaultFormationArrangementModel), "GetBannerBearerPositions")]
     internal static class BannerBearerPositionPatch
     {
-        [HarmonyPostfix]
-        private static void RepositionBannerBearerToLastRowCenter(
+        internal static void RepositionBannerBearerToLastRowCenter(
             ref List<FormationArrangementModel.ArrangementPosition> __result,
             Formation formation)
         {
+            // MCM 运行时开关 — 关闭时不干预
+            if (Settings.Instance?.BannerBearerPositionEnabled != true)
+                return;
+
             if (__result == null || __result.Count == 0 || formation?.Arrangement == null)
                 return;
 

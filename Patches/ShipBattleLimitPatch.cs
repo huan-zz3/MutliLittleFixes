@@ -1,5 +1,4 @@
 using System;
-using System.Linq;
 using System.Reflection;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem.Party;
@@ -17,10 +16,8 @@ namespace ExampleMod.Patches
     //   DLC 的 base 是固定常数 3，Perk 加成在上层累加。
     //   我们替换 base 部分，Perk 加成自动继承，最终上限 8。
     // ──────────────────────────────────────────────────────────────
-    [HarmonyPatch]
     internal static class NavalDeployLimitPatch
     {
-        [HarmonyTargetMethod]
         internal static MethodBase TargetMethod()
         {
             var type = AccessTools.TypeByName(

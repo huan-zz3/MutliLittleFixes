@@ -28,5 +28,9 @@ namespace ExampleMod
         [SettingPropertyBool("{=st_mangonel}Show mangonel trajectory", Order = 2, RequireRestart = false, HintText = "{=st_mangonel_hint}Enable or disable trajectory preview for mangonel and trebuchet.")]
         [SettingPropertyGroup("{=st_group_siege}Siege engines")]
         public bool EnableMangonel { get; set; } = true;
+
+        [SettingPropertyBool("{=st_coord}Enable coordinate targeting", Order = 3, RequireRestart = false, HintText = "{=st_coord_hint}Enable or disable AI siege weapons following player-designated target coordinates (period key).")]
+        [SettingPropertyGroup("{=st_group_siege}Siege engines")]
+        public bool CoordinateTargetingEnabled { get; set; } = true;
     }
 }

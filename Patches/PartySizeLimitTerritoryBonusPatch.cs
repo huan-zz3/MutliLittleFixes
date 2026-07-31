@@ -1,4 +1,3 @@
-using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.Party;
@@ -8,7 +7,6 @@ using ExampleMod.Behaviors;
 
 namespace ExampleMod.Patches
 {
-    [HarmonyPatch(typeof(DefaultPartySizeLimitModel), "GetPartyMemberSizeLimit")]
     internal static class PartySizeLimitTerritoryBonusPatch
     {
         private static readonly TextObject _bonusText = new TextObject("领土丧失补偿");

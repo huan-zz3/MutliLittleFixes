@@ -8,8 +8,8 @@ namespace ExampleMod.Patches
     /// 禁止家族部队被别的军团征召：
     /// 在 AI 领主创建军团筛选候选部队时，从候选列表中剔除玩家家族的非主角部队。
     ///
-    /// 不带 [HarmonyPatch] 属性，由 SubModule 根据 MCM 开关手动安装。
-    /// 确保设置关闭时完全不 patch 原版方法，避免与其他 mod 冲突。
+    /// 不带 [HarmonyPatch] 属性，由 HarmonyPatchRegistry 显式注册。
+    /// 内部有运行时 MCM 开关检查（null-safe），关闭时完全放行。
     /// </summary>
     internal static class PreventClanPartyRecruitmentPatch
     {

@@ -1,5 +1,4 @@
 using System.Collections.Generic;
-using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.Election;
@@ -22,7 +21,6 @@ namespace ExampleMod.Patches
     ///   2) Patch NarrowDownCandidates 在筛完前 3 名后强制追加玩家
     ///   3) 读档后字典为空时，fallback 到 Town.LastCapturedBy
     /// </summary>
-    [HarmonyPatch]
     internal static class PlayerCapturedFiefPatch
     {
         /// <summary>
@@ -46,13 +44,15 @@ namespace ExampleMod.Patches
         /// 或单独部队的领袖打下此城。同伴带队时 capturerHero 是同伴，
         /// 不满足条件。
         /// </summary>
-        [HarmonyPatch(typeof(ChangeOwnerOfSettlementAction), "ApplyBySiege")]
-        [HarmonyPrefix]
-        private static void RecordPlayerCaptured(
+        internal static void RecordPlayerCaptured(
             Hero newOwner,
             Hero capturerHero,
             Settlement settlement)
         {
+            // MCM 运行时开关 — 关闭时不记录
+            if (Settings.Instance?.PlayerFiefCandidacyEnabled != true)
+                return;
+
             bool playerWasCapturer = capturerHero == Hero.MainHero;
 
             if (playerWasCapturer)
@@ -78,14 +78,16 @@ namespace ExampleMod.Patches
         ///   - 城池是否由玩家打下
         /// 如果玩家被筛掉了，强制追加到结果中。
         /// </summary>
-        [HarmonyPatch(typeof(KingdomDecision), "NarrowDownCandidates")]
-        [HarmonyPostfix]
-        private static void EnsurePlayerIsCandidate(
+        internal static void EnsurePlayerIsCandidate(
             KingdomDecision __instance,
             MBList<DecisionOutcome> __result,
             MBList<DecisionOutcome> initialCandidates,
             int maxCandidateCount)
         {
+            // MCM 运行时开关 — 关闭时不干预
+            if (Settings.Instance?.PlayerFiefCandidacyEnabled != true)
+                return;
+
             if (__instance is SettlementClaimantDecision scd)
             {
                 AddPlayerToCandidatesIfNeeded(scd, __result, initialCandidates);
