@@ -45,6 +45,7 @@ namespace ExampleMod.Patches
             RegisterSiegeTargetSelection(harmony);
             RegisterSiegeWeapon(harmony);
             RegisterCoordinateTargetAI(harmony);
+            RegisterMountedKnockDown(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -230,6 +231,16 @@ namespace ExampleMod.Patches
             var original = AccessTools.Method(typeof(RangedSiegeWeaponAi), "UpdateAim");
             harmony.Patch(original,
                 prefix: Patch(typeof(CoordinateTargetAIPatch), "Prefix_UpdateAim"));
+        }
+
+        // ── 骑马长杆/骑枪必定击倒（2 个 MCM 开关，Postfix 改写判定结果） ──
+
+        private static void RegisterMountedKnockDown(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(MissionCombatMechanicsHelper), "DecideAgentKnockedDownByBlow");
+            harmony.Patch(original,
+                postfix: Patch(typeof(MountedKnockDownPatch), "Postfix"));
         }
     }
 }

@@ -233,6 +233,22 @@ namespace ExampleMod
         [SettingPropertyGroup("调试")]
         public bool PlayerCircleViewEnabled { get; set; } = false;
 
+        [SettingPropertyBool("架矛骑枪必定击倒", Order = 51, RequireRestart = false, HintText = "骑乘架矛（被动攻击）的长杆武器命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）")]
+        [SettingPropertyGroup("骑马长杆击倒")]
+        public bool CouchLanceKnockDownEnabled { get; set; } = true;
+
+        [SettingPropertyBool("马上长杆刺击必定击倒", Order = 52, RequireRestart = false, HintText = "骑乘状态下普通长杆刺击命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）")]
+        [SettingPropertyGroup("骑马长杆击倒")]
+        public bool MountedPolearmThrustKnockDownEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("刺击最小相对速度", 0.0f, 10.0f, "#0.0", Order = 53, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒所需的最小相对速度（攻击者与目标的移动速度向量差长度，单位与游戏速度一致）。默认 1.0，避免原地刺击也击倒；设为 0 则取消速度要求")]
+        [SettingPropertyGroup("骑马长杆击倒")]
+        public float MountedPolearmThrustMinRelativeSpeed { get; set; } = 1.0f;
+
+        [SettingPropertyFloatingInteger("刺击击倒伤害加成", 0.0f, 2.0f, "0%", Order = 54, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒时，本次攻击造成的伤害加成比例（默认 0.3 = +30%）。设为 0 则无伤害加成")]
+        [SettingPropertyGroup("骑马长杆击倒")]
+        public float MountedPolearmThrustKnockDownDamageBonus { get; set; } = 0.3f;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
