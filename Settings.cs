@@ -233,6 +233,58 @@ namespace ExampleMod
         [SettingPropertyGroup("调试")]
         public bool PlayerCircleViewEnabled { get; set; } = false;
 
+        [SettingPropertyBool("ORCA避让调试视图", Order = 51, RequireRestart = false, HintText = "实时绘制玩家方骑兵的 ORCA 避让帧偏移（绿=无冲突/黄=轻调/红=强制绕行）+ 感知半径圈。仅可视化，不干预实际移动")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public bool OrcaDebugEnabled { get; set; } = false;
+
+        [SettingPropertyFloatingInteger("感知半径(米)", 1.0f, 20.0f, "0.0", Order = 52, RequireRestart = false, HintText = "ORCA 邻居搜索半径：仅与该半径内的其他己方骑兵两两避让（真实参与求解，超出不建约束线，青色圈=实际范围）")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaSenseRadius { get; set; } = 3.0f;
+
+        [SettingPropertyInteger("参与数量上限", 10, 500, "0", Order = 52, RequireRestart = false, HintText = "参与 ORCA 求解的己方骑乘单位数量上限（超出按距玩家最近优先）。越大覆盖越全但每帧越慢（O(n²) 受感知半径截断缓解）")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public int OrcaMaxAgents { get; set; } = 80;
+
+        [SettingPropertyFloatingInteger("参与半径(米)", 20.0f, 200.0f, "0", Order = 52, RequireRestart = false, HintText = "距玩家此半径内的己方骑乘单位才参与求解（第一道过滤，先于数量上限）")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaMaxRadius { get; set; } = 60f;
+
+        [SettingPropertyFloatingInteger("时间窗(秒)", 0.1f, 5.0f, "0.0", Order = 53, RequireRestart = false, HintText = "ORCA 时间窗：在此时间内保证不与邻居碰撞，越大越保守")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaTimeHorizon { get; set; } = 1.5f;
+
+        [SettingPropertyFloatingInteger("碰撞体半长轴(米)", 0.1f, 3.0f, "0.00", Order = 54, RequireRestart = false, HintText = "ORCA 使用的骑兵碰撞体半长轴（沿马身朝向，马全长≈2.4m 故半长约1.2m），不读引擎真实碰撞体。与半短轴组成有向椭圆：头对头时用长轴避让、肩并肩时用短轴")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaHalfLength { get; set; } = 1.2f;
+
+        [SettingPropertyFloatingInteger("碰撞体半短轴(米)", 0.1f, 2.0f, "0.00", Order = 54, RequireRestart = false, HintText = "ORCA 使用的骑兵碰撞体半短轴（垂直马身朝向，马宽≈0.9m 故半宽约0.45m），不读引擎真实碰撞体。设为与半长轴相等即退化为纯圆模型")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaHalfWidth { get; set; } = 0.45f;
+
+        [SettingPropertyBool("绘制感知半径圈", Order = 55, RequireRestart = false, HintText = "在每个己方骑兵脚下绘制青色感知半径圈（显示 ORCA 的邻居搜索范围）。仅控制感知半径圈；碰撞椭圆轮廓（深蓝）由「ORCA避让调试视图」总开关控制")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public bool OrcaShowSenseCircles { get; set; } = true;
+
+        [SettingPropertyBool("应用ORCA到实际移动", Order = 56, RequireRestart = false, HintText = "将 ORCA 建议速度翻译成 native 输入：冲突时降低速度上限（含坐骑）并偏移目标帧绕行。仅作用于玩家方骑兵")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public bool OrcaApplyToNative { get; set; } = false;
+
+        [SettingPropertyFloatingInteger("限速触发阈值", 0.0f, 1.0f, "0.00", Order = 57, RequireRestart = false, HintText = "冲突程度超过此值才开始降低速度上限（乘数=ORCA建议速度/全速，下限见'限速下限'）。越小越早减速，0.35≈绘制黄点阈值")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaApplySpeedThreshold { get; set; } = 0.35f;
+
+        [SettingPropertyFloatingInteger("目标帧偏移阈值", 0.0f, 1.0f, "0.00", Order = 58, RequireRestart = false, HintText = "冲突程度超过此值才把目标帧偏移到 ORCA 建议方向绕行。0.6 略早于绘制红点阈值(0.7)，让强冲突先减速再绕行")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaApplyFrameThreshold { get; set; } = 0.6f;
+
+        [SettingPropertyFloatingInteger("限速下限(乘数)", 0.05f, 1.0f, "0.00", Order = 59, RequireRestart = false, HintText = "ORCA 限速乘数的最低值。0.35=最多降到全速的35%，防止完全定死；调大则减速更温和")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaApplyMinSpeedMultiplier { get; set; } = 0.35f;
+
+        [SettingPropertyFloatingInteger("目标帧前瞻(秒)", 0.1f, 2.0f, "0.0", Order = 60, RequireRestart = false, HintText = "目标帧偏移的距离=NewVelocity×此秒数。越大绕行越早越激进，越小越贴着当前位置微调")]
+        [SettingPropertyGroup("ORCA避让调试")]
+        public float OrcaApplyOffsetTime { get; set; } = 0.4f;
+
         [SettingPropertyBool("架矛骑枪必定击倒", Order = 51, RequireRestart = false, HintText = "骑乘架矛（被动攻击）的长杆武器命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）")]
         [SettingPropertyGroup("骑马长杆击倒")]
         public bool CouchLanceKnockDownEnabled { get; set; } = true;

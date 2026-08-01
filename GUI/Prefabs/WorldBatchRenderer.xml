@@ -1,0 +1,22 @@
+<Prefab>
+  <Window>
+    <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsVisible" DoNotAcceptEvents="true">
+      <Children>
+        <!-- 批量世界点，每帧由 WorldBatchRenderer 更新投影位置 -->
+        <Widget DataSource="{Dots}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" DoNotAcceptEvents="true">
+          <ItemTemplate>
+            <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
+                    SuggestedWidth="@Size"
+                    SuggestedHeight="@Size"
+                    ScaledPositionXOffset="@ScreenX"
+                    ScaledPositionYOffset="@ScreenY"
+                    IsVisible="@IsVisible"
+                    Sprite="BlankWhiteCircle"
+                    Color="@Color"
+                    DoNotAcceptEvents="true" />
+          </ItemTemplate>
+        </Widget>
+      </Children>
+    </Widget>
+  </Window>
+</Prefab>
