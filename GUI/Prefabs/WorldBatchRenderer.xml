@@ -1,8 +1,17 @@
+<!-- ══════════════════════════════════════════════════════════════════════════
+【已禁用】commit 304cc5d 新增的 ORCA 骑兵避障功能 UI prefab，整文件注释。
+原始内容完整保留（XML 注释不能嵌套，原内部注释行已改写为普通文字；其余逐字保留）。
+如需恢复：删除本注释的 <!-- 与 --> 头尾，并把下面（原内部注释）一行改回
+  <!-- 批量世界点，每帧由 WorldBatchRenderer 更新投影位置 -->
+即可。恢复时还需同步：Settings.cs 中 ORCA 配置、SubModule.cs 中 OrcaDebugBehavior 注册、
+OrcaSystem/*.cs 三个文件的 #if false 包裹。
+══════════════════════════════════════════════════════════════════════════
+原内容：
 <Prefab>
   <Window>
     <Widget WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" IsVisible="@IsVisible" DoNotAcceptEvents="true">
       <Children>
-        <!-- 批量世界点，每帧由 WorldBatchRenderer 更新投影位置 -->
+        （原内部注释：批量世界点，每帧由 WorldBatchRenderer 更新投影位置）
         <Widget DataSource="{Dots}" WidthSizePolicy="StretchToParent" HeightSizePolicy="StretchToParent" DoNotAcceptEvents="true">
           <ItemTemplate>
             <Widget WidthSizePolicy="Fixed" HeightSizePolicy="Fixed"
@@ -20,3 +29,5 @@
     </Widget>
   </Window>
 </Prefab>
+══════════════════════════════════════════════════════════════════════════ -->
+

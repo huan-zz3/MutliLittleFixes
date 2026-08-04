@@ -233,6 +233,13 @@ namespace ExampleMod
         [SettingPropertyGroup("调试")]
         public bool PlayerCircleViewEnabled { get; set; } = false;
 
+        // ─────────────────────────────────────────────────────────────────────
+        // 【已禁用】commit 304cc5d 新增的 ORCA 骑兵避障功能配置（MCM 中不再显示）。
+        // 保留原始代码以备后续恢复；如要重新启用，取消下面的 /* */ 注释即可。
+        // 注意：启用时必须同时恢复 SubModule.cs 中的 OrcaDebugBehavior 注册，
+        //       并取消 OrcaSystem/*.cs 三个文件的 #if false 包裹。
+        // ─────────────────────────────────────────────────────────────────────
+        /*
         [SettingPropertyBool("ORCA避让调试视图", Order = 51, RequireRestart = false, HintText = "实时绘制玩家方骑兵的 ORCA 避让帧偏移（绿=无冲突/黄=轻调/红=强制绕行）+ 感知半径圈。仅可视化，不干预实际移动")]
         [SettingPropertyGroup("ORCA避让调试")]
         public bool OrcaDebugEnabled { get; set; } = false;
@@ -284,6 +291,7 @@ namespace ExampleMod
         [SettingPropertyFloatingInteger("目标帧前瞻(秒)", 0.1f, 2.0f, "0.0", Order = 60, RequireRestart = false, HintText = "目标帧偏移的距离=NewVelocity×此秒数。越大绕行越早越激进，越小越贴着当前位置微调")]
         [SettingPropertyGroup("ORCA避让调试")]
         public float OrcaApplyOffsetTime { get; set; } = 0.4f;
+        */
 
         [SettingPropertyBool("架矛骑枪必定击倒", Order = 51, RequireRestart = false, HintText = "骑乘架矛（被动攻击）的长杆武器命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）")]
         [SettingPropertyGroup("骑马长杆击倒")]

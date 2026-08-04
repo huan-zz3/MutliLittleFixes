@@ -49,8 +49,9 @@ namespace ExampleMod
             // 调试圈/点渲染视图（由 MCM "调试 → 调试圈/点渲染视图" 开关实时控制）
             mission.AddMissionBehavior(new PlayerCircleView());
 
-            // ORCA 避让调试（由 MCM "ORCA避让调试" 组开关实时控制，仅可视化不干预移动）
-            mission.AddMissionBehavior(new OrcaDebugBehavior());
+            // ORCA 避让调试（【已禁用】commit 304cc5d 新增，功能整体注释掉，不再实例化）
+            // 启用条件：取消下方注释 + 恢复 Settings.cs 中 ORCA 配置 + 取消 OrcaSystem/*.cs 的 #if false 包裹
+            // mission.AddMissionBehavior(new OrcaDebugBehavior());
         }
 
         protected override void OnGameStart(Game game, IGameStarter gameStarterObject)

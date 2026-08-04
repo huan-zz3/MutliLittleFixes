@@ -1,3 +1,9 @@
+#if false
+// ══════════════════════════════════════════════════════════════════════════
+// 【已禁用】commit 304cc5d 新增的 ORCA 骑兵避障功能，整文件注释（不参与编译）。
+// 原始代码完整保留；如需恢复：删除本行与文件末尾的 #endif 即可。
+// 恢复时还需同步：Settings.cs 中 ORCA 配置、SubModule.cs 中 OrcaDebugBehavior 注册。
+// ══════════════════════════════════════════════════════════════════════════
 using System;
 using System.Collections.Generic;
 using TaleWorlds.Core;
@@ -714,3 +720,4 @@ namespace ExampleMod
         }
     }
 }
+#endif
