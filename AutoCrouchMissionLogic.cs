@@ -171,6 +171,10 @@ namespace ExampleMod
         {
             formation.ApplyActionOnEachUnit(agent =>
             {
+                // 玩家操控的角色不干预（AI 控制时正常处理）
+                if (IsPlayerControlledAgent(agent))
+                    return;
+
                 if (!IsCrouchEligibleAgent(agent))
                 {
                     agent.SetCrouchMode(false);
@@ -201,6 +205,10 @@ namespace ExampleMod
 
             formation.ApplyActionOnEachUnit(agent =>
             {
+                // 玩家操控的角色不干预（AI 控制时正常处理）
+                if (IsPlayerControlledAgent(agent))
+                    return;
+
                 if (!IsCrouchEligibleAgent(agent))
                 {
                     agent.SetCrouchMode(false);
@@ -221,6 +229,10 @@ namespace ExampleMod
         {
             formation.ApplyActionOnEachUnit(agent =>
             {
+                // 玩家操控的角色不干预（AI 控制时正常处理）
+                if (IsPlayerControlledAgent(agent))
+                    return;
+
                 if (!IsCrouchEligibleAgent(agent))
                 {
                     agent.SetCrouchMode(false);
@@ -254,12 +266,26 @@ namespace ExampleMod
         }
 
         /// <summary>
+        /// 判断 Agent 是否正被玩家操控（Controller == Player）。
+        /// 玩家操控的角色本 Mod 完全不干预——既不强制蹲下，也不强制站起；
+        /// 当玩家角色转为 AI 控制（如委任托管）时，按普通士兵逻辑正常处理。
+        /// </summary>
+        private static bool IsPlayerControlledAgent(Agent agent)
+        {
+            return agent.IsMine;
+        }
+
+        /// <summary>
         /// 强制阵型中所有 Agent 站起。
         /// </summary>
         private static void ForceFormationToStand(Formation formation)
         {
             formation.ApplyActionOnEachUnit(agent =>
             {
+                // 玩家操控的角色不干预（玩家自身蹲姿不受本 Mod 影响）
+                if (IsPlayerControlledAgent(agent))
+                    return;
+
                 if (agent.CrouchMode)
                     agent.SetCrouchMode(false);
             });
