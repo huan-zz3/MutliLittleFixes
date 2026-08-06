@@ -964,12 +964,131 @@
 </head>
 <body class="markdown-body">
 <h1 id="changelog">Changelog</h1>
-<h2 id="v5.4.8-2026-07-03">[v5.4.8] - 2026-07-03</h2>
+<h2 id="v5.4.15-2026-08-05">[v5.4.15] - 2026-08-05</h2>
 <h3 id="added">Added</h3>
+<ul>
+<li>Add an option to disable volley-related features.</li>
+</ul>
+<h3 id="fixed">Fixed</h3>
+<ul>
+<li><p>Fix potential memory leaks caused by mission UI resources not being released.</p>
+</li>
+<li><p>Fix volley hotkeys being triggered while another UI layer captures keyboard input, such as when typing in a conversation UI.</p>
+</li>
+<li><p>Fix forced troop control leaving character selection active.</p>
+</li>
+<li><p>Fix an issue with the formation shape material to improve stability.</p>
+</li>
+</ul>
+<h3 id="improved">Improved</h3>
+<ul>
+<li>Mark the Override Fast Forward Speed option as requiring a restart.</li>
+</ul>
+<h2 id="v5.4.14-2026-07-21">[v5.4.14] - 2026-07-21</h2>
+<h3 id="added-1">Added</h3>
+<ul>
+<li><p>Add Fast Forward options.</p>
+</li>
+<li><p>Add defensive hold order for defensive formations such as shield wall, circle formation, and square formation.</p>
+</li>
+<li><p>Add reset button for hot key configuration.</p>
+</li>
+</ul>
+<h3 id="fixed-1">Fixed</h3>
+<ul>
+<li><p>Fix the issue that player will not attack after switching to free camera in hideout battle.</p>
+</li>
+<li><p>Fix slow motion option when hotkey mode is set to hold.</p>
+</li>
+<li><p>Fix the issue that troop target entities may not correctly hide during fading out for facing order.</p>
+</li>
+</ul>
+<h3 id="improved-1">Improved</h3>
+<ul>
+<li><p>Improve formation placing at terrain edge.</p>
+</li>
+<li><p>Make formation width and unit spacing in order queue consistent with direct order.</p>
+</li>
+<li><p>Add option for keeping size of circle formation minimum.</p>
+</li>
+</ul>
+<h2 id="v5.4.13-2026-07-14">[v5.4.13] - 2026-07-14</h2>
+<h3 id="fixed-2">Fixed</h3>
+<ul>
+<li><p>Fix performance issue that FPS may drop to 10 in TOAM (Tales from the Age of Men) mod.</p>
+</li>
+<li><p>Fix the issue that dragging on the ground to resize formation width is cancelled when the mouse moves onto order buttons or troop UI.</p>
+</li>
+<li><p>Fix incorrect dragging start position after clicking troop cards in the deployment stage.</p>
+</li>
+<li><p>Fix the issue that troops are not highlighted in the deployment stage.</p>
+</li>
+</ul>
+<h2 id="v5.4.12-2026-07-11">[v5.4.12] - 2026-07-11</h2>
+<h3 id="fixed-3">Fixed</h3>
+<ul>
+<li><p>Fix the issue that orders in the command queue will not be executed when all units in formation are detached.</p>
+</li>
+<li><p>In stealth missions, the player character will not charge when switching to free camera.</p>
+</li>
+<li><p>Fix the issue that middle mouse clicking cannot select formations on siege towers.</p>
+</li>
+<li><p>Fix crash in the Warsails mission to rescue player's sister.</p>
+</li>
+<li><p>Fix order queue for empty formations.</p>
+</li>
+</ul>
+<h3 id="improved-2">Improved</h3>
+<ul>
+<li><p>Improve cancelling behavior when dragging formation shape and clicking the right mouse button.</p>
+</li>
+<li><p>Improve order target selection when using mouse to click orders.</p>
+</li>
+</ul>
+<h2 id="v5.4.11-2026-07-10">[v5.4.11] - 2026-07-10</h2>
+<h3 id="fixed-4">Fixed</h3>
+<ul>
+<li>Fix crash when player is injured with order UI open.</li>
+</ul>
+<h3 id="improved-3">Improved</h3>
+<ul>
+<li>Improved soldier pilot ship order.</li>
+</ul>
+<h2 id="v5.4.10-2026-07-09">[v5.4.10] - 2026-07-09</h2>
+<h3 id="fixed-5">Fixed</h3>
+<ul>
+<li>Fix crash when choosing &quot;Command the battle&quot; option after player is injured in game version v1.4.7.</li>
+</ul>
+<h2 id="v5.4.9-2026-07-09">[v5.4.9] - 2026-07-09</h2>
+<h3 id="added-2">Added</h3>
+<ul>
+<li>Add a time speed option category.</li>
+</ul>
+<h3 id="fixed-6">Fixed</h3>
+<ul>
+<li><p>Fix crash in v1.4.7.</p>
+</li>
+<li><p>Fix incorrect charge target in order queue.</p>
+</li>
+<li><p>Player will no longer stop using game object when switching to free camera in friendly mission.</p>
+</li>
+<li><p>Fix agent highlight color when removed from formation in friendly missions, triggered by Cinematic Camera.</p>
+</li>
+<li><p>Hide the formation marker when the formation contains only the player.</p>
+</li>
+<li><p>Remove the fadeout effect of troop movement target marker after giving charge order.</p>
+</li>
+</ul>
+<h3 id="improved-4">Improved</h3>
+<ul>
+<li>Reorder options and texts, and remove unused texts.</li>
+</ul>
+<h2 id="v5.4.8-2026-07-03">[v5.4.8] - 2026-07-03</h2>
+<h3 id="added-3">Added</h3>
 <ul>
 <li>Add an option to highlight units without a formation.</li>
 </ul>
-<h3 id="fixed">Fixed</h3>
+<h3 id="fixed-7">Fixed</h3>
 <ul>
 <li><p>Fix elevated camera rising speed so camera elevation matches the expected timing.</p>
 </li>
@@ -979,11 +1098,11 @@
 </li>
 </ul>
 <h2 id="v5.4.7-2026-06-28">[v5.4.7] - 2026-06-28</h2>
-<h3 id="fixed-1">Fixed</h3>
+<h3 id="fixed-8">Fixed</h3>
 <ul>
 <li>Fix the toggle widget indicator for option categories hidden by default.</li>
 </ul>
-<h3 id="improved">Improved</h3>
+<h3 id="improved-5">Improved</h3>
 <ul>
 <li><p>Improve order queue preview rendering and interaction.</p>
 </li>
@@ -997,36 +1116,36 @@
 <li>Remove the fast forward prompt in hideout.</li>
 </ul>
 <h2 id="v5.4.6-2026-06-23">[v5.4.6] - 2026-06-23</h2>
-<h3 id="added-1">Added</h3>
+<h3 id="added-4">Added</h3>
 <ul>
 <li>Added options to adjust trigger condition and movement speed of elevated camera.</li>
 </ul>
-<h3 id="fixed-2">Fixed</h3>
+<h3 id="fixed-9">Fixed</h3>
 <ul>
 <li>Fix the bug that elevated camera moves too slow when slow down is enabled.</li>
 </ul>
-<h3 id="improved-1">Improved</h3>
+<h3 id="improved-6">Improved</h3>
 <ul>
 <li>Formation target marker is shown as light green.</li>
 </ul>
 <h2 id="v5.4.5-2026-06-21">[v5.4.5] - 2026-06-21</h2>
-<h3 id="added-2">Added</h3>
+<h3 id="added-5">Added</h3>
 <ul>
 <li>Add option &quot;Elevate Camera with Movement Order Only&quot;.</li>
 </ul>
-<h3 id="fixed-3">Fixed</h3>
+<h3 id="fixed-10">Fixed</h3>
 <ul>
 <li><p>Fix the issue that elevated camera may stay enabled after switching &quot;Camera Mode on Ordering&quot; to a non-elevated mode.</p>
 </li>
 <li><p>Fix Command System order UI refresh after troop transfer in free camera and elevated camera.</p>
 </li>
 </ul>
-<h3 id="improved-2">Improved</h3>
+<h3 id="improved-7">Improved</h3>
 <ul>
 <li>Improve formation highlight and mouse-over colors in Command System.</li>
 </ul>
 <h2 id="v5.4.4-2026-06-19">[v5.4.4] - 2026-06-19</h2>
-<h2 id="improved-3">Improved</h2>
+<h2 id="improved-8">Improved</h2>
 <ul>
 <li>Improve elevated camera.</li>
 </ul>
@@ -1035,11 +1154,11 @@
 <li>Reorganized options in mod menu.</li>
 </ul>
 <h2 id="v5.4.3-2026-06-17">[v5.4.3] - 2026-06-17</h2>
-<h2 id="fixed-4">Fixed</h2>
+<h2 id="fixed-11">Fixed</h2>
 <ul>
 <li>Fix camera issue in naval battle when piloting ship. Caused by elevated camera in v5.4.2.</li>
 </ul>
-<h3 id="improved-4">Improved</h3>
+<h3 id="improved-9">Improved</h3>
 <ul>
 <li><p>Improve behavior of elevated camera.</p>
 </li>
@@ -1047,16 +1166,16 @@
 </li>
 </ul>
 <h2 id="v5.4.2-2026-06-16">[v5.4.2] - 2026-06-16</h2>
-<h2 id="added-3">Added</h2>
+<h2 id="added-6">Added</h2>
 <ul>
 <li>When giving orders, camera will be elevated. Corresponding option is added.</li>
 </ul>
 <h2 id="v5.4.1-2026-06-15">[v5.4.1] - 2026-06-15</h2>
-<h3 id="fixed-5">Fixed</h3>
+<h3 id="fixed-12">Fixed</h3>
 <ul>
 <li>Support naval raid battle.</li>
 </ul>
-<h3 id="improved-5">Improved</h3>
+<h3 id="improved-10">Improved</h3>
 <ul>
 <li><p>In naval battle bind &quot;Soldier Pilot Ship&quot; command back to F5. Now F6 is delegate command for player ship.</p>
 </li>
@@ -1068,7 +1187,7 @@
 </li>
 </ul>
 <h2 id="v5.4.0-2026-06-13">[v5.4.0] - 2026-06-13</h2>
-<h3 id="fixed-6">Fixed</h3>
+<h3 id="fixed-13">Fixed</h3>
 <ul>
 <li><p>Keep compatible with game v1.4.6.</p>
 </li>
@@ -1077,16 +1196,16 @@
 <li><p>Fix potential crash with other mods that creates new custom units.</p>
 </li>
 </ul>
-<h3 id="improved-6">Improved</h3>
+<h3 id="improved-11">Improved</h3>
 <ul>
 <li>After dragging mouse right button to rotate camera, mouse position will be recovered to the position before dragging, instead of to the center of window.</li>
 </ul>
 <h2 id="v5.3.25-2026-01-25">[v5.3.25] - 2026-01-25</h2>
-<h2 id="fixed-7">Fixed</h2>
+<h2 id="fixed-14">Fixed</h2>
 <ul>
 <li>Fix crash when moving AI controlled formation.</li>
 </ul>
-<h3 id="improved-7">Improved</h3>
+<h3 id="improved-12">Improved</h3>
 <ul>
 <li><p>Improve performance when giving orders in RTS view.</p>
 </li>
@@ -1094,20 +1213,20 @@
 </li>
 </ul>
 <h2 id="v5.3.24-2026-01-23">[v5.3.24] - 2026-01-23</h2>
-<h3 id="fixed-8">Fixed</h3>
+<h3 id="fixed-15">Fixed</h3>
 <ul>
 <li>Fix the issue in the base game that engage order for ranged troops may cause the game freeze.</li>
 </ul>
-<h3 id="added-4">Added</h3>
+<h3 id="added-7">Added</h3>
 <ul>
 <li>Movement target will fade out after giving orders.</li>
 </ul>
-<h3 id="improved-8">Improved</h3>
+<h3 id="improved-13">Improved</h3>
 <ul>
 <li>Improve speed sync behavior in facing order.</li>
 </ul>
 <h2 id="v5.3.23-2026-01-20">[v5.3.23] - 2026-01-20</h2>
-<h3 id="fixed-9">Fixed</h3>
+<h3 id="fixed-16">Fixed</h3>
 <ul>
 <li><p>Fix crash when attacked siege weapon is destroyed.</p>
 </li>
@@ -1117,7 +1236,7 @@
 </li>
 </ul>
 <h2 id="v5.3.22-2026-01-19">[v5.3.22] - 2026-01-19</h2>
-<h3 id="fixed-10">Fixed</h3>
+<h3 id="fixed-17">Fixed</h3>
 <ul>
 <li><p>Fix incorrect hint text when stop using siege weapon.</p>
 </li>
@@ -1125,15 +1244,15 @@
 </li>
 </ul>
 <h2 id="v5.3.21-2026-01-18">[v5.3.21] - 2026-01-18</h2>
-<h3 id="added-5">Added</h3>
+<h3 id="added-8">Added</h3>
 <ul>
 <li>Add hint text when giving orders to use siege weapons.</li>
 </ul>
-<h3 id="improved-9">Improved</h3>
+<h3 id="improved-14">Improved</h3>
 <ul>
 <li>After clicking on siege weapon to stop using it, prevent formation from automatically using it again.</li>
 </ul>
-<h3 id="fixed-11">Fixed</h3>
+<h3 id="fixed-18">Fixed</h3>
 <ul>
 <li><p>Fix missing volley hotkey text.</p>
 </li>
@@ -1141,29 +1260,29 @@
 </li>
 </ul>
 <h2 id="v5.3.20-2026-01-18">[v5.3.20] - 2026-01-18</h2>
-<h3 id="fixed-12">Fixed</h3>
+<h3 id="fixed-19">Fixed</h3>
 <ul>
 <li>Fix crash caused by auto volley hotkey in non-battle mission.</li>
 </ul>
 <h2 id="v5.3.19-2026-01-17">[v5.3.19] - 2026-01-17</h2>
-<h3 id="added-6">Added</h3>
+<h3 id="added-9">Added</h3>
 <ul>
 <li><p>Add auto volley order and related options.</p>
 </li>
 <li><p>Hero list in mod menu will be sorted by order in player party member roster.</p>
 </li>
 </ul>
-<h3 id="fixed-13">Fixed</h3>
+<h3 id="fixed-20">Fixed</h3>
 <ul>
 <li>Fix possible out of bound issue.</li>
 </ul>
 <h2 id="v5.3.18-2026-01-11">[v5.3.18] - 2026-01-11</h2>
-<h3 id="improved-10">Improved</h3>
+<h3 id="improved-15">Improved</h3>
 <ul>
 <li>Improve performance when clicking on ground to move formations.</li>
 </ul>
 <h2 id="v5.3.17-2026-01-09">[v5.3.17] - 2026-01-09</h2>
-<h3 id="fixed-14">Fixed</h3>
+<h3 id="fixed-21">Fixed</h3>
 <ul>
 <li><p>Fix crash in tournament after a round, if watching the round and locking camera on a unit.</p>
 </li>
@@ -1171,7 +1290,7 @@
 </li>
 </ul>
 <h2 id="v5.3.16-2026-01-08">[v5.3.16] - 2026-01-08</h2>
-<h3 id="added-7">Added</h3>
+<h3 id="added-10">Added</h3>
 <ul>
 <li><p>Add volley order.</p>
 </li>
@@ -1182,7 +1301,7 @@
 <li><p>Add an option to adjust the threshold for ratio of mounted units in a formation to determine whether to increase spacing between units. In vanilla the threshold is 0.1.</p>
 </li>
 </ul>
-<h3 id="fixed-15">Fixed</h3>
+<h3 id="fixed-22">Fixed</h3>
 <ul>
 <li><p>Fix the issue that player character cannot be controlled after deployment if free camera is turned off in deployment stage.</p>
 </li>
@@ -1191,29 +1310,29 @@
 <li><p>Fix the issue that when multiple formations are given orders in command queue, they will not consume orders correctly.</p>
 </li>
 </ul>
-<h3 id="improved-11">Improved</h3>
+<h3 id="improved-16">Improved</h3>
 <ul>
 <li>Slightly improved performance of movement order.</li>
 </ul>
 <h2 id="v5.3.15-2025-12-28">[v5.3.15] - 2025-12-28</h2>
-<h3 id="fixed-16">Fixed</h3>
+<h3 id="fixed-23">Fixed</h3>
 <ul>
 <li>Fix crash with game version lower than v1.3.12, caused by distance fix in RTS mode.</li>
 </ul>
 <h2 id="v5.3.14-2025-12-28">[v5.3.14] - 2025-12-28</h2>
-<h3 id="fixed-17">Fixed</h3>
+<h3 id="fixed-24">Fixed</h3>
 <ul>
 <li><p>Fix the crash when war sail DLC is absent.</p>
 </li>
 <li><p>Fix distance shown in RTS mode.</p>
 </li>
 </ul>
-<h3 id="added-8">Added</h3>
+<h3 id="added-11">Added</h3>
 <ul>
 <li>Add an option to sync speed of locked formations under movement order. Locked formations will adjust movement speed to arrive at the target simultaneously.</li>
 </ul>
 <h2 id="v5.3.13-2025-12-18">[v5.3.13] - 2025-12-18</h2>
-<h3 id="fixed-18">Fixed</h3>
+<h3 id="fixed-25">Fixed</h3>
 <ul>
 <li><p>Fix the issue that RTS cannot be selected in BLSE launcher if game version is earlier than v1.3.11.</p>
 </li>
@@ -1221,7 +1340,7 @@
 </li>
 </ul>
 <h2 id="v5.3.12-2025-12-15">[v5.3.12] - 2025-12-15</h2>
-<h3 id="improved-12">Improved</h3>
+<h3 id="improved-17">Improved</h3>
 <ul>
 <li><p>The unit's ground marker can be seen below.</p>
 </li>
@@ -1232,7 +1351,7 @@
 <li><p>Improve performance when movement orders are shown.</p>
 </li>
 </ul>
-<h3 id="fixed-19">Fixed</h3>
+<h3 id="fixed-26">Fixed</h3>
 <ul>
 <li><p>Fix potential crash at the end of siege.</p>
 </li>
@@ -1240,7 +1359,7 @@
 </li>
 </ul>
 <h2 id="v5.3.11-2025-12-13">[v5.3.11] - 2025-12-13</h2>
-<h3 id="fixed-20">Fixed</h3>
+<h3 id="fixed-27">Fixed</h3>
 <ul>
 <li><p>Fix startup crash when there're other mods failing to load.</p>
 </li>
@@ -1252,11 +1371,11 @@
 </li>
 </ul>
 <h2 id="v5.3.10-2025-12-11">[v5.3.10] - 2025-12-11</h2>
-<h3 id="added-9">Added</h3>
+<h3 id="added-12">Added</h3>
 <ul>
 <li>Troops in formations are highlighted when pressing alt.</li>
 </ul>
-<h3 id="fixed-21">Fixed</h3>
+<h3 id="fixed-28">Fixed</h3>
 <ul>
 <li><p>Fix time speed option.</p>
 </li>
@@ -1266,7 +1385,7 @@
 </li>
 </ul>
 <h2 id="v5.3.9-2025-12-11">[v5.3.9] - 2025-12-11</h2>
-<h3 id="fixed-22">Fixed</h3>
+<h3 id="fixed-29">Fixed</h3>
 <ul>
 <li><p>Fix startup crash on some environment.</p>
 </li>
@@ -1281,12 +1400,12 @@
 <li><p>Disable mod menu popup in conversation.</p>
 </li>
 </ul>
-<h2 id="added-10">Added</h2>
+<h2 id="added-13">Added</h2>
 <ul>
 <li>Add French translation.</li>
 </ul>
 <h2 id="v5.3.8-2025-12-08">[v5.3.8] - 2025-12-08</h2>
-<h3 id="fixed-23">Fixed</h3>
+<h3 id="fixed-30">Fixed</h3>
 <ul>
 <li><p>Fix the issue that in ship battle, when soldier pilot ship on, current movement order is not highlighted in order UI.</p>
 </li>
@@ -1295,28 +1414,28 @@
 <li><p>Fix the issue that setting hotkey of openning menu to left mouse button or right mouse button making it impossible to open hotkey UI.</p>
 </li>
 </ul>
-<h3 id="improved-13">Improved</h3>
+<h3 id="improved-18">Improved</h3>
 <ul>
 <li>Improve the default formation width after changing formation arrangement.</li>
 </ul>
-<h2 id="added-11">Added</h2>
+<h2 id="added-14">Added</h2>
 <ul>
 <li>Apply fix to advance order for throwing formation.</li>
 </ul>
 <h2 id="v5.3.7-2025-12-06">[v5.3.7] - 2025-12-06</h2>
-<h3 id="fixed-24">Fixed</h3>
+<h3 id="fixed-31">Fixed</h3>
 <ul>
 <li><p>Fix crash on startup when failing to loading game texts. This may happen when other mods have broken text files.</p>
 </li>
 <li><p>Fix the issue that in winter season, the target arrow and unit marker will be covered by snow.</p>
 </li>
 </ul>
-<h3 id="added-12">Added</h3>
+<h3 id="added-15">Added</h3>
 <ul>
 <li>Support keeping options hidden in mod menu.</li>
 </ul>
 <h2 id="v5.3.6-2025-12-05">[v5.3.6] - 2025-12-05</h2>
-<h3 id="fixed-25">Fixed</h3>
+<h3 id="fixed-32">Fixed</h3>
 <ul>
 <li><p>Fix crashes when starting battle and finishing deployment.</p>
 </li>
@@ -1328,7 +1447,7 @@
 </li>
 </ul>
 <h2 id="v5.3.5-2025-12-01">[v5.3.5] - 2025-12-01</h2>
-<h3 id="fixed-26">Fixed</h3>
+<h3 id="fixed-33">Fixed</h3>
 <ul>
 <li><p>Fix the issue in the base game that player character cannot be teleported in deployment mode. Now during deployment stage player character can be teleported when controlled by AI in free camera mode.</p>
 </li>
@@ -1337,55 +1456,55 @@
 <li><p>Fix the issue in previous version that transfer troops UI cannot be opened.</p>
 </li>
 </ul>
-<h3 id="improved-14">Improved</h3>
+<h3 id="improved-19">Improved</h3>
 <ul>
 <li>Improved &quot;Soldier Control Ship&quot; command in sea battle.</li>
 </ul>
 <h2 id="v5.3.4-2025-11-29">[v5.3.4] - 2025-11-29</h2>
-<h3 id="fixed-27">Fixed</h3>
+<h3 id="fixed-34">Fixed</h3>
 <ul>
 <li>Fix a crash when switching camera frequently on ship.</li>
 </ul>
 <h2 id="v5.3.3-2025-11-29">[v5.3.3] - 2025-11-29</h2>
-<h3 id="added-13">Added</h3>
+<h3 id="added-16">Added</h3>
 <ul>
 <li>Add command &quot;Soldier Control Ship On&quot; and &quot;Soldier Control Ship Off&quot; if player is not piloting the ship. When turned on the ship will be piloted by soldier.</li>
 </ul>
-<h3 id="improved-15">Improved</h3>
+<h3 id="improved-20">Improved</h3>
 <ul>
 <li>In sea battle, available commands depends on current camera mode and soldier control mode and will be refreshed instantly.</li>
 </ul>
-<h3 id="fixed-28">Fixed</h3>
+<h3 id="fixed-35">Fixed</h3>
 <ul>
 <li>Fix the issue that player cannot give orders to the first ship, when player is down and control units on other ships.</li>
 </ul>
 <h2 id="v5.3.2-2025-11-27">[v5.3.2] - 2025-11-27</h2>
-<h3 id="fixed-29">Fixed</h3>
+<h3 id="fixed-36">Fixed</h3>
 <ul>
 <li>Fix the crash when player is injured and command a sea battle.</li>
 </ul>
 <h2 id="v5.3.1-2025-11-26">[v5.3.1] - 2025-11-26</h2>
-<h3 id="fixed-30">Fixed</h3>
+<h3 id="fixed-37">Fixed</h3>
 <ul>
 <li>Fix the issue that player cannot use ship weapon.</li>
 </ul>
 <h2 id="v5.3.0-2025-11-26">[v5.3.0] - 2025-11-26</h2>
-<h3 id="fixed-31">Fixed</h3>
+<h3 id="fixed-38">Fixed</h3>
 <ul>
 <li>Support v1.3.4 and War Sail DLC.</li>
 </ul>
 <h2 id="v5.2.3-2025-09-24">[v5.2.3] - 2025-09-24</h2>
-<h3 id="fixed-32">Fixed</h3>
+<h3 id="fixed-39">Fixed</h3>
 <ul>
 <li>Fix support to select formations using left mouse button.</li>
 </ul>
 <h2 id="v5.2.2-2025-09-22">[v5.2.2] - 2025-09-22</h2>
-<h3 id="fixed-33">Fixed</h3>
+<h3 id="fixed-40">Fixed</h3>
 <ul>
 <li>Fix the issue that player cannot leaving in sneaking toturial mission.</li>
 </ul>
 <h2 id="v5.2.1-2025-09-22">[v5.2.1] - 2025-09-22</h2>
-<h3 id="fixed-34">Fixed</h3>
+<h3 id="fixed-41">Fixed</h3>
 <ul>
 <li><p>Fix crash related with incompatible shader.</p>
 </li>
@@ -1397,12 +1516,12 @@
 <li>Camera will not lock to other units automatically when the unit that camera is locking to is killed.</li>
 </ul>
 <h2 id="v5.2.0-2025-09-19">[v5.2.0] - 2025-09-19</h2>
-<h3 id="fixed-35">Fixed</h3>
+<h3 id="fixed-42">Fixed</h3>
 <ul>
 <li>Keep compatible with game v1.3.0.</li>
 </ul>
 <h2 id="v5.1.13-2025-09-14">[v5.1.13] - 2025-09-14</h2>
-<h3 id="fixed-36">Fixed</h3>
+<h3 id="fixed-43">Fixed</h3>
 <ul>
 <li><p>Fix crash in commanding mode when player party is in army.</p>
 </li>
@@ -1411,12 +1530,12 @@
 <li><p>Fix black screen when fast forwarding in hideout.</p>
 </li>
 </ul>
-<h3 id="improved-16">Improved</h3>
+<h3 id="improved-21">Improved</h3>
 <ul>
 <li>Size of circle formation is smaller when circle formation preference is set to &quot;Tight&quot;.</li>
 </ul>
 <h2 id="v5.1.12-2025-09-12">[v5.1.12] - 2025-09-12</h2>
-<h3 id="fixed-37">Fixed</h3>
+<h3 id="fixed-44">Fixed</h3>
 <ul>
 <li><p>Fixed facing order in order queue.</p>
 </li>
@@ -1424,12 +1543,12 @@
 </li>
 </ul>
 <h2 id="v5.1.11-2025-09-10">[v5.1.11] - 2025-09-10</h2>
-<h3 id="fixed-38">Fixed</h3>
+<h3 id="fixed-45">Fixed</h3>
 <ul>
 <li>Fix the display of facing to enemy formation order.</li>
 </ul>
 <h2 id="v5.1.10-2025-09-10">[v5.1.10] - 2025-09-10</h2>
-<h3 id="added-14">Added</h3>
+<h3 id="added-17">Added</h3>
 <ul>
 <li><p>Support facing to specific enemy formation.</p>
 </li>
@@ -1446,7 +1565,7 @@
 </li>
 </ul>
 <h2 id="v5.1.9-2025-09-09">[v5.1.9] - 2025-09-09</h2>
-<h3 id="added-15">Added</h3>
+<h3 id="added-18">Added</h3>
 <ul>
 <li><p>Support targeting when clicking advance or facing button by holding Alt.</p>
 </li>
@@ -1457,7 +1576,7 @@
 <li><p>Add preview arrow for focus attack order.</p>
 </li>
 </ul>
-<h3 id="fixed-39">Fixed</h3>
+<h3 id="fixed-46">Fixed</h3>
 <ul>
 <li><p>Fix several order position preview issues.</p>
 </li>
@@ -1471,7 +1590,7 @@
 <li>Move clickable order UI to Command System.</li>
 </ul>
 <h2 id="v5.1.8-2025-09-01">[v5.1.8] - 2025-09-01</h2>
-<h3 id="fixed-40">Fixed</h3>
+<h3 id="fixed-47">Fixed</h3>
 <ul>
 <li>Fix the issue that in arena practice fight, ground marker is shown with black color.</li>
 </ul>
@@ -1480,47 +1599,47 @@
 <li>Changed player formation option.</li>
 </ul>
 <h2 id="v5.1.7-2025-08-21">[v5.1.7] - 2025-08-21</h2>
-<h3 id="fixed-41">Fixed</h3>
+<h3 id="fixed-48">Fixed</h3>
 <ul>
 <li>Fix crash in The Old Realms.</li>
 </ul>
 <h2 id="v5.1.6-2025-08-20">[v5.1.6] - 2025-08-20</h2>
-<h3 id="added-16">Added</h3>
+<h3 id="added-19">Added</h3>
 <ul>
 <li>Make order button clickable.</li>
 <li>Add option to change movement target style.</li>
 </ul>
 <h2 id="v5.1.5-2025-08-18">[v5.1.5] - 2025-08-18</h2>
-<h3 id="added-17">Added</h3>
+<h3 id="added-20">Added</h3>
 <ul>
 <li>Linux is supported.</li>
 </ul>
-<h3 id="fixed-42">Fixed</h3>
+<h3 id="fixed-49">Fixed</h3>
 <ul>
 <li>Minor formation layout issue.</li>
 </ul>
 <h2 id="v5.1.4-2025-08-16">[v5.1.4] - 2025-08-16</h2>
-<h3 id="fixed-43">Fixed</h3>
+<h3 id="fixed-50">Fixed</h3>
 <ul>
 <li>Fix formation frame when AI controls formation.</li>
 </ul>
 <h2 id="v5.1.3-2025-08-16">[v5.1.3] - 2025-08-16</h2>
-<h3 id="added-18">Added</h3>
+<h3 id="added-21">Added</h3>
 <ul>
 <li>Add unit ground marker.</li>
 <li>Add formation frame marker.</li>
 <li>Add hollow square formation for player.</li>
 </ul>
-<h3 id="fixed-44">Fixed</h3>
+<h3 id="fixed-51">Fixed</h3>
 <ul>
 <li>Fix direction of corner units in square formation.</li>
 </ul>
 <h2 id="v5.1.1-2025-08-16">[v5.1.1] - 2025-08-16</h2>
-<h3 id="added-19">Added</h3>
+<h3 id="added-22">Added</h3>
 <ul>
 <li>Add option to not keep order UI open in free camera mode.</li>
 </ul>
-<h3 id="fixed-45">Fixed</h3>
+<h3 id="fixed-52">Fixed</h3>
 <ul>
 <li>Fix camera vertical movement speed.</li>
 </ul>
@@ -1529,13 +1648,13 @@
 <li>Make movement target more visible at night by default.</li>
 </ul>
 <h2 id="v5.1.0-2025-08-13">[v5.1.0] - 2025-08-13</h2>
-<h3 id="added-20">Added</h3>
+<h3 id="added-23">Added</h3>
 <ul>
 <li>Hold shift to add orders to queue so that troops will execute them one by one. For example, let cavalry follow a given path and then charge.</li>
 <li>Multiple formations will be locked when moving together.</li>
 </ul>
 <h2 id="v5.0.7-2025-07-25">[v5.0.7] - 2025-07-25</h2>
-<h3 id="added-21">Added</h3>
+<h3 id="added-24">Added</h3>
 <ul>
 <li>Add option to fast forward in hideout.</li>
 </ul>
@@ -1545,7 +1664,7 @@
 <li>Remake hotkey page to support multiple shortcuts. Note that shortcut config will be reset.</li>
 <li>Support controller input in free camera mode.</li>
 </ul>
-<h3 id="fixed-46">Fixed</h3>
+<h3 id="fixed-53">Fixed</h3>
 <ul>
 <li>Fix startup issue when Command system is enabled alone.</li>
 </ul>
@@ -1557,33 +1676,33 @@
 <li>By default, switching to free camera will automatically control a unit if player unit is down to avoid issue that orders cannot be given.</li>
 </ul>
 <h2 id="v5.0.4-2025-07-19">[v5.0.4] - 2025-07-19</h2>
-<h3 id="fixed-47">Fixed</h3>
+<h3 id="fixed-54">Fixed</h3>
 <ul>
 <li>Fix crash caused by selectable troop cards.</li>
 </ul>
 <h2 id="v5.0.3-2025-07-18">[v5.0.3] - 2025-07-18</h2>
-<h3 id="fixed-48">Fixed</h3>
+<h3 id="fixed-55">Fixed</h3>
 <ul>
 <li>Fix an error message when issuing movement orders.</li>
 </ul>
 <h2 id="v5.0.2-2025-07-18">[v5.0.2] - 2025-07-18</h2>
-<h3 id="fixed-49">Fixed</h3>
+<h3 id="fixed-56">Fixed</h3>
 <ul>
 <li>Fix the issue in base game: the order position preview is not consistent with final order when dragging formation on the ground.</li>
 <li>Fix the issue in base game: narrowed width of a formation cannot be kept after a movement command.</li>
 </ul>
-<h3 id="added-22">Added</h3>
+<h3 id="added-25">Added</h3>
 <ul>
 <li>Added an option to show hotkey hint in free camera mode.</li>
 <li>Added an option to decide whether to rotate camera when switching from free camera.</li>
 </ul>
 <h2 id="v5.0.1-2025-07-13">[v5.0.1] - 2025-07-13</h2>
-<h3 id="fixed-50">Fixed</h3>
+<h3 id="fixed-57">Fixed</h3>
 <ul>
 <li>Fix crash when player is dead and switch to agent camera, if 'control ally after death' option is disabled.</li>
 </ul>
 <h2 id="v5.0.0-2025-07-12">[v5.0.0] - 2025-07-12</h2>
-<h3 id="added-23">Added</h3>
+<h3 id="added-26">Added</h3>
 <ul>
 <li>In free camera mode, while command UI is open, you can press <code>E</code> to stick camera to selected formation.</li>
 <li>Press <code>Alt</code> while middle-button clicking to target the enemy without interrupting previous movement orders. For example, <strong>let your archers focus shooting while holding position</strong>.</li>
@@ -1597,7 +1716,7 @@
 <li>Remove some default hotkeys to avoid accidental triggering.</li>
 </ul>
 <h2 id="e4.1.16-2022-10-14">[e4.1.16] - 2022-10-14</h2>
-<h3 id="fixed-51">Fixed</h3>
+<h3 id="fixed-58">Fixed</h3>
 <ul>
 <li><p>Fix crash in custom battle when issue orders.</p>
 </li>
@@ -1607,7 +1726,7 @@
 </li>
 </ul>
 <h2 id="e4.1.15-2022-10-12">[e4.1.15] - 2022-10-12</h2>
-<h3 id="fixed-52">Fixed</h3>
+<h3 id="fixed-59">Fixed</h3>
 <ul>
 <li>Fix the issue that control hint doesn't correctly disappear when free camera mode isn't on.</li>
 </ul>
@@ -1615,17 +1734,17 @@
 <ul>
 <li>Change the &quot;Always Set Player Formation&quot; bool option to dropdown option &quot;Auto Set Player Formation&quot; that contains &quot;Never&quot;, &quot;Deployment Stage&quot; and &quot;Always&quot;.</li>
 </ul>
-<h3 id="improved-17">Improved</h3>
+<h3 id="improved-22">Improved</h3>
 <ul>
 <li>Optimized the algorithm of looking for character to control. Hero appears first in party member list will be selected first.</li>
 </ul>
 <h2 id="e4.1.11-2022-09-10">[e4.1.11] - 2022-09-10</h2>
-<h3 id="fixed-53">Fixed</h3>
+<h3 id="fixed-60">Fixed</h3>
 <ul>
 <li>Fix the issue that pressing <code>G</code> will cause player drop weapon in free camera mode.</li>
 </ul>
 <h2 id="e4.1.8-2022-09-05">[e4.1.8] - 2022-09-05</h2>
-<h3 id="added-24">Added</h3>
+<h3 id="added-27">Added</h3>
 <ul>
 <li><p>Limit camera distance by Tactics and Scouting skill.</p>
 </li>
@@ -1633,12 +1752,12 @@
 </li>
 </ul>
 <h2 id="e4.1.0-2022-08-23">[e4.1.0] - 2022-08-23</h2>
-<h3 id="fixed-54">Fixed</h3>
+<h3 id="fixed-61">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannerlord e1.8.0</li>
 </ul>
 <h2 id="e4.0.0-2022-07-23">[e4.0.0] - 2022-07-23</h2>
-<h3 id="fixed-55">Fixed</h3>
+<h3 id="fixed-62">Fixed</h3>
 <ul>
 <li><p>Keep compatible with Bannlerord e1.7.2.</p>
 </li>
@@ -1648,12 +1767,12 @@
 </li>
 </ul>
 <h2 id="e3.9.25-2021-03-14">[e3.9.25] - 2021-03-14</h2>
-<h3 id="fixed-56">Fixed</h3>
+<h3 id="fixed-63">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannerlord e1.5.9.</li>
 </ul>
 <h2 id="e3.9.24-2021-02-18">[e3.9.24] - 2021-02-18</h2>
-<h3 id="fixed-57">Fixed</h3>
+<h3 id="fixed-64">Fixed</h3>
 <ul>
 <li><p>Remove modification to infantry AI when Realistic Battle AI Module is enabled to avoid problems.</p>
 </li>
@@ -1661,7 +1780,7 @@
 </li>
 </ul>
 <h2 id="e3.9.21-e3.9.22-2021-02-01">[e3.9.21] [e3.9.22] - 2021-02-01</h2>
-<h3 id="fixed-58">Fixed</h3>
+<h3 id="fixed-65">Fixed</h3>
 <ul>
 <li><p>Fix the problem that the player character may not be able to be controlled when battle wins in free camera mode.</p>
 </li>
@@ -1669,7 +1788,7 @@
 </li>
 </ul>
 <h2 id="e3.9.19-e3.9.20-2021-01-31">[e3.9.19] [e3.9.20] - 2021-01-31</h2>
-<h3 id="fixed-59">Fixed</h3>
+<h3 id="fixed-66">Fixed</h3>
 <ul>
 <li><p>Fix wrong format of version number.</p>
 </li>
@@ -1679,24 +1798,24 @@
 </li>
 </ul>
 <h2 id="e3.9.17-e3.9.18-2021-01-30">[e3.9.17] [e3.9.18] - 2021-01-30</h2>
-<h3 id="fixed-60">Fixed</h3>
+<h3 id="fixed-67">Fixed</h3>
 <ul>
 <li>Fix the bug when player is not the general and the 'always set player formation option' is on, the formation that player are assigned to will not be controlled by AI.</li>
 </ul>
 <h2 id="e3.9.15-e3.9.16-2021-01-24">[e3.9.15] [e3.9.16] - 2021-01-24</h2>
-<h3 id="fixed-61">Fixed</h3>
+<h3 id="fixed-68">Fixed</h3>
 <ul>
 <li>Fix the bug that player cannot be assigned to the infantry formation.</li>
 </ul>
 <h2 id="e3.9.13-e3.9.14-2021-01-16">[e3.9.13] [e3.9.14] - 2021-01-16</h2>
-<h3 id="added-25">Added</h3>
+<h3 id="added-28">Added</h3>
 <ul>
 <li><p>Add hotkey option for selecting formation.</p>
 </li>
 <li><p>Add hint text for &quot;Charge to formation&quot; order.</p>
 </li>
 </ul>
-<h3 id="fixed-62">Fixed</h3>
+<h3 id="fixed-69">Fixed</h3>
 <ul>
 <li>Fix the problem that disabling &quot;Attack specific formation&quot; option has no effect.</li>
 </ul>
@@ -1709,29 +1828,29 @@
 <li>Remove &quot;Fix circular arrangement&quot; option.</li>
 </ul>
 <h2 id="e3.9.11-e3.9.12">[e3.9.11] [e3.9.12]</h2>
-<h3 id="fixed-63">Fixed</h3>
+<h3 id="fixed-70">Fixed</h3>
 <ul>
 <li>Fix the problem that when CommandSystem is disabled, after switching to enemy team, the order troop placer still gives order to original team.</li>
 </ul>
 <h2 id="e3.9.9-e3.9.10">[e3.9.9] [e3.9.10]</h2>
-<h3 id="fixed-64">Fixed</h3>
+<h3 id="fixed-71">Fixed</h3>
 <ul>
 <li>Fix the problem that hotkey are not saved.</li>
 <li>Fix crash when watch tournament and open the mod menu.</li>
 </ul>
 <h2 id="e3.9.8">[e3.9.8]</h2>
-<h3 id="fixed-65">Fixed</h3>
+<h3 id="fixed-72">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannerlord e1.5.6</li>
 </ul>
 <h2 id="e3.9.7">[e3.9.7]</h2>
-<h3 id="fixed-66">Fixed</h3>
+<h3 id="fixed-73">Fixed</h3>
 <p>Keep compatible with Bannerlord e1.5.5.</p>
 <h3 id="changed-11">Changed</h3>
 <p>Refactored the UI system.
 Move features related to command system to a new mod called RTSCamera.CommandSystem.</p>
 <h2 id="e3.9.6-2020-10-25">[e3.9.6] - 2020-10-25</h2>
-<h3 id="fixed-67">Fixed</h3>
+<h3 id="fixed-74">Fixed</h3>
 <ul>
 <li><p>Fix the problem that config key page is transparent.</p>
 </li>
@@ -1741,12 +1860,12 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e3.9.5-2020-10-20">[e3.9.5] - 2020-10-20</h2>
-<h3 id="fixed-68">Fixed</h3>
+<h3 id="fixed-75">Fixed</h3>
 <ul>
 <li>Fix the problem that UI becomes transparent in Bannerlord e1.5.4.</li>
 </ul>
 <h2 id="e3.9.4-2020-10-19">[e3.9.4] - 2020-10-19</h2>
-<h3 id="fixed-69">Fixed</h3>
+<h3 id="fixed-76">Fixed</h3>
 <ul>
 <li><p>Fix the problem that switch team doesn't work.</p>
 </li>
@@ -1758,26 +1877,26 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <ul>
 <li>Minor changes.</li>
 </ul>
-<h3 id="fixed-70">Fixed</h3>
+<h3 id="fixed-77">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannerlord e1.5.4.</li>
 </ul>
 <h2 id="e3.9.2-2020-10-16">[e3.9.2] - 2020-10-16</h2>
-<h3 id="fixed-71">Fixed</h3>
+<h3 id="fixed-78">Fixed</h3>
 <ul>
 <li>Fix the problem that in transfer command, cursor is not shown.</li>
 </ul>
 <h2 id="e3.9.1-2020-10-15">[e3.9.1] - 2020-10-15</h2>
-<h3 id="fixed-72">Fixed</h3>
+<h3 id="fixed-79">Fixed</h3>
 <ul>
 <li>Fix minor problems.</li>
 </ul>
 <h2 id="e3.9.0-2020-10-15">[e3.9.0] - 2020-10-15</h2>
-<h3 id="added-26">Added</h3>
+<h3 id="added-29">Added</h3>
 <ul>
 <li>Player can select formations by clicking troop card.</li>
 </ul>
-<h3 id="fixed-73">Fixed</h3>
+<h3 id="fixed-80">Fixed</h3>
 <ul>
 <li><p>Fix a problem that player may be added twice to the same formation arrangement. It happens when player is using a siege weapon and switch to free camera mode. Now player character will stop use siege weapon when switch to free camera mode to avoid this problem.</p>
 </li>
@@ -1789,7 +1908,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Change &quot;Control Another Hero&quot; to &quot;Watch Another Hero&quot;. You can press F to control the hero when watching it.</li>
 </ul>
 <h2 id="e3.8.2-2020-10-05">[e3.8.2] - 2020-10-05</h2>
-<h3 id="fixed-74">Fixed</h3>
+<h3 id="fixed-81">Fixed</h3>
 <ul>
 <li><p>Fix a rare crash in base game.</p>
 </li>
@@ -1803,7 +1922,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Improve the behavior of choosing character to control when the player character is killed in battle.</li>
 </ul>
 <h2 id="e3.8.1-2020-10-02">[e3.8.1] - 2020-10-02</h2>
-<h3 id="added-27">Added</h3>
+<h3 id="added-30">Added</h3>
 <ul>
 <li>Highlight order flag to make it more conspicuous.</li>
 </ul>
@@ -1811,35 +1930,35 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <ul>
 <li>Optimize performance.</li>
 </ul>
-<h3 id="fixed-75">Fixed</h3>
+<h3 id="fixed-82">Fixed</h3>
 <ul>
 <li>Fix bug of selecting formation.</li>
 </ul>
 <h2 id="e3.8.0-2020-09-28">[e3.8.0] - 2020-09-28</h2>
-<h3 id="added-28">Added</h3>
+<h3 id="added-31">Added</h3>
 <ul>
 <li>Add fix for circular arrangement of the base game.</li>
 </ul>
-<h3 id="fixed-76">Fixed</h3>
+<h3 id="fixed-83">Fixed</h3>
 <ul>
 <li>Fix compatibility with extension.</li>
 </ul>
 <h2 id="e3.7.2-2020-09-26">[e3.7.2] - 2020-09-26</h2>
-<h3 id="fixed-77">Fixed</h3>
+<h3 id="fixed-84">Fixed</h3>
 <ul>
 <li>Fix cavalry AI in &quot;Charge to formation&quot; mode.</li>
 </ul>
 <h2 id="e3.7.1-2020-09-26">[e3.7.1] - 2020-09-26</h2>
-<h3 id="fixed-78">Fixed</h3>
+<h3 id="fixed-85">Fixed</h3>
 <ul>
 <li>Fix crash in Bannerlord 1.5.1.</li>
 </ul>
 <h2 id="e3.7.0-2020-09-26">[e3.7.0] - 2020-09-26</h2>
-<h3 id="added-29">Added</h3>
+<h3 id="added-32">Added</h3>
 <ul>
 <li>Add &quot;Watch battle&quot; menu option when player is injured. You can command your troops in free camera but cannot take control of any units and directly fighting.</li>
 </ul>
-<h3 id="fixed-79">Fixed</h3>
+<h3 id="fixed-86">Fixed</h3>
 <ul>
 <li><p>Fix the problem that camera elevation angle and camera height may suddenly change when switching between player camera and free camera.</p>
 <p>Now the movement of the camera is smoother.</p>
@@ -1850,22 +1969,22 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Now cheat options are only enabled when cheat mode of the base game is enabled.</li>
 </ul>
 <h2 id="e3.6.3-2020-09-19">[e3.6.3] - 2020-09-19</h2>
-<h3 id="fixed-80">Fixed</h3>
+<h3 id="fixed-87">Fixed</h3>
 <ul>
 <li>Fix a crash when pressing F at the end of tournament.</li>
 </ul>
 <h2 id="e3.6.2-2020-09-18">[e3.6.2] - 2020-09-18</h2>
-<h3 id="fixed-81">Fixed</h3>
+<h3 id="fixed-88">Fixed</h3>
 <ul>
 <li>Fix a crash in free camera when click &quot;Begin Assault&quot; button in siege.</li>
 </ul>
 <h2 id="e3.6.1-2020-09-18">[e3.6.1] - 2020-09-18</h2>
-<h3 id="fixed-82">Fixed</h3>
+<h3 id="fixed-89">Fixed</h3>
 <ul>
 <li>Enable &quot;Attack Specific Formation&quot; by default.</li>
 </ul>
 <h2 id="e3.6.0-2020-09-18">[e3.6.0] - 2020-09-18</h2>
-<h3 id="added-30">Added</h3>
+<h3 id="added-33">Added</h3>
 <ul>
 <li><p>Add &quot;charge to formation&quot; feature. You can click mouse middle button to an enemy formation and your soldiers will charge to it.</p>
 </li>
@@ -1881,7 +2000,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li><p>Optimize behavior of click formation.</p>
 </li>
 </ul>
-<h3 id="fixed-83">Fixed</h3>
+<h3 id="fixed-90">Fixed</h3>
 <ul>
 <li><p>Fix a rare crash that occurred when switch free camera too quickly.</p>
 </li>
@@ -1897,7 +2016,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Remove &quot;Prevent Player Fighting&quot; option because the related problem has been fixed.</li>
 </ul>
 <h2 id="e3.5.15-2020-09-05">[e3.5.15] - 2020-09-05</h2>
-<h3 id="fixed-84">Fixed</h3>
+<h3 id="fixed-91">Fixed</h3>
 <ul>
 <li><p>Fix the problem of that ctrl or alt key does not work. Now camera speed can be adjusted by pressing ctrl + mosue scroll again.</p>
 </li>
@@ -1909,17 +2028,17 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e3.5.14-2020-08-24">[e3.5.14] - 2020-08-24</h2>
-<h3 id="fixed-85">Fixed</h3>
+<h3 id="fixed-92">Fixed</h3>
 <ul>
 <li>Fix the problem that ally formation is wrong highlighted when &quot;show contour&quot; is enabled.</li>
 </ul>
 <h2 id="e3.5.13-2020-08-19">[e3.5.13] - 2020-08-19</h2>
-<h3 id="fixed-86">Fixed</h3>
+<h3 id="fixed-93">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannelord e1.5.0.</li>
 </ul>
 <h2 id="e3.5.12-2020-08-15">[e3.5.12] - 2020-08-15</h2>
-<h3 id="fixed-87">Fixed</h3>
+<h3 id="fixed-94">Fixed</h3>
 <ul>
 <li>Fix hint text when selecting character.</li>
 </ul>
@@ -1932,12 +2051,12 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <ul>
 <li>Rearrange UI of mod menu.</li>
 </ul>
-<h3 id="added-31">Added</h3>
+<h3 id="added-34">Added</h3>
 <ul>
 <li>Add hint for each button in mod menu.</li>
 </ul>
 <h2 id="e3.5.10-2020-08-09">[e3.5.10] - 2020-08-09</h2>
-<h3 id="fixed-88">Fixed</h3>
+<h3 id="fixed-95">Fixed</h3>
 <ul>
 <li><p>Fix key configuration.</p>
 </li>
@@ -1954,36 +2073,36 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e3.5.9-2020-08-02">[e3.5.9] - 2020-08-02</h2>
-<h3 id="added-32">Added</h3>
+<h3 id="added-35">Added</h3>
 <ul>
 <li>Enable feature that you can select formation by directly click on them.</li>
 </ul>
-<h3 id="fixed-89">Fixed</h3>
+<h3 id="fixed-96">Fixed</h3>
 <ul>
 <li>Fix crash when entering battle, assigning player to an empty formation and then giving an order such as shield wall.</li>
 </ul>
 <h2 id="e3.5.8-2020-08-01">[e3.5.8] - 2020-08-01</h2>
-<h3 id="fixed-90">Fixed</h3>
+<h3 id="fixed-97">Fixed</h3>
 <ul>
 <li>Fix the problem that cursor is not shown when give commands in free camera mode.</li>
 </ul>
 <h2 id="e3.5.7-2020-07-31">[e3.5.7] - 2020-07-31</h2>
-<h3 id="fixed-91">Fixed</h3>
+<h3 id="fixed-98">Fixed</h3>
 <ul>
 <li>Fix selecting character feature.</li>
 </ul>
 <h2 id="e3.5.6-2020-07-31">[e3.5.6] - 2020-07-31</h2>
-<h3 id="fixed-92">Fixed</h3>
+<h3 id="fixed-99">Fixed</h3>
 <ul>
 <li>Fix the problem that selecting character hint may be shown after conversation.</li>
 </ul>
 <h2 id="e3.5.5-2020-07-31">[e3.5.5] - 2020-07-31</h2>
-<h3 id="fixed-93">Fixed</h3>
+<h3 id="fixed-100">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannerlord e1.4.3.</li>
 </ul>
 <h2 id="e3.5.4-2020-07-31">[e3.5.4] - 2020-07-31</h2>
-<h3 id="added-33">Added</h3>
+<h3 id="added-36">Added</h3>
 <ul>
 <li><p>Add feature: You can press <code>;</code> then left click to select a soldier, then lock camera to it or control it by pressing <code>F</code>.</p>
 </li>
@@ -1997,7 +2116,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>The default key to open RTS menu is changed from 'O' to 'L'.</li>
 </ul>
 <h2 id="e3.5.3-2020-06-07">[e3.5.3] - 2020-06-07</h2>
-<h3 id="fixed-94">Fixed</h3>
+<h3 id="fixed-101">Fixed</h3>
 <ul>
 <li>Fix the problem that changing config file may not work.</li>
 </ul>
@@ -2007,7 +2126,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Disable show contour feature to avoid problems.</li>
 </ul>
 <h2 id="e3.5.1-2020-06-06">[e3.5.1] - 2020-06-06</h2>
-<h3 id="added-34">Added</h3>
+<h3 id="added-37">Added</h3>
 <ul>
 <li>Add an option for disabling hotkey for switching team.</li>
 </ul>
@@ -2016,7 +2135,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Reset hotkeys of previous version to prevent problems relating to hotkeys.</li>
 </ul>
 <h2 id="e3.5.0-2020-06-04">[e3.5.0] - 2020-06-04</h2>
-<h3 id="added-35">Added</h3>
+<h3 id="added-38">Added</h3>
 <ul>
 <li><p>Add feature: Now player can select troops by directly clicking on them.</p>
 </li>
@@ -2028,7 +2147,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Player formation logic is reverted to the previous version.</li>
 </ul>
 <h2 id="e3.4.0-2020-06-02">[e3.4.0] - 2020-06-02</h2>
-<h3 id="fixed-95">Fixed</h3>
+<h3 id="fixed-102">Fixed</h3>
 <ul>
 <li><p>Fix the problem that in RTS camera mode, when player starts to use ranged siege machine, the camera will be fixed on the siege machine.</p>
 </li>
@@ -2040,21 +2159,21 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Now player will only be added to formation when switching to RTS Camera mode and will be removed from formation when switching back.</li>
 </ul>
 <h2 id="e3.3.2-2020-05-31">[e3.3.2] - 2020-05-31</h2>
-<h3 id="fixed-96">Fixed</h3>
+<h3 id="fixed-103">Fixed</h3>
 <ul>
 <li>Fix broken hot key for switching team.</li>
 </ul>
 <h2 id="e3.3.1-2020-05-31">[e3.3.1] - 2020-05-31</h2>
-<h3 id="added-36">Added</h3>
+<h3 id="added-39">Added</h3>
 <ul>
 <li>Add switch team feature. Press F12 by default to use it.</li>
 </ul>
 <h2 id="e3.3.0-2020-05-29">[e3.3.0] - 2020-05-29</h2>
-<h3 id="fixed-97">Fixed</h3>
+<h3 id="fixed-104">Fixed</h3>
 <ul>
 <li>Fix harmony patch.</li>
 </ul>
-<h3 id="added-37">Added</h3>
+<h3 id="added-40">Added</h3>
 <ul>
 <li><p>Add &quot;constant speed&quot; option: Camera speed will not be affected by camera height after toggled on.</p>
 </li>
@@ -2064,7 +2183,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e3.2.2-2020-05-27">[e3.2.2] - 2020-05-27</h2>
-<h3 id="fixed-98">Fixed</h3>
+<h3 id="fixed-105">Fixed</h3>
 <ul>
 <li>Fix crash in tournament when controlling ally after player dead.</li>
 </ul>
@@ -2076,7 +2195,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li><p>Change the thickness of raycast that determines depth of field distance from 0.01 to 0.5.</p>
 </li>
 </ul>
-<h3 id="fixed-99">Fixed</h3>
+<h3 id="fixed-106">Fixed</h3>
 <ul>
 <li><p>Fix crash in siege.</p>
 </li>
@@ -2089,7 +2208,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>rename Module folder to RTSCamera; rename project to RTS Camera.</li>
 </ul>
 <h2 id="e3.1.0-2020-05-21">[e3.1.0] - 2020-05-21</h2>
-<h3 id="added-38">Added</h3>
+<h3 id="added-41">Added</h3>
 <ul>
 <li><p>Add options for controlling ally.</p>
 </li>
@@ -2097,12 +2216,12 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e3.0.0-2020-04-25">[e3.0.0] - 2020-04-25</h2>
-<h3 id="fixed-100">Fixed</h3>
+<h3 id="fixed-107">Fixed</h3>
 <ul>
 <li>Keep compatible with Bannerlord e1.3.0.</li>
 </ul>
 <h2 id="e2.0.1-2020-04-25">[e2.0.1] - 2020-04-25</h2>
-<h3 id="fixed-101">Fixed</h3>
+<h3 id="fixed-108">Fixed</h3>
 <ul>
 <li>Fix the problem that change to target reticule during a battle will be reverted after battle.</li>
 </ul>
@@ -2111,7 +2230,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Change mod name to RTS Camera.</li>
 </ul>
 <h2 id="e2.0.0-2020-04-17">[e2.0.0] - 2020-04-17</h2>
-<h3 id="fixed-102">Fixed</h3>
+<h3 id="fixed-109">Fixed</h3>
 <ul>
 <li><p>Fix the bug that the quit text may become &quot;retreat&quot; rather than done after victory.</p>
 </li>
@@ -2123,7 +2242,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Overhaul the extension feature.</li>
 </ul>
 <h2 id="e1.0.11-2020-04-15">[e1.0.11] - 2020-04-15</h2>
-<h3 id="added-39">Added</h3>
+<h3 id="added-42">Added</h3>
 <ul>
 <li><p>When switch to rts camera, it will be raised to a configurable height.</p>
 </li>
@@ -2137,17 +2256,17 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li><p>Now opening mod menu will cause HUD temporarily enabled to show the menu.</p>
 </li>
 </ul>
-<h3 id="fixed-103">Fixed</h3>
+<h3 id="fixed-110">Fixed</h3>
 <ul>
 <li>Fix the problems that when game is paused, the rts camera cannot be rotated by putting mouse on the edge on the screen.</li>
 </ul>
 <h2 id="e1.0.10-2020-04-14">[e1.0.10] - 2020-04-14</h2>
-<h3 id="fixed-104">Fixed</h3>
+<h3 id="fixed-111">Fixed</h3>
 <ul>
 <li>Fix the bug that after clicking &quot;toggle HUD&quot; button in mod menu, the mod menu is not closed.</li>
 </ul>
 <h2 id="e1.0.9-2020-04-14">[e1.0.9] - 2020-04-14</h2>
-<h3 id="added-40">Added</h3>
+<h3 id="added-43">Added</h3>
 <ul>
 <li><p>Add toggle HUD feature.</p>
 <p>You can press <code>]</code> key to toggle HUD. Or if you rebind the key and forget what you have set it to, you can press <code>Home</code> key to toggle UI, which always works.</p>
@@ -2157,7 +2276,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <ul>
 <li>Change default key for disable death to <code>End</code>.</li>
 </ul>
-<h3 id="fixed-105">Fixed</h3>
+<h3 id="fixed-112">Fixed</h3>
 <ul>
 <li><p>Fix the problem that targeting reticule is shown when rts camera is enabled and player is using ranged weapon.</p>
 </li>
@@ -2165,7 +2284,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e1.0.8-2020-04-13">[e1.0.8] - 2020-04-13</h2>
-<h3 id="fixed-106">Fixed</h3>
+<h3 id="fixed-113">Fixed</h3>
 <ul>
 <li>Fixed the bug that display message option is not saved.</li>
 </ul>
@@ -2182,12 +2301,12 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 </li>
 </ul>
 <h2 id="e1.0.6-2020-04-12">[e1.0.6] - 2020-04-12</h2>
-<h3 id="added-41">Added</h3>
+<h3 id="added-44">Added</h3>
 <ul>
 <li>Save config for &quot;change combat ai&quot; and &quot;use realistic blocking&quot; options.</li>
 </ul>
 <h2 id="e1.0.5-2020-04-12">[e1.0.5] - 2020-04-12</h2>
-<h3 id="fixed-107">Fixed</h3>
+<h3 id="fixed-114">Fixed</h3>
 <ul>
 <li>Support Bannerlord e1.1.0</li>
 </ul>
@@ -2196,7 +2315,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Move &quot;use realistic blocking&quot; and &quot;change combat ai&quot; feature to another mod called &quot;EnhancedMission Change AI&quot;(renamed to &quot;Improved Combat AI&quot; now).</li>
 </ul>
 <h2 id="e1.0.4-2020-04-12">[e1.0.4] - 2020-04-12</h2>
-<h3 id="added-42">Added</h3>
+<h3 id="added-45">Added</h3>
 <ul>
 <li><p>Add &quot;use free camera by default&quot; option.</p>
 </li>
@@ -2207,7 +2326,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <ul>
 <li>Now RTS camera will not be interrupted by player's death.</li>
 </ul>
-<h3 id="fixed-108">Fixed</h3>
+<h3 id="fixed-115">Fixed</h3>
 <ul>
 <li>Player can drag on the ground when game is paused or slow down, defictive though.</li>
 </ul>
@@ -2216,7 +2335,7 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Fix bug that hot key config will be reset to default after each game start.</li>
 </ul>
 <h2 id="e1.0.3-2020-04-11">[e1.0.3] - 2020-04-11</h2>
-<h3 id="fixed-109">Fixed</h3>
+<h3 id="fixed-116">Fixed</h3>
 <ul>
 <li>Fix crash when new config for hot key is created.</li>
 </ul>
@@ -2225,17 +2344,17 @@ Move features related to command system to a new mod called RTSCamera.CommandSys
 <li>Enable smooth mode for rts camera.</li>
 </ul>
 <h2 id="e1.0.2-2020-04-10">[e1.0.2] - 2020-04-10</h2>
-<h3 id="fixed-110">Fixed</h3>
+<h3 id="fixed-117">Fixed</h3>
 <ul>
 <li>Fix the bug that player can control enemy troop after player dead.</li>
 </ul>
 <h2 id="e1.0.1-2020-04-10">[e1.0.1] - 2020-04-10</h2>
-<h3 id="added-43">Added</h3>
+<h3 id="added-46">Added</h3>
 <ul>
 <li>Add key rebinding feature.</li>
 </ul>
 <h2 id="e1.0.0-2020-04-09">[e1.0.0] - 2020-04-09</h2>
-<h3 id="added-44">Added</h3>
+<h3 id="added-47">Added</h3>
 <ul>
 <li><p>Switch to rts-style camera and issue orders.</p>
 <p>Add player to a individual formation.</p>

@@ -76,6 +76,18 @@
     <string id="RTSCameraCommandSystem_formation_speed_sync_mode_option_catch_up" text="Catch Up" />
     <string id="RTSCameraCommandSystem_formation_speed_sync_mode_option_wait_for_last_formation" text="Wait for Last Formation (Default)" />
 
+    <string id="RTSCamera_order_ui_clickable" text="Order UI Clickable" />
+    <string id="RTSCamera_order_ui_clickable_hint" text="Make troop card clickable. Restart game to take effect." />
+
+    <string id="RTSCameraCommandSystem_order_ui_clickable_extension" text="Order UI Clickable Extension" />
+    <string id="RTSCameraCommandSystem_order_ui_clickable_extension_hint" text="Allows to select command target for facing/engage order by holding {KeyName} while give orders, and then click the target." />
+    <string id="RTSCameraCommandSystem_click_enemy_to_select_target_for_command" text="Click Enemy to Select Target for Command" />
+    <string id="RTSCameraCommandSystem_click_ground_to_select_target_for_command" text="Click Ground to Select Target for Command" />
+
+    <string id="RTSCameraCommandSystem_face_enemy_by_default" text="Face Enemy By Default" />
+    <string id="RTSCameraCommandSystem_face_enemy_by_default_hint" text="Whether troops should face the enemy when battle starts." />
+
+    <string id="RTSCameraCommandSystem_formation_options" text="Formation Options" />
     <string id="RTSCameraCommandSystem_hollow_square_formation" text="Enable Hollow Square Formation" />
     <string id="RTSCameraCommandSystem_hollow_square_formation_hint" text="Whether to enable hollow square formation for player." />
 
@@ -83,21 +95,23 @@
     <string id="RTSCameraCommandSystem_square_formation_corner_Fix_hint" text="When enabled, soldiers positioned at the corners of a square formation will face toward the diagonal direction of the formation, ensuring better defensive coverage and a more natural appearance." />
 
     <string id="RTSCameraCommandSystem_circle_formation_preference" text="Circle Formation Preference" />
-    <string id="RTSCameraCommandSystem_circle_formation_preference_hint" text="Preferes tight circle formation or loose circle formation" />
+    <string id="RTSCameraCommandSystem_circle_formation_preference_hint" text="Preferes minimum, tight or loose circle formation." />
+    <string id="RTSCameraCommandSystem_circle_formation_preference_option_minimum" text="Minimum Circle Formation" />
     <string id="RTSCameraCommandSystem_circle_formation_preference_option_tight" text="Tight Circle Formation" />
     <string id="RTSCameraCommandSystem_circle_formation_preference_option_loose" text="Loose Circle Formation" />
 
-    <string id="RTSCamera_order_ui_clickable" text="Order UI Clickable" />
-    <string id="RTSCamera_order_ui_clickable_hint" text="Make troop card clickable. Restart game to take effect." />
-
-    <string id="RTSCameraCommandSystem_order_ui_clickable_extension" text="Order UI Clickable Extension" />
-    <string id="RTSCameraCommandSystem_order_ui_clickable_extension_hint" text="Allows to select command target for facing/engage order by holding {KeyName} while give orders, and then click the target." />
-
-    <string id="RTSCameraCommandSystem_face_enemy_by_default" text="Face Enemy By Default" />
-    <string id="RTSCameraCommandSystem_face_enemy_by_default_hint" text="Whether troops should face the enemy when battle starts." />
-
+    <string id="RTSCameraCommandSystem_override_mounted_units_interval_threshold" text="Override Mounted Units Interval Threshold" />
+    <string id="RTSCameraCommandSystem_override_mounted_units_interval_threshold_hint" text="When enabled, the mounted units interval threshold will be overridden by the value below. May cause performance issue with other related mods (for example TAOM). Requires game restart to take effect." />
     <string id="RTSCameraCommandSystem_mounted_units_interval_threshold" text="Mounted Units Interval Threshold" />
     <string id="RTSCameraCommandSystem_mounted_units_interval_threshold_hint" text="The threshold for ratio of mounted units in a formation to keep distance from each other. Default is 0.1 in vanilla" />
+
+    <string id="RTSCameraCommandSystem_defensive_hold_options" text="Defensive Hold Options" />
+    <string id="RTSCameraCommandSystem_add_defensive_hold_order" text="Add Defensive Hold Order" />
+    <string id="RTSCameraCommandSystem_add_defensive_hold_order_hint" text="When enabled, add an order to let troops under defensive formation keep at their positions and hold shields, instead of leaving their position to attack enemy." />
+    <string id="RTSCameraCommandSystem_defensive_hold_on" text="Defensive Hold Enabled" />
+    <string id="RTSCameraCommandSystem_defensive_hold_off" text="Defensive Hold Disabled" />
+    <string id="RTSCameraCommandSystem_attack_if_hit" text="Attack if Hit" />
+    <string id="RTSCameraCommandSystem_attack_if_hit_hint" text="When enabled, troops under defensive formation will attack the enemy if they are hit by the enemy." />
 
     <string id="RTSCameraCommandSystem_advance_order_options" text="Engage Order Options" />
 
@@ -159,6 +173,8 @@
     <string id="RTSCameraCommandSystem_volley_fire" text="Volley Fire" />
 
     <string id="RTSCameraCommandSystem_volley_order_options" text="Volley Order Options" />
+    <string id="RTSCameraCommandSystem_enable_volley_related_features" text="Enable Volley Related Features" />
+    <string id="RTSCameraCommandSystem_enable_volley_related_features_hint" text="When disabled, Auto Volley, Volley on Command, Volley Fire, and their related hotkeys and queued orders are turned off." />
 
     <string id="RTSCameraCommandSystem_volley_pre_aiming_mode" text="Pre-Aiming Mode" />
     <string id="RTSCameraCommandSystem_volley_pre_aiming_mode_hint" text="If pre-aiming is enabled, troops will aim at the target without firing." />
