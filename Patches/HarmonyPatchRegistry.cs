@@ -46,6 +46,7 @@ namespace ExampleMod.Patches
             RegisterSiegeWeapon(harmony);
             RegisterCoordinateTargetAI(harmony);
             RegisterMountedKnockDown(harmony);
+            RegisterUnitSpawnRatio(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -241,6 +242,17 @@ namespace ExampleMod.Patches
                 typeof(MissionCombatMechanicsHelper), "DecideAgentKnockedDownByBlow");
             harmony.Patch(original,
                 postfix: Patch(typeof(MountedKnockDownPatch), "Postfix"));
+        }
+
+        // ── 自定义出场比例（Prefix 整体替换，仅 HighLevel 生效） ──────────
+
+        private static void RegisterUnitSpawnRatio(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultTroopSupplierProbabilityModel),
+                "EnqueueTroopSpawnProbabilitiesAccordingToUnitSpawnPrioritization");
+            harmony.Patch(original,
+                prefix: Patch(typeof(UnitSpawnRatioPatch), "Prefix"));
         }
     }
 }

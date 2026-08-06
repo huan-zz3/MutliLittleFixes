@@ -309,6 +309,26 @@ namespace ExampleMod
         [SettingPropertyGroup("骑马长杆击倒")]
         public float MountedPolearmThrustKnockDownDamageBonus { get; set; } = 0.3f;
 
+        [SettingPropertyBool("启用自定义出场比例", Order = 55, RequireRestart = false, HintText = "游戏设置「单位生成优先级 = 高等级优先」时生效：按下方四项比例配额调度步兵/射手/骑兵/骑射手的出场节奏，兵种内部仍按等级从高到低，避免高等级兵种挤占所有出场名额。关闭后恢复原版高等级优先逻辑")]
+        [SettingPropertyGroup("出场比例")]
+        public bool UnitSpawnRatioEnabled { get; set; } = true;
+
+        [SettingPropertyInteger("步兵比例", 0, 100, "0", Order = 56, RequireRestart = false, HintText = "步兵出场配额权重（相对值，越大出场越频繁；设为 0 则步兵不登场；四类总和建议 100）")]
+        [SettingPropertyGroup("出场比例")]
+        public int InfantryRatio { get; set; } = 25;
+
+        [SettingPropertyInteger("射手比例", 0, 100, "0", Order = 57, RequireRestart = false, HintText = "射手出场配额权重（相对值，越大出场越频繁；设为 0 则射手不登场；四类总和建议 100）")]
+        [SettingPropertyGroup("出场比例")]
+        public int ArcherRatio { get; set; } = 25;
+
+        [SettingPropertyInteger("骑兵比例", 0, 100, "0", Order = 58, RequireRestart = false, HintText = "骑兵出场配额权重（相对值，越大出场越频繁；设为 0 则骑兵不登场；四类总和建议 100）")]
+        [SettingPropertyGroup("出场比例")]
+        public int CavalryRatio { get; set; } = 25;
+
+        [SettingPropertyInteger("骑射手比例", 0, 100, "0", Order = 59, RequireRestart = false, HintText = "骑射手出场配额权重（相对值，越大出场越频繁；设为 0 则骑射手不登场；四类总和建议 100）")]
+        [SettingPropertyGroup("出场比例")]
+        public int HorseArcherRatio { get; set; } = 25;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
