@@ -136,7 +136,11 @@ namespace ExampleMod
         [SettingPropertyGroup("领主释放补兵")]
         public int RestorationGoldPerTroop { get; set; } = 0;
 
-        [SettingPropertyInteger("放弃补兵天数", 1, 60, "0", Order = 27, RequireRestart = false, HintText = "超过此天数领主仍无队伍则放弃补兵")]
+        [SettingPropertyInteger("每兵谷物", 0, 100000, "0", Order = 27, RequireRestart = false, HintText = "每兵给予领主的谷物数量，避免队伍饥饿减员(0=不给谷物)")]
+        [SettingPropertyGroup("领主释放补兵")]
+        public int RestorationFoodPerTroop { get; set; } = 10;
+
+        [SettingPropertyInteger("放弃补兵天数", 1, 60, "0", Order = 28, RequireRestart = false, HintText = "超过此天数领主仍无队伍则放弃补兵")]
         [SettingPropertyGroup("领主释放补兵")]
         public int RestorationAbandonDays { get; set; } = 15;
 

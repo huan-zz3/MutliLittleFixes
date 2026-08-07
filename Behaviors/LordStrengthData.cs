@@ -32,6 +32,11 @@ namespace ExampleMod.Behaviors
         /// 自创建以来没有队伍的天数。超过 MCM 配置的放弃天数后会被清理。
         /// </summary>
         [SaveableField(10)] public int DaysWithoutParty;
+
+        /// <summary>
+        /// 待交付的谷物总数。按天数每日平均交付到领主队伍背包，防止饥饿减员。
+        /// </summary>
+        [SaveableField(11)] public int FoodToDeliver;
     }
 
     /// <summary>

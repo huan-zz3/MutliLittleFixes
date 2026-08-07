@@ -67,6 +67,7 @@ namespace ExampleMod.Behaviors
             string cultureId = DetermineCultureId(prisoner);
             int days = Math.Max(1, Settings.Instance?.RestorationDays ?? 7);
             int goldTotal = totalTroops * (int)(Settings.Instance?.RestorationGoldPerTroop ?? 0f);
+            int foodTotal = totalTroops * (Settings.Instance?.RestorationFoodPerTroop ?? 1);
 
             var pending = new PendingRestoration
             {
@@ -74,6 +75,7 @@ namespace ExampleMod.Behaviors
                 TotalTroopsToDeliver = totalTroops,
                 TroopsPerDay = totalTroops / days,
                 GoldToDeliver = goldTotal,
+                FoodToDeliver = foodTotal,
                 Tier12Ratio = t12,
                 Tier34Ratio = t34,
                 Tier56Ratio = t56,
@@ -83,7 +85,7 @@ namespace ExampleMod.Behaviors
 
             _pendingRestorations[prisoner] = pending;
 
-            LogDebug($"[补兵] {GetHeroFactionPrefix(prisoner)}{prisoner.Name?.ToString()} 释放: 总量={totalTroops} 兵, {days}天, 金币={goldTotal}");
+            LogDebug($"[补兵] {GetHeroFactionPrefix(prisoner)}{prisoner.Name?.ToString()} 释放: 总量={totalTroops} 兵, {days}天, 金币={goldTotal}, 谷物={foodTotal}");
         }
 
         // ── 事件：英雄每日触发 ─────────────────────────────────────────────
@@ -149,6 +151,18 @@ namespace ExampleMod.Behaviors
                 }
             }
 
+            // ── 交付谷物（按比例每日交付，放入队伍背包供消耗）────────────
+            int foodToday = 0;
+            if (pending.FoodToDeliver > 0)
+            {
+                foodToday = pending.FoodToDeliver / pending.DaysRemaining;
+                if (foodToday > 0)
+                {
+                    party.ItemRoster.AddToCounts(DefaultItems.Grain, foodToday);
+                    pending.FoodToDeliver -= foodToday;
+                }
+            }
+
             pending.DaysRemaining--;
 
             // 从部队 roster 中直接读取实际总兵数（而非简单相加）
@@ -159,7 +173,8 @@ namespace ExampleMod.Behaviors
             string troopSummary = chosen.Count > 0
                 ? $"【低级兵{lowCount}个，中级兵{midCount}个，高级兵{highCount}个】"
                 : "(无)";
-            LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 交付: +{troopsToday}兵 {troopSummary}, 现有总计{totalTroopsNow}兵, 剩余{pending.DaysRemaining}天/待{pending.TotalTroopsToDeliver}兵");
+            string foodSummary = foodToday > 0 ? $"谷物+{foodToday}" : "";
+            LogDebug($"[补兵] {GetHeroFactionPrefix(hero)}{hero.Name} 交付: +{troopsToday}兵 {troopSummary} {foodSummary}, 现有总计{totalTroopsNow}兵, 剩余{pending.DaysRemaining}天/待{pending.TotalTroopsToDeliver}兵");
 
             if (pending.DaysRemaining <= 0 || pending.TotalTroopsToDeliver <= 0)
             {
