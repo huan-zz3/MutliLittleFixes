@@ -1,6 +1,6 @@
 # ExampleMod — 开发规范
 
-本文件记录本 Mod 的 Harmony 补丁注册规则与 MCM 配置开关规则。
+本文件记录本 Mod 的 Harmony 补丁注册规则与 MCM 配置开关规则。并且游戏本体源码已经放在本项目内“./原版游戏本体代码1.4.5”，以该版本代码为准！即使实际是更新的也不换用更新的版本。
 **任何新增/修改功能前必须先阅读本文件。**
 
 ---
@@ -24,7 +24,7 @@
 2. 在 `HarmonyPatchRegistry.Register()` 中调用新增的 `RegisterXxx(harmony)` 私有方法，加入注册清单。
 3. 如目标类/方法依赖外部 DLC（如战帆 DLC 的 `NavalDLC.GameComponents.NavalDLCShipDeploymentModel`），**必须用 `AccessTools.TypeByName` + null 检查**，未安装 DLC 时安全跳过（参考 `RegisterShipBattleLimit`）。
 4. 如目标方法是多方法（如 `[HarmonyTargetMethods]` 时代），改为在注册器中**循环注册**，找不到单个方法时跳过（参考 `RegisterScoreboardSortOrder`）。
-5. 编译验证 + 核对注册清单（当前共 16 个补丁类）。
+5. 编译验证 + 核对注册清单（当前共 19 个补丁类）。
 
 ### 1.3 Transpiler 特别说明
 

@@ -329,6 +329,14 @@ namespace ExampleMod
         [SettingPropertyGroup("出场比例")]
         public int HorseArcherRatio { get; set; } = 25;
 
+        [SettingPropertyBool("启用NPC家族部队数量加成", Order = 60, RequireRestart = false, HintText = "为所有NPC领主家族在原版部队数量上限基础上额外增加部队数（仅影响AI家族每日外派，不影响玩家家族）")]
+        [SettingPropertyGroup("NPC领主家族调整")]
+        public bool NpcClanPartyLimitBonusEnabled { get; set; } = true;
+
+        [SettingPropertyInteger("NPC家族部队数量加成", 0, 10, "0", Order = 61, RequireRestart = false, HintText = "在所有NPC领主家族原版部队数量上限基础上额外增加的部队数（默认+2，即Tier0-2家族从1支变3支、Tier3-4从2支变4支、Tier5-6从3支变5支；设为0关闭加成）")]
+        [SettingPropertyGroup("NPC领主家族调整")]
+        public int NpcClanPartyLimitBonus { get; set; } = 2;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

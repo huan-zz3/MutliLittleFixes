@@ -34,6 +34,7 @@ namespace ExampleMod.Patches
             RegisterCharacterDevelopmentModel(harmony);
             RegisterHeroDeveloper(harmony);
             RegisterPartySizeLimitTerritoryBonus(harmony);
+            RegisterNpcClanPartyLimit(harmony);
             RegisterPlayerCapturedFief(harmony);
             RegisterPreventAIWarDeclaration(harmony);
             RegisterPreventClanPartyDonateTroop(harmony);
@@ -115,6 +116,16 @@ namespace ExampleMod.Patches
                 typeof(DefaultPartySizeLimitModel), "GetPartyMemberSizeLimit");
             harmony.Patch(original,
                 postfix: Patch(typeof(PartySizeLimitTerritoryBonusPatch), "Postfix"));
+        }
+
+        // ── NPC 家族部队数量加成（部队上限数量核心） ───────────────────
+
+        private static void RegisterNpcClanPartyLimit(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultClanTierModel), "GetPartyLimitForTier");
+            harmony.Patch(original,
+                postfix: Patch(typeof(NpcClanPartyLimitPatch), "Postfix"));
         }
 
         // ── 玩家攻城候选（1 前缀 + 1 后缀） ──────────────────────────
