@@ -48,6 +48,8 @@ namespace ExampleMod.Patches
             RegisterCoordinateTargetAI(harmony);
             RegisterMountedKnockDown(harmony);
             RegisterUnitSpawnRatio(harmony);
+            RegisterVolunteerRecruitRate(harmony);
+            RegisterVolunteerUpgradeRate(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -264,6 +266,26 @@ namespace ExampleMod.Patches
                 "EnqueueTroopSpawnProbabilitiesAccordingToUnitSpawnPrioritization");
             harmony.Patch(original,
                 prefix: Patch(typeof(UnitSpawnRatioPatch), "Prefix"));
+        }
+
+        // ── 招募补充概率倍率（Postfix 乘系数） ──────────────────────────
+
+        private static void RegisterVolunteerRecruitRate(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultVolunteerModel), "GetDailyVolunteerProductionProbability");
+            harmony.Patch(original,
+                postfix: Patch(typeof(VolunteerRecruitRatePatch), "Postfix"));
+        }
+
+        // ── 志愿者升级概率倍率（Transpiler 替换 0.01f 常量） ─────────────
+
+        private static void RegisterVolunteerUpgradeRate(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(RecruitmentCampaignBehavior), "UpdateVolunteersOfNotablesInSettlement");
+            harmony.Patch(original,
+                transpiler: Patch(typeof(VolunteerUpgradeRatePatch), "Transpiler"));
         }
     }
 }

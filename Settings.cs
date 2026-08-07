@@ -337,6 +337,22 @@ namespace ExampleMod
         [SettingPropertyGroup("NPC领主家族调整")]
         public int NpcClanPartyLimitBonus { get; set; } = 2;
 
+        [SettingPropertyBool("启用招募补充倍率", Order = 62, RequireRestart = false, HintText = "实时开关：关闭后招募补充倍率不生效（名人每日补充概率保持原版）")]
+        [SettingPropertyGroup("招募补充")]
+        public bool VolunteerRecruitRateEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("每日补充概率倍率", 0.5f, 5.0f, "#0.0x", Order = 63, RequireRestart = false, HintText = "城镇/村庄名人每日补充志愿者的概率倍率（1.0=原版，2.0=期望翻倍；槽位越深原版概率越低，倍率按比例放大；倍率>1.9 时前几个槽位将必然补充，但升级仍需另外加速）")]
+        [SettingPropertyGroup("招募补充")]
+        public float VolunteerRecruitRateMultiplier { get; set; } = 1.0f;
+
+        [SettingPropertyBool("启用升级加速", Order = 64, RequireRestart = false, HintText = "实时开关：关闭后志愿者升级概率倍率不生效（保持原版极低的升级概率）")]
+        [SettingPropertyGroup("招募补充")]
+        public bool VolunteerUpgradeRateEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("志愿者升级概率倍率", 1.0f, 100.0f, "#0.0x", Order = 65, RequireRestart = false, HintText = "名人志愿者每日升级概率倍率（1.0=原版；原版升级概率=log2(影响力/等级)*0.01，如影响力30的2级名人每天约5%概率升级；倍率10则约50%）")]
+        [SettingPropertyGroup("招募补充")]
+        public float VolunteerUpgradeRateMultiplier { get; set; } = 1.0f;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
