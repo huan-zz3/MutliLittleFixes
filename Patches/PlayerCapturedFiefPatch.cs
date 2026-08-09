@@ -5,7 +5,7 @@ using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Library;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 玩家打下城池后，分封投票中强制保证玩家出现在候选名单。

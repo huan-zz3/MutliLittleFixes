@@ -4,7 +4,7 @@ using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 调试工具：按 "," 键将玩家部队下 5% 的远程士兵弹药强制归零，

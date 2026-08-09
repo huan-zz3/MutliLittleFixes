@@ -2,7 +2,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 禁止家族部队捐兵：

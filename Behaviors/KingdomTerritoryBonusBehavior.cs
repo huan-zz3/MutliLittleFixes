@@ -6,7 +6,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
 
-namespace ExampleMod.Behaviors
+namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// 追踪每个王国的领土丢失/征服情况，并累积队伍规模加成。

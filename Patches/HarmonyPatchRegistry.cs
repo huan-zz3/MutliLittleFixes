@@ -15,7 +15,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 集中注册所有 Harmony 补丁（显式注册，替代 PatchAll 自动发现）。

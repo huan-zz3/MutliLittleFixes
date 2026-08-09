@@ -2,7 +2,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 在部队界面的俘虏标签页中，为特殊 NPC 英雄的名字后添加中文标注：

@@ -3,11 +3,11 @@ using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Base.Global;
 using TaleWorlds.Localization;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     public class SiegeTrajectoryConfig : AttributeGlobalSettings<SiegeTrajectoryConfig>
     {
-        public override string Id => "ExampleMod_SiegeTrajectory_v1";
+        public override string Id => "MutliLittleFixes_SiegeTrajectory_v1";
 
         public override string DisplayName
         {
@@ -17,7 +17,7 @@ namespace ExampleMod
             }
         }
 
-        public override string FolderName => "ExampleMod";
+        public override string FolderName => "MutliLittleFixes";
 
         public override string FormatType => "json2";
 

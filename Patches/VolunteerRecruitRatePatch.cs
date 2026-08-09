@@ -1,4 +1,4 @@
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 城镇/村庄名人志愿者每日补充概率倍率补丁。

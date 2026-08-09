@@ -5,7 +5,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screens;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 世界空间圆圈渲染器。在 3D 场景的指定坐标处绘制一个圆环，

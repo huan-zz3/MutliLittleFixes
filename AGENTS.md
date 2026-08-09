@@ -1,4 +1,4 @@
-# ExampleMod — 开发规范
+# MutliLittleFixes — 开发规范
 
 本文件记录本 Mod 的 Harmony 补丁注册规则与 MCM 配置开关规则。并且游戏本体源码已经放在本项目内“./原版游戏本体代码1.4.5”，以该版本代码为准！即使实际是更新的也不换用更新的版本。
 **任何新增/修改功能前必须先阅读本文件。**
@@ -41,8 +41,8 @@
 
 ### 2.2 设置类
 
-- 主设置：`Settings.cs`（`AttributeGlobalSettings<Settings>`，Id `ExampleMod_v1`）。绝大多数开关放这里。
-- 轨迹系统设置：`TrajectorySystem/SiegeTrajectoryConfig.cs`（Id `ExampleMod_SiegeTrajectory_v1`）。仅放轨迹/攻城器械相关开关（`EnableBallista`/`EnableMangonel`/`CoordinateTargetingEnabled`）。
+- 主设置：`Settings.cs`（`AttributeGlobalSettings<Settings>`，Id `MutliLittleFixes_v1`）。绝大多数开关放这里。
+- 轨迹系统设置：`TrajectorySystem/SiegeTrajectoryConfig.cs`（Id `MutliLittleFixes_SiegeTrajectory_v1`）。仅放轨迹/攻城器械相关开关（`EnableBallista`/`EnableMangonel`/`CoordinateTargetingEnabled`）。
 - 新增开关按功能归入合适的 `SettingPropertyGroup`，`Order` 顺序递增，`HintText` 写清功能描述。
 
 ### 2.3 实时门控模式（必须遵循）

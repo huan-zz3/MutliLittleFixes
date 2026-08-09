@@ -2,7 +2,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 阵型蹲下逻辑：

@@ -8,9 +8,9 @@ using TaleWorlds.Core;
 using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
 using TaleWorlds.Library;
 
-using ExampleMod.Behaviors;
+using MutliLittleFixes.Behaviors;
 
-namespace ExampleMod.UI
+namespace MutliLittleFixes.UI
 {
     // ════════════════════════════════════════════════════════
     //  ViewModelMixin — 向 KingdomManagementVM 注入加成标签页

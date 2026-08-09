@@ -3,13 +3,13 @@ using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Base.Global;
 using TaleWorlds.Core;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     internal sealed class Settings : AttributeGlobalSettings<Settings>
     {
-        public override string Id => "ExampleMod_v1";
-        public override string DisplayName => "ExampleMod";
-        public override string FolderName => "ExampleMod";
+        public override string Id => "MutliLittleFixes_v1";
+        public override string DisplayName => "MutliLittleFixes";
+        public override string FolderName => "MutliLittleFixes";
         public override string FormatType => "json2";
 
         [SettingPropertyFloatingInteger("经验倍率", 0.1f, 1000.0f, "#0.0x", Order = 0, RequireRestart = false, HintText = "主角获取经验的倍率（影响所有技能经验获取和角色等级提升速度）")]

@@ -4,7 +4,7 @@ using TaleWorlds.Core;
 using TaleWorlds.Library;
 using TaleWorlds.Localization;
 
-namespace ExampleMod.Behaviors
+namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// 监控玩家家族成员状态，当成员从俘虏→Released→变为 Active（可指派为部队领袖）

@@ -6,7 +6,7 @@ using Helpers;
 using TaleWorlds.Library;
 using TaleWorlds.LinQuick;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 强制创建军团测试辅助类。

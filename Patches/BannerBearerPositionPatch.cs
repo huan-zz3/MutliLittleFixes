@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     ///     将旗手在编队中的默认位置从"最左列第二排（左前侧）"改为"最后一排中间"，

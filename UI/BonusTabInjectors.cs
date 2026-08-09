@@ -2,7 +2,7 @@ using Bannerlord.UIExtenderEx.Attributes;
 using Bannerlord.UIExtenderEx.Prefabs2;
 using System.Xml;
 
-namespace ExampleMod.UI
+namespace MutliLittleFixes.UI
 {
     /// <summary>
     /// 在 KingdomManagement 的 ArmiesTabButton 之后注入"国家加成"标签按钮。

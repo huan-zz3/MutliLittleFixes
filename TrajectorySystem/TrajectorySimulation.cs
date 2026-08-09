@@ -7,7 +7,7 @@ using TaleWorlds.Engine;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
 	public static class ProjectileTrajectorySystem
 	{

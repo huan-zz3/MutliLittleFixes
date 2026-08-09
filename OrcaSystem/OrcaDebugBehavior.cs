@@ -13,7 +13,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 单个骑兵参与 ORCA 求解的调试结果快照。

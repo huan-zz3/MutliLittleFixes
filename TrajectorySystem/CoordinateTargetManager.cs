@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 协调管理玩家设定的投石机目标坐标。

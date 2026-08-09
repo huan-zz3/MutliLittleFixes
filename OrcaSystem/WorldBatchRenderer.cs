@@ -11,7 +11,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screens;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 世界空间批量点渲染器。单个 GauntletLayer + 固定容量点池，

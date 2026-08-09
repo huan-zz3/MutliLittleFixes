@@ -5,7 +5,7 @@ using System.Reflection.Emit;
 using HarmonyLib;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 战场结算计分板排序逆转补丁。

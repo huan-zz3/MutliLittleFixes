@@ -5,7 +5,7 @@ using TaleWorlds.MountAndBlade.View;
 using TaleWorlds.MountAndBlade.View.MissionViews;
 using TaleWorlds.ScreenSystem;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     // [DefaultView]  // 取消注释以启用自动注册（当前使用手动注册，见 SubModule.cs）
     public class PlayerCircleView : MissionView

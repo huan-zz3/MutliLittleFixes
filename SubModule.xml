@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <Module xmlns:xsi='http://www.w3.org/2001/XMLSchema-instance'
         xsi:noNamespaceSchemaLocation="https://raw.githubusercontent.com/BUTR/Bannerlord.XmlSchemas/master/SubModule.xsd" >
-  <Id value="ExampleMod" />
-  <Name value="ExampleMod" />
+  <Id value="MutliLittleFixes" />
+  <Name value="MutliLittleFixes" />
   <Version value="v0.0.1" />
   <DefaultModule value="false" />
   <ModuleCategory value="Singleplayer"/>
@@ -35,9 +35,9 @@
   <!-- Community Dependency Metadata -->
   <SubModules>
     <SubModule>
-      <Name value="ExampleMod" />
-      <DLLName value="ExampleMod.dll" />
-      <SubModuleClassType value="ExampleMod.SubModule" />
+      <Name value="MutliLittleFixes" />
+      <DLLName value="MutliLittleFixes.dll" />
+      <SubModuleClassType value="MutliLittleFixes.SubModule" />
       <Tags />
     </SubModule>
   </SubModules>

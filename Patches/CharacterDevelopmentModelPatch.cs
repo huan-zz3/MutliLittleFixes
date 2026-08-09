@@ -4,11 +4,11 @@ using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     internal static class CharacterDevelopmentModelPatch
     {
-        private static readonly TextObject _modText = new TextObject("ExampleMod 属性倍率");
+        private static readonly TextObject _modText = new TextObject("MutliLittleFixes 属性倍率");
 
         internal static void Postfix(
             DefaultCharacterDevelopmentModel __instance,

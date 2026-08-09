@@ -3,7 +3,7 @@ using System.Reflection;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem.Party;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     // ──────────────────────────────────────────────────────────────
     // 补丁: NavalDLCShipDeploymentModel.GetShipDeploymentLimit

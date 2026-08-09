@@ -2,7 +2,7 @@ using System.Collections.Generic;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.SaveSystem;
 
-namespace ExampleMod.Behaviors
+namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// SaveableTypeDefiner，基础 ID 为 555000。
@@ -10,7 +10,7 @@ namespace ExampleMod.Behaviors
     /// 以及 LordStrengthBehavior 使用的 Dictionary 容器。
     ///
     /// 选择 555000 的原因：该值在游戏原版范围（Recruitment=881200, Crafting=150000）之外，
-    /// 为 ExampleMod 预留。
+    /// 为 MutliLittleFixes 预留。
     /// </summary>
     public class LordStrengthTypeDefiner : SaveableTypeDefiner
     {

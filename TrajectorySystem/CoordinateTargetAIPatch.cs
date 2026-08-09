@@ -1,7 +1,7 @@
 using MCM.Abstractions.Base.Global;
 using TaleWorlds.MountAndBlade;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// Harmony Patch：当玩家设定了自定义目标坐标时，覆盖 AI 瞄准逻辑。

@@ -3,9 +3,9 @@ using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.Localization;
-using ExampleMod.Behaviors;
+using MutliLittleFixes.Behaviors;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     internal static class PartySizeLimitTerritoryBonusPatch
     {

@@ -4,9 +4,9 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
-using ExampleMod.Behaviors;
+using MutliLittleFixes.Behaviors;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     public class SubModule : MBSubModuleBase
     {
@@ -19,7 +19,7 @@ namespace ExampleMod
 
             // 注册 Harmony 补丁 — 全部显式注册（见 Patches/HarmonyPatchRegistry.cs），
             // 不使用 PatchAll 自动发现。新补丁必须在注册器中逐条登记。
-            _harmony = new Harmony("ExampleMod");
+            _harmony = new Harmony("MutliLittleFixes");
             Patches.HarmonyPatchRegistry.Register(_harmony);
 
             // LordStrengthTypeDefiner 由存档系统自动发现。
@@ -30,7 +30,7 @@ namespace ExampleMod
             // ── 启用 UIExtenderEx UI 注入 ──────────────────────────────────
             // 扫描当前程序集，自动发现 [PrefabExtension] 和 [ViewModelMixin] 并注册。
             // 在 OnBeforeInitialModuleScreenSetAsRoot 时生效，对当前运行无影响。
-            _uiExtender = UIExtender.Create("ExampleMod");
+            _uiExtender = UIExtender.Create("MutliLittleFixes");
             _uiExtender.Register(typeof(SubModule).Assembly);
             _uiExtender.Enable();
         }
@@ -71,7 +71,7 @@ namespace ExampleMod
         protected override void OnSubModuleUnloaded()
         {
             // 卸载 Harmony 补丁
-            _harmony?.UnpatchAll("ExampleMod");
+            _harmony?.UnpatchAll("MutliLittleFixes");
             _harmony = null;
 
             base.OnSubModuleUnloaded();

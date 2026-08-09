@@ -2,7 +2,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Extensions;
 using TaleWorlds.Core;
 
-namespace ExampleMod.Behaviors
+namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// 每日检查主角技能等级，若超过 MCM 配置的对应属性上限则钳位。

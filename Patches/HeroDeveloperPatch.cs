@@ -1,6 +1,6 @@
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 经验倍率：在 GainRawXp 中倍增主角的 TotalXp（角色升级经验），不影响技能经验

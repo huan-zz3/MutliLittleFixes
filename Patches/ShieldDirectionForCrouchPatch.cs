@@ -1,6 +1,6 @@
 using TaleWorlds.MountAndBlade;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     ///     当步兵第一排蹲下时（盾阵/线阵/散阵），修改盾牌方向从 DefendDown 为 DefendUp。

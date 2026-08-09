@@ -1,7 +1,7 @@
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.Core;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 玩家作为进攻方时，攻城器械必须优先选择敌方器械为目标。

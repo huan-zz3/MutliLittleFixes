@@ -1,9 +1,9 @@
 using System;
 using System.IO;
 using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
-using ExampleMod.UI;
+using MutliLittleFixes.UI;
 
-namespace ExampleMod.Patches
+namespace MutliLittleFixes.Patches
 {
     /// <summary>
     /// 标签页切换协调补丁合集。

@@ -8,7 +8,7 @@ using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 using TaleWorlds.ObjectSystem;
 
-namespace ExampleMod.Behaviors
+namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// 在 NPC 领主被释放后的数天内，逐步向其交付部队。

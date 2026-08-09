@@ -4,7 +4,7 @@ using TaleWorlds.CampaignSystem;
 using TaleWorlds.ObjectSystem;
 using TaleWorlds.SaveSystem;
 
-namespace ExampleMod.Behaviors
+namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// 追踪领主战败被俘释放后的部队/金币恢复进度。

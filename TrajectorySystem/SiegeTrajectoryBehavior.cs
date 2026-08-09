@@ -7,7 +7,7 @@ using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.View.Screens;
 using TaleWorlds.ScreenSystem;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     public class SiegeTrajectoryBehavior : MissionLogic
     {

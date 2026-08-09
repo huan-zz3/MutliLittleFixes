@@ -6,7 +6,7 @@ using TaleWorlds.Library;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.GauntletUI;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// 远程部队弹药耗尽自动移入第9队。

@@ -8,7 +8,7 @@ using System;
 using System.Collections.Generic;
 using TaleWorlds.Library;
 
-namespace ExampleMod
+namespace MutliLittleFixes
 {
     /// <summary>
     /// ORCA 算法的单个 Agent 输入快照。
