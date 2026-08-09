@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Reflection;
 using HarmonyLib;
+using Helpers;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
@@ -50,6 +51,7 @@ namespace MutliLittleFixes.Patches
             RegisterUnitSpawnRatio(harmony);
             RegisterVolunteerRecruitRate(harmony);
             RegisterVolunteerUpgradeRate(harmony);
+            RegisterFreeBattleRetreat(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -286,6 +288,16 @@ namespace MutliLittleFixes.Patches
                 typeof(RecruitmentCampaignBehavior), "UpdateVolunteersOfNotablesInSettlement");
             harmony.Patch(original,
                 transpiler: Patch(typeof(VolunteerUpgradeRatePatch), "Transpiler"));
+        }
+
+        // ── 加入战斗自由撤退（Postfix 强制放行，仅玩家加入的战斗） ───────
+
+        private static void RegisterFreeBattleRetreat(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(MapEventHelper), "CanMainPartyLeaveBattleCommonCondition");
+            harmony.Patch(original,
+                postfix: Patch(typeof(FreeBattleRetreatPatch), "Postfix"));
         }
     }
 }

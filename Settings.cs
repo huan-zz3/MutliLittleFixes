@@ -357,6 +357,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("招募补充")]
         public float VolunteerUpgradeRateMultiplier { get; set; } = 1.0f;
 
+        [SettingPropertyBool("加入战斗自由撤退", Order = 66, RequireRestart = false, HintText = "玩家加入大地图上已有的友方战斗后（无论友方是进攻方还是防守方），encounter 菜单始终提供「离开」选项，可随时带着部队撤出战场；玩家自己发起的守城/攻城战斗不受影响，保持原版规则")]
+        [SettingPropertyGroup("加入战斗")]
+        public bool FreeBattleRetreatEnabled { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
