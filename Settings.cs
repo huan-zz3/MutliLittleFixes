@@ -18,7 +18,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("启用经验倍率", Order = 1, RequireRestart = false, HintText = "实时开关：关闭后经验倍率功能整体失效（数值保持但不生效）")]
         [SettingPropertyGroup("经验设置")]
-        public bool ExperienceMultiplierEnabled { get; set; } = true;
+        public bool ExperienceMultiplierEnabled { get; set; } = false;
 
         [SettingPropertyFloatingInteger("活力 (Vigor)", 0.1f, 1000.0f, "#0.0x", Order = 1, RequireRestart = false, HintText = "活力对应技能的红利学习倍率")]
         [SettingPropertyGroup("属性增长倍率")]
@@ -26,7 +26,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("启用属性红利倍率", Order = 0, RequireRestart = false, HintText = "实时开关：关闭后属性红利学习倍率功能整体失效（数值保持但不生效）")]
         [SettingPropertyGroup("属性增长倍率")]
-        public bool AttributeLearningBonusEnabled { get; set; } = true;
+        public bool AttributeLearningBonusEnabled { get; set; } = false;
 
         [SettingPropertyFloatingInteger("控制 (Control)", 0.1f, 1000.0f, "#0.0x", Order = 2, RequireRestart = false, HintText = "控制对应技能的红利学习倍率")]
         [SettingPropertyGroup("属性增长倍率")]
@@ -50,35 +50,35 @@ namespace MutliLittleFixes
 
         [SettingPropertyInteger("全局默认上限", 10, 1024, "0", Order = 7, RequireRestart = false, HintText = "所有技能的默认等级上限（1024=原版硬上限）")]
         [SettingPropertyGroup("技能等级上限")]
-        public int SkillCapDefault { get; set; } = 1024;
+        public int SkillCapDefault { get; set; } = 500;
 
-        [SettingPropertyBool("启用技能等级上限", Order = 6, RequireRestart = false, HintText = "实时开关：关闭后技能上限功能整体失效（数值保持但不生效）")]
+        [SettingPropertyBool("启用技能等级上限（原版硬上限=1024）", Order = 6, RequireRestart = false, HintText = "实时开关：关闭后技能上限功能整体失效（数值保持但不生效）")]
         [SettingPropertyGroup("技能等级上限")]
-        public bool SkillLevelCapEnabled { get; set; } = true;
+        public bool SkillLevelCapEnabled { get; set; } = false;
 
         [SettingPropertyInteger("活力 (Vigor)", 10, 1024, "0", Order = 8, RequireRestart = false, HintText = "活力类技能（单手/双手/长杆）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
-        public int VigorSkillCap { get; set; } = 1024;
+        public int VigorSkillCap { get; set; } = 500;
 
         [SettingPropertyInteger("控制 (Control)", 10, 1024, "0", Order = 9, RequireRestart = false, HintText = "控制类技能（弓/弩/投掷）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
-        public int ControlSkillCap { get; set; } = 1024;
+        public int ControlSkillCap { get; set; } = 500;
 
         [SettingPropertyInteger("耐力 (Endurance)", 10, 1024, "0", Order = 10, RequireRestart = false, HintText = "耐力类技能（骑术/跑动/锻造）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
-        public int EnduranceSkillCap { get; set; } = 1024;
+        public int EnduranceSkillCap { get; set; } = 500;
 
         [SettingPropertyInteger("狡诈 (Cunning)", 10, 1024, "0", Order = 11, RequireRestart = false, HintText = "狡诈类技能（侦查/战术/流氓）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
-        public int CunningSkillCap { get; set; } = 1024;
+        public int CunningSkillCap { get; set; } = 500;
 
         [SettingPropertyInteger("社交 (Social)", 10, 1024, "0", Order = 12, RequireRestart = false, HintText = "社交类技能（魅力/统御/交易）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
-        public int SocialSkillCap { get; set; } = 1024;
+        public int SocialSkillCap { get; set; } = 500;
 
         [SettingPropertyInteger("智力 (Intelligence)", 10, 1024, "0", Order = 13, RequireRestart = false, HintText = "智力类技能（管理/医术/工程）的等级上限")]
         [SettingPropertyGroup("技能等级上限")]
-        public int IntelligenceSkillCap { get; set; } = 1024;
+        public int IntelligenceSkillCap { get; set; } = 500;
 
         [SettingPropertyBool("禁止家族部队被征召", Order = 10, RequireRestart = false, HintText = "阻止AI领主将玩家家族的非主角部队征召入军团")]
         [SettingPropertyGroup("家族部队控制")]
@@ -110,7 +110,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("启用领主释放补兵", Order = 20, RequireRestart = false, HintText = "启用/禁用领主释放后补兵功能")]
         [SettingPropertyGroup("领主释放补兵")]
-        public bool RestorationEnabled { get; set; } = true;
+        public bool RestorationEnabled { get; set; } = false;
 
         [SettingPropertyInteger("补兵所需天数", 1, 30, "0", Order = 21, RequireRestart = false, HintText = "释放后补兵所需天数")]
         [SettingPropertyGroup("领主释放补兵")]
@@ -118,7 +118,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyFloatingInteger("恢复兵力比例", 0.0f, 1.0f, "0.0", Order = 22, RequireRestart = false, HintText = "恢复兵力占队伍上限的比例(0=关闭)")]
         [SettingPropertyGroup("领主释放补兵")]
-        public float RestorationPartySizeRatio { get; set; } = 0.6f;
+        public float RestorationPartySizeRatio { get; set; } = 0.4f;
 
         [SettingPropertyFloatingInteger("Tier1-2兵种占比", 0.0f, 1.0f, "0.0", Order = 23, RequireRestart = false, HintText = "Tier1-2兵种占比")]
         [SettingPropertyGroup("领主释放补兵")]
@@ -126,15 +126,15 @@ namespace MutliLittleFixes
 
         [SettingPropertyFloatingInteger("Tier3-4兵种占比", 0.0f, 1.0f, "0.0", Order = 24, RequireRestart = false, HintText = "Tier3-4兵种占比")]
         [SettingPropertyGroup("领主释放补兵")]
-        public float RestorationTier34Ratio { get; set; } = 0.35f;
+        public float RestorationTier34Ratio { get; set; } = 0.30f;
 
         [SettingPropertyFloatingInteger("Tier5-6兵种占比", 0.0f, 1.0f, "0.0", Order = 25, RequireRestart = false, HintText = "Tier5-6兵种占比")]
         [SettingPropertyGroup("领主释放补兵")]
-        public float RestorationTier56Ratio { get; set; } = 0.15f;
+        public float RestorationTier56Ratio { get; set; } = 0.20f;
 
         [SettingPropertyInteger("每兵金币", 0, 100000, "0", Order = 26, RequireRestart = false, HintText = "每兵给予领主的金币数量(0=不给金币)")]
         [SettingPropertyGroup("领主释放补兵")]
-        public int RestorationGoldPerTroop { get; set; } = 0;
+        public int RestorationGoldPerTroop { get; set; } = 100;
 
         [SettingPropertyInteger("每兵谷物", 0, 100000, "0", Order = 27, RequireRestart = false, HintText = "每兵给予领主的谷物数量，避免队伍饥饿减员(0=不给谷物)")]
         [SettingPropertyGroup("领主释放补兵")]
@@ -142,23 +142,23 @@ namespace MutliLittleFixes
 
         [SettingPropertyInteger("放弃补兵天数", 1, 60, "0", Order = 28, RequireRestart = false, HintText = "超过此天数领主仍无队伍则放弃补兵")]
         [SettingPropertyGroup("领主释放补兵")]
-        public int RestorationAbandonDays { get; set; } = 15;
+        public int RestorationAbandonDays { get; set; } = 14;
 
         [SettingPropertyBool("启用领土带兵上限", Order = 28, RequireRestart = false, HintText = "启用/禁用领土丧失补偿功能")]
         [SettingPropertyGroup("领土带兵上限")]
-        public bool TerritoryBonusEnabled { get; set; } = true;
+        public bool TerritoryBonusEnabled { get; set; } = false;
 
         [SettingPropertyInteger("城镇补偿值", 0, 50, "0", Order = 29, RequireRestart = false, HintText = "每丢失一座城镇增加的队伍上限(衰减前)")]
         [SettingPropertyGroup("领土带兵上限")]
-        public int TerritoryBonusTownValue { get; set; } = 5;
+        public int TerritoryBonusTownValue { get; set; } = 20;
 
         [SettingPropertyInteger("城堡补偿值", 0, 50, "0", Order = 30, RequireRestart = false, HintText = "每丢失一座城堡增加的队伍上限(衰减前)")]
         [SettingPropertyGroup("领土带兵上限")]
-        public float TerritoryBonusCastleValue { get; set; } = 3.0f;
+        public int TerritoryBonusCastleValue { get; set; } = 10;
 
         [SettingPropertyFloatingInteger("衰减乘数", 0.0f, 1.0f, "0.0", Order = 31, RequireRestart = false, HintText = "连续丢失领土的衰减乘数(1.0=线性)")]
         [SettingPropertyGroup("领土带兵上限")]
-        public float TerritoryBonusDiminishRate { get; set; } = 0.85f;
+        public float TerritoryBonusDiminishRate { get; set; } = 0.7f;
 
         [SettingPropertyInteger("最大补偿上限", 0, 500, "0", Order = 32, RequireRestart = false, HintText = "王国可累积的最大补偿值")]
         [SettingPropertyGroup("领土带兵上限")]
@@ -166,11 +166,11 @@ namespace MutliLittleFixes
 
         [SettingPropertyInteger("征服固化天数", 0, 365, "0", Order = 33, RequireRestart = false, HintText = "占领城池超过此天数后视作本国领土，不再抵消丢失产生的补偿(0=关闭，84=一年)")]
         [SettingPropertyGroup("领土带兵上限")]
-        public int ConquestSolidifyDays { get; set; } = 21;
+        public int ConquestSolidifyDays { get; set; } = 42;
 
         [SettingPropertyInteger("丢失过期天数", 0, 365, "0", Order = 34, RequireRestart = false, HintText = "丢失城池超过此天数后视作他国领土，不再参与补偿计算(0=关闭，84=一年)")]
         [SettingPropertyGroup("领土带兵上限")]
-        public int LossExpireDays { get; set; } = 21;
+        public int LossExpireDays { get; set; } = 84;
 
         [SettingPropertyBool("仅封臣生效", Order = 35, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
         [SettingPropertyGroup("领土带兵上限")]
@@ -179,7 +179,7 @@ namespace MutliLittleFixes
         [SettingPropertyInteger("海战船只上限", 3, 8, "0", Order = 36, RequireRestart = false,
             HintText = "参与海战/沿海掠夺时，玩家可同时出战的最大船只数量（至少3艘，最多8艘）")]
         [SettingPropertyGroup("海战设置")]
-        public int NavalBattleShipLimit { get; set; } = 3;
+        public int NavalBattleShipLimit { get; set; } = 8;
 
         [SettingPropertyBool("家族成员可用提醒", Order = 37, RequireRestart = false, HintText = "家族成员从俘虏释放/逃脱变为可用状态时，在屏幕中央弹出 toast 提示")]
         [SettingPropertyGroup("通知")]
@@ -305,9 +305,9 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("骑马长杆击倒")]
         public bool MountedPolearmThrustKnockDownEnabled { get; set; } = true;
 
-        [SettingPropertyFloatingInteger("刺击最小相对速度", 0.0f, 10.0f, "#0.0", Order = 53, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒所需的最小相对速度（攻击者与目标的移动速度向量差长度，单位与游戏速度一致）。默认 1.0，避免原地刺击也击倒；设为 0 则取消速度要求")]
+        [SettingPropertyFloatingInteger("刺击最小相对速度", 0.0f, 10.0f, "#0.0", Order = 53, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒所需的最小相对速度（攻击者与目标的移动速度向量差长度，单位与游戏速度一致）。默认 2.0，避免原地刺击也击倒；设为 0 则取消速度要求")]
         [SettingPropertyGroup("骑马长杆击倒")]
-        public float MountedPolearmThrustMinRelativeSpeed { get; set; } = 1.0f;
+        public float MountedPolearmThrustMinRelativeSpeed { get; set; } = 2.0f;
 
         [SettingPropertyFloatingInteger("刺击击倒伤害加成", 0.0f, 2.0f, "0%", Order = 54, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒时，本次攻击造成的伤害加成比例（默认 0.3 = +30%）。设为 0 则无伤害加成")]
         [SettingPropertyGroup("骑马长杆击倒")]
@@ -319,43 +319,43 @@ namespace MutliLittleFixes
 
         [SettingPropertyInteger("步兵比例", 0, 100, "0", Order = 56, RequireRestart = false, HintText = "步兵出场配额权重（相对值，越大出场越频繁；设为 0 则步兵不登场；四类总和建议 100）")]
         [SettingPropertyGroup("出场比例")]
-        public int InfantryRatio { get; set; } = 25;
+        public int InfantryRatio { get; set; } = 15;
 
         [SettingPropertyInteger("射手比例", 0, 100, "0", Order = 57, RequireRestart = false, HintText = "射手出场配额权重（相对值，越大出场越频繁；设为 0 则射手不登场；四类总和建议 100）")]
         [SettingPropertyGroup("出场比例")]
-        public int ArcherRatio { get; set; } = 25;
+        public int ArcherRatio { get; set; } = 65;
 
         [SettingPropertyInteger("骑兵比例", 0, 100, "0", Order = 58, RequireRestart = false, HintText = "骑兵出场配额权重（相对值，越大出场越频繁；设为 0 则骑兵不登场；四类总和建议 100）")]
         [SettingPropertyGroup("出场比例")]
-        public int CavalryRatio { get; set; } = 25;
+        public int CavalryRatio { get; set; } = 15;
 
         [SettingPropertyInteger("骑射手比例", 0, 100, "0", Order = 59, RequireRestart = false, HintText = "骑射手出场配额权重（相对值，越大出场越频繁；设为 0 则骑射手不登场；四类总和建议 100）")]
         [SettingPropertyGroup("出场比例")]
-        public int HorseArcherRatio { get; set; } = 25;
+        public int HorseArcherRatio { get; set; } = 5;
 
         [SettingPropertyBool("启用NPC家族部队数量加成", Order = 60, RequireRestart = false, HintText = "为所有NPC领主家族在原版部队数量上限基础上额外增加部队数（仅影响AI家族每日外派，不影响玩家家族）")]
         [SettingPropertyGroup("NPC领主家族调整")]
-        public bool NpcClanPartyLimitBonusEnabled { get; set; } = true;
+        public bool NpcClanPartyLimitBonusEnabled { get; set; } = false;
 
         [SettingPropertyInteger("NPC家族部队数量加成", 0, 10, "0", Order = 61, RequireRestart = false, HintText = "在所有NPC领主家族原版部队数量上限基础上额外增加的部队数（默认+2，即Tier0-2家族从1支变3支、Tier3-4从2支变4支、Tier5-6从3支变5支；设为0关闭加成）")]
         [SettingPropertyGroup("NPC领主家族调整")]
-        public int NpcClanPartyLimitBonus { get; set; } = 2;
+        public int NpcClanPartyLimitBonus { get; set; } = 1;
 
         [SettingPropertyBool("启用招募补充倍率", Order = 62, RequireRestart = false, HintText = "实时开关：关闭后招募补充倍率不生效（名人每日补充概率保持原版）")]
         [SettingPropertyGroup("招募补充")]
-        public bool VolunteerRecruitRateEnabled { get; set; } = true;
+        public bool VolunteerRecruitRateEnabled { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("每日补充概率倍率", 0.5f, 5.0f, "#0.0x", Order = 63, RequireRestart = false, HintText = "城镇/村庄名人每日补充志愿者的概率倍率（1.0=原版，2.0=期望翻倍；槽位越深原版概率越低，倍率按比例放大；倍率>1.9 时前几个槽位将必然补充，但升级仍需另外加速）")]
+        [SettingPropertyFloatingInteger("每日补充概率倍率", 0.5f, 5.0f, "#0.0x", Order = 63, RequireRestart = false, HintText = "城镇/村庄名人每日补充士兵的概率倍率（1.0=原版，2.0=期望翻倍；槽位越深原版概率越低，倍率按比例放大；倍率>1.9 时前几个槽位将必然补充，但升级仍需另外加速）")]
         [SettingPropertyGroup("招募补充")]
-        public float VolunteerRecruitRateMultiplier { get; set; } = 1.0f;
+        public float VolunteerRecruitRateMultiplier { get; set; } = 2.0f;
 
         [SettingPropertyBool("启用升级加速", Order = 64, RequireRestart = false, HintText = "实时开关：关闭后志愿者升级概率倍率不生效（保持原版极低的升级概率）")]
         [SettingPropertyGroup("招募补充")]
-        public bool VolunteerUpgradeRateEnabled { get; set; } = true;
+        public bool VolunteerUpgradeRateEnabled { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("志愿者升级概率倍率", 1.0f, 100.0f, "#0.0x", Order = 65, RequireRestart = false, HintText = "名人志愿者每日升级概率倍率（1.0=原版；原版升级概率=log2(影响力/等级)*0.01，如影响力30的2级名人每天约5%概率升级；倍率10则约50%）")]
+        [SettingPropertyFloatingInteger("被招募士兵升级概率倍率", 1.0f, 100.0f, "#0.0x", Order = 65, RequireRestart = false, HintText = "城镇/村庄名人士兵的每日升级概率倍率（1.0=原版；原版升级概率=log2(影响力/等级)*0.01，如影响力30的2级名人每天约5%概率升级；倍率10则约50%）")]
         [SettingPropertyGroup("招募补充")]
-        public float VolunteerUpgradeRateMultiplier { get; set; } = 1.0f;
+        public float VolunteerUpgradeRateMultiplier { get; set; } = 2.0f;
 
         [SettingPropertyBool("加入战斗自由撤退", Order = 66, RequireRestart = false, HintText = "玩家加入大地图上已有的友方战斗后（无论友方是进攻方还是防守方），encounter 菜单始终提供「离开」选项，可随时带着部队撤出战场；玩家自己发起的守城/攻城战斗不受影响，保持原版规则")]
         [SettingPropertyGroup("加入战斗")]
