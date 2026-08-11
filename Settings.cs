@@ -373,6 +373,46 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("调试")]
         public bool DatedSaveNamingDebugLogEnabled { get; set; } = false;
 
+        [SettingPropertyBool("启用粮草运输支援", Order = 70, RequireRestart = false, HintText = "玩家家族富余城镇每 6 游戏小时检查一次，向缺粮的玩家家族城镇/城堡派出由驻军转化的运粮队，直接加减城镇粮草值（不走市场消费转化）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public bool TransportSupportEnabled { get; set; } = true;
+
+        [SettingPropertyInteger("需被支援粮草阈值", 0, 300, "0", Order = 71, RequireRestart = false, HintText = "玩家家族城镇/城堡的粮草低于此值时列入缺粮名单，等待其他城镇支援（城镇上限300，城堡上限450）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int TargetFoodThreshold { get; set; } = 60;
+
+        [SettingPropertyInteger("可发起支援粮草阈值", 0, 450, "0", Order = 72, RequireRestart = false, HintText = "玩家家族城镇的粮草高于此值才允许派出运粮队（派出的粮不会把本城扣到低于此值）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int SourceFoodThreshold { get; set; } = 200;
+
+        [SettingPropertyInteger("可发起支援驻军阈值", 0, 2000, "0", Order = 73, RequireRestart = false, HintText = "玩家家族城镇的驻军人数高于此值才允许派出运粮队（原版最低驻军：城镇125/城堡75）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int SourceGarrisonThreshold { get; set; } = 250;
+
+        [SettingPropertyInteger("运输队人数", 10, 100, "0", Order = 74, RequireRestart = false, HintText = "每支运粮队从驻军转化的士兵数（高低级各半随机抽取；途中战损即永久损失，返回后归还驻军）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int TransportPartySize { get; set; } = 30;
+
+        [SettingPropertyInteger("每兵抽象粮", 0, 100, "0", Order = 75, RequireRestart = false, HintText = "每名士兵携带的抽象支援粮数量：总支援粮 = 运输队人数 × 此值，出发时直接从源城粮草扣除、到达后直接加入目标城粮草（不走市场）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int FoodPerTroop { get; set; } = 2;
+
+        [SettingPropertyInteger("每兵实物粮", 0, 100, "0", Order = 76, RequireRestart = false, HintText = "每名士兵携带的实物谷物数量（入队背包，仅供运输队途中自身消耗，与支援粮互不互通；剩余在交付/回收时销毁）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int PhysicalFoodPerTroop { get; set; } = 2;
+
+        [SettingPropertyInteger("单城被支援上限", 1, 10, "0", Order = 77, RequireRestart = false, HintText = "同一座缺粮城镇/城堡同时最多接受几支运粮队支援")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int MaxSupportingTownsPerTarget { get; set; } = 3;
+
+        [SettingPropertyInteger("单城外派上限", 1, 10, "0", Order = 78, RequireRestart = false, HintText = "同一座富余城镇同时最多派出几支运粮队")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public int MaxOutgoingTransportsPerTown { get; set; } = 2;
+
+        [SettingPropertyBool("粮草运输支援调试日志", Order = 79, RequireRestart = false, HintText = "在游戏界面左下角显示粮草运输支援的调度/交付/异常日志（派队、交付、退款、被毁等）")]
+        [SettingPropertyGroup("粮草运输支援")]
+        public bool EnableSupportDebugLog { get; set; } = false;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

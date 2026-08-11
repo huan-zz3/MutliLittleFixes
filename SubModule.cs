@@ -65,6 +65,7 @@ namespace MutliLittleFixes
                 campaignStarter.AddBehavior(new KingdomTerritoryBonusBehavior());
                 campaignStarter.AddBehavior(new SkillLevelCapBehavior());
                 campaignStarter.AddBehavior(new CompanionAutoRecallBehavior());
+                campaignStarter.AddBehavior(new FoodTransportSupportBehavior());
             }
         }
 
