@@ -361,6 +361,18 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("加入战斗")]
         public bool FreeBattleRetreatEnabled { get; set; } = true;
 
+        [SettingPropertyBool("存档以日期时间命名", Order = 67, RequireRestart = false, HintText = "快速存档与自动存档改用「存档时的日期时间」命名（save_qu_/save_au_ 前缀），每个战役各自独立轮转，满员后新档保存成功时自动淘汰该战役最旧的；另存为与铁人模式保持原版逻辑。关闭后完全恢复原版命名（saveNNN / saveauto1-3），已生成的日期档不会被自动删除")]
+        [SettingPropertyGroup("存档设置（启用后必须先试用！确认无错后方可安心）")]
+        public bool DatedSaveNamingEnabled { get; set; } = false;
+
+        [SettingPropertyInteger("轮转池容量", 1, 50, "0", Order = 68, RequireRestart = false, HintText = "日期时间存档（自动+快速）每个战役各自轮转池的最大文件数：该战役满员后再次快速/自动存档时，先保存新档成功，再按时间淘汰该战役最旧的；不同战役的存档互不淘汰（1-50，默认 10）")]
+        [SettingPropertyGroup("存档设置（启用后必须先试用！确认无错后方可安心）")]
+        public int DatedSavePoolSize { get; set; } = 10;
+
+        [SettingPropertyBool("日期时间存档调试日志", Order = 69, RequireRestart = false, HintText = "在游戏界面左下角显示日期时间存档功能的日志（保存的新档名、保存结果、轮转淘汰的旧档），用于排查命名与轮转逻辑")]
+        [SettingPropertyGroup("调试")]
+        public bool DatedSaveNamingDebugLogEnabled { get; set; } = false;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

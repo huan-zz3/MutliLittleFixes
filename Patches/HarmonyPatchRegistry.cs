@@ -12,6 +12,7 @@ using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Siege;
 using TaleWorlds.CampaignSystem.ViewModelCollection.KingdomManagement;
 using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
@@ -52,6 +53,7 @@ namespace MutliLittleFixes.Patches
             RegisterVolunteerRecruitRate(harmony);
             RegisterVolunteerUpgradeRate(harmony);
             RegisterFreeBattleRetreat(harmony);
+            RegisterDatedSaveNaming(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -298,6 +300,18 @@ namespace MutliLittleFixes.Patches
                 typeof(MapEventHelper), "CanMainPartyLeaveBattleCommonCondition");
             harmony.Patch(original,
                 postfix: Patch(typeof(FreeBattleRetreatPatch), "Postfix"));
+        }
+
+        // ── 日期时间并行存档命名（2 个 Prefix，快速存档 + 自动存档） ───────
+
+        private static void RegisterDatedSaveNaming(Harmony harmony)
+        {
+            var quickSave = AccessTools.Method(typeof(MBSaveLoad), "QuickSaveCurrentGame");
+            var autoSave = AccessTools.Method(typeof(MBSaveLoad), "AutoSaveCurrentGame");
+            harmony.Patch(quickSave,
+                prefix: Patch(typeof(DatedSaveNamingPatch), "Prefix_QuickSave"));
+            harmony.Patch(autoSave,
+                prefix: Patch(typeof(DatedSaveNamingPatch), "Prefix_AutoSave"));
         }
     }
 }
