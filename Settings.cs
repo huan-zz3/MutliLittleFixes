@@ -415,7 +415,11 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("流亡家族永不灭亡", Order = 80, RequireRestart = false, HintText = "去除无国无地流亡家族（灭国后流浪的家族）的 28 天生存倒计时灭亡机制，使其永久存续，直到加入其他王国或获得领地。关闭后恢复原版倒计时灭亡")]
         [SettingPropertyGroup("流亡家族")]
-        public bool WanderingClanSurvivalEnabled { get; set; } = true;
+        public bool WanderingClanSurvivalEnabled { get; set; } = false;
+
+        [SettingPropertyBool("玩家阵亡不托管部队", Order = 81, RequireRestart = false, HintText = "玩家角色阵亡后，阻止系统把玩家部队强制切换为 AI 全权指挥；部队将保持玩家阵亡瞬间的最后指令继续战斗（阵亡后命令界面仍会被原版关闭，无法再手动下令）。关闭后恢复原版：阵亡即 AI 全权接管")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool PlayerDeathNoAITakeoverEnabled { get; set; } = false;
 
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {

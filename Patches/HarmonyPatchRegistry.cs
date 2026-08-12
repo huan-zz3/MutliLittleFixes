@@ -56,6 +56,7 @@ namespace MutliLittleFixes.Patches
             RegisterFreeBattleRetreat(harmony);
             RegisterDatedSaveNaming(harmony);
             RegisterWanderingClanSurvival(harmony);
+            RegisterPlayerDeathNoAITakeover(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -334,6 +335,15 @@ namespace MutliLittleFixes.Patches
                 typeof(FactionDiscontinuationCampaignBehavior), "DailyTickClan");
             harmony.Patch(original,
                 prefix: Patch(typeof(WanderingClanSurvivalPatch), "Prefix"));
+        }
+
+        // ── 玩家阵亡不托管部队（Prefix 拦截 DelegateCommandToAI，仅玩家阵亡场景生效） ──
+
+        private static void RegisterPlayerDeathNoAITakeover(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(Team), "DelegateCommandToAI");
+            harmony.Patch(original,
+                prefix: Patch(typeof(PlayerDeathNoAITakeoverPatch), "Prefix"));
         }
     }
 }
