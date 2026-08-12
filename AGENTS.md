@@ -24,11 +24,15 @@
 2. 在 `HarmonyPatchRegistry.Register()` 中调用新增的 `RegisterXxx(harmony)` 私有方法，加入注册清单。
 3. 如目标类/方法依赖外部 DLC（如战帆 DLC 的 `NavalDLC.GameComponents.NavalDLCShipDeploymentModel`），**必须用 `AccessTools.TypeByName` + null 检查**，未安装 DLC 时安全跳过（参考 `RegisterShipBattleLimit`）。
 4. 如目标方法是多方法（如 `[HarmonyTargetMethods]` 时代），改为在注册器中**循环注册**，找不到单个方法时跳过（参考 `RegisterScoreboardSortOrder`）。
-5. 编译验证 + 核对注册清单（当前共 25 个补丁类：Patches/ 下 23 个 + TrajectorySystem/ 下 2 个）。
+5. 编译验证 + 核对注册清单（当前共 27 个补丁类：Patches/ 下 25 个 + TrajectorySystem/ 下 2 个）。
 
 ### 1.3 Transpiler 特别说明
 
 `ScoreboardSortOrderPatch` 是唯一使用 Transpiler 的补丁。**实时 MCM 开关通过注入无分支 IL 实现**：在匹配的 `ldc.i4.1; ceq` 处将 `ldc.i4.1` 替换为 `call get_Enabled; conv.i4; ldc.i4.1; add`（等效于 `(int)Enabled + 1`：开启时推入 2 逆转，关闭时推入 1 原版），`ceq` 保持原位。**禁止**用 `new Label()` + `brfalse/br` 注入分支——所有 `new Label()` 内部编号都是 0（值相等），会与原方法已有标签塌缩成同一跳转目标，产生栈不平衡的 `InvalidProgramException`（启动即崩溃，已踩坑）。新写的 Transpiler 必须确保：不新建标签、不引入分支、保持栈平衡、原指令标签转移（如目标指令带标签，转移到注入序列第一条）。
+
+### 1.4 Postfix 返回值特别说明（pass-through 陷阱）
+
+**Postfix 一律声明为 `void`**，如需改写结果请原地修改 `__result` 指向的对象后返回原引用。**禁止**让 Postfix 返回非 void——Harmony 2.4.x 会把返回非 void 的 Postfix 视为 pass-through postfix，要求其**第一个参数**必须是 `__result` 且类型与返回类型一致；若第一个参数是 `__instance`（或其他类型），`harmony.Patch()` 在启动注册时直接抛 `System.Exception`："Return type of pass through postfix ... does not match type of its first parameter"（启动即崩溃，已踩坑，见 `EncyclopediaClanExileFilterPatch`）。若确实需要 pass-through 语义，第一参数必须是 `__result` 且与返回类型相同。
 
 ---
 

@@ -93,6 +93,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("UI")]
         public bool PrisonerSpecialLabel { get; set; } = true;
 
+        [SettingPropertyBool("百科家族页流亡筛选", Order = 13, RequireRestart = false, HintText = "在百科全书的家族列表中，为「状态」筛选组新增「在流亡/不在流亡」选项（无国无地且非叛军/土匪/小派系、不含玩家家族）")]
+        [SettingPropertyGroup("UI")]
+        public bool EncyclopediaClanExileFilter { get; set; } = true;
+
         [SettingPropertyBool("强制创建军团测试", Order = 13, RequireRestart = false, HintText = "让我方非玩家家族领袖尝试创建军团，用于测试屏蔽效果")]
         [SettingPropertyGroup("家族部队控制")]
         public bool ForceArmyCreationTest

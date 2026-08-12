@@ -6,6 +6,7 @@ using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Election;
+using TaleWorlds.CampaignSystem.Encyclopedia;
 using TaleWorlds.CampaignSystem.GameComponents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
@@ -57,6 +58,7 @@ namespace MutliLittleFixes.Patches
             RegisterDatedSaveNaming(harmony);
             RegisterWanderingClanSurvival(harmony);
             RegisterPlayerDeathNoAITakeover(harmony);
+            RegisterEncyclopediaClanExileFilter(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -344,6 +346,15 @@ namespace MutliLittleFixes.Patches
             var original = AccessTools.Method(typeof(Team), "DelegateCommandToAI");
             harmony.Patch(original,
                 prefix: Patch(typeof(PlayerDeathNoAITakeoverPatch), "Prefix"));
+        }
+
+        // ── 百科家族页「状态」筛选组新增流亡筛选（Postfix 追加筛选项，实时开关） ──
+
+        private static void RegisterEncyclopediaClanExileFilter(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(EncyclopediaPage), "GetFilterItems");
+            harmony.Patch(original,
+                postfix: Patch(typeof(EncyclopediaClanExileFilterPatch), "Postfix"));
         }
     }
 }
