@@ -10,6 +10,13 @@ namespace MutliLittleFixes
     /// </summary>
     public static class CoordinateTargetManager
     {
+        /// <summary>
+        /// 目标点 Z 轴偏移量（米）。唯一的真值来源：
+        /// AI 瞄准（CoordinateTargetAIPatch）与目标标记渲染（SiegeTrajectoryBehavior）
+        /// 都基于抬高后的目标点工作，保证落点与标记一致。
+        /// </summary>
+        public const float TargetZOffset = 1.5f;
+
         /// <summary>武器 → 目标坐标映射</summary>
         private static readonly Dictionary<RangedSiegeWeapon, Vec3> _weaponTargets = new();
 

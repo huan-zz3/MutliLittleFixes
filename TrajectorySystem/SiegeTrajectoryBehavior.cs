@@ -331,6 +331,11 @@ namespace MutliLittleFixes
                 return;
             }
 
+            // 目标点 Z 轴抬高：原版命中点为地面坐标，直接瞄准地面会导致
+            // 抛射体提前砸地、落点偏近；抬高后落点更贴近玩家标定的位置。
+            // 该偏移量同时作用于 AI 瞄准与目标标记渲染（见 CoordinateTargetManager.TargetZOffset）。
+            hitPos.z += CoordinateTargetManager.TargetZOffset;
+
             // 查找可用的投石机
             var availableWeapons = FindAvailableSiegeWeapons(hitPos);
             if (availableWeapons.Count == 0)
@@ -461,6 +466,9 @@ namespace MutliLittleFixes
                 && CoordinateTargetManager.GlobalTargetPosition.HasValue)
             {
                 Vec3 targetPos = CoordinateTargetManager.GlobalTargetPosition.Value;
+
+                // 注意：GlobalTargetPosition 在设定时已包含 TargetZOffset，
+                // 此处直接绘制该值即是偏移后的位置，与 AI 瞄准点一致。切勿再次叠加偏移。
 
                 // 延迟初始化渲染器（首次使用时创建）
                 if (_coordTargetCircle == null)
