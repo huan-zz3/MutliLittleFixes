@@ -413,6 +413,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("粮草运输支援")]
         public bool EnableSupportDebugLog { get; set; } = false;
 
+        [SettingPropertyBool("流亡家族永不灭亡", Order = 80, RequireRestart = false, HintText = "去除无国无地流亡家族（灭国后流浪的家族）的 28 天生存倒计时灭亡机制，使其永久存续，直到加入其他王国或获得领地。关闭后恢复原版倒计时灭亡")]
+        [SettingPropertyGroup("流亡家族")]
+        public bool WanderingClanSurvivalEnabled { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

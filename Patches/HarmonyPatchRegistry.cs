@@ -55,6 +55,7 @@ namespace MutliLittleFixes.Patches
             RegisterVolunteerUpgradeRate(harmony);
             RegisterFreeBattleRetreat(harmony);
             RegisterDatedSaveNaming(harmony);
+            RegisterWanderingClanSurvival(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -323,6 +324,16 @@ namespace MutliLittleFixes.Patches
                 prefix: Patch(typeof(DatedSaveNamingPatch), "Prefix_QuickSave"));
             harmony.Patch(autoSave,
                 prefix: Patch(typeof(DatedSaveNamingPatch), "Prefix_AutoSave"));
+        }
+
+        // ── 流亡家族永不灭亡（Prefix 拦截 28 天倒计时灭族入口） ─────────
+
+        private static void RegisterWanderingClanSurvival(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(FactionDiscontinuationCampaignBehavior), "DailyTickClan");
+            harmony.Patch(original,
+                prefix: Patch(typeof(WanderingClanSurvivalPatch), "Prefix"));
         }
     }
 }
