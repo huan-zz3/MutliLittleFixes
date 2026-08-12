@@ -36,6 +36,7 @@ namespace MutliLittleFixes.Patches
             RegisterCharacterDevelopmentModel(harmony);
             RegisterHeroDeveloper(harmony);
             RegisterPartySizeLimitTerritoryBonus(harmony);
+            RegisterTransportPartySizeLimit(harmony);
             RegisterNpcClanPartyLimit(harmony);
             RegisterPlayerCapturedFief(harmony);
             RegisterPreventAIWarDeclaration(harmony);
@@ -122,6 +123,16 @@ namespace MutliLittleFixes.Patches
                 typeof(DefaultPartySizeLimitModel), "GetPartyMemberSizeLimit");
             harmony.Patch(original,
                 postfix: Patch(typeof(PartySizeLimitTerritoryBonusPatch), "Postfix"));
+        }
+
+        // ── 运粮队部队上限补足（防超编减速） ─────────────────────────
+
+        private static void RegisterTransportPartySizeLimit(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(DefaultPartySizeLimitModel), "GetPartyMemberSizeLimit");
+            harmony.Patch(original,
+                postfix: Patch(typeof(TransportPartySizeLimitPatch), "Postfix"));
         }
 
         // ── NPC 家族部队数量加成（部队上限数量核心） ───────────────────

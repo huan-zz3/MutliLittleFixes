@@ -12,13 +12,13 @@ namespace MutliLittleFixes.Behaviors
 {
     /// <summary>
     /// 粮草运输支援行为。
-    /// 玩家家族的富余城镇每 6 游戏小时检查一次,向缺粮的玩家家族城镇/城堡派出由驻军转化的运输队。
+    /// 玩家家族的富余城镇每 3 游戏小时检查一次,向缺粮的玩家家族城镇/城堡派出由驻军转化的运输队。
     /// 粮草直接加减 FoodStocks(不走市场消费转化);运输队携带抽象粮(支援)与实物粮(自身消耗,互不互通)。
     /// 运输队保持原版 AI(每小时思考开启,遭遇强敌会像商队一样逃跑);目标被围时原地等待(不禁用 AI)。
     /// </summary>
     public class FoodTransportSupportBehavior : CampaignBehaviorBase
     {
-        private const int CheckIntervalHours = 6;
+        private const int CheckIntervalHours = 3;
 
         private int _hourCounter;
 
@@ -34,7 +34,7 @@ namespace MutliLittleFixes.Behaviors
             dataStore.SyncData("_hourCounter", ref _hourCounter);
         }
 
-        // ── 每 6 小时调度 ──────────────────────────────────────────────
+        // ── 每 3 小时调度 ──────────────────────────────────────────────
 
         private void OnHourlyTick()
         {
@@ -262,7 +262,8 @@ namespace MutliLittleFixes.Behaviors
             // 抽象粮:不超过源城"超出支援阈值"的余量,也不扣到 0 以下
             int maxFood = partySize * foodPerTroop;
             int spareFood = (int)sourceTown.FoodStocks - Math.Max(0, settings.SourceFoodThreshold);
-            int foodCarried = Math.Min(maxFood, Math.Max(0, spareFood));
+            // int foodCarried = Math.Min(maxFood, Math.Max(0, spareFood));
+            int foodCarried = maxFood; // 直接按最大值运送,不考虑源城余粮,避免频繁触发支援
             if (foodCarried <= 0)
             {
                 return false;
