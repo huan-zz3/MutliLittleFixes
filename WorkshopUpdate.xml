@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tasks>
+    <GetItem>
+        <!-- 可以是你的创意工坊项目的 ID 或 URL -->
+        <ItemId Value="YourWorkshopItemIdHere"/>
+    </GetItem>
+    <UpdateItem>
+        <!-- 模组的绝对路径 -->
+        <ModuleFolder Value="F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\MutliLittleFixes"/>
+        <!-- 插入更新日志，会显示在创意工坊模组的“改动说明”部分 -->
+        <ChangeNotes Value="MutliLittleFixes v1.1.0
+- 新增：玩家领地间粮草支援 —— 玩家家族富余城镇自动向缺粮城镇/城堡派出由驻军转化的运粮队，粮草直接加减不走市场。
+- 新增：运粮队无超编减速 —— 补足运粮队部队上限，消除原版超编减速惩罚。
+- 优化：投石机标定位置 z 轴偏移 1.5 米 —— 标定点自动抬高，修正 AI 标定投石落点偏近的问题。
+- 新增：百科家族页流亡筛选 —— 家族列表「状态」筛选组新增「在流亡 / 不在流亡」筛选项。
+- 新增：流亡家族永不灭亡（默认关闭）—— 去除流亡家族 28 天生存倒计时灭亡机制，使其永久存续。
+- 新增：玩家阵亡不托管部队（默认关闭）—— 玩家阵亡后部队保持最后指令继续战斗，不被 AI 全权接管。
+Requires: Harmony, ButterLib, UIExtenderEx, MBOptionScreen. Tested on v1.4.5 / v1.4.6."/>
+        <Tags>
+            <!-- 类型：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
+            <Tag Value="Utility" />
+            <!-- 设定：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
+            <Tag Value="Medieval" />
+            <!-- 游戏模式：Singleplayer, Multiplayer -->
+            <Tag Value="Singleplayer" />
+            <!-- 兼容版本：e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
+            <Tag Value="v1.4.5" />
+            <Tag Value="v1.4.6" />
+        </Tags>
+    </UpdateItem>
+</Tasks>

@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Tasks>
+    <CreateItem/>
+    <UpdateItem>
+        <!-- 模组的绝对路径 -->
+        <ModuleFolder Value="F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\MutliLittleFixes"/>
+        <!-- 将会显示在 Steam 创意工坊的说明，可以通过 Steam UI 来编辑 -->
+        <ItemDescription Value="MutliLittleFixes（许多小修小补）- A collection of QoL fixes and tweaks for Bannerlord.
+- 无弹药远程自动移交第 9 队：Out-of-ammo ranged units are auto-moved to formation 9, and rejoin when ammo is restored.
+- 经验/属性红利/技能上限倍率：XP multiplier (up to x1000), per-attribute learning rate, and per-skill level caps (10-1024).
+- 王国 AI 修复：Disable AI declarations of war, player must be a candidate when taking a city, forbid AI recruiting/donating player clan troops.
+- NPC 领主部队增强：Extra party limit for NPC clans, released-lord reinforcement, compensation party limit when losing fiefs (with Kingdom bonus tab).
+- 战斗与阵型：Auto-crouch shield wall, banner-bearer repositioning, couch lance always knockdowns, battle result sort order reversal.
+- 攻城与海战：Siege engines prioritize enemy engines, trajectory preview for ballista/mangonel, coordinate targeting for AI engines, adjustable naval ship cap (War Sails DLC optional).
+- 粮草与补给：Food convoy between player fiefs (auto logistics), recruit/volunteer upgrade rate multipliers, custom deployment ratio.
+- 杂项：Date-time save naming, clan member available toast, prisoner special NPC tags, exile family filter &amp; never-die.
+Requires: Harmony, ButterLib, UIExtenderEx, MBOptionScreen. Tested on v1.4.5 / v1.4.6. Source: github.com/huan-zz3/MutliLittleFixes"/>
+        <Tags>
+            <!-- 类型：Graphical Enhancement, Map Pack, Partial Conversion, Sound, Total Conversion, Troops, UI, Utility, Weapons and Armour -->
+            <Tag Value="Utility" />
+            <!-- 设定：Native, Antiquity, Dark Ages, Medieval, Musket Era, Modern, Sci-Fi, Fantasy, Oriental, Apocalypse, Other -->
+            <Tag Value="Medieval" />
+            <!-- 游戏模式：Singleplayer, Multiplayer -->
+            <Tag Value="Singleplayer" />
+            <!-- 兼容版本：e1.9.0, v1.0.0,... 当前可用的版本你可以在 Steam 创意工坊的“按标签浏览”分区找到 -->
+            <Tag Value="v1.4.5" />
+            <Tag Value="v1.4.6" />
+        </Tags>
+        <!-- 决定显示在 Steam 创意工坊的展示图片，这里插入的必须是一个绝对路径（图片文件大小应小于 1 MB） -->
+        <Image Value="F:\SteamLibrary\steamapps\common\Mount &amp; Blade II Bannerlord\Modules\MutliLittleFixes\images\MutliLittleFixes-大头图.png"/>
+        <!-- 决定是否在 Steam 创意工坊上可见，可以是：Public, FriendsOnly, Private -->
+        <Visibility Value="Public"/>
+    </UpdateItem>
+</Tasks>

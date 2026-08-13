@@ -96,8 +96,6 @@
 
 本 Mod 也已在Github开源，欢迎任何有愿砍友参考创造：huan-zz3/MutliLittleFixes
 
-[attach]244373[/attach]
-
 ![](https://images.mountblade.top/forum/202608/11/093816geghyett2sq0khhe.png)
 
 **更新历史**
