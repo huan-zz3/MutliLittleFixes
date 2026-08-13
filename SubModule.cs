@@ -66,6 +66,7 @@ namespace MutliLittleFixes
                 campaignStarter.AddBehavior(new SkillLevelCapBehavior());
                 campaignStarter.AddBehavior(new CompanionAutoRecallBehavior());
                 campaignStarter.AddBehavior(new FoodTransportSupportBehavior());
+                campaignStarter.AddBehavior(new VillageRebuildBehavior());
             }
         }
 

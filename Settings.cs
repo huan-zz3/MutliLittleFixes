@@ -429,6 +429,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("阵型与战斗")]
         public bool FormationFrontRankSortEnabled { get; set; } = true;
 
+        [SettingPropertyBool("村庄出资重建", Order = 83, RequireRestart = false, HintText = "被彻底掠夺（荒废）的村庄菜单提供「出资重建」选项：花费 10000 第纳尔，3 天后村庄自动重建完成（恢复正常运转并奖励村庄名人好感 15~20）。关闭后菜单选项隐藏；已出资的进行中重建不受影响，仍会按时完成")]
+        [SettingPropertyGroup("村庄重建")]
+        public bool VillageRebuildEnabled { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
