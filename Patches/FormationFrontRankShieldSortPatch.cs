@@ -33,6 +33,20 @@ namespace MutliLittleFixes.Patches
 
         internal static bool Prefix(LineFormation __instance)
         {
+            try
+            {
+                return PrefixCore(__instance);
+            }
+            catch (Exception)
+            {
+                // 任何意外异常都降级为放行原版方法（返回 true），
+                // 保证本补丁永远不会成为游戏崩溃/卡死的源头。
+                return true;
+            }
+        }
+
+        private static bool PrefixCore(LineFormation __instance)
+        {
             // MCM 运行时开关 — 关闭时放行原方法
             if (Settings.Instance?.FormationFrontRankSortEnabled != true)
                 return true;
@@ -54,7 +68,13 @@ namespace MutliLittleFixes.Patches
 
             // 第 1 轮：同列冒泡，反复扫描直至该列不再有「持盾者在非持盾者正后方」。
             // 修复原版单趟扫描不复查已处理排间边界的缺陷。
+            //
+            // 收敛性：每次交换都把持盾者上移一排、非持盾者下移一排，严格减少列内逆序数，
+            // 稳定比较器下至多 rankCount-1 趟即稳定。maxSweeps 趟数上限用于防御比较器
+            // 中途抖动（如士兵整理途中换装导致持盾判定变化）的极端情形，保证循环有界。
+            int maxSweeps = Math.Max(1, rankCount);
             bool swapped;
+            int sweep = 0;
             do
             {
                 swapped = false;
@@ -72,7 +92,7 @@ namespace MutliLittleFixes.Patches
                     }
                 }
             }
-            while (swapped);
+            while (swapped && ++sweep < maxSweeps);
 
             // 第 2 轮：跨列补位，从后排向前（保证晋升可逐排级联）。
             // 修复原版「前一排全盾时 return 中止整个函数」的缺陷：改为跳过继续，
