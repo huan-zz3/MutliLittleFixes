@@ -132,6 +132,10 @@ namespace MutliLittleFixes.Behaviors
             GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, ReconstructionCost);
             _pendingEndDaysBySettlementId[settlement.StringId] = (float)CampaignTime.DaysFromNow(ReconstructionDays).ToDays;
 
+            // 立即重新评估菜单选项条件：出资重建按钮随即转为「重建进行中」禁用态，
+            // 防止同一村庄在同一菜单会话内被重复点击出资（原版菜单在非离开后果执行后不会自动刷新选项状态）。
+            Campaign.Current?.GameMenuManager?.RefreshMenuOptionConditions(args.MenuContext);
+
             TextObject message = new TextObject("{=mlf_village_rebuild_started}You funded the reconstruction of {SETTLEMENT}. The work will be completed in {DAYS} days.");
             message.SetTextVariable("SETTLEMENT", settlement.Name);
             message.SetTextVariable("DAYS", ReconstructionDays);
