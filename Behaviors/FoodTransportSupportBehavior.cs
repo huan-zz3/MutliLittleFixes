@@ -45,8 +45,68 @@ namespace MutliLittleFixes.Behaviors
                 return;
             }
 
+            LogSupportSituationOverview();
             MaintainActiveTransports();
             DispatchNewTransports();
+        }
+
+        // ── 调试:每 3 小时输出全局面况快照(玩家家族城况 + 在途运输队)──
+
+        private void LogSupportSituationOverview()
+        {
+            if (Settings.Instance?.EnableSupportDebugLog != true)
+            {
+                return;
+            }
+
+            Settings settings = Settings.Instance!;
+            LogDebug($"[运粮] ── 3小时巡检 开关={settings.TransportSupportEnabled} 缺粮阈值={settings.TargetFoodThreshold} 源城阈值={settings.SourceFoodThreshold} 驻军阈值={settings.SourceGarrisonThreshold} 队规模={settings.TransportPartySize} ──");
+
+            // 玩家家族每座城镇/城堡当前情况
+            foreach (Settlement settlement in Settlement.All)
+            {
+                if (!settlement.IsTown && !settlement.IsCastle)
+                {
+                    continue;
+                }
+                if (settlement.OwnerClan != Clan.PlayerClan)
+                {
+                    continue;
+                }
+                Town town = settlement.Town;
+                if (town == null)
+                {
+                    continue;
+                }
+                int garrison = town.GarrisonParty?.Party.NumberOfRegularMembers ?? 0;
+                LogDebug($"[运粮] 城况 {settlement.Name}: 粮 {town.FoodStocks:F0}/{town.FoodStocksUpperLimit():F0} 驻军 {garrison} {(settlement.IsUnderSiege ? "被围" : "未围")}");
+            }
+
+            // 在途运输队情况
+            bool hasTransports = false;
+            foreach (MobileParty party in MobileParty.All)
+            {
+                if (party?.PartyComponent is not FoodTransportPartyComponent transport)
+                {
+                    continue;
+                }
+                if (transport.Phase == FoodTransportPartyComponent.TransportPhase.Done)
+                {
+                    continue;
+                }
+                hasTransports = true;
+                string phaseText = transport.Phase switch
+                {
+                    FoodTransportPartyComponent.TransportPhase.TravelingToTarget => "前往",
+                    FoodTransportPartyComponent.TransportPhase.Returning => "返程",
+                    _ => "未知",
+                };
+                LogDebug($"[运粮] 在途 {GetPartyName(party)}: {phaseText} {transport.SourceSettlement?.Name}→{transport.TargetSettlement?.Name} 携粮 {transport.FoodCarried} 兵力 {party.Party.NumberOfAllMembers} 行为 {party.DefaultBehavior} 位置 {party.GetPosition2D}");
+            }
+            if (!hasTransports)
+            {
+                LogDebug("[运粮] 在途运输队: 无");
+            }
         }
 
         // ── 在途运输队维护(围城等待/目标易主返程退款/源城丢失解散)──────
