@@ -1,0 +1,326 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<base xmlns="http://schemas.taleworlds.com/2007/04/GameSystem/" type="string">
+  <tags>
+    <tag language="English"/>
+  </tags>
+  <strings>
+    <!-- Mod 名称 -->
+    <string id="mlf_mod_name" text="MutliLittleFixes"/>
+
+    <!-- ════════ MCM 分组 ════════ -->
+    <string id="mlf_group_exp" text="Experience Settings"/>
+    <string id="mlf_group_attr" text="Attribute Growth Rates"/>
+    <string id="mlf_group_skillcap" text="Skill Level Caps"/>
+    <string id="mlf_group_clanparty" text="Clan Party Control"/>
+    <string id="mlf_group_ui" text="UI"/>
+    <string id="mlf_group_restore" text="Lord Troop Restoration"/>
+    <string id="mlf_group_territory" text="Territory Party Size Bonus"/>
+    <string id="mlf_group_naval" text="Naval Battles"/>
+    <string id="mlf_group_notify" text="Notifications"/>
+    <string id="mlf_group_debug" text="Debug"/>
+    <string id="mlf_group_diplomacy" text="Diplomacy"/>
+    <string id="mlf_group_siege" text="Siege"/>
+    <string id="mlf_group_battle" text="Formations &amp; Battle"/>
+    <string id="mlf_group_lance" text="Mounted Polearm Knockdown"/>
+    <string id="mlf_group_spawn" text="Spawn Ratios"/>
+    <string id="mlf_group_npc" text="NPC Lord Clan Adjustments"/>
+    <string id="mlf_group_recruit" text="Recruitment"/>
+    <string id="mlf_group_join" text="Joining Battles"/>
+    <string id="mlf_group_save" text="Save Settings (test first before trusting!)"/>
+    <string id="mlf_group_food" text="Food Transport Support"/>
+    <string id="mlf_group_exile" text="Exiled Clans"/>
+    <string id="mlf_group_village" text="Village Rebuild"/>
+
+    <!-- ════════ 经验设置 ════════ -->
+    <string id="mlf_exp_rate" text="Experience Rate"/>
+    <string id="mlf_exp_rate_hint" text="Multiplier for experience gained by the main hero (affects all skill XP gain and character leveling speed)"/>
+    <string id="mlf_exp_enabled" text="Enable Experience Rate"/>
+    <string id="mlf_exp_enabled_hint" text="Real-time toggle: when disabled, the experience rate feature is completely inactive (value is kept but not applied)"/>
+
+    <!-- ════════ 属性增长倍率 ════════ -->
+    <string id="mlf_attr_vigor" text="Vigor"/>
+    <string id="mlf_attr_vigor_hint" text="Attribute learning bonus multiplier for skills governed by Vigor"/>
+    <string id="mlf_attr_enabled" text="Enable Attribute Growth Rates"/>
+    <string id="mlf_attr_enabled_hint" text="Real-time toggle: when disabled, the attribute learning bonus feature is completely inactive (values are kept but not applied)"/>
+    <string id="mlf_attr_control" text="Control"/>
+    <string id="mlf_attr_control_hint" text="Attribute learning bonus multiplier for skills governed by Control"/>
+    <string id="mlf_attr_endurance" text="Endurance"/>
+    <string id="mlf_attr_endurance_hint" text="Attribute learning bonus multiplier for skills governed by Endurance"/>
+    <string id="mlf_attr_cunning" text="Cunning"/>
+    <string id="mlf_attr_cunning_hint" text="Attribute learning bonus multiplier for skills governed by Cunning"/>
+    <string id="mlf_attr_social" text="Social"/>
+    <string id="mlf_attr_social_hint" text="Attribute learning bonus multiplier for skills governed by Social"/>
+    <string id="mlf_attr_intelligence" text="Intelligence"/>
+    <string id="mlf_attr_intelligence_hint" text="Attribute learning bonus multiplier for skills governed by Intelligence"/>
+
+    <!-- ════════ 技能等级上限 ════════ -->
+    <string id="mlf_skillcap_default" text="Global Default Cap"/>
+    <string id="mlf_skillcap_default_hint" text="Default level cap for all skills (1024 = vanilla hard cap)"/>
+    <string id="mlf_skillcap_enabled" text="Enable Skill Level Caps (Vanilla Hard Cap = 1024)"/>
+    <string id="mlf_skillcap_enabled_hint" text="Real-time toggle: when disabled, the skill cap feature is completely inactive (values are kept but not applied)"/>
+    <string id="mlf_skillcap_vigor" text="Vigor"/>
+    <string id="mlf_skillcap_vigor_hint" text="Level cap for Vigor skills (One Handed / Two Handed / Polearm)"/>
+    <string id="mlf_skillcap_control" text="Control"/>
+    <string id="mlf_skillcap_control_hint" text="Level cap for Control skills (Bow / Crossbow / Throwing)"/>
+    <string id="mlf_skillcap_endurance" text="Endurance"/>
+    <string id="mlf_skillcap_endurance_hint" text="Level cap for Endurance skills (Riding / Athletics / Smithing)"/>
+    <string id="mlf_skillcap_cunning" text="Cunning"/>
+    <string id="mlf_skillcap_cunning_hint" text="Level cap for Cunning skills (Scouting / Tactics / Roguery)"/>
+    <string id="mlf_skillcap_social" text="Social"/>
+    <string id="mlf_skillcap_social_hint" text="Level cap for Social skills (Charm / Leadership / Trade)"/>
+    <string id="mlf_skillcap_intelligence" text="Intelligence"/>
+    <string id="mlf_skillcap_intelligence_hint" text="Level cap for Intelligence skills (Steward / Medicine / Engineering)"/>
+
+    <!-- ════════ 家族部队控制 ════════ -->
+    <string id="mlf_clanparty_recruit" text="Prevent Clan Party Recruitment"/>
+    <string id="mlf_clanparty_recruit_hint" text="Prevent AI lords from recruiting non-main-hero clan parties into armies"/>
+    <string id="mlf_clanparty_donate" text="Prevent Clan Party Troop Donation"/>
+    <string id="mlf_clanparty_donate_hint" text="Prevent non-main-hero clan parties from donating troops to garrisons"/>
+    <string id="mlf_army_test" text="Force Army Creation Test"/>
+    <string id="mlf_army_test_hint" text="Make non-player clan leaders attempt to create armies to test the blocking effect"/>
+
+    <!-- ════════ UI ════════ -->
+    <string id="mlf_prisoner_label" text="Prisoner Special NPC Labels"/>
+    <string id="mlf_prisoner_label_hint" text="In the prisoner tab of the party screen, mark rulers/lords/mercenary leaders with their identity"/>
+    <string id="mlf_exile_filter" text="Encyclopedia Clan Exile Filter"/>
+    <string id="mlf_exile_filter_hint" text="In the encyclopedia clan list, add &quot;In Exile / Not in Exile&quot; options to the Status filter group (no kingdom, no fiefs, not rebel/bandit/minor faction, excluding player clan)"/>
+
+    <!-- ════════ 领主释放补兵 ════════ -->
+    <string id="mlf_restore_enabled" text="Enable Lord Troop Restoration"/>
+    <string id="mlf_restore_enabled_hint" text="Enable/disable the troop restoration feature after releasing lords"/>
+    <string id="mlf_restore_days" text="Restoration Days"/>
+    <string id="mlf_restore_days_hint" text="Days needed to restore troops after release"/>
+    <string id="mlf_restore_ratio" text="Restored Troop Ratio"/>
+    <string id="mlf_restore_ratio_hint" text="Restored troops as a ratio of the party size limit (0 = disabled)"/>
+    <string id="mlf_restore_tier12" text="Tier 1-2 Troop Ratio"/>
+    <string id="mlf_restore_tier12_hint" text="Tier 1-2 troop ratio"/>
+    <string id="mlf_restore_tier34" text="Tier 3-4 Troop Ratio"/>
+    <string id="mlf_restore_tier34_hint" text="Tier 3-4 troop ratio"/>
+    <string id="mlf_restore_tier56" text="Tier 5-6 Troop Ratio"/>
+    <string id="mlf_restore_tier56_hint" text="Tier 5-6 troop ratio"/>
+    <string id="mlf_restore_gold" text="Gold per Troop"/>
+    <string id="mlf_restore_gold_hint" text="Gold given to the lord per troop (0 = no gold)"/>
+    <string id="mlf_restore_food" text="Food per Troop"/>
+    <string id="mlf_restore_food_hint" text="Food given to the lord per troop to prevent starvation (0 = no food)"/>
+    <string id="mlf_restore_abandon" text="Abandon Days"/>
+    <string id="mlf_restore_abandon_hint" text="Abandon restoration if the lord still has no party after this many days"/>
+
+    <!-- ════════ 领土带兵上限 ════════ -->
+    <string id="mlf_territory_enabled" text="Enable Territory Party Size Bonus"/>
+    <string id="mlf_territory_enabled_hint" text="Enable/disable the territory loss compensation feature"/>
+    <string id="mlf_territory_town" text="Town Compensation Value"/>
+    <string id="mlf_territory_town_hint" text="Party size limit increase per lost town (before diminishing)"/>
+    <string id="mlf_territory_castle" text="Castle Compensation Value"/>
+    <string id="mlf_territory_castle_hint" text="Party size limit increase per lost castle (before diminishing)"/>
+    <string id="mlf_territory_diminish" text="Diminishing Multiplier"/>
+    <string id="mlf_territory_diminish_hint" text="Diminishing multiplier for consecutive territory losses (1.0 = linear)"/>
+    <string id="mlf_territory_cap" text="Maximum Compensation Cap"/>
+    <string id="mlf_territory_cap_hint" text="Maximum cumulative compensation a kingdom can accumulate"/>
+    <string id="mlf_territory_solidify" text="Conquest Solidify Days"/>
+    <string id="mlf_territory_solidify_hint" text="After holding a settlement for this many days, it counts as home territory and no longer offsets compensation (0 = disabled, 84 = one year)"/>
+    <string id="mlf_territory_expire" text="Loss Expire Days"/>
+    <string id="mlf_territory_expire_hint" text="After a lost settlement stays lost for this many days, it counts as foreign territory and no longer participates in compensation (0 = disabled, 84 = one year)"/>
+    <string id="mlf_territory_vassals" text="Vassals Only"/>
+    <string id="mlf_territory_vassals_hint" text="Only apply to vassal clans (excluding mercenaries)"/>
+
+    <!-- ════════ 海战设置 ════════ -->
+    <string id="mlf_naval_limit" text="Naval Battle Ship Limit"/>
+    <string id="mlf_naval_limit_hint" text="Maximum number of ships the player can field simultaneously in naval battles/coastal raids (at least 3, at most 8)"/>
+
+    <!-- ════════ 通知 ════════ -->
+    <string id="mlf_companion_recall" text="Companion Available Reminder"/>
+    <string id="mlf_companion_recall_hint" text="Show a toast notification in the center of the screen when a clan member becomes available after being released/escaping captivity"/>
+
+    <!-- ════════ 调试 ════════ -->
+    <string id="mlf_debug_restore" text="Lord Restoration Debug Log"/>
+    <string id="mlf_debug_restore_hint" text="Display lord troop restoration debug logs in the bottom-left corner of the screen to troubleshoot restoration logic"/>
+    <string id="mlf_debug_territory" text="Territory Bonus Debug Log"/>
+    <string id="mlf_debug_territory_hint" text="Display territory loss compensation debug logs in the bottom-left corner of the screen to troubleshoot compensation calculations and UI refresh"/>
+    <string id="mlf_debug_companion" text="Companion Reminder Debug Log"/>
+    <string id="mlf_debug_companion_hint" text="Display companion availability reminder debug logs in the bottom-left corner of the screen"/>
+    <string id="mlf_debug_noammo" text="Ranged No-Ammo Debug (Press ,)"/>
+    <string id="mlf_debug_noammo_hint" text="In battle, press , to force-zero ammunition of 5% of ranged soldiers to test the formation 9 transfer logic"/>
+    <string id="mlf_debug_circle" text="Debug Circle/Point Render View"/>
+    <string id="mlf_debug_circle_hint" text="Show a red circle under the player and a yellow point ahead (debugging)"/>
+    <string id="mlf_debug_save" text="Dated Save Debug Log"/>
+    <string id="mlf_debug_save_hint" text="Display dated-save logs in the bottom-left corner of the screen (new save names, save results, pruned old saves) to troubleshoot naming and rotation logic"/>
+
+    <!-- ════════ 外交设置 ════════ -->
+    <string id="mlf_ai_war" text="Prevent AI War Declaration"/>
+    <string id="mlf_ai_war_hint" text="When the player is king, prevent AI lords from automatically proposing war declarations"/>
+
+    <!-- ════════ 攻城 ════════ -->
+    <string id="mlf_fief_candidacy" text="Player Fief Always a Candidate"/>
+    <string id="mlf_fief_candidacy_hint" text="Fiefs conquered personally by the player are always included in the fief assignment vote"/>
+    <string id="mlf_siege_target" text="Siege Engines Target Engines First"/>
+    <string id="mlf_siege_target_hint" text="When attacking, siege engines prioritize enemy ranged siege engines"/>
+
+    <!-- ════════ 阵型与战斗 ════════ -->
+    <string id="mlf_crouch" text="Auto Crouch"/>
+    <string id="mlf_crouch_hint" text="Pure infantry/ranged squads auto-crouch when holding still (first rank of line formations / front half of ranged / all ranged in loose formations)"/>
+    <string id="mlf_crouch_shield" text="Shield Up While Crouching"/>
+    <string id="mlf_crouch_shield_hint" text="Front-rank soldiers raise shields upward instead of downward while crouching"/>
+    <string id="mlf_banner_position" text="Banner Bearer Position Optimization"/>
+    <string id="mlf_banner_position_hint" text="Move banner bearers from the left front to the middle of the last rank"/>
+    <string id="mlf_noammo_formation" text="No-Ammo Ranged Transfer to Formation 9"/>
+    <string id="mlf_noammo_formation_hint" text="Ranged soldiers with depleted ammunition are auto-moved to formation 9 and return when ammo is restored"/>
+    <string id="mlf_scoreboard" text="Scoreboard Sort Order Reversal"/>
+    <string id="mlf_scoreboard_hint" text="Reverse the sort cycle when clicking scoreboard column headers: default → descending → ascending"/>
+    <string id="mlf_death_noai" text="No AI Takeover on Player Death"/>
+    <string id="mlf_death_noai_hint" text="After the player character dies, prevent the system from forcing full AI command of the player's party; the party keeps executing the last orders given before the player's death (the vanilla order UI is still closed after death, so no further manual orders can be issued). When disabled, restores vanilla: full AI takeover on death"/>
+    <string id="mlf_frontrank_sort" text="Front Rank Shield Sort Fix"/>
+    <string id="mlf_frontrank_sort_hint" text="Fix the vanilla formation arrangement convergence defect: shielded (or polearm-bracing) units keep bubbling forward until the column stabilizes, and cross-column gap filling skips full ranks instead of aborting the whole arrangement, ensuring the front rank is fully shielded whenever shield units are available (vanilla can leave a disordered mix of non-shield front rank + shield second rank)"/>
+
+    <!-- ════════ 骑马长杆击倒 ════════ -->
+    <string id="mlf_lance_couch" text="Couch Lance Knockdown"/>
+    <string id="mlf_lance_couch_hint" text="Mounted couch lance (passive attack) hits on unmounted infantry/ranged units always knock them down (symmetric for both sides; negated by blocking)"/>
+    <string id="mlf_lance_thrust" text="Mounted Polearm Thrust Knockdown"/>
+    <string id="mlf_lance_thrust_hint" text="Normal mounted polearm thrusts hitting unmounted infantry/ranged units always knock them down (symmetric for both sides; negated by blocking)"/>
+    <string id="mlf_lance_min_speed" text="Thrust Minimum Relative Speed"/>
+    <string id="mlf_lance_min_speed_hint" text="Minimum relative speed required to trigger guaranteed knockdown on a mounted polearm thrust (length of the velocity difference vector between attacker and target, same unit as game speed). Default 2.0 prevents stationary thrusts from knocking down; 0 removes the speed requirement"/>
+    <string id="mlf_lance_damage" text="Thrust Knockdown Damage Bonus"/>
+    <string id="mlf_lance_damage_hint" text="Damage bonus applied when a mounted polearm thrust triggers guaranteed knockdown (default 0.3 = +30%). 0 means no damage bonus"/>
+
+    <!-- ════════ 出场比例 ════════ -->
+    <string id="mlf_spawn_enabled" text="Enable Custom Spawn Ratios"/>
+    <string id="mlf_spawn_enabled_hint" text="Active when game setting &quot;Unit Spawn Priority = High Tier First&quot;: schedules spawn pacing by the four ratio weights below (infantry/archer/cavalry/horse archer), while within a troop type units still spawn highest tier first, preventing high-tier troops from monopolizing all spawn slots. When disabled, reverts to vanilla high-tier-first logic"/>
+    <string id="mlf_spawn_infantry" text="Infantry Ratio"/>
+    <string id="mlf_spawn_infantry_hint" text="Infantry spawn quota weight (relative value; higher = more frequent; 0 = infantry never spawns; total of all four is recommended to be 100)"/>
+    <string id="mlf_spawn_archer" text="Archer Ratio"/>
+    <string id="mlf_spawn_archer_hint" text="Archer spawn quota weight (relative value; higher = more frequent; 0 = archers never spawn; total of all four is recommended to be 100)"/>
+    <string id="mlf_spawn_cavalry" text="Cavalry Ratio"/>
+    <string id="mlf_spawn_cavalry_hint" text="Cavalry spawn quota weight (relative value; higher = more frequent; 0 = cavalry never spawns; total of all four is recommended to be 100)"/>
+    <string id="mlf_spawn_horsearcher" text="Horse Archer Ratio"/>
+    <string id="mlf_spawn_horsearcher_hint" text="Horse archer spawn quota weight (relative value; higher = more frequent; 0 = horse archers never spawn; total of all four is recommended to be 100)"/>
+
+    <!-- ════════ NPC领主家族调整 ════════ -->
+    <string id="mlf_npc_party_enabled" text="Enable NPC Clan Party Limit Bonus"/>
+    <string id="mlf_npc_party_enabled_hint" text="Add extra parties on top of the vanilla party limit for all AI lord clans (only affects daily AI dispatch, not the player clan)"/>
+    <string id="mlf_npc_party_bonus" text="NPC Clan Party Limit Bonus"/>
+    <string id="mlf_npc_party_bonus_hint" text="Extra parties added on top of the vanilla party limit for all NPC lord clans (default +2: Tier 0-2 clans from 1 to 3 parties, Tier 3-4 from 2 to 4, Tier 5-6 from 3 to 5; 0 disables the bonus)"/>
+
+    <!-- ════════ 招募补充 ════════ -->
+    <string id="mlf_recruit_rate_enabled" text="Enable Recruitment Refill Rate"/>
+    <string id="mlf_recruit_rate_enabled_hint" text="Real-time toggle: when disabled, the recruitment refill rate multiplier has no effect (notables keep vanilla daily refill)"/>
+    <string id="mlf_recruit_rate_multiplier" text="Daily Refill Rate Multiplier"/>
+    <string id="mlf_recruit_rate_multiplier_hint" text="Multiplier for the daily chance of town/village notables refilling recruits (1.0 = vanilla, 2.0 = expected doubling; deeper slots have lower vanilla rates and are scaled proportionally; above 1.9 the first slots will always refill, but upgrades still need separate acceleration)"/>
+    <string id="mlf_recruit_upgrade_enabled" text="Enable Upgrade Acceleration"/>
+    <string id="mlf_recruit_upgrade_enabled_hint" text="Real-time toggle: when disabled, the volunteer upgrade rate multiplier has no effect (keeps vanilla extremely low upgrade chance)"/>
+    <string id="mlf_recruit_upgrade_multiplier" text="Recruit Upgrade Rate Multiplier"/>
+    <string id="mlf_recruit_upgrade_multiplier_hint" text="Multiplier for the daily upgrade chance of troops owned by town/village notables (1.0 = vanilla; vanilla chance = log2(influence/level)*0.01, e.g. a level-2 notable with 30 influence has ~5% daily upgrade chance; a 10x multiplier gives ~50%)"/>
+
+    <!-- ════════ 加入战斗 ════════ -->
+    <string id="mlf_retreat_free" text="Free Retreat When Joining Battles"/>
+    <string id="mlf_retreat_free_hint" text="After joining an existing friendly battle on the campaign map (whether friendlies attack or defend), the encounter menu always offers a &quot;Leave&quot; option to withdraw with your party at any time; battles you started yourself (defending/attacking sieges) keep vanilla rules"/>
+
+    <!-- ════════ 存档设置 ════════ -->
+    <string id="mlf_save_dated" text="Name Saves with Date &amp; Time"/>
+    <string id="mlf_save_dated_hint" text="Quick save and auto save use &quot;date and time of saving&quot; as names (save_qu_/save_au_ prefixes), each campaign rotates its own pool; when full, the oldest save of that campaign is pruned after a new save succeeds. Save As and ironman keep vanilla logic. When disabled, fully reverts to vanilla naming (saveNNN / saveauto1-3); already-created dated saves are not auto-deleted"/>
+    <string id="mlf_save_pool" text="Rotation Pool Size"/>
+    <string id="mlf_save_pool_hint" text="Maximum files per campaign in the rotation pool for dated saves (auto + quick): when the pool of a campaign is full, the next quick/auto save first saves the new file successfully, then prunes the oldest by time; saves of different campaigns never prune each other (1-50, default 10)"/>
+
+    <!-- ════════ 粮草运输支援 ════════ -->
+    <string id="mlf_food_enabled" text="Enable Food Transport Support"/>
+    <string id="mlf_food_enabled_hint" text="Every 6 in-game hours, surplus player-clan towns dispatch transport parties converted from garrisons to starving player-clan towns/castles, adding/subtracting town food values directly (bypassing market consumption)"/>
+    <string id="mlf_food_target_threshold" text="Starving Food Threshold"/>
+    <string id="mlf_food_target_threshold_hint" text="Player-clan towns/castles with food below this value are listed as starving and await support from other towns (town cap 300, castle cap 450)"/>
+    <string id="mlf_food_source_threshold" text="Surplus Food Threshold"/>
+    <string id="mlf_food_source_threshold_hint" text="Player-clan towns only dispatch transport parties when their food is above this value (dispatched food never takes the town below this value)"/>
+    <string id="mlf_food_garrison_threshold" text="Surplus Garrison Threshold"/>
+    <string id="mlf_food_garrison_threshold_hint" text="Player-clan towns only dispatch transport parties when garrison size is above this value (vanilla minimum garrison: town 125 / castle 75)"/>
+    <string id="mlf_food_party_size" text="Transport Party Size"/>
+    <string id="mlf_food_party_size_hint" text="Number of soldiers converted from garrison per transport party (half high-tier/half low-tier randomly picked; battle losses are permanent, survivors return to garrison on return)"/>
+    <string id="mlf_food_per_troop" text="Abstract Food per Troop"/>
+    <string id="mlf_food_per_troop_hint" text="Abstract support food carried per soldier: total support food = transport party size × this value, deducted from source town food on departure and added to target town food on arrival (not via market)"/>
+    <string id="mlf_food_physical" text="Physical Food per Troop"/>
+    <string id="mlf_food_physical_hint" text="Physical grain carried per soldier (into party inventory, only for the transport party's own consumption en route, not interchangeable with support food; leftovers destroyed on delivery/return)"/>
+    <string id="mlf_food_max_target" text="Max Support Parties per Target"/>
+    <string id="mlf_food_max_target_hint" text="Maximum number of transport parties the same starving town/castle can accept support from at the same time"/>
+    <string id="mlf_food_max_source" text="Max Outgoing Parties per Town"/>
+    <string id="mlf_food_max_source_hint" text="Maximum number of transport parties the same surplus town can dispatch at the same time"/>
+    <string id="mlf_debug_food" text="Food Transport Debug Log"/>
+    <string id="mlf_debug_food_hint" text="Display food transport dispatch/delivery/exception logs in the bottom-left corner of the screen (dispatch, delivery, refund, destroyed, etc.)"/>
+
+    <!-- ════════ 流亡家族 ════════ -->
+    <string id="mlf_exile_survival" text="Exiled Clans Never Die"/>
+    <string id="mlf_exile_survival_hint" text="Remove the 28-day survival countdown extinction mechanic for landless exiled clans (clans wandering after their kingdom falls), letting them persist forever until joining another kingdom or gaining land. When disabled, restores vanilla countdown extinction"/>
+
+    <!-- ════════ 村庄重建 ════════ -->
+    <string id="mlf_village_rebuild" text="Village Funded Rebuild"/>
+    <string id="mlf_village_rebuild_hint" text="The menu of fully raided (devastated) villages offers a &quot;Fund Reconstruction&quot; option: pay 10000 denars and the village rebuilds automatically in 3 days (returns to normal operation and rewards all notables with 15~20 relation). When disabled, the menu option is hidden; ongoing paid rebuilds are unaffected and still complete on time"/>
+
+    <!-- ════════ 游戏内功能文本 ════════ -->
+    <!-- 村庄重建 -->
+    <string id="mlf_village_rebuild_option" text="Fund Reconstruction"/>
+    <string id="mlf_village_rebuild_in_progress" text="Rebuild in progress ({REMAINING_DAYS} days remaining)"/>
+    <string id="mlf_village_rebuild_in_progress_tip" text="The village is being rebuilt and is expected to be completed in {REMAINING_DAYS} days."/>
+    <string id="mlf_village_rebuild_fund" text="Fund Reconstruction ({COST} denars)"/>
+    <string id="mlf_village_rebuild_need_gold" text="{COST} denars are required to fund the reconstruction."/>
+    <string id="mlf_village_rebuild_started" text="You funded the reconstruction of {SETTLEMENT}. The work will be completed in {DAYS} days."/>
+    <string id="mlf_village_rebuild_completed" text="The reconstruction of {SETTLEMENT} has been completed. The local villagers are grateful for your help."/>
+
+    <!-- 粮草运输 -->
+    <string id="mlf_food_party_name" text="{SOURCE_NAME} Food Transport"/>
+    <string id="mlf_food_dispatched" text="{SOURCE_NAME} has dispatched a {PARTY_SIZE}-man food transport to support {TARGET_NAME} ({FOOD_AMOUNT} food)"/>
+    <string id="mlf_food_delivered" text="{TARGET_NAME} received {FOOD_AMOUNT} food support"/>
+    <string id="mlf_food_destroyed" text="{PARTY_NAME} was destroyed on the way. Food was lost."/>
+
+    <!-- 家族成员提醒 -->
+    <string id="mlf_companion_available" text="{HERO_NAME} is now available to be recalled"/>
+
+    <!-- 第9队 -->
+    <string id="mlf_d9_loaded" text="Formation 9: RangedNoAmmoBehavior loaded"/>
+    <string id="mlf_d9_disabled_returned" text="Formation 9: Feature disabled, {RETURNED} archers returned to their original formations"/>
+    <string id="mlf_d9_moved" text="Formation 9: Detected {MOVED} ranged soldiers out of ammo in squad {SQUAD_INDEX}, moved to Formation 9"/>
+    <string id="mlf_d9_ammo_restored" text="Formation 9: {RETURNED} archers recovered ammunition and returned to their original formations"/>
+    <string id="mlf_d9_died" text="Formation 9: {DIED} archers died and were removed from the Formation 9 records"/>
+    <string id="mlf_d9_noteam" text="Formation 9: playerTeam == null"/>
+    <string id="mlf_d9_noformation" text="Formation 9: GetFormation(8) == null"/>
+    <string id="mlf_d9_empty" text="Formation 9 is empty"/>
+    <string id="mlf_d9_noordercontroller" text="Formation 9: PlayerOrderController == null"/>
+    <string id="mlf_d9_notselectable" text="Formation 9: IsFormationSelectable returned false (CountOfUnits={COUNT_OF_UNITS})"/>
+    <string id="mlf_d9_selected" text="Formation 9 selected ({COUNT_OF_UNITS} units), orders can be issued"/>
+
+    <!-- 俘虏标注 -->
+    <string id="mlf_label_ruler" text="Ruler"/>
+    <string id="mlf_label_mercenary" text="Mercenary Leader"/>
+    <string id="mlf_label_lord" text="Lord"/>
+
+    <!-- 百科流亡筛选 -->
+    <string id="mlf_exile_in" text="In Exile"/>
+    <string id="mlf_exile_notin" text="Not in Exile"/>
+
+    <!-- ExplainedNumber 描述 -->
+    <string id="mlf_explained_territory" text="Territory Loss Compensation"/>
+    <string id="mlf_explained_food_limit" text="Food Transport Party Size Limit"/>
+    <string id="mlf_explained_attr_rate" text="MutliLittleFixes Attribute Multipliers"/>
+
+    <!-- 攻城轨迹 RTS/坐标标定 -->
+    <string id="mlf_rts_on" text="RTS view: enabled"/>
+    <string id="mlf_rts_off" text="RTS view: disabled"/>
+    <string id="mlf_coord_cancelled" text="Siege engine target cancelled, returning to vanilla AI"/>
+    <string id="mlf_coord_leave_weapon" text="Leave the siege engine and designate the target from the battlefield"/>
+    <string id="mlf_coord_no_hit" text="No ground or structure hit, aim at the target position"/>
+    <string id="mlf_coord_no_weapons" text="No usable siege engine (no alive, loaded engine that can reach this point)"/>
+    <string id="mlf_coord_target_set" text="Siege engine target set! {WEAPON_COUNT} engines are now aiming at this point"/>
+
+    <!-- 国家加成标签页 -->
+    <string id="mlf_ui_bonus_tab" text="National Bonuses"/>
+    <string id="mlf_ui_bonus_overview" text="Overview of Lords' Bonuses by Kingdom"/>
+    <string id="mlf_ui_bonus_col_kingdom" text="Kingdom"/>
+    <string id="mlf_ui_bonus_col_territory" text="Territory Loss Compensation Party Limit"/>
+    <string id="mlf_ui_bonus_col_waiting" text="Waiting for Restoration"/>
+    <string id="mlf_ui_bonus_col_active" text="Restoration in Progress"/>
+    <string id="mlf_ui_count_people" text="{COUNT} people"/>
+
+    <!-- ════════ 攻城轨迹设置（SiegeTrajectoryConfig） ════════ -->
+    <string id="st_mod_name" text="Siege Trajectory"/>
+    <string id="st_ballista" text="Show ballista trajectory"/>
+    <string id="st_ballista_hint" text="Enable or disable trajectory preview for ballista and scorpion."/>
+    <string id="st_mangonel" text="Show mangonel trajectory"/>
+    <string id="st_mangonel_hint" text="Enable or disable trajectory preview for mangonel and trebuchet."/>
+    <string id="st_coord" text="Enable coordinate targeting"/>
+    <string id="st_coord_hint" text="Enable or disable AI siege weapons following player-designated target coordinates (period key)."/>
+    <string id="st_group_siege" text="Siege engines"/>
+  </strings>
+</base>

@@ -66,8 +66,9 @@ namespace MutliLittleFixes.Behaviors
         {
             get
             {
-                string sourceName = _sourceSettlement?.Name?.ToString() ?? "未知";
-                return new TextObject(sourceName + " 运粮队");
+                TextObject name = new TextObject("{=mlf_food_party_name}{SOURCE_NAME} Food Transport");
+                name.SetTextVariable("SOURCE_NAME", _sourceSettlement?.Name?.ToString() ?? "Unknown");
+                return name;
             }
         }
 

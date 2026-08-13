@@ -3,6 +3,7 @@ using System.Reflection;
 using TaleWorlds.Core;
 using TaleWorlds.InputSystem;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.GauntletUI;
 
@@ -55,7 +56,7 @@ namespace MutliLittleFixes
             {
                 _startupLogged = true;
                 InformationManager.DisplayMessage(new InformationMessage(
-                    "[第9队] RangedNoAmmoBehavior 已加载"));
+                    new TextObject("{=mlf_d9_loaded}Formation 9: RangedNoAmmoBehavior loaded", null).ToString()));
             }
 
             // 首次运行时初始化第9队
@@ -116,7 +117,9 @@ namespace MutliLittleFixes
             if (returned > 0)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    $"[第9队] 功能已关闭，{returned} 名弓手已归还至原阵型"));
+                    new TextObject("{=mlf_d9_disabled_returned}Formation 9: Feature disabled, {RETURNED} archers returned to their original formations", null)
+                    .SetTextVariable("RETURNED", returned)
+                    .ToString()));
             }
         }
 
@@ -199,7 +202,10 @@ namespace MutliLittleFixes
             {
                 int squadIndex = (int)formation.FormationIndex + 1;
                 InformationManager.DisplayMessage(new InformationMessage(
-                    $"[第9队] 从第{squadIndex}小队检测到 {moved} 名远程弹药耗尽，已移入第9队"));
+                    new TextObject("{=mlf_d9_moved}Formation 9: Detected {MOVED} ranged soldiers out of ammo in squad {SQUAD_INDEX}, moved to Formation 9", null)
+                    .SetTextVariable("MOVED", moved)
+                    .SetTextVariable("SQUAD_INDEX", squadIndex)
+                    .ToString()));
             }
         }
 
@@ -333,13 +339,17 @@ namespace MutliLittleFixes
             if (returned > 0)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    $"[第9队] {returned} 名弓手已恢复弹药，归还至原阵型"));
+                    new TextObject("{=mlf_d9_ammo_restored}Formation 9: {RETURNED} archers recovered ammunition and returned to their original formations", null)
+                    .SetTextVariable("RETURNED", returned)
+                    .ToString()));
             }
 
             if (died > 0)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    $"[第9队] {died} 名弓手已阵亡，从第9队记录中清理"));
+                    new TextObject("{=mlf_d9_died}Formation 9: {DIED} archers died and were removed from the Formation 9 records", null)
+                    .SetTextVariable("DIED", died)
+                    .ToString()));
             }
         }
 
@@ -360,19 +370,22 @@ namespace MutliLittleFixes
 
             if (playerTeam == null)
             {
-                InformationManager.DisplayMessage(new InformationMessage("[第9队] playerTeam == null"));
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TextObject("{=mlf_d9_noteam}Formation 9: playerTeam == null", null).ToString()));
                 return;
             }
 
             Formation formation8 = playerTeam.GetFormation(NoAmmoFormationClass);
             if (formation8 == null)
             {
-                InformationManager.DisplayMessage(new InformationMessage("[第9队] GetFormation(8) == null"));
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TextObject("{=mlf_d9_noformation}Formation 9: GetFormation(8) == null", null).ToString()));
                 return;
             }
             if (formation8.CountOfUnits <= 0)
             {
-                InformationManager.DisplayMessage(new InformationMessage("[第9队] 第9队为空"));
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TextObject("{=mlf_d9_empty}Formation 9 is empty", null).ToString()));
                 return;
             }
 
@@ -382,13 +395,16 @@ namespace MutliLittleFixes
             OrderController controller = playerTeam.PlayerOrderController;
             if (controller == null)
             {
-                InformationManager.DisplayMessage(new InformationMessage("[第9队] PlayerOrderController == null"));
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TextObject("{=mlf_d9_noordercontroller}Formation 9: PlayerOrderController == null", null).ToString()));
                 return;
             }
             if (!controller.IsFormationSelectable(formation8))
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    $"[第9队] IsFormationSelectable 返回 false（CountOfUnits={formation8.CountOfUnits}）"));
+                    new TextObject("{=mlf_d9_notselectable}Formation 9: IsFormationSelectable returned false (CountOfUnits={COUNT_OF_UNITS})", null)
+                    .SetTextVariable("COUNT_OF_UNITS", formation8.CountOfUnits)
+                    .ToString()));
                 return;
             }
 
@@ -399,7 +415,9 @@ namespace MutliLittleFixes
             OpenToggleOrderDirectly();
 
             InformationManager.DisplayMessage(new InformationMessage(
-                $"[第9队] 已选中（{formation8.CountOfUnits} 人），可下达指令"));
+                new TextObject("{=mlf_d9_selected}Formation 9 selected ({COUNT_OF_UNITS} units), orders can be issued", null)
+                .SetTextVariable("COUNT_OF_UNITS", formation8.CountOfUnits)
+                .ToString()));
         }
 
         /// <summary>

@@ -9,7 +9,7 @@ namespace MutliLittleFixes.Patches
 {
     internal static class PartySizeLimitTerritoryBonusPatch
     {
-        private static readonly TextObject _bonusText = new TextObject("领土丧失补偿");
+        private static readonly TextObject _bonusText = new TextObject("{=mlf_explained_territory}Territory Loss Compensation", null);
 
         internal static void Postfix(PartyBase party, bool includeDescriptions, ref ExplainedNumber __result)
         {

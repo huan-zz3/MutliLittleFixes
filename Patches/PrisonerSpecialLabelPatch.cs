@@ -35,7 +35,7 @@ namespace MutliLittleFixes.Patches
             {
                 // RefreshValues() 每次都会重新设置 Name = Troop.Character.Name.ToString()
                 // 所以 postfix 追加不会重复累积
-                __instance.Name += $" ({label})";
+                __instance.Name += $" ({new TaleWorlds.Localization.TextObject(label, null).ToString()})";
             }
         }
 
@@ -55,15 +55,15 @@ namespace MutliLittleFixes.Patches
 
             // 统治者：该氏族是某个王国的统治氏族
             if (clan.Kingdom?.RulingClan == clan)
-                return "统治者";
+                return "{=mlf_label_ruler}Ruler";
 
             // 雇佣兵头：该氏族是雇佣兵类型的小派系
             if (clan.IsClanTypeMercenary)
-                return "雇佣兵头";
+                return "{=mlf_label_mercenary}Mercenary Leader";
 
             // 领主：该氏族属于某个王国且是正规贵族氏族（非小派系）
             if (clan.Kingdom != null && clan.IsNoble && !clan.IsMinorFaction)
-                return "领主";
+                return "{=mlf_label_lord}Lord";
 
             return null;
         }

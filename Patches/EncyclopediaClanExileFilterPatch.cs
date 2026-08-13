@@ -33,8 +33,10 @@ namespace MutliLittleFixes.Patches
     /// </summary>
     internal static class EncyclopediaClanExileFilterPatch
     {
-        private const string InExileText = "在流亡";
-        private const string NotInExileText = "不在流亡";
+        private const string InExileText = "{=mlf_exile_in}In Exile";
+        private const string NotInExileText = "{=mlf_exile_notin}Not in Exile";
+        private const string InExileId = "mlf_exile_in";
+        private const string NotInExileId = "mlf_exile_notin";
 
         internal static void Postfix(EncyclopediaPage __instance, IEnumerable<EncyclopediaFilterGroup> __result)
         {
@@ -88,7 +90,8 @@ namespace MutliLittleFixes.Patches
 
         private static bool IsExileFilter(EncyclopediaFilterItem item)
         {
-            return item.Name.Value == InExileText || item.Name.Value == NotInExileText;
+            string id = item.Name?.GetID();
+            return id == InExileId || id == NotInExileId;
         }
 
         /// <summary>

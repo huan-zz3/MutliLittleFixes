@@ -7,6 +7,7 @@ using TaleWorlds.CampaignSystem.Roster;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.Core;
 using TaleWorlds.Library;
+using TaleWorlds.Localization;
 
 namespace MutliLittleFixes.Behaviors
 {
@@ -305,7 +306,13 @@ namespace MutliLittleFixes.Behaviors
             // 扣源城抽象粮(保证不低于 0)
             sourceTown.FoodStocks = Math.Max(0f, sourceTown.FoodStocks - foodCarried);
 
-            NotifyPlayer($"{source.Name} 已派出 {partySize} 人运粮队支援 {target.Name}({foodCarried} 粮)");
+            NotifyPlayer(
+                new TextObject("{=mlf_food_dispatched}{SOURCE_NAME} has dispatched a {PARTY_SIZE}-man food transport to support {TARGET_NAME} ({FOOD_AMOUNT} food)")
+                .SetTextVariable("SOURCE_NAME", source.Name)
+                .SetTextVariable("PARTY_SIZE", partySize)
+                .SetTextVariable("TARGET_NAME", target.Name)
+                .SetTextVariable("FOOD_AMOUNT", foodCarried)
+                .ToString());
             return true;
         }
 
@@ -418,7 +425,11 @@ namespace MutliLittleFixes.Behaviors
             SetPartyAiAction.GetActionForVisitingSettlement(party, transport.SourceSettlement, MobileParty.NavigationType.Default, false, false);
 
             LogDebug($"[运粮] {GetPartyName(party)} 抵达 {target.Name},交付 {transport.FoodCarried} 粮,返程");
-            NotifyPlayer($"{target.Name} 收到 {transport.FoodCarried} 粮草支援");
+            NotifyPlayer(
+                new TextObject("{=mlf_food_delivered}{TARGET_NAME} received {FOOD_AMOUNT} food support")
+                .SetTextVariable("TARGET_NAME", target.Name)
+                .SetTextVariable("FOOD_AMOUNT", transport.FoodCarried)
+                .ToString());
         }
 
         private void ReturnAndDisband(MobileParty party, FoodTransportPartyComponent transport, Settlement source)
@@ -459,7 +470,10 @@ namespace MutliLittleFixes.Behaviors
             }
             // 被摧毁:抽象粮不退回(随队损失),士兵损失
             LogDebug($"[运粮] {GetPartyName(party)} 运输队被摧毁,{transport.FoodCarried} 粮草随队损失");
-            NotifyPlayer($"{GetPartyName(party)} 在途中被摧毁,粮草损失");
+            NotifyPlayer(
+                new TextObject("{=mlf_food_destroyed}{PARTY_NAME} was destroyed on the way. Food was lost.")
+                .SetTextVariable("PARTY_NAME", GetPartyName(party))
+                .ToString());
         }
 
         // ── 辅助方法 ───────────────────────────────────────────────────

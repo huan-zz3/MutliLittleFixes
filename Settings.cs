@@ -2,103 +2,112 @@ using MCM.Abstractions.Attributes;
 using MCM.Abstractions.Attributes.v2;
 using MCM.Abstractions.Base.Global;
 using TaleWorlds.Core;
+using TaleWorlds.Localization;
 
 namespace MutliLittleFixes
 {
     internal sealed class Settings : AttributeGlobalSettings<Settings>
     {
         public override string Id => "MutliLittleFixes_v1";
-        public override string DisplayName => "MutliLittleFixes";
+
+        public override string DisplayName
+        {
+            get
+            {
+                return new TextObject("{=mlf_mod_name}MutliLittleFixes", null).ToString();
+            }
+        }
+
         public override string FolderName => "MutliLittleFixes";
         public override string FormatType => "json2";
 
-        [SettingPropertyFloatingInteger("经验倍率", 0.1f, 1000.0f, "#0.0x", Order = 0, RequireRestart = false, HintText = "主角获取经验的倍率（影响所有技能经验获取和角色等级提升速度）")]
-        [SettingPropertyGroup("经验设置")]
+        [SettingPropertyFloatingInteger("{=mlf_exp_rate}Experience Rate", 0.1f, 1000.0f, "#0.0x", Order = 0, RequireRestart = false, HintText = "{=mlf_exp_rate_hint}Multiplier for experience gained by the main hero (affects all skill XP gain and character leveling speed)")]
+        [SettingPropertyGroup("{=mlf_group_exp}Experience Settings")]
         public float ExperienceMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyBool("启用经验倍率", Order = 1, RequireRestart = false, HintText = "实时开关：关闭后经验倍率功能整体失效（数值保持但不生效）")]
-        [SettingPropertyGroup("经验设置")]
+        [SettingPropertyBool("{=mlf_exp_enabled}Enable Experience Rate", Order = 1, RequireRestart = false, HintText = "{=mlf_exp_enabled_hint}Real-time toggle: when disabled, the experience rate feature is completely inactive (value is kept but not applied)")]
+        [SettingPropertyGroup("{=mlf_group_exp}Experience Settings")]
         public bool ExperienceMultiplierEnabled { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("活力 (Vigor)", 0.1f, 1000.0f, "#0.0x", Order = 1, RequireRestart = false, HintText = "活力对应技能的红利学习倍率")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyFloatingInteger("{=mlf_attr_vigor}Vigor (Vigor)", 0.1f, 1000.0f, "#0.0x", Order = 1, RequireRestart = false, HintText = "{=mlf_attr_vigor_hint}Attribute learning bonus multiplier for skills governed by Vigor")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public float VigorMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyBool("启用属性红利倍率", Order = 0, RequireRestart = false, HintText = "实时开关：关闭后属性红利学习倍率功能整体失效（数值保持但不生效）")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyBool("{=mlf_attr_enabled}Enable Attribute Growth Rates", Order = 0, RequireRestart = false, HintText = "{=mlf_attr_enabled_hint}Real-time toggle: when disabled, the attribute learning bonus feature is completely inactive (values are kept but not applied)")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public bool AttributeLearningBonusEnabled { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("控制 (Control)", 0.1f, 1000.0f, "#0.0x", Order = 2, RequireRestart = false, HintText = "控制对应技能的红利学习倍率")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyFloatingInteger("{=mlf_attr_control}Control (Control)", 0.1f, 1000.0f, "#0.0x", Order = 2, RequireRestart = false, HintText = "{=mlf_attr_control_hint}Attribute learning bonus multiplier for skills governed by Control")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public float ControlMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyFloatingInteger("耐力 (Endurance)", 0.1f, 1000.0f, "#0.0x", Order = 3, RequireRestart = false, HintText = "耐力对应技能的红利学习倍率")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyFloatingInteger("{=mlf_attr_endurance}Endurance (Endurance)", 0.1f, 1000.0f, "#0.0x", Order = 3, RequireRestart = false, HintText = "{=mlf_attr_endurance_hint}Attribute learning bonus multiplier for skills governed by Endurance")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public float EnduranceMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyFloatingInteger("狡诈 (Cunning)", 0.1f, 1000.0f, "#0.0x", Order = 4, RequireRestart = false, HintText = "狡诈对应技能的红利学习倍率")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyFloatingInteger("{=mlf_attr_cunning}Cunning (Cunning)", 0.1f, 1000.0f, "#0.0x", Order = 4, RequireRestart = false, HintText = "{=mlf_attr_cunning_hint}Attribute learning bonus multiplier for skills governed by Cunning")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public float CunningMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyFloatingInteger("社交 (Social)", 0.1f, 1000.0f, "#0.0x", Order = 5, RequireRestart = false, HintText = "社交对应技能的红利学习倍率")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyFloatingInteger("{=mlf_attr_social}Social (Social)", 0.1f, 1000.0f, "#0.0x", Order = 5, RequireRestart = false, HintText = "{=mlf_attr_social_hint}Attribute learning bonus multiplier for skills governed by Social")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public float SocialMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyFloatingInteger("智力 (Intelligence)", 0.1f, 1000.0f, "#0.0x", Order = 6, RequireRestart = false, HintText = "智力对应技能的红利学习倍率")]
-        [SettingPropertyGroup("属性增长倍率")]
+        [SettingPropertyFloatingInteger("{=mlf_attr_intelligence}Intelligence (Intelligence)", 0.1f, 1000.0f, "#0.0x", Order = 6, RequireRestart = false, HintText = "{=mlf_attr_intelligence_hint}Attribute learning bonus multiplier for skills governed by Intelligence")]
+        [SettingPropertyGroup("{=mlf_group_attr}Attribute Growth Rates")]
         public float IntelligenceMultiplier { get; set; } = 1.0f;
 
-        [SettingPropertyInteger("全局默认上限", 10, 1024, "0", Order = 7, RequireRestart = false, HintText = "所有技能的默认等级上限（1024=原版硬上限）")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_default}Global Default Cap", 10, 1024, "0", Order = 7, RequireRestart = false, HintText = "{=mlf_skillcap_default_hint}Default level cap for all skills (1024 = vanilla hard cap)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int SkillCapDefault { get; set; } = 500;
 
-        [SettingPropertyBool("启用技能等级上限（原版硬上限=1024）", Order = 6, RequireRestart = false, HintText = "实时开关：关闭后技能上限功能整体失效（数值保持但不生效）")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyBool("{=mlf_skillcap_enabled}Enable Skill Level Caps (Vanilla Hard Cap = 1024)", Order = 6, RequireRestart = false, HintText = "{=mlf_skillcap_enabled_hint}Real-time toggle: when disabled, the skill cap feature is completely inactive (values are kept but not applied)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public bool SkillLevelCapEnabled { get; set; } = false;
 
-        [SettingPropertyInteger("活力 (Vigor)", 10, 1024, "0", Order = 8, RequireRestart = false, HintText = "活力类技能（单手/双手/长杆）的等级上限")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_vigor}Vigor", 10, 1024, "0", Order = 8, RequireRestart = false, HintText = "{=mlf_skillcap_vigor_hint}Level cap for Vigor skills (One Handed / Two Handed / Polearm)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int VigorSkillCap { get; set; } = 500;
 
-        [SettingPropertyInteger("控制 (Control)", 10, 1024, "0", Order = 9, RequireRestart = false, HintText = "控制类技能（弓/弩/投掷）的等级上限")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_control}Control", 10, 1024, "0", Order = 9, RequireRestart = false, HintText = "{=mlf_skillcap_control_hint}Level cap for Control skills (Bow / Crossbow / Throwing)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int ControlSkillCap { get; set; } = 500;
 
-        [SettingPropertyInteger("耐力 (Endurance)", 10, 1024, "0", Order = 10, RequireRestart = false, HintText = "耐力类技能（骑术/跑动/锻造）的等级上限")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_endurance}Endurance", 10, 1024, "0", Order = 10, RequireRestart = false, HintText = "{=mlf_skillcap_endurance_hint}Level cap for Endurance skills (Riding / Athletics / Smithing)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int EnduranceSkillCap { get; set; } = 500;
 
-        [SettingPropertyInteger("狡诈 (Cunning)", 10, 1024, "0", Order = 11, RequireRestart = false, HintText = "狡诈类技能（侦查/战术/流氓）的等级上限")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_cunning}Cunning", 10, 1024, "0", Order = 11, RequireRestart = false, HintText = "{=mlf_skillcap_cunning_hint}Level cap for Cunning skills (Scouting / Tactics / Roguery)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int CunningSkillCap { get; set; } = 500;
 
-        [SettingPropertyInteger("社交 (Social)", 10, 1024, "0", Order = 12, RequireRestart = false, HintText = "社交类技能（魅力/统御/交易）的等级上限")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_social}Social", 10, 1024, "0", Order = 12, RequireRestart = false, HintText = "{=mlf_skillcap_social_hint}Level cap for Social skills (Charm / Leadership / Trade)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int SocialSkillCap { get; set; } = 500;
 
-        [SettingPropertyInteger("智力 (Intelligence)", 10, 1024, "0", Order = 13, RequireRestart = false, HintText = "智力类技能（管理/医术/工程）的等级上限")]
-        [SettingPropertyGroup("技能等级上限")]
+        [SettingPropertyInteger("{=mlf_skillcap_intelligence}Intelligence", 10, 1024, "0", Order = 13, RequireRestart = false, HintText = "{=mlf_skillcap_intelligence_hint}Level cap for Intelligence skills (Steward / Medicine / Engineering)")]
+        [SettingPropertyGroup("{=mlf_group_skillcap}Skill Level Caps")]
         public int IntelligenceSkillCap { get; set; } = 500;
 
-        [SettingPropertyBool("禁止家族部队被征召", Order = 10, RequireRestart = false, HintText = "阻止AI领主将玩家家族的非主角部队征召入军团")]
-        [SettingPropertyGroup("家族部队控制")]
+        [SettingPropertyBool("{=mlf_clanparty_recruit}Prevent Clan Party Recruitment", Order = 10, RequireRestart = false, HintText = "{=mlf_clanparty_recruit_hint}Prevent AI lords from recruiting non-main-hero clan parties into armies")]
+        [SettingPropertyGroup("{=mlf_group_clanparty}Clan Party Control")]
         public bool PreventClanPartyRecruitment { get; set; } = true;
 
-        [SettingPropertyBool("禁止家族部队捐兵", Order = 11, RequireRestart = false, HintText = "阻止玩家家族的非主角部队向要塞捐兵")]
-        [SettingPropertyGroup("家族部队控制")]
+        [SettingPropertyBool("{=mlf_clanparty_donate}Prevent Clan Party Troop Donation", Order = 11, RequireRestart = false, HintText = "{=mlf_clanparty_donate_hint}Prevent non-main-hero clan parties from donating troops to garrisons")]
+        [SettingPropertyGroup("{=mlf_group_clanparty}Clan Party Control")]
         public bool PreventClanPartyDonateTroops { get; set; } = true;
 
         private bool _forceArmyCreationTest;
-        [SettingPropertyBool("俘虏特殊NPC标注", Order = 12, RequireRestart = false, HintText = "在部队界面的俘虏标签页中，为统治者/领主/雇佣兵头子标注身份")]
-        [SettingPropertyGroup("UI")]
+        [SettingPropertyBool("{=mlf_prisoner_label}Prisoner Special NPC Labels", Order = 12, RequireRestart = false, HintText = "{=mlf_prisoner_label_hint}In the prisoner tab of the party screen, mark rulers/lords/mercenary leaders with their identity")]
+        [SettingPropertyGroup("{=mlf_group_ui}UI")]
         public bool PrisonerSpecialLabel { get; set; } = true;
 
-        [SettingPropertyBool("百科家族页流亡筛选", Order = 13, RequireRestart = false, HintText = "在百科全书的家族列表中，为「状态」筛选组新增「在流亡/不在流亡」选项（无国无地且非叛军/土匪/小派系、不含玩家家族）")]
-        [SettingPropertyGroup("UI")]
+        [SettingPropertyBool("{=mlf_exile_filter}Encyclopedia Clan Exile Filter", Order = 13, RequireRestart = false, HintText = "{=mlf_exile_filter_hint}In the encyclopedia clan list, add \"In Exile / Not in Exile\" options to the Status filter group (no kingdom, no fiefs, not rebel/bandit/minor faction, excluding player clan)")]
+        [SettingPropertyGroup("{=mlf_group_ui}UI")]
         public bool EncyclopediaClanExileFilter { get; set; } = true;
 
-        [SettingPropertyBool("强制创建军团测试", Order = 13, RequireRestart = false, HintText = "让我方非玩家家族领袖尝试创建军团，用于测试屏蔽效果")]
-        [SettingPropertyGroup("家族部队控制")]
+        [SettingPropertyBool("{=mlf_army_test}Force Army Creation Test", Order = 13, RequireRestart = false, HintText = "{=mlf_army_test_hint}Make non-player clan leaders attempt to create armies to test the blocking effect")]
+        [SettingPropertyGroup("{=mlf_group_clanparty}Clan Party Control")]
         public bool ForceArmyCreationTest
         {
             get => _forceArmyCreationTest;
@@ -112,133 +121,133 @@ namespace MutliLittleFixes
             }
         }
 
-        [SettingPropertyBool("启用领主释放补兵", Order = 20, RequireRestart = false, HintText = "启用/禁用领主释放后补兵功能")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyBool("{=mlf_restore_enabled}Enable Lord Troop Restoration", Order = 20, RequireRestart = false, HintText = "{=mlf_restore_enabled_hint}Enable/disable the troop restoration feature after releasing lords")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public bool RestorationEnabled { get; set; } = false;
 
-        [SettingPropertyInteger("补兵所需天数", 1, 30, "0", Order = 21, RequireRestart = false, HintText = "释放后补兵所需天数")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyInteger("{=mlf_restore_days}Restoration Days", 1, 30, "0", Order = 21, RequireRestart = false, HintText = "{=mlf_restore_days_hint}Days needed to restore troops after release")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public int RestorationDays { get; set; } = 7;
 
-        [SettingPropertyFloatingInteger("恢复兵力比例", 0.0f, 1.0f, "0.0", Order = 22, RequireRestart = false, HintText = "恢复兵力占队伍上限的比例(0=关闭)")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyFloatingInteger("{=mlf_restore_ratio}Restored Troop Ratio", 0.0f, 1.0f, "0.0", Order = 22, RequireRestart = false, HintText = "{=mlf_restore_ratio_hint}Restored troops as a ratio of the party size limit (0 = disabled)")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public float RestorationPartySizeRatio { get; set; } = 0.4f;
 
-        [SettingPropertyFloatingInteger("Tier1-2兵种占比", 0.0f, 1.0f, "0.0", Order = 23, RequireRestart = false, HintText = "Tier1-2兵种占比")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyFloatingInteger("{=mlf_restore_tier12}Tier 1-2 Troop Ratio", 0.0f, 1.0f, "0.0", Order = 23, RequireRestart = false, HintText = "{=mlf_restore_tier12_hint}Tier 1-2 troop ratio")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public float RestorationTier12Ratio { get; set; } = 0.50f;
 
-        [SettingPropertyFloatingInteger("Tier3-4兵种占比", 0.0f, 1.0f, "0.0", Order = 24, RequireRestart = false, HintText = "Tier3-4兵种占比")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyFloatingInteger("{=mlf_restore_tier34}Tier 3-4 Troop Ratio", 0.0f, 1.0f, "0.0", Order = 24, RequireRestart = false, HintText = "{=mlf_restore_tier34_hint}Tier 3-4 troop ratio")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public float RestorationTier34Ratio { get; set; } = 0.30f;
 
-        [SettingPropertyFloatingInteger("Tier5-6兵种占比", 0.0f, 1.0f, "0.0", Order = 25, RequireRestart = false, HintText = "Tier5-6兵种占比")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyFloatingInteger("{=mlf_restore_tier56}Tier 5-6 Troop Ratio", 0.0f, 1.0f, "0.0", Order = 25, RequireRestart = false, HintText = "{=mlf_restore_tier56_hint}Tier 5-6 troop ratio")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public float RestorationTier56Ratio { get; set; } = 0.20f;
 
-        [SettingPropertyInteger("每兵金币", 0, 100000, "0", Order = 26, RequireRestart = false, HintText = "每兵给予领主的金币数量(0=不给金币)")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyInteger("{=mlf_restore_gold}Gold per Troop", 0, 100000, "0", Order = 26, RequireRestart = false, HintText = "{=mlf_restore_gold_hint}Gold given to the lord per troop (0 = no gold)")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public int RestorationGoldPerTroop { get; set; } = 100;
 
-        [SettingPropertyInteger("每兵谷物", 0, 100000, "0", Order = 27, RequireRestart = false, HintText = "每兵给予领主的谷物数量，避免队伍饥饿减员(0=不给谷物)")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyInteger("{=mlf_restore_food}Food per Troop", 0, 100000, "0", Order = 27, RequireRestart = false, HintText = "{=mlf_restore_food_hint}Food given to the lord per troop to prevent starvation (0 = no food)")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public int RestorationFoodPerTroop { get; set; } = 10;
 
-        [SettingPropertyInteger("放弃补兵天数", 1, 60, "0", Order = 28, RequireRestart = false, HintText = "超过此天数领主仍无队伍则放弃补兵")]
-        [SettingPropertyGroup("领主释放补兵")]
+        [SettingPropertyInteger("{=mlf_restore_abandon}Abandon Days", 1, 60, "0", Order = 28, RequireRestart = false, HintText = "{=mlf_restore_abandon_hint}Abandon restoration if the lord still has no party after this many days")]
+        [SettingPropertyGroup("{=mlf_group_restore}Lord Troop Restoration")]
         public int RestorationAbandonDays { get; set; } = 14;
 
-        [SettingPropertyBool("启用领土带兵上限", Order = 28, RequireRestart = false, HintText = "启用/禁用领土丧失补偿功能")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyBool("{=mlf_territory_enabled}Enable Territory Party Size Bonus", Order = 28, RequireRestart = false, HintText = "{=mlf_territory_enabled_hint}Enable/disable the territory loss compensation feature")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public bool TerritoryBonusEnabled { get; set; } = false;
 
-        [SettingPropertyInteger("城镇补偿值", 0, 50, "0", Order = 29, RequireRestart = false, HintText = "每丢失一座城镇增加的队伍上限(衰减前)")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyInteger("{=mlf_territory_town}Town Compensation Value", 0, 50, "0", Order = 29, RequireRestart = false, HintText = "{=mlf_territory_town_hint}Party size limit increase per lost town (before diminishing)")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public int TerritoryBonusTownValue { get; set; } = 20;
 
-        [SettingPropertyInteger("城堡补偿值", 0, 50, "0", Order = 30, RequireRestart = false, HintText = "每丢失一座城堡增加的队伍上限(衰减前)")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyInteger("{=mlf_territory_castle}Castle Compensation Value", 0, 50, "0", Order = 30, RequireRestart = false, HintText = "{=mlf_territory_castle_hint}Party size limit increase per lost castle (before diminishing)")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public int TerritoryBonusCastleValue { get; set; } = 10;
 
-        [SettingPropertyFloatingInteger("衰减乘数", 0.0f, 1.0f, "0.0", Order = 31, RequireRestart = false, HintText = "连续丢失领土的衰减乘数(1.0=线性)")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyFloatingInteger("{=mlf_territory_diminish}Diminishing Multiplier", 0.0f, 1.0f, "0.0", Order = 31, RequireRestart = false, HintText = "{=mlf_territory_diminish_hint}Diminishing multiplier for consecutive territory losses (1.0 = linear)")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public float TerritoryBonusDiminishRate { get; set; } = 0.7f;
 
-        [SettingPropertyInteger("最大补偿上限", 0, 500, "0", Order = 32, RequireRestart = false, HintText = "王国可累积的最大补偿值")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyInteger("{=mlf_territory_cap}Maximum Compensation Cap", 0, 500, "0", Order = 32, RequireRestart = false, HintText = "{=mlf_territory_cap_hint}Maximum cumulative compensation a kingdom can accumulate")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public int TerritoryBonusMaxCap { get; set; } = 200;
 
-        [SettingPropertyInteger("征服固化天数", 0, 365, "0", Order = 33, RequireRestart = false, HintText = "占领城池超过此天数后视作本国领土，不再抵消丢失产生的补偿(0=关闭，84=一年)")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyInteger("{=mlf_territory_solidify}Conquest Solidify Days", 0, 365, "0", Order = 33, RequireRestart = false, HintText = "{=mlf_territory_solidify_hint}After holding a settlement for this many days, it counts as home territory and no longer offsets compensation (0 = disabled, 84 = one year)")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public int ConquestSolidifyDays { get; set; } = 42;
 
-        [SettingPropertyInteger("丢失过期天数", 0, 365, "0", Order = 34, RequireRestart = false, HintText = "丢失城池超过此天数后视作他国领土，不再参与补偿计算(0=关闭，84=一年)")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyInteger("{=mlf_territory_expire}Loss Expire Days", 0, 365, "0", Order = 34, RequireRestart = false, HintText = "{=mlf_territory_expire_hint}After a lost settlement stays lost for this many days, it counts as foreign territory and no longer participates in compensation (0 = disabled, 84 = one year)")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public int LossExpireDays { get; set; } = 84;
 
-        [SettingPropertyBool("仅封臣生效", Order = 35, RequireRestart = false, HintText = "仅对封臣家族生效(不包括雇佣兵)")]
-        [SettingPropertyGroup("领土带兵上限")]
+        [SettingPropertyBool("{=mlf_territory_vassals}Vassals Only", Order = 35, RequireRestart = false, HintText = "{=mlf_territory_vassals_hint}Only apply to vassal clans (excluding mercenaries)")]
+        [SettingPropertyGroup("{=mlf_group_territory}Territory Party Size Bonus")]
         public bool TerritoryBonusVassalsOnly { get; set; } = true;
 
-        [SettingPropertyInteger("海战船只上限", 3, 8, "0", Order = 36, RequireRestart = false,
-            HintText = "参与海战/沿海掠夺时，玩家可同时出战的最大船只数量（至少3艘，最多8艘）")]
-        [SettingPropertyGroup("海战设置")]
+        [SettingPropertyInteger("{=mlf_naval_limit}Naval Battle Ship Limit", 3, 8, "0", Order = 36, RequireRestart = false,
+            HintText = "{=mlf_naval_limit_hint}Maximum number of ships the player can field simultaneously in naval battles/coastal raids (at least 3, at most 8)")]
+        [SettingPropertyGroup("{=mlf_group_naval}Naval Battles")]
         public int NavalBattleShipLimit { get; set; } = 8;
 
-        [SettingPropertyBool("家族成员可用提醒", Order = 37, RequireRestart = false, HintText = "家族成员从俘虏释放/逃脱变为可用状态时，在屏幕中央弹出 toast 提示")]
-        [SettingPropertyGroup("通知")]
+        [SettingPropertyBool("{=mlf_companion_recall}Companion Available Reminder", Order = 37, RequireRestart = false, HintText = "{=mlf_companion_recall_hint}Show a toast notification in the center of the screen when a clan member becomes available after being released/escaping captivity")]
+        [SettingPropertyGroup("{=mlf_group_notify}Notifications")]
         public bool CompanionAutoRecallEnabled { get; set; } = true;
 
-        [SettingPropertyBool("领主释放补兵调试日志", Order = 38, RequireRestart = false, HintText = "在游戏界面左下角显示领主释放补兵功能的调试日志信息，用于排查补兵逻辑问题")]
-        [SettingPropertyGroup("调试")]
+        [SettingPropertyBool("{=mlf_debug_restore}Lord Restoration Debug Log", Order = 38, RequireRestart = false, HintText = "{=mlf_debug_restore_hint}Display lord troop restoration debug logs in the bottom-left corner of the screen to troubleshoot restoration logic")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableRestorationDebugLog { get; set; } = false;
 
-        [SettingPropertyBool("领土丧失补偿调试日志", Order = 39, RequireRestart = false, HintText = "在游戏界面左下角显示领土丧失补偿功能的调试日志信息，用于排查补偿计算和UI刷新问题")]
-        [SettingPropertyGroup("调试")]
+        [SettingPropertyBool("{=mlf_debug_territory}Territory Bonus Debug Log", Order = 39, RequireRestart = false, HintText = "{=mlf_debug_territory_hint}Display territory loss compensation debug logs in the bottom-left corner of the screen to troubleshoot compensation calculations and UI refresh")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableTerritoryBonusDebugLog { get; set; } = false;
 
-        [SettingPropertyBool("家族成员提醒调试日志", Order = 40, RequireRestart = false, HintText = "在游戏界面左下角显示家族成员可用提醒功能的调试日志信息")]
-        [SettingPropertyGroup("调试")]
+        [SettingPropertyBool("{=mlf_debug_companion}Companion Reminder Debug Log", Order = 40, RequireRestart = false, HintText = "{=mlf_debug_companion_hint}Display companion availability reminder debug logs in the bottom-left corner of the screen")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableCompanionRecallDebugLog { get; set; } = false;
 
-        [SettingPropertyBool("远程弹药归零调试（按,键）", Order = 41, RequireRestart = false, HintText = "战斗中按 , 键随机将 5% 远程士兵弹药强制归零，用于测试第9队移交逻辑")]
-        [SettingPropertyGroup("调试")]
+        [SettingPropertyBool("{=mlf_debug_noammo}Ranged No-Ammo Debug (Press ,)", Order = 41, RequireRestart = false, HintText = "{=mlf_debug_noammo_hint}In battle, press , to force-zero ammunition of 5% of ranged soldiers to test the formation 9 transfer logic")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool RangedNoAmmoDebugEnabled { get; set; } = false;
 
-        [SettingPropertyBool("禁止AI自动宣战", Order = 42, RequireRestart = false, HintText = "玩家是国王时，禁止属下领主（AI）自动发起宣战决策")]
-        [SettingPropertyGroup("外交设置")]
+        [SettingPropertyBool("{=mlf_ai_war}Prevent AI War Declaration", Order = 42, RequireRestart = false, HintText = "{=mlf_ai_war_hint}When the player is king, prevent AI lords from automatically proposing war declarations")]
+        [SettingPropertyGroup("{=mlf_group_diplomacy}Diplomacy")]
         public bool PreventAIWarDeclaration { get; set; } = true;
 
-        [SettingPropertyBool("玩家攻城必定候选", Order = 43, RequireRestart = false, HintText = "玩家亲自率军攻下的城池，在分封投票中必定进入候选名单")]
-        [SettingPropertyGroup("攻城")]
+        [SettingPropertyBool("{=mlf_fief_candidacy}Player Fief Always a Candidate", Order = 43, RequireRestart = false, HintText = "{=mlf_fief_candidacy_hint}Fiefs conquered personally by the player are always included in the fief assignment vote")]
+        [SettingPropertyGroup("{=mlf_group_siege}Siege")]
         public bool PlayerFiefCandidacyEnabled { get; set; } = true;
 
-        [SettingPropertyBool("攻城器械优先攻击器械", Order = 44, RequireRestart = false, HintText = "玩家进攻方时，攻城器械优先攻击敌方远程器械")]
-        [SettingPropertyGroup("攻城")]
+        [SettingPropertyBool("{=mlf_siege_target}Siege Engines Target Engines First", Order = 44, RequireRestart = false, HintText = "{=mlf_siege_target_hint}When attacking, siege engines prioritize enemy ranged siege engines")]
+        [SettingPropertyGroup("{=mlf_group_siege}Siege")]
         public bool SiegeTargetSelectionEnabled { get; set; } = true;
 
-        [SettingPropertyBool("自动蹲下", Order = 45, RequireRestart = false, HintText = "纯步兵/纯远程小队在 Hold 静止时自动蹲下（线阵首排/远程前半排/松散阵远程全蹲）")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_crouch}Auto Crouch", Order = 45, RequireRestart = false, HintText = "{=mlf_crouch_hint}Pure infantry/ranged squads auto-crouch when holding still (first rank of line formations / front half of ranged / all ranged in loose formations)")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool AutoCrouchEnabled { get; set; } = true;
 
-        [SettingPropertyBool("蹲下时举盾向上", Order = 46, RequireRestart = false, HintText = "前排士兵蹲下时盾牌方向由防下改为防上")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_crouch_shield}Shield Up While Crouching", Order = 46, RequireRestart = false, HintText = "{=mlf_crouch_shield_hint}Front-rank soldiers raise shields upward instead of downward while crouching")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool CrouchShieldDirectionEnabled { get; set; } = true;
 
-        [SettingPropertyBool("旗帜士兵站位优化", Order = 47, RequireRestart = false, HintText = "将旗手站位从最左前列调整到最后排中间")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_banner_position}Banner Bearer Position Optimization", Order = 47, RequireRestart = false, HintText = "{=mlf_banner_position_hint}Move banner bearers from the left front to the middle of the last rank")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool BannerBearerPositionEnabled { get; set; } = true;
 
-        [SettingPropertyBool("无弹药远程移交第9队", Order = 48, RequireRestart = false, HintText = "弹药射完的远程士兵自动移入第9队，恢复弹药后归队")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_noammo_formation}No-Ammo Ranged Transfer to Formation 9", Order = 48, RequireRestart = false, HintText = "{=mlf_noammo_formation_hint}Ranged soldiers with depleted ammunition are auto-moved to formation 9 and return when ammo is restored")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool RangedNoAmmoEnabled { get; set; } = true;
 
-        [SettingPropertyBool("战斗结算排序反转", Order = 49, RequireRestart = false, HintText = "结算窗口点击表头排序循环反转为：默认→降序→升序")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_scoreboard}Scoreboard Sort Order Reversal", Order = 49, RequireRestart = false, HintText = "{=mlf_scoreboard_hint}Reverse the sort cycle when clicking scoreboard column headers: default → descending → ascending")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool ScoreboardSortOrderEnabled { get; set; } = true;
 
-        [SettingPropertyBool("调试圈/点渲染视图", Order = 50, RequireRestart = false, HintText = "玩家脚下显示红色圆圈+前方黄色点（调试用）")]
-        [SettingPropertyGroup("调试")]
+        [SettingPropertyBool("{=mlf_debug_circle}Debug Circle/Point Render View", Order = 50, RequireRestart = false, HintText = "{=mlf_debug_circle_hint}Show a red circle under the player and a yellow point ahead (debugging)")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool PlayerCircleViewEnabled { get; set; } = false;
 
         // ─────────────────────────────────────────────────────────────────────
@@ -301,136 +310,136 @@ namespace MutliLittleFixes
         public float OrcaApplyOffsetTime { get; set; } = 0.4f;
         */
 
-        [SettingPropertyBool("架矛骑枪必定击倒", Order = 51, RequireRestart = false, HintText = "骑乘架矛（被动攻击）的长杆武器命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）")]
-        [SettingPropertyGroup("骑马长杆击倒")]
+        [SettingPropertyBool("{=mlf_lance_couch}Couch Lance Knockdown", Order = 51, RequireRestart = false, HintText = "{=mlf_lance_couch_hint}Mounted couch lance (passive attack) hits on unmounted infantry/ranged units always knock them down (symmetric for both sides; negated by blocking)")]
+        [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
         public bool CouchLanceKnockDownEnabled { get; set; } = true;
 
-        [SettingPropertyBool("马上长杆刺击必定击倒", Order = 52, RequireRestart = false, HintText = "骑乘状态下普通长杆刺击命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）")]
-        [SettingPropertyGroup("骑马长杆击倒")]
+        [SettingPropertyBool("{=mlf_lance_thrust}Mounted Polearm Thrust Knockdown", Order = 52, RequireRestart = false, HintText = "{=mlf_lance_thrust_hint}Normal mounted polearm thrusts hitting unmounted infantry/ranged units always knock them down (symmetric for both sides; negated by blocking)")]
+        [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
         public bool MountedPolearmThrustKnockDownEnabled { get; set; } = true;
 
-        [SettingPropertyFloatingInteger("刺击最小相对速度", 0.0f, 10.0f, "#0.0", Order = 53, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒所需的最小相对速度（攻击者与目标的移动速度向量差长度，单位与游戏速度一致）。默认 2.0，避免原地刺击也击倒；设为 0 则取消速度要求")]
-        [SettingPropertyGroup("骑马长杆击倒")]
+        [SettingPropertyFloatingInteger("{=mlf_lance_min_speed}Thrust Minimum Relative Speed", 0.0f, 10.0f, "#0.0", Order = 53, RequireRestart = false, HintText = "{=mlf_lance_min_speed_hint}Minimum relative speed required to trigger guaranteed knockdown on a mounted polearm thrust (length of the velocity difference vector between attacker and target, same unit as game speed). Default 2.0 prevents stationary thrusts from knocking down; 0 removes the speed requirement")]
+        [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
         public float MountedPolearmThrustMinRelativeSpeed { get; set; } = 2.0f;
 
-        [SettingPropertyFloatingInteger("刺击击倒伤害加成", 0.0f, 2.0f, "0%", Order = 54, RequireRestart = false, HintText = "马上长杆刺击触发必定击倒时，本次攻击造成的伤害加成比例（默认 0.3 = +30%）。设为 0 则无伤害加成")]
-        [SettingPropertyGroup("骑马长杆击倒")]
+        [SettingPropertyFloatingInteger("{=mlf_lance_damage}Thrust Knockdown Damage Bonus", 0.0f, 2.0f, "0%", Order = 54, RequireRestart = false, HintText = "{=mlf_lance_damage_hint}Damage bonus applied when a mounted polearm thrust triggers guaranteed knockdown (default 0.3 = +30%). 0 means no damage bonus")]
+        [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
         public float MountedPolearmThrustKnockDownDamageBonus { get; set; } = 0.3f;
 
-        [SettingPropertyBool("启用自定义出场比例", Order = 55, RequireRestart = false, HintText = "游戏设置「单位生成优先级 = 高等级优先」时生效：按下方四项比例配额调度步兵/射手/骑兵/骑射手的出场节奏，兵种内部仍按等级从高到低，避免高等级兵种挤占所有出场名额。关闭后恢复原版高等级优先逻辑")]
-        [SettingPropertyGroup("出场比例")]
+        [SettingPropertyBool("{=mlf_spawn_enabled}Enable Custom Spawn Ratios", Order = 55, RequireRestart = false, HintText = "{=mlf_spawn_enabled_hint}Active when game setting \"Unit Spawn Priority = High Tier First\": schedules spawn pacing by the four ratio weights below (infantry/archer/cavalry/horse archer), while within a troop type units still spawn highest tier first, preventing high-tier troops from monopolizing all spawn slots. When disabled, reverts to vanilla high-tier-first logic")]
+        [SettingPropertyGroup("{=mlf_group_spawn}Spawn Ratios")]
         public bool UnitSpawnRatioEnabled { get; set; } = true;
 
-        [SettingPropertyInteger("步兵比例", 0, 100, "0", Order = 56, RequireRestart = false, HintText = "步兵出场配额权重（相对值，越大出场越频繁；设为 0 则步兵不登场；四类总和建议 100）")]
-        [SettingPropertyGroup("出场比例")]
+        [SettingPropertyInteger("{=mlf_spawn_infantry}Infantry Ratio", 0, 100, "0", Order = 56, RequireRestart = false, HintText = "{=mlf_spawn_infantry_hint}Infantry spawn quota weight (relative value; higher = more frequent; 0 = infantry never spawns; total of all four is recommended to be 100)")]
+        [SettingPropertyGroup("{=mlf_group_spawn}Spawn Ratios")]
         public int InfantryRatio { get; set; } = 15;
 
-        [SettingPropertyInteger("射手比例", 0, 100, "0", Order = 57, RequireRestart = false, HintText = "射手出场配额权重（相对值，越大出场越频繁；设为 0 则射手不登场；四类总和建议 100）")]
-        [SettingPropertyGroup("出场比例")]
+        [SettingPropertyInteger("{=mlf_spawn_archer}Archer Ratio", 0, 100, "0", Order = 57, RequireRestart = false, HintText = "{=mlf_spawn_archer_hint}Archer spawn quota weight (relative value; higher = more frequent; 0 = archers never spawn; total of all four is recommended to be 100)")]
+        [SettingPropertyGroup("{=mlf_group_spawn}Spawn Ratios")]
         public int ArcherRatio { get; set; } = 65;
 
-        [SettingPropertyInteger("骑兵比例", 0, 100, "0", Order = 58, RequireRestart = false, HintText = "骑兵出场配额权重（相对值，越大出场越频繁；设为 0 则骑兵不登场；四类总和建议 100）")]
-        [SettingPropertyGroup("出场比例")]
+        [SettingPropertyInteger("{=mlf_spawn_cavalry}Cavalry Ratio", 0, 100, "0", Order = 58, RequireRestart = false, HintText = "{=mlf_spawn_cavalry_hint}Cavalry spawn quota weight (relative value; higher = more frequent; 0 = cavalry never spawns; total of all four is recommended to be 100)")]
+        [SettingPropertyGroup("{=mlf_group_spawn}Spawn Ratios")]
         public int CavalryRatio { get; set; } = 15;
 
-        [SettingPropertyInteger("骑射手比例", 0, 100, "0", Order = 59, RequireRestart = false, HintText = "骑射手出场配额权重（相对值，越大出场越频繁；设为 0 则骑射手不登场；四类总和建议 100）")]
-        [SettingPropertyGroup("出场比例")]
+        [SettingPropertyInteger("{=mlf_spawn_horsearcher}Horse Archer Ratio", 0, 100, "0", Order = 59, RequireRestart = false, HintText = "{=mlf_spawn_horsearcher_hint}Horse archer spawn quota weight (relative value; higher = more frequent; 0 = horse archers never spawn; total of all four is recommended to be 100)")]
+        [SettingPropertyGroup("{=mlf_group_spawn}Spawn Ratios")]
         public int HorseArcherRatio { get; set; } = 5;
 
-        [SettingPropertyBool("启用NPC家族部队数量加成", Order = 60, RequireRestart = false, HintText = "为所有NPC领主家族在原版部队数量上限基础上额外增加部队数（仅影响AI家族每日外派，不影响玩家家族）")]
-        [SettingPropertyGroup("NPC领主家族调整")]
+        [SettingPropertyBool("{=mlf_npc_party_enabled}Enable NPC Clan Party Limit Bonus", Order = 60, RequireRestart = false, HintText = "{=mlf_npc_party_enabled_hint}Add extra parties on top of the vanilla party limit for all AI lord clans (only affects daily AI dispatch, not the player clan)")]
+        [SettingPropertyGroup("{=mlf_group_npc}NPC Lord Clan Adjustments")]
         public bool NpcClanPartyLimitBonusEnabled { get; set; } = false;
 
-        [SettingPropertyInteger("NPC家族部队数量加成", 0, 10, "0", Order = 61, RequireRestart = false, HintText = "在所有NPC领主家族原版部队数量上限基础上额外增加的部队数（默认+2，即Tier0-2家族从1支变3支、Tier3-4从2支变4支、Tier5-6从3支变5支；设为0关闭加成）")]
-        [SettingPropertyGroup("NPC领主家族调整")]
+        [SettingPropertyInteger("{=mlf_npc_party_bonus}NPC Clan Party Limit Bonus", 0, 10, "0", Order = 61, RequireRestart = false, HintText = "{=mlf_npc_party_bonus_hint}Extra parties added on top of the vanilla party limit for all NPC lord clans (default +2: Tier 0-2 clans from 1 to 3 parties, Tier 3-4 from 2 to 4, Tier 5-6 from 3 to 5; 0 disables the bonus)")]
+        [SettingPropertyGroup("{=mlf_group_npc}NPC Lord Clan Adjustments")]
         public int NpcClanPartyLimitBonus { get; set; } = 1;
 
-        [SettingPropertyBool("启用招募补充倍率", Order = 62, RequireRestart = false, HintText = "实时开关：关闭后招募补充倍率不生效（名人每日补充概率保持原版）")]
-        [SettingPropertyGroup("招募补充")]
+        [SettingPropertyBool("{=mlf_recruit_rate_enabled}Enable Recruitment Refill Rate", Order = 62, RequireRestart = false, HintText = "{=mlf_recruit_rate_enabled_hint}Real-time toggle: when disabled, the recruitment refill rate multiplier has no effect (notables keep vanilla daily refill)")]
+        [SettingPropertyGroup("{=mlf_group_recruit}Recruitment")]
         public bool VolunteerRecruitRateEnabled { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("每日补充概率倍率", 0.5f, 5.0f, "#0.0x", Order = 63, RequireRestart = false, HintText = "城镇/村庄名人每日补充士兵的概率倍率（1.0=原版，2.0=期望翻倍；槽位越深原版概率越低，倍率按比例放大；倍率>1.9 时前几个槽位将必然补充，但升级仍需另外加速）")]
-        [SettingPropertyGroup("招募补充")]
+        [SettingPropertyFloatingInteger("{=mlf_recruit_rate_multiplier}Daily Refill Rate Multiplier", 0.5f, 5.0f, "#0.0x", Order = 63, RequireRestart = false, HintText = "{=mlf_recruit_rate_multiplier_hint}Multiplier for the daily chance of town/village notables refilling recruits (1.0 = vanilla, 2.0 = expected doubling; deeper slots have lower vanilla rates and are scaled proportionally; above 1.9 the first slots will always refill, but upgrades still need separate acceleration)")]
+        [SettingPropertyGroup("{=mlf_group_recruit}Recruitment")]
         public float VolunteerRecruitRateMultiplier { get; set; } = 2.0f;
 
-        [SettingPropertyBool("启用升级加速", Order = 64, RequireRestart = false, HintText = "实时开关：关闭后志愿者升级概率倍率不生效（保持原版极低的升级概率）")]
-        [SettingPropertyGroup("招募补充")]
+        [SettingPropertyBool("{=mlf_recruit_upgrade_enabled}Enable Upgrade Acceleration", Order = 64, RequireRestart = false, HintText = "{=mlf_recruit_upgrade_enabled_hint}Real-time toggle: when disabled, the volunteer upgrade rate multiplier has no effect (keeps vanilla extremely low upgrade chance)")]
+        [SettingPropertyGroup("{=mlf_group_recruit}Recruitment")]
         public bool VolunteerUpgradeRateEnabled { get; set; } = false;
 
-        [SettingPropertyFloatingInteger("被招募士兵升级概率倍率", 1.0f, 100.0f, "#0.0x", Order = 65, RequireRestart = false, HintText = "城镇/村庄名人士兵的每日升级概率倍率（1.0=原版；原版升级概率=log2(影响力/等级)*0.01，如影响力30的2级名人每天约5%概率升级；倍率10则约50%）")]
-        [SettingPropertyGroup("招募补充")]
+        [SettingPropertyFloatingInteger("{=mlf_recruit_upgrade_multiplier}Recruit Upgrade Rate Multiplier", 1.0f, 100.0f, "#0.0x", Order = 65, RequireRestart = false, HintText = "{=mlf_recruit_upgrade_multiplier_hint}Multiplier for the daily upgrade chance of troops owned by town/village notables (1.0 = vanilla; vanilla chance = log2(influence/level)*0.01, e.g. a level-2 notable with 30 influence has ~5% daily upgrade chance; a 10x multiplier gives ~50%)")]
+        [SettingPropertyGroup("{=mlf_group_recruit}Recruitment")]
         public float VolunteerUpgradeRateMultiplier { get; set; } = 2.0f;
 
-        [SettingPropertyBool("加入战斗自由撤退", Order = 66, RequireRestart = false, HintText = "玩家加入大地图上已有的友方战斗后（无论友方是进攻方还是防守方），encounter 菜单始终提供「离开」选项，可随时带着部队撤出战场；玩家自己发起的守城/攻城战斗不受影响，保持原版规则")]
-        [SettingPropertyGroup("加入战斗")]
+        [SettingPropertyBool("{=mlf_retreat_free}Free Retreat When Joining Battles", Order = 66, RequireRestart = false, HintText = "{=mlf_retreat_free_hint}After joining an existing friendly battle on the campaign map (whether friendlies attack or defend), the encounter menu always offers a \"Leave\" option to withdraw with your party at any time; battles you started yourself (defending/attacking sieges) keep vanilla rules")]
+        [SettingPropertyGroup("{=mlf_group_join}Joining Battles")]
         public bool FreeBattleRetreatEnabled { get; set; } = true;
 
-        [SettingPropertyBool("存档以日期时间命名", Order = 67, RequireRestart = false, HintText = "快速存档与自动存档改用「存档时的日期时间」命名（save_qu_/save_au_ 前缀），每个战役各自独立轮转，满员后新档保存成功时自动淘汰该战役最旧的；另存为与铁人模式保持原版逻辑。关闭后完全恢复原版命名（saveNNN / saveauto1-3），已生成的日期档不会被自动删除")]
-        [SettingPropertyGroup("存档设置（启用后必须先试用！确认无错后方可安心）")]
+        [SettingPropertyBool("{=mlf_save_dated}Name Saves with Date & Time", Order = 67, RequireRestart = false, HintText = "{=mlf_save_dated_hint}Quick save and auto save use \"date and time of saving\" as names (save_qu_/save_au_ prefixes), each campaign rotates its own pool; when full, the oldest save of that campaign is pruned after a new save succeeds. Save As and ironman keep vanilla logic. When disabled, fully reverts to vanilla naming (saveNNN / saveauto1-3); already-created dated saves are not auto-deleted")]
+        [SettingPropertyGroup("{=mlf_group_save}Save Settings (test first before trusting!)")]
         public bool DatedSaveNamingEnabled { get; set; } = false;
 
-        [SettingPropertyInteger("轮转池容量", 1, 50, "0", Order = 68, RequireRestart = false, HintText = "日期时间存档（自动+快速）每个战役各自轮转池的最大文件数：该战役满员后再次快速/自动存档时，先保存新档成功，再按时间淘汰该战役最旧的；不同战役的存档互不淘汰（1-50，默认 10）")]
-        [SettingPropertyGroup("存档设置（启用后必须先试用！确认无错后方可安心）")]
+        [SettingPropertyInteger("{=mlf_save_pool}Rotation Pool Size", 1, 50, "0", Order = 68, RequireRestart = false, HintText = "{=mlf_save_pool_hint}Maximum files per campaign in the rotation pool for dated saves (auto + quick): when the pool of a campaign is full, the next quick/auto save first saves the new file successfully, then prunes the oldest by time; saves of different campaigns never prune each other (1-50, default 10)")]
+        [SettingPropertyGroup("{=mlf_group_save}Save Settings (test first before trusting!)")]
         public int DatedSavePoolSize { get; set; } = 10;
 
-        [SettingPropertyBool("日期时间存档调试日志", Order = 69, RequireRestart = false, HintText = "在游戏界面左下角显示日期时间存档功能的日志（保存的新档名、保存结果、轮转淘汰的旧档），用于排查命名与轮转逻辑")]
-        [SettingPropertyGroup("调试")]
+        [SettingPropertyBool("{=mlf_debug_save}Dated Save Debug Log", Order = 69, RequireRestart = false, HintText = "{=mlf_debug_save_hint}Display dated-save logs in the bottom-left corner of the screen (new save names, save results, pruned old saves) to troubleshoot naming and rotation logic")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool DatedSaveNamingDebugLogEnabled { get; set; } = false;
 
-        [SettingPropertyBool("启用粮草运输支援", Order = 70, RequireRestart = false, HintText = "玩家家族富余城镇每 6 游戏小时检查一次，向缺粮的玩家家族城镇/城堡派出由驻军转化的运粮队，直接加减城镇粮草值（不走市场消费转化）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyBool("{=mlf_food_enabled}Enable Food Transport Support", Order = 70, RequireRestart = false, HintText = "{=mlf_food_enabled_hint}Every 6 in-game hours, surplus player-clan towns dispatch transport parties converted from garrisons to starving player-clan towns/castles, adding/subtracting town food values directly (bypassing market consumption)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public bool TransportSupportEnabled { get; set; } = true;
 
-        [SettingPropertyInteger("需被支援粮草阈值", 0, 300, "0", Order = 71, RequireRestart = false, HintText = "玩家家族城镇/城堡的粮草低于此值时列入缺粮名单，等待其他城镇支援（城镇上限300，城堡上限450）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_target_threshold}Starving Food Threshold", 0, 300, "0", Order = 71, RequireRestart = false, HintText = "{=mlf_food_target_threshold_hint}Player-clan towns/castles with food below this value are listed as starving and await support from other towns (town cap 300, castle cap 450)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int TargetFoodThreshold { get; set; } = 60;
 
-        [SettingPropertyInteger("可发起支援粮草阈值", 0, 450, "0", Order = 72, RequireRestart = false, HintText = "玩家家族城镇的粮草高于此值才允许派出运粮队（派出的粮不会把本城扣到低于此值）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_source_threshold}Surplus Food Threshold", 0, 450, "0", Order = 72, RequireRestart = false, HintText = "{=mlf_food_source_threshold_hint}Player-clan towns only dispatch transport parties when their food is above this value (dispatched food never takes the town below this value)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int SourceFoodThreshold { get; set; } = 200;
 
-        [SettingPropertyInteger("可发起支援驻军阈值", 0, 2000, "0", Order = 73, RequireRestart = false, HintText = "玩家家族城镇的驻军人数高于此值才允许派出运粮队（原版最低驻军：城镇125/城堡75）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_garrison_threshold}Surplus Garrison Threshold", 0, 2000, "0", Order = 73, RequireRestart = false, HintText = "{=mlf_food_garrison_threshold_hint}Player-clan towns only dispatch transport parties when garrison size is above this value (vanilla minimum garrison: town 125 / castle 75)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int SourceGarrisonThreshold { get; set; } = 250;
 
-        [SettingPropertyInteger("运输队人数", 10, 100, "0", Order = 74, RequireRestart = false, HintText = "每支运粮队从驻军转化的士兵数（高低级各半随机抽取；途中战损即永久损失，返回后归还驻军）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_party_size}Transport Party Size", 10, 100, "0", Order = 74, RequireRestart = false, HintText = "{=mlf_food_party_size_hint}Number of soldiers converted from garrison per transport party (half high-tier/half low-tier randomly picked; battle losses are permanent, survivors return to garrison on return)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int TransportPartySize { get; set; } = 30;
 
-        [SettingPropertyInteger("每兵抽象粮", 0, 100, "0", Order = 75, RequireRestart = false, HintText = "每名士兵携带的抽象支援粮数量：总支援粮 = 运输队人数 × 此值，出发时直接从源城粮草扣除、到达后直接加入目标城粮草（不走市场）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_per_troop}Abstract Food per Troop", 0, 100, "0", Order = 75, RequireRestart = false, HintText = "{=mlf_food_per_troop_hint}Abstract support food carried per soldier: total support food = transport party size × this value, deducted from source town food on departure and added to target town food on arrival (not via market)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int FoodPerTroop { get; set; } = 2;
 
-        [SettingPropertyInteger("每兵实物粮", 0, 100, "0", Order = 76, RequireRestart = false, HintText = "每名士兵携带的实物谷物数量（入队背包，仅供运输队途中自身消耗，与支援粮互不互通；剩余在交付/回收时销毁）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_physical}Physical Food per Troop", 0, 100, "0", Order = 76, RequireRestart = false, HintText = "{=mlf_food_physical_hint}Physical grain carried per soldier (into party inventory, only for the transport party's own consumption en route, not interchangeable with support food; leftovers destroyed on delivery/return)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int PhysicalFoodPerTroop { get; set; } = 2;
 
-        [SettingPropertyInteger("单城被支援上限", 1, 10, "0", Order = 77, RequireRestart = false, HintText = "同一座缺粮城镇/城堡同时最多接受几支运粮队支援")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_max_target}Max Support Parties per Target", 1, 10, "0", Order = 77, RequireRestart = false, HintText = "{=mlf_food_max_target_hint}Maximum number of transport parties the same starving town/castle can accept support from at the same time")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int MaxSupportingTownsPerTarget { get; set; } = 3;
 
-        [SettingPropertyInteger("单城外派上限", 1, 10, "0", Order = 78, RequireRestart = false, HintText = "同一座富余城镇同时最多派出几支运粮队")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyInteger("{=mlf_food_max_source}Max Outgoing Parties per Town", 1, 10, "0", Order = 78, RequireRestart = false, HintText = "{=mlf_food_max_source_hint}Maximum number of transport parties the same surplus town can dispatch at the same time")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public int MaxOutgoingTransportsPerTown { get; set; } = 2;
 
-        [SettingPropertyBool("粮草运输支援调试日志", Order = 79, RequireRestart = false, HintText = "在游戏界面左下角显示粮草运输支援的调度/交付/异常日志（派队、交付、退款、被毁等）")]
-        [SettingPropertyGroup("粮草运输支援")]
+        [SettingPropertyBool("{=mlf_debug_food}Food Transport Debug Log", Order = 79, RequireRestart = false, HintText = "{=mlf_debug_food_hint}Display food transport dispatch/delivery/exception logs in the bottom-left corner of the screen (dispatch, delivery, refund, destroyed, etc.)")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public bool EnableSupportDebugLog { get; set; } = false;
 
-        [SettingPropertyBool("流亡家族永不灭亡", Order = 80, RequireRestart = false, HintText = "去除无国无地流亡家族（灭国后流浪的家族）的 28 天生存倒计时灭亡机制，使其永久存续，直到加入其他王国或获得领地。关闭后恢复原版倒计时灭亡")]
-        [SettingPropertyGroup("流亡家族")]
+        [SettingPropertyBool("{=mlf_exile_survival}Exiled Clans Never Die", Order = 80, RequireRestart = false, HintText = "{=mlf_exile_survival_hint}Remove the 28-day survival countdown extinction mechanic for landless exiled clans (clans wandering after their kingdom falls), letting them persist forever until joining another kingdom or gaining land. When disabled, restores vanilla countdown extinction")]
+        [SettingPropertyGroup("{=mlf_group_exile}Exiled Clans")]
         public bool WanderingClanSurvivalEnabled { get; set; } = false;
 
-        [SettingPropertyBool("玩家阵亡不托管部队", Order = 81, RequireRestart = false, HintText = "玩家角色阵亡后，阻止系统把玩家部队强制切换为 AI 全权指挥；部队将保持玩家阵亡瞬间的最后指令继续战斗（阵亡后命令界面仍会被原版关闭，无法再手动下令）。关闭后恢复原版：阵亡即 AI 全权接管")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_death_noai}No AI Takeover on Player Death", Order = 81, RequireRestart = false, HintText = "{=mlf_death_noai_hint}After the player character dies, prevent the system from forcing full AI command of the player's party; the party keeps executing the last orders given before the player's death (the vanilla order UI is still closed after death, so no further manual orders can be issued). When disabled, restores vanilla: full AI takeover on death")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool PlayerDeathNoAITakeoverEnabled { get; set; } = false;
 
-        [SettingPropertyBool("首排持盾排序修复", Order = 82, RequireRestart = false, HintText = "修复原版阵型整理的收敛缺陷：持盾兵（或架矛兵）反复向前冒泡至列稳定、跨列补位遇满排时跳过而非中止整个整理，保证首排在有持盾者可换时必然满盾（原版会出现首排非盾兵+第二排持盾兵并存的乱序）")]
-        [SettingPropertyGroup("阵型与战斗")]
+        [SettingPropertyBool("{=mlf_frontrank_sort}Front Rank Shield Sort Fix", Order = 82, RequireRestart = false, HintText = "{=mlf_frontrank_sort_hint}Fix the vanilla formation arrangement convergence defect: shielded (or polearm-bracing) units keep bubbling forward until the column stabilizes, and cross-column gap filling skips full ranks instead of aborting the whole arrangement, ensuring the front rank is fully shielded whenever shield units are available (vanilla can leave a disordered mix of non-shield front rank + shield second rank)")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool FormationFrontRankSortEnabled { get; set; } = true;
 
-        [SettingPropertyBool("村庄出资重建", Order = 83, RequireRestart = false, HintText = "被彻底掠夺（荒废）的村庄菜单提供「出资重建」选项：花费 10000 第纳尔，3 天后村庄自动重建完成（恢复正常运转并奖励村庄名人好感 15~20）。关闭后菜单选项隐藏；已出资的进行中重建不受影响，仍会按时完成")]
-        [SettingPropertyGroup("村庄重建")]
+        [SettingPropertyBool("{=mlf_village_rebuild}Village Funded Rebuild", Order = 83, RequireRestart = false, HintText = "{=mlf_village_rebuild_hint}The menu of fully raided (devastated) villages offers a \"Fund Reconstruction\" option: pay 10000 denars and the village rebuilds automatically in 3 days (returns to normal operation and rewards all notables with 15~20 relation). When disabled, the menu option is hidden; ongoing paid rebuilds are unaffected and still complete on time")]
+        [SettingPropertyGroup("{=mlf_group_village}Village Rebuild")]
         public bool VillageRebuildEnabled { get; set; } = true;
 
         public float GetAttributeMultiplier(CharacterAttribute attribute)

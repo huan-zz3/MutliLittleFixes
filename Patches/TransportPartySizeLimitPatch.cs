@@ -16,7 +16,7 @@ namespace MutliLittleFixes.Patches
     /// </summary>
     internal static class TransportPartySizeLimitPatch
     {
-        private static readonly TextObject _bonusText = new TextObject("运粮队部队上限");
+        private static readonly TextObject _bonusText = new TextObject("{=mlf_explained_food_limit}Food Transport Party Size Limit", null);
 
         internal static void Postfix(PartyBase party, bool includeDescriptions, ref ExplainedNumber __result)
         {

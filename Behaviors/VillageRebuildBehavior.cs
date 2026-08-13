@@ -52,7 +52,7 @@ namespace MutliLittleFixes.Behaviors
             starter.AddGameMenuOption(
                 "village_looted",
                 "village_rebuild_fund_reconstruction",
-                "出资重建",
+                new TextObject("{=mlf_village_rebuild_option}Fund Reconstruction", null).ToString(),
                 FundReconstructionOnCondition,
                 FundReconstructionOnConsequence,
                 isLeave: false,
@@ -93,21 +93,21 @@ namespace MutliLittleFixes.Behaviors
             if (_pendingEndDaysBySettlementId.TryGetValue(settlementId, out float endDay))
             {
                 int remainingDays = Math.Max(1, (int)Math.Ceiling(endDay - CampaignTime.Now.ToDays));
-                args.Text = new TextObject("重建进行中（剩余 {REMAINING_DAYS} 天）");
+                args.Text = new TextObject("{=mlf_village_rebuild_in_progress}Rebuild in progress ({REMAINING_DAYS} days remaining)");
                 args.Text.SetTextVariable("REMAINING_DAYS", remainingDays);
                 args.IsEnabled = false;
-                args.Tooltip = new TextObject("该村庄正在重建，预计 {REMAINING_DAYS} 天后完工。");
+                args.Tooltip = new TextObject("{=mlf_village_rebuild_in_progress_tip}The village is being rebuilt and is expected to be completed in {REMAINING_DAYS} days.");
                 args.Tooltip.SetTextVariable("REMAINING_DAYS", remainingDays);
                 return true;
             }
 
-            args.Text = new TextObject("出资重建（{COST} 第纳尔）");
+            args.Text = new TextObject("{=mlf_village_rebuild_fund}Fund Reconstruction ({COST} denars)");
             args.Text.SetTextVariable("COST", ReconstructionCost);
 
             if (Hero.MainHero.Gold < ReconstructionCost)
             {
                 args.IsEnabled = false;
-                args.Tooltip = new TextObject("需要 {COST} 第纳尔才能出资重建。");
+                args.Tooltip = new TextObject("{=mlf_village_rebuild_need_gold}{COST} denars are required to fund the reconstruction.");
                 args.Tooltip.SetTextVariable("COST", ReconstructionCost);
             }
 
@@ -132,7 +132,7 @@ namespace MutliLittleFixes.Behaviors
             GiveGoldAction.ApplyBetweenCharacters(Hero.MainHero, null, ReconstructionCost);
             _pendingEndDaysBySettlementId[settlement.StringId] = (float)CampaignTime.DaysFromNow(ReconstructionDays).ToDays;
 
-            TextObject message = new TextObject("你出资重建了 {SETTLEMENT}，工程将在 {DAYS} 天后完工。");
+            TextObject message = new TextObject("{=mlf_village_rebuild_started}You funded the reconstruction of {SETTLEMENT}. The work will be completed in {DAYS} days.");
             message.SetTextVariable("SETTLEMENT", settlement.Name);
             message.SetTextVariable("DAYS", ReconstructionDays);
             InformationManager.DisplayMessage(new InformationMessage(message.ToString()));
@@ -187,7 +187,7 @@ namespace MutliLittleFixes.Behaviors
                 }
             }
 
-            TextObject message = new TextObject("{SETTLEMENT}的重建已经完成，当地村民对你的帮助感激不尽。");
+            TextObject message = new TextObject("{=mlf_village_rebuild_completed}The reconstruction of {SETTLEMENT} has been completed. The local villagers are grateful for your help.");
             message.SetTextVariable("SETTLEMENT", settlement.Name);
             InformationManager.DisplayMessage(new InformationMessage(message.ToString()));
         }

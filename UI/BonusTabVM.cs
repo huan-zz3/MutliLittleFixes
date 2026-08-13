@@ -53,10 +53,12 @@ namespace MutliLittleFixes.UI
 
         public BonusTabVMMixin(KingdomManagementVM vm) : base(vm)
         {
-            BonusTabText = "国家加成";
+            BonusTabText = Localize("{=mlf_ui_bonus_tab}National Bonuses");
             Bonus = new BonusTabVM();
             _instances.Add(vm, this);
         }
+
+        private static string Localize(string text) => new TaleWorlds.Localization.TextObject(text, null).ToString();
 
         public override void OnRefresh()
         {
@@ -119,6 +121,21 @@ namespace MutliLittleFixes.UI
         private MBBindingList<BonusKingdomItemVM> _kingdomList;
 
         [DataSourceProperty]
+        public string OverviewTitleText { get; }
+
+        [DataSourceProperty]
+        public string ColumnKingdomText { get; }
+
+        [DataSourceProperty]
+        public string ColumnTerritoryBonusText { get; }
+
+        [DataSourceProperty]
+        public string ColumnWaitingCountText { get; }
+
+        [DataSourceProperty]
+        public string ColumnActiveCountText { get; }
+
+        [DataSourceProperty]
         public MBBindingList<BonusKingdomItemVM> KingdomList
         {
             get => _kingdomList;
@@ -151,7 +168,14 @@ namespace MutliLittleFixes.UI
         public BonusTabVM()
         {
             KingdomList = new MBBindingList<BonusKingdomItemVM>();
+            OverviewTitleText = Localize("{=mlf_ui_bonus_overview}Overview of Lords' Bonuses by Kingdom");
+            ColumnKingdomText = Localize("{=mlf_ui_bonus_col_kingdom}Kingdom");
+            ColumnTerritoryBonusText = Localize("{=mlf_ui_bonus_col_territory}Territory Loss Compensation Party Limit");
+            ColumnWaitingCountText = Localize("{=mlf_ui_bonus_col_waiting}Waiting for Restoration");
+            ColumnActiveCountText = Localize("{=mlf_ui_bonus_col_active}Restoration in Progress");
         }
+
+        private static string Localize(string text) => new TaleWorlds.Localization.TextObject(text, null).ToString();
 
         // ── 调试日志 ─────────────────────────────────────
 
@@ -276,14 +300,21 @@ namespace MutliLittleFixes.UI
             int active  = _restoreBehavior?.GetActiveRestorationCount(_kingdom) ?? 0;
             int total   = waiting + active;
 
-            RestorationCountText = $"{total}人";
-            WaitingCountText     = $"{waiting}人";
-            ActiveCountText      = $"{active}人";
+            RestorationCountText = LocalizeCount("{=mlf_ui_count_people}{COUNT} people", total);
+            WaitingCountText     = LocalizeCount("{=mlf_ui_count_people}{COUNT} people", waiting);
+            ActiveCountText      = LocalizeCount("{=mlf_ui_count_people}{COUNT} people", active);
 
             OnPropertyChanged(nameof(TerritoryBonusText));
             OnPropertyChanged(nameof(RestorationCountText));
             OnPropertyChanged(nameof(WaitingCountText));
             OnPropertyChanged(nameof(ActiveCountText));
+        }
+
+        private static string LocalizeCount(string format, int count)
+        {
+            var text = new TaleWorlds.Localization.TextObject(format, null);
+            text.SetTextVariable("COUNT", count);
+            return text.ToString();
         }
     }
 }

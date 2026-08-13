@@ -75,7 +75,7 @@ namespace MutliLittleFixes.Behaviors
                 return;
 
             // ── 弹出 toast ──
-            TextObject toast = new TextObject("{=!}{HERO_NAME} 现可被召回");
+            TextObject toast = new TextObject("{=mlf_companion_available}{HERO_NAME} is now available to be recalled");
             toast.SetTextVariable("HERO_NAME", hero.Name?.ToString() ?? "???");
 
             MBInformationManager.AddQuickInformation(

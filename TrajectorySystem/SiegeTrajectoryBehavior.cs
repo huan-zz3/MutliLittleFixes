@@ -152,13 +152,15 @@ namespace MutliLittleFixes
             _isRtsModeEnabled = !_isRtsModeEnabled;
             if (_isRtsModeEnabled)
             {
-                InformationManager.DisplayMessage(new InformationMessage("RTS视角: 开启", Colors.Magenta));
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TaleWorlds.Localization.TextObject("{=mlf_rts_on}RTS view: enabled", null).ToString(), Colors.Magenta));
                 _camYawOffset = 0f;
                 _camPitchOffset = 0f;
             }
             else
             {
-                InformationManager.DisplayMessage(new InformationMessage("RTS视角: 关闭", Colors.Gray));
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TaleWorlds.Localization.TextObject("{=mlf_rts_off}RTS view: disabled", null).ToString(), Colors.Gray));
                 ResetCustomCamera();
             }
         }
@@ -290,7 +292,8 @@ namespace MutliLittleFixes
             {
                 CoordinateTargetManager.ClearAll();
                 InformationManager.DisplayMessage(
-                    new InformationMessage("投石机目标已取消，返回原版AI", Colors.White));
+                    new InformationMessage(
+                        new TaleWorlds.Localization.TextObject("{=mlf_coord_cancelled}Siege engine target cancelled, returning to vanilla AI", null).ToString(), Colors.White));
                 return;
             }
 
@@ -303,7 +306,8 @@ namespace MutliLittleFixes
             if (_currentSiegeWeapon != null)
             {
                 InformationManager.DisplayMessage(
-                    new InformationMessage("请离开投石机后在战场上引导目标", Colors.Red));
+                    new InformationMessage(
+                        new TaleWorlds.Localization.TextObject("{=mlf_coord_leave_weapon}Leave the siege engine and designate the target from the battlefield", null).ToString(), Colors.Red));
                 return;
             }
 
@@ -327,7 +331,8 @@ namespace MutliLittleFixes
             if (!hasHit)
             {
                 InformationManager.DisplayMessage(
-                    new InformationMessage("未命中地面或建筑，请对准目标位置", Colors.Red));
+                    new InformationMessage(
+                        new TaleWorlds.Localization.TextObject("{=mlf_coord_no_hit}No ground or structure hit, aim at the target position", null).ToString(), Colors.Red));
                 return;
             }
 
@@ -341,16 +346,17 @@ namespace MutliLittleFixes
             if (availableWeapons.Count == 0)
             {
                 InformationManager.DisplayMessage(
-                    new InformationMessage("无可用投石机（无存活、有弹药、能射到该点的投石机）", Colors.Red));
+                    new InformationMessage(
+                        new TaleWorlds.Localization.TextObject("{=mlf_coord_no_weapons}No usable siege engine (no alive, loaded engine that can reach this point)", null).ToString(), Colors.Red));
                 return;
             }
 
             // 设定目标
             CoordinateTargetManager.SetTarget(availableWeapons, hitPos);
+            var targetSetMsg = new TaleWorlds.Localization.TextObject("{=mlf_coord_target_set}Siege engine target set! {WEAPON_COUNT} engines are now aiming at this point", null);
+            targetSetMsg.SetTextVariable("WEAPON_COUNT", availableWeapons.Count);
             InformationManager.DisplayMessage(
-                new InformationMessage(
-                    $"已设定投石机目标！{availableWeapons.Count} 台投石机正在瞄准该点",
-                    Colors.Cyan));
+                new InformationMessage(targetSetMsg.ToString(), Colors.Cyan));
         }
 
         /// <summary>

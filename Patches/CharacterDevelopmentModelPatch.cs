@@ -8,7 +8,7 @@ namespace MutliLittleFixes.Patches
 {
     internal static class CharacterDevelopmentModelPatch
     {
-        private static readonly TextObject _modText = new TextObject("MutliLittleFixes 属性倍率");
+        private static readonly TextObject _modText = new TextObject("{=mlf_explained_attr_rate}MutliLittleFixes Attribute Multipliers", null);
 
         internal static void Postfix(
             DefaultCharacterDevelopmentModel __instance,

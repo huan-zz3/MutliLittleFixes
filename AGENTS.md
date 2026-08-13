@@ -1,6 +1,6 @@
 # MutliLittleFixes — 开发规范
 
-本文件记录本 Mod 的 Harmony 补丁注册规则与 MCM 配置开关规则。并且游戏本体源码已经放在本项目内“./reference/原版游戏本体代码1.4.5”，以该版本代码为准！即使实际是更新的也不换用更新的版本。
+本文件记录本 Mod 的 Harmony 补丁注册规则、MCM 配置开关规则与多语言本地化规则。并且游戏本体源码已经放在本项目内“./reference/原版游戏本体代码1.4.5”，以该版本代码为准！即使实际是更新的也不换用更新的版本。
 **任何新增/修改功能前必须先阅读本文件。**
 
 ---
@@ -80,3 +80,48 @@ if (Settings.Instance?.XxxEnabled != true)
 ```csharp
 MCM.Abstractions.Base.Global.GlobalSettings<SiegeTrajectoryConfig>.Instance?.XxxEnabled != true
 ```
+
+---
+
+## 3. 多语言本地化规则
+
+> 依据 `docs/多语言本地化实现指南.md`。本 Mod 已全部接入游戏原生本地化系统（`TaleWorlds.Localization`）：代码写 `{=ID}English fallback`，翻译放 `ModuleData/Languages/<语言>/`，游戏启动时自动加载合并，无需注册。**玩家可见功能文本必须中英双文；默认关闭的调试日志保持中文。**
+
+### 3.1 核心规则
+
+- **玩家可见功能文本**（MCM 设置名/提示/分组、UI 文案、菜单选项、toast、通知消息、标注、筛选项、ExplainedNumber 描述等）**必须**写成 `new TextObject("{=mlf_xxx}English fallback", null)` 形式，并在语言文件中提供中英词条。
+- **fallback 一律写英文**：漏译时玩家看到可读英文而非空串。
+- **调试日志保持中文，不本地化**：默认关闭的 `LogDebug`/`LogScreen`/`[Test]`/`[ORCA]`/`[第9队]` 调试输出（由 MCM 调试开关控制）是开发者排障工具，玩家正常游玩不可见，保持中文注释便利即可。
+- **ID 前缀**：`mlf_`（主设置与功能文本）；`st_`（SiegeTrajectoryConfig 既有词条，勿改）。避免与其它 mod/游戏原生词条冲突。
+
+### 3.2 词条文件结构（已就位，新增词条时同步维护）
+
+```
+ModuleData/Languages/
+├── English/
+│   ├── language_data.xml          (id="English", supported_iso="en-GB,en-US,en,eng,...")
+│   └── std_module_strings.xml     (英文词条)
+└── CNs/
+    ├── language_data.xml          (id="简体中文", supported_iso="zh-HANS,zh,zho,chi,zh-cn,zh-sg")
+    └── std_module_strings_zho-CN.xml
+```
+
+- 词条 XML 格式：`<base xmlns="http://schemas.taleworlds.com/2007/04/GameSystem/" type="string">` + `<tags><tag language="简体中文"/></tags>` + `<strings><string id="..." text="..."/></strings>`。`xmlns` 与 `type` 缺一不可。
+- 文件用 **UTF-8 带 BOM** 保存（Windows 工具按 ANSI 读会乱码）。
+- XML 转义：`&`→`&amp;`、`<`→`&lt;`、`>`→`&gt;`、换行→`&#10;`。
+- **无需**写进 `SubModule.xml` 的 `<Xmls/>`，引擎自动扫描所有模块的 `ModuleData/Languages/`。
+- 新增词条后**核对完整性**：代码中所有 `{=ID}` 必须同时存在于 EN 与 CN 词条文件（数量一致，可脚本对比）。
+
+### 3.3 代码写法
+
+- **带变量的文本**：`new TextObject("{=mlf_xxx}Text {VAR}", null)` + `SetTextVariable("VAR", value)`（`SetTextVariable` 返回 `TextObject`，可链式）。翻译词条内保留 `{VAR}` 占位符。
+- **MCM 属性**（`[SettingProperty*]`/`[SettingPropertyGroup]`）：DisplayName、HintText、组名均支持 `{=ID}`，MCM 内部走 `TextObject.ToString()` 解析（已核实 MCM 5.x 源码：`SettingsPropertyVM.cs` 的 `Name = new TextObject(DisplayName).ToString()`、组名 `LocalizationUtils.Localize(...)`）。`AttributeGlobalSettings<T>` 覆写的 `DisplayName` 属性同样写成 `new TextObject("{=ID}...", null).ToString()`。
+- **UI Prefab XML 不写死文案**：文案永远在 C# 里用 `{=ID}` 生成并暴露为 `[DataSourceProperty]`，Prefab 只做 `@属性名` 绑定（参考 `BonusTabVM`/`BonusTabInjectors`）。
+- **本地化后文本比较**：不要用 `textObject.Value == "某文本"` 判断（Value 会随语言变化）；改用 `textObject.GetID() == "mlf_xxx"`（参考 `EncyclopediaClanExileFilterPatch.IsExileFilter`）。
+- 允许复用游戏原生词条（`GameTexts.FindText`），但查 ID 前先确认语义吻合。
+
+### 3.4 新增文本的步骤（必须全部完成）
+
+1. 代码中玩家可见文本写成 `new TextObject("{=mlf_xxx}English fallback", null)`（变量用 `{VAR}` + `SetTextVariable`）。
+2. 在 `ModuleData/Languages/English/std_module_strings.xml` 与 `ModuleData/Languages/CNs/std_module_strings_zho-CN.xml` 各加一条同 ID 词条（中文词条取原中文文案）。
+3. 编译验证 + 脚本核对代码 ID 与两个词条文件数量一致。

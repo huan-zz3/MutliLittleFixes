@@ -72,7 +72,7 @@ namespace MutliLittleFixes.UI
                 "      StackLayout.LayoutMethod='VerticalTopToBottom' " +
                 "      MarginTop='40'>" +
                 "      <Children>" +
-                "        <TextWidget Text='各国领主加成概览' " +
+                "        <TextWidget Text='@OverviewTitleText' " +
                 "          WidthSizePolicy='CoverChildren' HeightSizePolicy='CoverChildren' " +
                 "          HorizontalAlignment='Center' " +
                 "          Brush='Kingdom.Paragraph.Text' MarginBottom='25' />" +
@@ -84,19 +84,19 @@ namespace MutliLittleFixes.UI
         "            <TextWidget WidthSizePolicy='StretchToParent' " +
         "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
         "              HorizontalAlignment='Center' " +
-        "              Brush='Clan.TabControl.Text' Text='国家' />" +
+        "              Brush='Clan.TabControl.Text' Text='@ColumnKingdomText' />" +
         "            <TextWidget WidthSizePolicy='StretchToParent' " +
         "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
         "              HorizontalAlignment='Center' " +
-        "              Brush='Clan.TabControl.Text' Text='领土丢失补偿部队上限' />" +
+        "              Brush='Clan.TabControl.Text' Text='@ColumnTerritoryBonusText' />" +
         "            <TextWidget WidthSizePolicy='StretchToParent' " +
         "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
         "              HorizontalAlignment='Center' " +
-        "              Brush='Clan.TabControl.Text' Text='等候补兵人数' />" +
+        "              Brush='Clan.TabControl.Text' Text='@ColumnWaitingCountText' />" +
         "            <TextWidget WidthSizePolicy='StretchToParent' " +
         "              HeightSizePolicy='CoverChildren' VerticalAlignment='Center' " +
         "              HorizontalAlignment='Center' " +
-        "              Brush='Clan.TabControl.Text' Text='正在补兵人数' />" +
+        "              Brush='Clan.TabControl.Text' Text='@ColumnActiveCountText' />" +
         "          </Children>" +
         "        </ListPanel>" +
         "        <NavigatableListPanel DataSource='{KingdomList}' " +
