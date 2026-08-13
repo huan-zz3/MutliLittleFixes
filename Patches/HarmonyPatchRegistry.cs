@@ -46,6 +46,7 @@ namespace MutliLittleFixes.Patches
             RegisterPrisonerSpecialLabel(harmony);
             RegisterScoreboardSortOrder(harmony);
             RegisterShieldDirectionForCrouch(harmony);
+            RegisterFormationFrontRankShieldSort(harmony);
             RegisterShipBattleLimit(harmony);
             RegisterSiegeTargetSelection(harmony);
             RegisterSiegeWeapon(harmony);
@@ -222,6 +223,17 @@ namespace MutliLittleFixes.Patches
             var original = AccessTools.Method(typeof(ArrangementOrder), "GetShieldDirectionOfUnit");
             harmony.Patch(original,
                 postfix: Patch(typeof(ShieldDirectionForCrouchPatch), "AdjustForCrouch"));
+        }
+
+        // ── 首排持盾排序修复（Prefix 整体替换原版收敛缺陷算法） ───────
+
+        private static void RegisterFormationFrontRankShieldSort(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(LineFormation), "SwitchFrontUnitTypesToFrontRows");
+            if (original != null) // 目标方法缺失（版本差异）时安全跳过
+                harmony.Patch(original,
+                    prefix: Patch(typeof(FormationFrontRankShieldSortPatch), "Prefix"));
         }
 
         // ── 海战船只上限（DLC 类型动态解析，未装 DLC 时跳过） ────────

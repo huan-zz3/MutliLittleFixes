@@ -425,6 +425,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("阵型与战斗")]
         public bool PlayerDeathNoAITakeoverEnabled { get; set; } = false;
 
+        [SettingPropertyBool("首排持盾排序修复", Order = 82, RequireRestart = false, HintText = "修复原版阵型整理的收敛缺陷：持盾兵（或架矛兵）反复向前冒泡至列稳定、跨列补位遇满排时跳过而非中止整个整理，保证首排在有持盾者可换时必然满盾（原版会出现首排非盾兵+第二排持盾兵并存的乱序）")]
+        [SettingPropertyGroup("阵型与战斗")]
+        public bool FormationFrontRankSortEnabled { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)
