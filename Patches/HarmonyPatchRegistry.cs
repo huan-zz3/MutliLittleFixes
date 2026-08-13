@@ -60,6 +60,7 @@ namespace MutliLittleFixes.Patches
             RegisterWanderingClanSurvival(harmony);
             RegisterPlayerDeathNoAITakeover(harmony);
             RegisterEncyclopediaClanExileFilter(harmony);
+            RegisterPrisonerRemoveRelation(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -367,6 +368,16 @@ namespace MutliLittleFixes.Patches
             var original = AccessTools.Method(typeof(EncyclopediaPage), "GetFilterItems");
             harmony.Patch(original,
                 postfix: Patch(typeof(EncyclopediaClanExileFilterPatch), "Postfix"));
+        }
+
+        // ── 部队界面移除俘虏加好感度（Postfix 补原版缺失的 +4 好感，实时开关） ──
+
+        private static void RegisterPrisonerRemoveRelation(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(PartyScreenHelper), "HandleReleasedAndTakenPrisoners");
+            harmony.Patch(original,
+                postfix: Patch(typeof(PrisonerRemoveRelationPatch), "Postfix"));
         }
     }
 }

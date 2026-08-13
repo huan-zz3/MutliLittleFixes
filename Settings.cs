@@ -442,6 +442,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_village}Village Rebuild")]
         public bool VillageRebuildEnabled { get; set; } = true;
 
+        [SettingPropertyBool("{=mlf_prisoner_remove_relation}Prisoner Removal Grants Relation", Order = 84, RequireRestart = false, HintText = "{=mlf_prisoner_remove_relation_hint}Removing a hero prisoner directly in the party screen (dragging them out of the party roster) now grants the same +4 relation as releasing them through dialogue, following the vanilla relation flow")]
+        [SettingPropertyGroup("{=mlf_group_prisoner}Prisoners")]
+        public bool PrisonerRemoveRelationEnabled { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

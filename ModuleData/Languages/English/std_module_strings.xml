@@ -30,6 +30,7 @@
     <string id="mlf_group_food" text="Food Transport Support"/>
     <string id="mlf_group_exile" text="Exiled Clans"/>
     <string id="mlf_group_village" text="Village Rebuild"/>
+    <string id="mlf_group_prisoner" text="Prisoners"/>
 
     <!-- ════════ 经验设置 ════════ -->
     <string id="mlf_exp_rate" text="Experience Rate"/>
@@ -248,6 +249,8 @@
     <!-- ════════ 村庄重建 ════════ -->
     <string id="mlf_village_rebuild" text="Village Funded Rebuild"/>
     <string id="mlf_village_rebuild_hint" text="The menu of fully raided (devastated) villages offers a &quot;Fund Reconstruction&quot; option: pay 10000 denars and the village rebuilds automatically in 3 days (returns to normal operation and rewards all notables with 15~20 relation). When disabled, the menu option is hidden; ongoing paid rebuilds are unaffected and still complete on time"/>
+    <string id="mlf_prisoner_remove_relation" text="Prisoner Removal Grants Relation"/>
+    <string id="mlf_prisoner_remove_relation_hint" text="Removing a hero prisoner directly in the party screen (dragging them out of the party roster) now grants the same +4 relation as releasing them through dialogue, following the vanilla relation flow"/>
 
     <!-- ════════ 游戏内功能文本 ════════ -->
     <!-- 村庄重建 -->
