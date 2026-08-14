@@ -241,6 +241,8 @@
     <string id="mlf_food_max_source_hint" text="同一座富余城镇同时最多派出几支运粮队"/>
     <string id="mlf_debug_food" text="粮草运输支援调试日志"/>
     <string id="mlf_debug_food_hint" text="在游戏界面左下角显示粮草运输支援的调度/交付/异常日志（派队、交付、退款、被毁等）"/>
+    <string id="mlf_food_map_visible" text="运粮队大地图可见"/>
+    <string id="mlf_food_map_visible_hint" text="在大地图上全局显示运粮队位置（类似我方军团），不受距离与战争迷雾影响"/>
 
     <!-- ════════ 流亡家族 ════════ -->
     <string id="mlf_exile_survival" text="流亡家族永不灭亡"/>

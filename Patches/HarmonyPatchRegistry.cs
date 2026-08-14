@@ -61,6 +61,7 @@ namespace MutliLittleFixes.Patches
             RegisterPlayerDeathNoAITakeover(harmony);
             RegisterEncyclopediaClanExileFilter(harmony);
             RegisterPrisonerRemoveRelation(harmony);
+            RegisterTransportPartyMapVisibility(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -378,6 +379,26 @@ namespace MutliLittleFixes.Patches
                 typeof(PartyScreenHelper), "HandleReleasedAndTakenPrisoners");
             harmony.Patch(original,
                 postfix: Patch(typeof(PrisonerRemoveRelationPatch), "Postfix"));
+        }
+
+        // ── 运粮队大地图全局可见 ───────────────────────────────────────────
+        // 可见性状态本身（IsVisible=setter 写入、VisualTrackerManager 注册、SetPartyUsedByQuest、每 tick 保活）
+        // 由 Behaviors/FoodTransportSupportBehavior 维护。
+        // 此处注册：PartyBase.UpdateVisibilityAndInspected prefix（防原版每帧视野计算回滚运粮队可见性，
+        // 目标在 TaleWorlds.CampaignSystem.dll 核心程序集，启动时注册安全）。
+        // UI 层兜底（PartyNameplateVM.RefreshBinding / MapTrackerProvider.CanAddMobileParty postfix）不在此注册——
+        // 目标类型位于 SandBox.ViewModelCollection.dll（UI 程序集），在 SubModule 加载早期 patch 其方法可能
+        // 触发程序集静态初始化在临界期执行导致读档挂起；改为由 FoodTransportSupportBehavior.OnCampaignTick
+        // 在加载完成后调用 TransportPartyMapVisibilityPatch.EnsureUiPatchesRegistered() 延迟注册。
+
+        private static void RegisterTransportPartyMapVisibility(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(PartyBase), "UpdateVisibilityAndInspected");
+            if (original != null)
+            {
+                harmony.Patch(original,
+                    prefix: Patch(typeof(TransportPartyMapVisibilityPatch), "UpdateVisibilityAndInspectedPrefix"));
+            }
         }
     }
 }

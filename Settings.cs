@@ -426,6 +426,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
         public bool EnableSupportDebugLog { get; set; } = false;
 
+        [SettingPropertyBool("{=mlf_food_map_visible}Food Transport Visible on Map", Order = 80, RequireRestart = false, HintText = "{=mlf_food_map_visible_hint}Show food transport parties on the campaign map globally, like your clan's armies, regardless of distance or fog of war")]
+        [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
+        public bool TransportMapVisibilityEnabled { get; set; } = true;
+
         [SettingPropertyBool("{=mlf_exile_survival}Exiled Clans Never Die", Order = 80, RequireRestart = false, HintText = "{=mlf_exile_survival_hint}Remove the 28-day survival countdown extinction mechanic for landless exiled clans (clans wandering after their kingdom falls), letting them persist forever until joining another kingdom or gaining land. When disabled, restores vanilla countdown extinction")]
         [SettingPropertyGroup("{=mlf_group_exile}Exiled Clans")]
         public bool WanderingClanSurvivalEnabled { get; set; } = false;

@@ -241,6 +241,8 @@
     <string id="mlf_food_max_source_hint" text="Maximum number of transport parties the same surplus town can dispatch at the same time"/>
     <string id="mlf_debug_food" text="Food Transport Debug Log"/>
     <string id="mlf_debug_food_hint" text="Display food transport dispatch/delivery/exception logs in the bottom-left corner of the screen (dispatch, delivery, refund, destroyed, etc.)"/>
+    <string id="mlf_food_map_visible" text="Food Transport Visible on Map"/>
+    <string id="mlf_food_map_visible_hint" text="Show food transport parties on the campaign map globally, like your clan's armies, regardless of distance or fog of war"/>
 
     <!-- ════════ 流亡家族 ════════ -->
     <string id="mlf_exile_survival" text="Exiled Clans Never Die"/>

@@ -26,13 +26,289 @@ namespace MutliLittleFixes.Behaviors
         public override void RegisterEvents()
         {
             CampaignEvents.HourlyTickEvent.AddNonSerializedListener(this, OnHourlyTick);
+            CampaignEvents.TickEvent.AddNonSerializedListener(this, OnCampaignTick);
+            CampaignEvents.OnGameLoadFinishedEvent.AddNonSerializedListener(this, OnGameLoadFinished);
             CampaignEvents.SettlementEntered.AddNonSerializedListener(this, OnSettlementEntered);
             CampaignEvents.MobilePartyDestroyed.AddNonSerializedListener(this, OnMobilePartyDestroyed);
+        }
+
+        /// <summary>存档/新游戏加载完成前不执行任何可见性操作（避免在 SaveSystem 恢复临界期访问 Campaign 状态）。
+        /// 读档由 OnGameLoadFinishedEvent 置位（SandBoxGameManager 在读档完成后触发，先于第一帧 Tick）；
+        /// 新游戏不触发该事件（角色创建流程），由 Campaign.GameStarted（首次 Tick 置 true）兜底。</summary>
+        private bool _campaignLoaded;
+
+        /// <summary>上一帧大地图可见开关是否开启（用于在关闭瞬间执行一次性清理）。
+        /// 初始为 true：读档后若存档中残留已 Apply 的状态而开关当前为关，首帧即清理（Revert 幂等，无副作用）。</summary>
+        private bool _transportVisibilityWasEnabled = true;
+
+        /// <summary>可见性保活诊断日志帧计数（每 180 帧输出一次）。</summary>
+        private int _visibilityDebugFrameCounter;
+
+        private void OnGameLoadFinished()
+        {
+            _campaignLoaded = true;
         }
 
         public override void SyncData(IDataStore dataStore)
         {
             dataStore.SyncData("_hourCounter", ref _hourCounter);
+        }
+
+        // ── 运粮队每帧维护（移动生命周期 + 大地图全局可见）────────────────
+        // 移动生命周期:原版 AI 队伍没有自动进城/离城机制,运粮队的进城(触发交付/回收)与离城(卡城修复)
+        // 必须自控(见 MaintainFoodTransportMovement)。
+        // 大地图全局可见:原版每帧只对玩家视野半径内的部队重算可见性(约 65 单位),远处运粮队 IsVisible
+        // 保持初始 false;玩家靠近时又会被原版视野计算隐藏。因此每 tick 反复重申 IsVisible=true
+        // (写入 setter,触发名牌创建与图标淡入),并注册视觉追踪器+任务标记,使其像我方军团一样全局可见。
+        // 开关关闭时执行一次性清理,恢复原版可见性规则(移动维护不受开关影响,始终运行)。
+
+        private void OnCampaignTick(float dt)
+        {
+            // 就绪门控：加载完成前不执行（读档/新游戏加载临界期访问 Campaign 状态可能挂起）。
+            // 读档：OnGameLoadFinished 已置位；新游戏：Campaign.GameStarted 在首次 Tick 置 true（此处兜底置位）
+            if (!_campaignLoaded)
+            {
+                if (Campaign.Current?.GameStarted != true)
+                {
+                    return;
+                }
+                _campaignLoaded = true;
+            }
+            try
+            {
+                // 延迟注册 UI 层兜底补丁（PartyNameplateVM.RefreshBinding / MapTrackerProvider.CanAddMobileParty），
+                // 避开 SubModule 加载早期 patch UI 程序集方法的程序集初始化挂起风险（内部有成功/失败标记短路）
+                Patches.TransportPartyMapVisibilityPatch.EnsureUiPatchesRegistered();
+
+                bool enabled = Settings.Instance?.TransportMapVisibilityEnabled == true;
+
+                // 诊断：每 180 帧(约 3 秒)输出一次保活运行状态
+                if (Settings.Instance?.EnableSupportDebugLog == true && ++_visibilityDebugFrameCounter % 180 == 0)
+                {
+                    int activeCount = 0;
+                    foreach (MobileParty p in MobileParty.All)
+                    {
+                        if (p?.PartyComponent is FoodTransportPartyComponent t && t.Phase != FoodTransportPartyComponent.TransportPhase.Done)
+                        {
+                            activeCount++;
+                        }
+                    }
+                    LogDebug($"[运粮] 可见性保活 开关={enabled} 在途队数={activeCount} 上次清理态={_transportVisibilityWasEnabled} 已加载={_campaignLoaded}");
+                }
+
+                // 开关刚关闭时清理一次可见性状态(恢复原版可见性规则),之后不再干预
+                if (!enabled && _transportVisibilityWasEnabled)
+                {
+                    RevertAllFoodTransportVisuals();
+                    _transportVisibilityWasEnabled = false;
+                }
+                _transportVisibilityWasEnabled = enabled;
+
+                // 先收集在途运粮队再处理:MaintainFoodTransportMovement 可能触发进城交付→返程回收→销毁队伍,
+                // 若直接遍历 MobileParty.All 会在遍历中销毁元素导致集合修改异常
+                List<MobileParty> transports = new List<MobileParty>();
+                foreach (MobileParty p in MobileParty.All)
+                {
+                    if (p?.PartyComponent is FoodTransportPartyComponent t
+                        && t.Phase != FoodTransportPartyComponent.TransportPhase.Done)
+                    {
+                        transports.Add(p);
+                    }
+                }
+
+                foreach (MobileParty party in transports)
+                {
+                    // 移动生命周期维护(与可见性开关无关,必须每帧运行:卡城修复+到达检测进城)
+                    MaintainFoodTransportMovement(party, (FoodTransportPartyComponent)party.PartyComponent!);
+
+                    // 大地图全局可见(受开关控制)
+                    if (enabled)
+                    {
+                        ApplyFoodTransportMapVisual(party);
+                    }
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>
+        /// 运粮队移动生命周期维护(每帧,与可见性开关无关)。
+        /// 原版 AI 队伍没有"自动进城/自动离城"机制:LeaveSettlementAction 只被玩家行为调用,
+        /// SettlementEntered 事件只在 EnterSettlementAction(真正进城)时触发。因此运粮队的进城/离城必须自控:
+        /// - 卡城修复:队伍在城内但目的地不是当前城 → 离城继续行程(修复旧存档中卡在源城内的运粮队);
+        /// - 到达检测:队伍 AI 目标为目的地且已到城门口附近 → 进城触发 SettlementEntered → 交付/回收。
+        /// </summary>
+        private static void MaintainFoodTransportMovement(MobileParty party, FoodTransportPartyComponent transport)
+        {
+            // 0 人队伍无法移动(原版 AI 不驱动无兵队伍)且原版不渲染图标 → 直接解散,抽象粮随队损失。
+            // DestroyPartyAction 内部会先离城再销毁,无需手动处理 CurrentSettlement。
+            if (party.Party.NumberOfAllMembers <= 0)
+            {
+                if (Settings.Instance?.EnableSupportDebugLog == true)
+                {
+                    LogDebug($"[运粮] {GetPartyName(party)} 士兵全部损失,运输队解散");
+                }
+                RevertFoodTransportMapVisual(party);
+                transport.Phase = FoodTransportPartyComponent.TransportPhase.Done;
+                DestroyPartyAction.Apply(null, party);
+                return;
+            }
+
+            Settlement intended = transport.Phase == FoodTransportPartyComponent.TransportPhase.TravelingToTarget
+                ? transport.TargetSettlement
+                : transport.SourceSettlement;
+            if (intended == null)
+            {
+                return;
+            }
+
+            // 1. 卡城修复:队伍在城内但目的地不是当前城 → 离城继续行程(修复旧存档中卡在源城内的运粮队)
+            if (party.CurrentSettlement != null)
+            {
+                if (party.CurrentSettlement != intended)
+                {
+                    if (Settings.Instance?.EnableSupportDebugLog == true)
+                    {
+                        LogDebug($"[运粮] {GetPartyName(party)} 卡城修复:离开 {party.CurrentSettlement.Name},继续前往 {intended.Name}");
+                    }
+                    LeaveSettlementAction.ApplyForParty(party);
+                    // 离城后立即重申 AI 目标:队伍在城内期间原版可能重置其 AI 行为,不重申会原地不动
+                    ReassertTransportAiAction(party, transport, intended);
+                }
+                return;
+            }
+
+            // 2. 每帧重申 AI 目标(幂等,SetPartyAiAction 内部有重复判断):防止 AI 行为丢失导致原地不动
+            ReassertTransportAiAction(party, transport, intended);
+
+            // 3. 到达检测:AI 目标为目的地、目的地仍为玩家家族且未围城、已到城门口附近
+            //    → 进城触发交付/回收(被围/目标易主时在城外等待,由 MaintainActiveTransports 3小时巡检处理返程退款)
+            if (!intended.IsUnderSiege
+                && intended.OwnerClan == Clan.PlayerClan
+                && party.TargetSettlement == intended
+                && party.GetPosition2D.DistanceSquared(intended.GatePosition.ToVec2()) < 4f)
+            {
+                if (Settings.Instance?.EnableSupportDebugLog == true)
+                {
+                    LogDebug($"[运粮] {GetPartyName(party)} 抵达 {intended.Name},进城");
+                }
+                EnterSettlementAction.ApplyForParty(party, intended);
+            }
+        }
+
+        /// <summary>重申运粮队 AI 移动目标(战斗中交给 MapEvent 控制、目的地被围/易主时不重申,等待巡检处理)。</summary>
+        private static void ReassertTransportAiAction(MobileParty party, FoodTransportPartyComponent transport, Settlement intended)
+        {
+            if (party.MapEvent != null || intended.IsUnderSiege || intended.OwnerClan != Clan.PlayerClan)
+            {
+                return;
+            }
+            SetPartyAiAction.GetActionForVisitingSettlement(party, intended, MobileParty.NavigationType.Default, false, false);
+        }
+
+        /// <summary>对单支运粮队应用大地图全局可见状态(幂等,仅在状态变化时写入/触发事件)。</summary>
+        internal static void ApplyFoodTransportMapVisual(MobileParty party)
+        {
+            if (Settings.Instance?.TransportMapVisibilityEnabled != true)
+            {
+                return;
+            }
+            if (party?.PartyComponent is not FoodTransportPartyComponent transport)
+            {
+                return;
+            }
+            if (transport.Phase == FoodTransportPartyComponent.TransportPhase.Done)
+            {
+                return;
+            }
+            try
+            {
+                // 身份:ActualClan 为空时地图图标不带旗帜渲染,回退玩家家族
+                if (party.ActualClan == null && Clan.PlayerClan != null)
+                {
+                    party.ActualClan = Clan.PlayerClan;
+                }
+
+                // 可见性:写入 setter 触发 OnVisibilityChanged(名牌创建);配合 SetVisualAsDirty 触发图标淡入
+                bool wasVisible = party.IsVisible;
+                if (!wasVisible)
+                {
+                    party.IsVisible = true;
+                }
+                if (!party.IsInspected)
+                {
+                    party.IsInspected = true;
+                }
+
+                // 视觉追踪器(原版任务追踪同款):先注册,再打任务标记,保证 MapTrackerProvider 资格判定命中
+                if (Campaign.Current?.VisualTrackerManager != null
+                    && !Campaign.Current.VisualTrackerManager.CheckTracked(party))
+                {
+                    Campaign.Current.VisualTrackerManager.RegisterObject(party);
+                }
+
+                // 任务标记:触发 MobilePartyQuestStatusChanged → MapTrackerProvider.OnPartyQuestStatusChanged → 加入追踪列表
+                if (!party.IsCurrentlyUsedByAQuest)
+                {
+                    party.SetPartyUsedByQuest(true);
+                }
+
+                // 强制重绘(仅可见性刚变化时,避免每帧重建地图图标)
+                if (!wasVisible)
+                {
+                    party.Party?.SetVisualAsDirty();
+                }
+
+                // 诊断:可见性状态刚变化时输出一次
+                if (Settings.Instance?.EnableSupportDebugLog == true && !wasVisible)
+                {
+                    LogDebug($"[运粮] 可见性应用 {GetPartyName(party)}: 可见={party.IsVisible} 侦查={party.IsInspected} " +
+                        $"追踪={Campaign.Current?.VisualTrackerManager?.CheckTracked(party) == true} 任务标记={party.IsCurrentlyUsedByAQuest} " +
+                        $"家族={(party.ActualClan?.StringId ?? "null")} 位置={party.GetPosition2D}");
+                }
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>对单支运粮队撤销大地图可见状态(销毁前/开关关闭时调用,防止追踪器死引用残留)。</summary>
+        internal static void RevertFoodTransportMapVisual(MobileParty party)
+        {
+            try
+            {
+                if (Campaign.Current?.VisualTrackerManager != null
+                    && Campaign.Current.VisualTrackerManager.CheckTracked(party))
+                {
+                    Campaign.Current.VisualTrackerManager.RemoveTrackedObject(party, true);
+                }
+                if (party.IsCurrentlyUsedByAQuest)
+                {
+                    party.SetPartyUsedByQuest(false);
+                }
+                if (party.IsVisible)
+                {
+                    party.IsVisible = false;
+                }
+                party.Party?.SetVisualAsDirty();
+            }
+            catch
+            {
+            }
+        }
+
+        /// <summary>撤销全部在途运粮队的大地图可见状态(开关关闭时调用,恢复原版可见性规则)。</summary>
+        internal static void RevertAllFoodTransportVisuals()
+        {
+            foreach (MobileParty party in MobileParty.All)
+            {
+                if (party?.PartyComponent is FoodTransportPartyComponent)
+                {
+                    RevertFoodTransportMapVisual(party);
+                }
+            }
         }
 
         // ── 每 3 小时调度 ──────────────────────────────────────────────
@@ -131,6 +407,7 @@ namespace MutliLittleFixes.Behaviors
                 if (source == null || source.OwnerClan != Clan.PlayerClan)
                 {
                     LogDebug($"[运粮] {GetPartyName(party)} 源城已失,运输队解散");
+                    RevertFoodTransportMapVisual(party); // 撤销全局可见/追踪注册,防残留
                     transport.Phase = FoodTransportPartyComponent.TransportPhase.Done;
                     DestroyPartyAction.Apply(null, party);
                     continue;
@@ -359,9 +636,13 @@ namespace MutliLittleFixes.Behaviors
                 party.ItemRoster.AddToCounts(DefaultItems.Grain, physicalFood);
             }
 
-            // 先入源城,再出发前往目标
-            EnterSettlementAction.ApplyForParty(party, source);
+            // 不进城,直接在源城门口(GatePosition,组件 OnMobilePartySetOnCreation 已初始化)出发前往目标。
+            // 原版 AI 队伍没有自动离城机制(LeaveSettlementAction 仅被玩家行为调用),进城会卡死在城内;
+            // 到达目标后的"进城交付"由 MaintainFoodTransportMovement 每帧检测触发。
             SetPartyAiAction.GetActionForVisitingSettlement(party, target, MobileParty.NavigationType.Default, false, false);
+
+            // 创建即应用大地图全局可见(不等下一 tick 保活),出发后图标/名牌立即可见
+            ApplyFoodTransportMapVisual(party);
 
             // 扣源城抽象粮(保证不低于 0)
             sourceTown.FoodStocks = Math.Max(0f, sourceTown.FoodStocks - foodCarried);
@@ -512,6 +793,8 @@ namespace MutliLittleFixes.Behaviors
             // 销毁剩余实物粮
             DestroyPhysicalFood(party);
 
+            RevertFoodTransportMapVisual(party); // 撤销全局可见/追踪注册,防残留
+
             transport.Phase = FoodTransportPartyComponent.TransportPhase.Done;
             DestroyPartyAction.Apply(null, party);
 
@@ -529,6 +812,7 @@ namespace MutliLittleFixes.Behaviors
                 return; // 主动解散(回收/源城丢失),非战斗摧毁
             }
             // 被摧毁:抽象粮不退回(随队损失),士兵损失
+            RevertFoodTransportMapVisual(party); // 撤销全局可见/追踪注册,防死引用残留
             LogDebug($"[运粮] {GetPartyName(party)} 运输队被摧毁,{transport.FoodCarried} 粮草随队损失");
             NotifyPlayer(
                 new TextObject("{=mlf_food_destroyed}{PARTY_NAME} was destroyed on the way. Food was lost.")
