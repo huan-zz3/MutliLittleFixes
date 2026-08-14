@@ -450,6 +450,28 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_prisoner}Prisoners")]
         public bool PrisonerRemoveRelationEnabled { get; set; } = true;
 
+        // ── 战场击杀信息流（右上角全军击杀/阵亡提示） ─────────────────
+
+        [SettingPropertyBool("{=mlf_killfeed_limit_enabled}Limit Kill Feed Items", Order = 85, RequireRestart = false, HintText = "{=mlf_killfeed_limit_enabled_hint}Cap the number of simultaneously visible kill feed entries in battle (top-right corner); when exceeded, the oldest entry is removed immediately so a mass casualty pileup never stretches the feed off-screen")]
+        [SettingPropertyGroup("{=mlf_group_killfeed}Kill Feed")]
+        public bool KillFeedItemLimitEnabled { get; set; } = false;
+
+        [SettingPropertyInteger("{=mlf_killfeed_max_items}Max Kill Feed Items", 4, 20, "0", Order = 86, RequireRestart = false, HintText = "{=mlf_killfeed_max_items_hint}Maximum number of kill feed entries displayed at the same time (entries beyond this are removed oldest-first; default 6 keeps the top-right feed compact)")]
+        [SettingPropertyGroup("{=mlf_group_killfeed}Kill Feed")]
+        public int KillFeedMaxItems { get; set; } = 10;
+
+        [SettingPropertyBool("{=mlf_killfeed_shrink_enabled}Shrink Old Kill Feed Text", Order = 87, RequireRestart = false, HintText = "{=mlf_killfeed_shrink_enabled_hint}Gradually shrink the text of older kill feed entries once the on-screen entry count exceeds the threshold below (newest stays full size, oldest shrinks down to the minimum scale), creating a clear visual hierarchy")]
+        [SettingPropertyGroup("{=mlf_group_killfeed}Kill Feed")]
+        public bool KillFeedShrinkEnabled { get; set; } = false;
+
+        [SettingPropertyInteger("{=mlf_killfeed_shrink_threshold}Shrink Threshold", 2, 10, "0", Order = 88, RequireRestart = false, HintText = "{=mlf_killfeed_shrink_threshold_hint}Entries beyond this on-screen count start shrinking (e.g. 4 means the 5th+ entry shrinks; oldest shrinks most)")]
+        [SettingPropertyGroup("{=mlf_group_killfeed}Kill Feed")]
+        public int KillFeedShrinkThreshold { get; set; } = 4;
+
+        [SettingPropertyFloatingInteger("{=mlf_killfeed_shrink_scale}Minimum Text Scale", 0.2f, 1.0f, "0%", Order = 89, RequireRestart = false, HintText = "{=mlf_killfeed_shrink_scale_hint}Smallest font scale applied to the oldest kill feed entry (0.7 = 70% of the normal font size; newer entries interpolate between this and 100%)")]
+        [SettingPropertyGroup("{=mlf_group_killfeed}Kill Feed")]
+        public float KillFeedShrinkMinScale { get; set; } = 0.5f;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

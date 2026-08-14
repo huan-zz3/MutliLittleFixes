@@ -31,6 +31,7 @@
     <string id="mlf_group_exile" text="Exiled Clans"/>
     <string id="mlf_group_village" text="Village Rebuild"/>
     <string id="mlf_group_prisoner" text="Prisoners"/>
+    <string id="mlf_group_killfeed" text="Kill Feed"/>
 
     <!-- ════════ 经验设置 ════════ -->
     <string id="mlf_exp_rate" text="Experience Rate"/>
@@ -253,6 +254,18 @@
     <string id="mlf_village_rebuild_hint" text="The menu of fully raided (devastated) villages offers a &quot;Fund Reconstruction&quot; option: pay 10000 denars and the village rebuilds automatically in 3 days (returns to normal operation and rewards all notables with 15~20 relation). When disabled, the menu option is hidden; ongoing paid rebuilds are unaffected and still complete on time"/>
     <string id="mlf_prisoner_remove_relation" text="Prisoner Removal Grants Relation"/>
     <string id="mlf_prisoner_remove_relation_hint" text="Removing a hero prisoner directly in the party screen (dragging them out of the party roster) now grants the same +4 relation as releasing them through dialogue, following the vanilla relation flow"/>
+
+    <!-- ════════ 战场击杀信息流 ════════ -->
+    <string id="mlf_killfeed_limit_enabled" text="Limit Kill Feed Items"/>
+    <string id="mlf_killfeed_limit_enabled_hint" text="Cap the number of simultaneously visible kill feed entries in battle (top-right corner); when exceeded, the oldest entry is removed immediately so a mass casualty pileup never stretches the feed off-screen"/>
+    <string id="mlf_killfeed_max_items" text="Max Kill Feed Items"/>
+    <string id="mlf_killfeed_max_items_hint" text="Maximum number of kill feed entries displayed at the same time (entries beyond this are removed oldest-first; default 6 keeps the top-right feed compact)"/>
+    <string id="mlf_killfeed_shrink_enabled" text="Shrink Old Kill Feed Text"/>
+    <string id="mlf_killfeed_shrink_enabled_hint" text="Gradually shrink the text of older kill feed entries once the on-screen entry count exceeds the threshold below (newest stays full size, oldest shrinks down to the minimum scale), creating a clear visual hierarchy"/>
+    <string id="mlf_killfeed_shrink_threshold" text="Shrink Threshold"/>
+    <string id="mlf_killfeed_shrink_threshold_hint" text="Entries beyond this on-screen count start shrinking (e.g. 4 means the 5th+ entry shrinks; oldest shrinks most)"/>
+    <string id="mlf_killfeed_shrink_scale" text="Minimum Text Scale"/>
+    <string id="mlf_killfeed_shrink_scale_hint" text="Smallest font scale applied to the oldest kill feed entry (0.7 = 70% of the normal font size; newer entries interpolate between this and 100%)"/>
 
     <!-- ════════ 游戏内功能文本 ════════ -->
     <!-- 村庄重建 -->

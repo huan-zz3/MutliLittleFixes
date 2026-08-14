@@ -31,6 +31,7 @@
     <string id="mlf_group_exile" text="流亡家族"/>
     <string id="mlf_group_village" text="村庄重建"/>
     <string id="mlf_group_prisoner" text="俘虏管理"/>
+    <string id="mlf_group_killfeed" text="战场击杀信息流"/>
 
     <!-- ════════ 经验设置 ════════ -->
     <string id="mlf_exp_rate" text="经验倍率"/>
@@ -253,6 +254,18 @@
     <string id="mlf_village_rebuild_hint" text="被彻底掠夺（荒废）的村庄菜单提供「出资重建」选项：花费 10000 第纳尔，3 天后村庄自动重建完成（恢复正常运转并奖励村庄名人好感 15~20）。关闭后菜单选项隐藏；已出资的进行中重建不受影响，仍会按时完成"/>
     <string id="mlf_prisoner_remove_relation" text="移除俘虏获得好感度"/>
     <string id="mlf_prisoner_remove_relation_hint" text="在部队界面直接移除英雄俘虏（将其拖出部队名单）时，会像对话释放一样获得 +4 好感度，走原版好感度流程"/>
+
+    <!-- ════════ 战场击杀信息流 ════════ -->
+    <string id="mlf_killfeed_limit_enabled" text="限制击杀信息条目数"/>
+    <string id="mlf_killfeed_limit_enabled_hint" text="限制战场（右上角）同时显示的击杀信息条目数量：超过上限时立即移除最旧条目，避免大规模伤亡时信息流被拉出屏幕"/>
+    <string id="mlf_killfeed_max_items" text="最大击杀信息条目数"/>
+    <string id="mlf_killfeed_max_items_hint" text="战场上同时显示的击杀信息条目数量上限（超出部分按最旧优先移除；默认 6 条保持右上角信息流紧凑）"/>
+    <string id="mlf_killfeed_shrink_enabled" text="缩小旧击杀信息文字"/>
+    <string id="mlf_killfeed_shrink_enabled_hint" text="当屏幕上的击杀信息条目数超过下方阈值后，旧条目文字按新旧程度渐进缩小（最新条目保持全尺寸，最旧条目缩小到最小比例），形成清晰的视觉层次"/>
+    <string id="mlf_killfeed_shrink_threshold" text="缩小触发阈值"/>
+    <string id="mlf_killfeed_shrink_threshold_hint" text="屏幕上的条目数超过此值后开始缩小（例如 4 表示第 5 条及更旧的条目开始缩小；最旧的缩小最多）"/>
+    <string id="mlf_killfeed_shrink_scale" text="文字最小缩放比例"/>
+    <string id="mlf_killfeed_shrink_scale_hint" text="最旧击杀信息条目应用的最小字号比例（0.7 = 正常字号的 70%；较新的条目在此比例与 100% 之间插值）"/>
 
     <!-- ════════ 游戏内功能文本 ════════ -->
     <!-- 村庄重建 -->

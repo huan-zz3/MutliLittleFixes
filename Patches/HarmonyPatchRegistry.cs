@@ -16,6 +16,8 @@ using TaleWorlds.CampaignSystem.ViewModelCollection.Party;
 using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 using TaleWorlds.MountAndBlade.ComponentInterfaces;
+using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.KillFeed.General;
+using TaleWorlds.MountAndBlade.ViewModelCollection.HUD.KillFeed.General;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
 
 namespace MutliLittleFixes.Patches
@@ -62,6 +64,7 @@ namespace MutliLittleFixes.Patches
             RegisterEncyclopediaClanExileFilter(harmony);
             RegisterPrisonerRemoveRelation(harmony);
             RegisterTransportPartyMapVisibility(harmony);
+            RegisterKillFeedDisplay(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -398,6 +401,33 @@ namespace MutliLittleFixes.Patches
             {
                 harmony.Patch(original,
                     prefix: Patch(typeof(TransportPartyMapVisibilityPatch), "UpdateVisibilityAndInspectedPrefix"));
+            }
+        }
+
+        // ── 战场击杀信息流显示优化（条目上限 + 旧条目文字渐进缩小） ───────
+        // 目标 1：SPGeneralKillNotificationVM.OnAgentRemoved（VM 层）——限制
+        //          NotificationList 同时显示的条目数，超出立即移除最旧。
+        // 目标 2：SingleplayerGeneralKillFeedWidget.OnUpdate（Widget 层）——
+        //          按条目索引渐进缩小旧条目文字（经 Brush 懒克隆独立改 FontSize）。
+        // 均在 TaleWorlds.MountAndBlade.ViewModelCollection / GauntletUI.Widgets
+        // 程序集（游戏主程序集，SubModule 加载后立即可用），启动注册安全。
+
+        private static void RegisterKillFeedDisplay(Harmony harmony)
+        {
+            var vmOriginal = AccessTools.Method(
+                typeof(SPGeneralKillNotificationVM), "OnAgentRemoved");
+            if (vmOriginal != null)
+            {
+                harmony.Patch(vmOriginal,
+                    postfix: Patch(typeof(KillFeedDisplayPatch), "LimitNotificationListPostfix"));
+            }
+
+            var widgetOriginal = AccessTools.Method(
+                typeof(SingleplayerGeneralKillFeedWidget), "OnUpdate");
+            if (widgetOriginal != null)
+            {
+                harmony.Patch(widgetOriginal,
+                    postfix: Patch(typeof(KillFeedDisplayPatch), "ShrinkOldEntriesPostfix"));
             }
         }
     }
