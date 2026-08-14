@@ -194,6 +194,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_naval}Naval Battles")]
         public int NavalBattleShipLimit { get; set; } = 8;
 
+        [SettingPropertyBool("{=mlf_custom_battle_land_first}Main Menu Custom Battle: Land First", Order = 37, RequireRestart = false, HintText = "{=mlf_custom_battle_land_first_hint}Open the land (non-naval) battle configuration first when entering Custom Battle from the main menu. Warsail DLC makes the naval configuration the default entry; enabling this restores land battle first (the switch button still cycles between both modes)")]
+        [SettingPropertyGroup("{=mlf_group_naval}Naval Battles")]
+        public bool MainMenuCustomBattleLandFirstEnabled { get; set; } = true;
+
         [SettingPropertyBool("{=mlf_companion_recall}Companion Available Reminder", Order = 37, RequireRestart = false, HintText = "{=mlf_companion_recall_hint}Show a toast notification in the center of the screen when a clan member becomes available after being released/escaping captivity")]
         [SettingPropertyGroup("{=mlf_group_notify}Notifications")]
         public bool CompanionAutoRecallEnabled { get; set; } = true;

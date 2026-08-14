@@ -128,6 +128,8 @@
     <!-- ════════ 海战设置 ════════ -->
     <string id="mlf_naval_limit" text="海战船只上限"/>
     <string id="mlf_naval_limit_hint" text="参与海战/沿海掠夺时，玩家可同时出战的最大船只数量（至少3艘，最多8艘）"/>
+    <string id="mlf_custom_battle_land_first" text="主菜单自定义战斗：陆地战优先"/>
+    <string id="mlf_custom_battle_land_first_hint" text="在主菜单进入自定义战斗时，首先打开陆地战配置而非海战配置。安装战帆 DLC 后原版默认先进入海战配置；开启本开关恢复陆地战为先（界面内切换按钮仍可在两种模式间循环切换）"/>
 
     <!-- ════════ 通知 ════════ -->
     <string id="mlf_companion_recall" text="家族成员可用提醒"/>

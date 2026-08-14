@@ -19,6 +19,7 @@ using TaleWorlds.MountAndBlade.ComponentInterfaces;
 using TaleWorlds.MountAndBlade.GauntletUI.Widgets.Mission.KillFeed.General;
 using TaleWorlds.MountAndBlade.ViewModelCollection.HUD.KillFeed.General;
 using TaleWorlds.MountAndBlade.ViewModelCollection.Scoreboard;
+using TaleWorlds.MountAndBlade.View.CustomBattle;
 
 namespace MutliLittleFixes.Patches
 {
@@ -50,6 +51,7 @@ namespace MutliLittleFixes.Patches
             RegisterShieldDirectionForCrouch(harmony);
             RegisterFormationFrontRankShieldSort(harmony);
             RegisterShipBattleLimit(harmony);
+            RegisterCustomBattleModeOrder(harmony);
             RegisterSiegeTargetSelection(harmony);
             RegisterSiegeWeapon(harmony);
             RegisterCoordinateTargetAI(harmony);
@@ -248,6 +250,22 @@ namespace MutliLittleFixes.Patches
             var original = NavalDeployLimitPatch.TargetMethod();
             if (original != null) // 未安装战帆 DLC 时 TargetMethod 返回 null，安全跳过
                 harmony.Patch(original, postfix: Patch(typeof(NavalDeployLimitPatch), "Postfix"));
+        }
+
+        // ── 自定义战斗陆地战优先（主菜单入口默认先开陆地战配置） ───────
+        // 原版 CustomBattleFactory 会把类型名含 "naval" 的提供者插到列表首位，
+        // 战帆 DLC 安装后主菜单「自定义战斗」默认先进入海战配置。
+        // 在入口方法 StartCustomBattle() 上挂 Prefix，点击时实时调整提供者顺序
+        // （开启 = 陆地战优先；关闭 = 还原 DLC 原版海战优先），MCM 开关实时生效。
+
+        private static void RegisterCustomBattleModeOrder(Harmony harmony)
+        {
+            var original = AccessTools.Method(typeof(CustomBattleFactory), "StartCustomBattle");
+            if (original != null)
+            {
+                harmony.Patch(original,
+                    prefix: Patch(typeof(CustomBattleModeOrderPatch), "Prefix"));
+            }
         }
 
         // ── 攻城目标选择 ────────────────────────────────────────────

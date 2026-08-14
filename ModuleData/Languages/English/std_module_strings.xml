@@ -128,6 +128,8 @@
     <!-- ════════ 海战设置 ════════ -->
     <string id="mlf_naval_limit" text="Naval Battle Ship Limit"/>
     <string id="mlf_naval_limit_hint" text="Maximum number of ships the player can field simultaneously in naval battles/coastal raids (at least 3, at most 8)"/>
+    <string id="mlf_custom_battle_land_first" text="Main Menu Custom Battle: Land First"/>
+    <string id="mlf_custom_battle_land_first_hint" text="Open the land (non-naval) battle configuration first when entering Custom Battle from the main menu. Warsail DLC makes the naval configuration the default entry; enabling this restores land battle first (the switch button still cycles between both modes)"/>
 
     <!-- ════════ 通知 ════════ -->
     <string id="mlf_companion_recall" text="Companion Available Reminder"/>
