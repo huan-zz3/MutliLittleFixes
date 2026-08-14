@@ -416,7 +416,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyInteger("{=mlf_food_physical}Physical Food per Troop", 0, 100, "0", Order = 76, RequireRestart = false, HintText = "{=mlf_food_physical_hint}Physical grain carried per soldier (into party inventory, only for the transport party's own consumption en route, not interchangeable with support food; leftovers destroyed on delivery/return)")]
         [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
-        public int PhysicalFoodPerTroop { get; set; } = 2;
+        public int PhysicalFoodPerTroop { get; set; } = 5;
 
         [SettingPropertyInteger("{=mlf_food_max_target}Max Support Parties per Target", 1, 10, "0", Order = 77, RequireRestart = false, HintText = "{=mlf_food_max_target_hint}Maximum number of transport parties the same starving town/castle can accept support from at the same time")]
         [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
