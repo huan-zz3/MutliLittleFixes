@@ -476,6 +476,42 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_killfeed}Kill Feed")]
         public float KillFeedShrinkMinScale { get; set; } = 0.5f;
 
+        // ── 坐镇指挥模拟重平衡（Auto Resolve Rebalance） ──────────────
+        // 移植自 AutoResolveRebalanced：累计 HP 伤亡模型 + 纯武器伤害（4×4 武器优先表）+ 兵力悬殊追加回合。
+        // 总开关关闭时全部 6 个补丁均放行原版逻辑；子开关实时生效。
+
+        [SettingPropertyBool("{=mlf_autoresolve_enabled}Enable Auto Resolve Rebalance", Order = 90, RequireRestart = false, HintText = "{=mlf_autoresolve_enabled_hint}Overhaul the auto-resolve (simulate battle) calculation: troops accumulate damage with individual HP instead of dying instantly, hit damage comes from the striker's actual weapon (4x4 class-vs-class priority table), armor reduces damage with the vanilla formula, shield-bearers can block, and lopsided battles get extra rounds to finish. When disabled, all auto-resolve logic reverts to vanilla")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public bool AutoResolveEnabled { get; set; } = true;
+
+        [SettingPropertyBool("{=mlf_autoresolve_ai}Apply to AI vs AI Battles", Order = 91, RequireRestart = false, HintText = "{=mlf_autoresolve_ai_hint}Apply the rebalanced logic to battles between AI parties on the campaign map. When disabled, only player-simulated battles (auto-resolve) are affected")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public bool AutoResolveAiEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("{=mlf_autoresolve_ai_speed}AI vs AI Battle Speed", 1.0f, 10.0f, "0.0x", Order = 92, RequireRestart = false, HintText = "{=mlf_autoresolve_ai_speed_hint}Shorten the simulation interval between battle rounds for AI vs AI battles on the campaign map (default 3 = battles between AI parties resolve 3x faster). Hit damage, armor and weapon formulas are unchanged; player-simulated auto-resolve is never affected")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public float AutoResolveAiSimulationSpeed { get; set; } = 3.0f;
+
+        [SettingPropertyBool("{=mlf_autoresolve_armor}Armor Reduces Damage", Order = 93, RequireRestart = false, HintText = "{=mlf_autoresolve_armor_hint}Apply the vanilla damage-reduction formula to the struck troop's armor (random hit location: head / arm / leg / torso): raw damage is reduced by 50/(50+armor) then further reduced by the armor value scaled by damage type (cut -50%, pierce -33%, blunt -20%), while a blunt-factor portion (blunt 60% / cut 10%) ignores armor entirely. When disabled, armor is ignored in auto-resolve")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public bool AutoResolveArmorEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("{=mlf_autoresolve_shield_block}Shield Block Chance", 0.0f, 1.0f, "0%", Order = 94, RequireRestart = false, HintText = "{=mlf_autoresolve_shield_block_hint}Chance that an attack against a shield-bearing infantry/cavalry troop is blocked by the shield, dealing no damage (default 0.1 = 10%). Ranged troops (archers/horse archers) never get shield blocks")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public float AutoResolveShieldBlockChance { get; set; } = 0.1f;
+
+        [SettingPropertyFloatingInteger("{=mlf_autoresolve_javelin}Javelin Use Chance", 0.0f, 1.0f, "0%", Order = 95, RequireRestart = false, HintText = "{=mlf_autoresolve_javelin_hint}Chance that an infantry/cavalry troop carrying a javelin throws it instead of attacking in melee (default 0.05 = 5%). A troop carrying only javelins always throws (100%) and never fights unarmed. Ranged troops never use javelins")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public float AutoResolveJavelinChance { get; set; } = 0.05f;
+
+        [SettingPropertyFloatingInteger("{=mlf_autoresolve_ranged_hit}Ranged Hit Chance", 0.0f, 1.0f, "0%", Order = 96, RequireRestart = false, HintText = "{=mlf_autoresolve_ranged_hit_hint}Hit chance for ranged attacks (bows/crossbows/slings and thrown javelins) in auto-resolve (default 0.8 = 80%). A miss deals no damage this hit")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public float AutoResolveRangedHitChance { get; set; } = 0.8f;
+
+        [SettingPropertyBool("{=mlf_debug_autoresolve}Auto Resolve Debug Log", Order = 97, RequireRestart = false, HintText = "{=mlf_debug_autoresolve_hint}Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
+        public bool EnableAutoResolveDebugLog { get; set; } = false;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

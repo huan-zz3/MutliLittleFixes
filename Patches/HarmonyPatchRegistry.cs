@@ -2,12 +2,14 @@
 using System.Reflection;
 using HarmonyLib;
 using Helpers;
+using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.Actions;
 using TaleWorlds.CampaignSystem.CampaignBehaviors;
 using TaleWorlds.CampaignSystem.CharacterDevelopment;
 using TaleWorlds.CampaignSystem.Election;
 using TaleWorlds.CampaignSystem.Encyclopedia;
 using TaleWorlds.CampaignSystem.GameComponents;
+using TaleWorlds.CampaignSystem.MapEvents;
 using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.CampaignSystem.Settlements;
 using TaleWorlds.CampaignSystem.Siege;
@@ -67,6 +69,7 @@ namespace MutliLittleFixes.Patches
             RegisterPrisonerRemoveRelation(harmony);
             RegisterTransportPartyMapVisibility(harmony);
             RegisterKillFeedDisplay(harmony);
+            RegisterAutoResolveRebalance(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -446,6 +449,67 @@ namespace MutliLittleFixes.Patches
             {
                 harmony.Patch(widgetOriginal,
                     postfix: Patch(typeof(KillFeedDisplayPatch), "ShrinkOldEntriesPostfix"));
+            }
+        }
+
+        // ── 坐镇指挥模拟重平衡（6 个目标方法，移植自 AutoResolveRebalanced） ──
+        // 1. MapEvent.SimulateBattleRound      Postfix 追加回合 —— 兵力悬殊 >10:1 且未分胜负时给大兵力侧补 10 轮
+        // 2. DefaultCombatSimulationModel.SimulateHit  Postfix 伤害 —— 纯武器伤害模型（4×4 武器优先表 + 护甲减伤 + 盾牌格挡）
+        // 3. MapEventSide.ApplySimulationDamageToSelectedTroop  Prefix 伤亡 —— 累计 HP 模型整体替换
+        // 4. MapEventSide.AllocateTroops       Postfix 状态 —— 登记/更新每侧累计 HP 字典
+        // 5. MapEventSide.EndSimulation        Prefix 状态 —— 回合结束前存剩余兵数与平均 HP 供续算
+        // 6. DefaultCombatSimulationModel.GetSimulationTickInterval  Postfix 加速 —— 仅 AI 对 AI 战斗缩短结算间隔
+        // 目标均为游戏核心程序集（TaleWorlds.CampaignSystem.dll）方法，启动注册安全。
+        // 旧版目标名 SimulateBattleForRounds / GetSimulatedDamage 在 1.4.5 中已分别更名/下沉到模型类，按行为对齐。
+
+        private static void RegisterAutoResolveRebalance(Harmony harmony)
+        {
+            var simulateBattleRound = AccessTools.Method(typeof(MapEvent), "SimulateBattleRound");
+            if (simulateBattleRound != null)
+            {
+                harmony.Patch(simulateBattleRound,
+                    postfix: Patch(typeof(AutoResolveExtraRoundsPatch), "Postfix"));
+            }
+
+            var simulateHit = AccessTools.Method(
+                typeof(DefaultCombatSimulationModel), "SimulateHit",
+                new[]
+                {
+                    typeof(CharacterObject), typeof(CharacterObject), typeof(PartyBase),
+                    typeof(PartyBase), typeof(float), typeof(MapEvent), typeof(float), typeof(float)
+                });
+            if (simulateHit != null)
+            {
+                harmony.Patch(simulateHit,
+                    postfix: Patch(typeof(AutoResolveDamagePatch), "Postfix"));
+            }
+
+            var applyDamage = AccessTools.Method(typeof(MapEventSide), "ApplySimulationDamageToSelectedTroop");
+            if (applyDamage != null)
+            {
+                harmony.Patch(applyDamage,
+                    prefix: Patch(typeof(AutoResolveTroopCasualtyPatch), "Prefix"));
+            }
+
+            var allocateTroops = AccessTools.Method(typeof(MapEventSide), "AllocateTroops");
+            if (allocateTroops != null)
+            {
+                harmony.Patch(allocateTroops,
+                    postfix: Patch(typeof(AutoResolveAllocateTroopsPatch), "Postfix"));
+            }
+
+            var endSimulation = AccessTools.Method(typeof(MapEventSide), "EndSimulation");
+            if (endSimulation != null)
+            {
+                harmony.Patch(endSimulation,
+                    prefix: Patch(typeof(AutoResolveEndSimulationPatch), "Prefix"));
+            }
+
+            var getSimulationTickInterval = AccessTools.Method(typeof(DefaultCombatSimulationModel), "GetSimulationTickInterval");
+            if (getSimulationTickInterval != null)
+            {
+                harmony.Patch(getSimulationTickInterval,
+                    postfix: Patch(typeof(AutoResolveSimulationSpeedPatch), "Postfix"));
             }
         }
     }

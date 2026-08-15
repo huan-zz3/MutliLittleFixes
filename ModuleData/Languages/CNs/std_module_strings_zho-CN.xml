@@ -32,6 +32,7 @@
     <string id="mlf_group_village" text="村庄重建"/>
     <string id="mlf_group_prisoner" text="俘虏管理"/>
     <string id="mlf_group_killfeed" text="战场击杀信息流"/>
+    <string id="mlf_group_autoresolve" text="坐镇指挥重平衡"/>
 
     <!-- ════════ 经验设置 ════════ -->
     <string id="mlf_exp_rate" text="经验倍率"/>
@@ -268,6 +269,24 @@
     <string id="mlf_killfeed_shrink_threshold_hint" text="屏幕上的条目数超过此值后开始缩小（例如 4 表示第 5 条及更旧的条目开始缩小；最旧的缩小最多）"/>
     <string id="mlf_killfeed_shrink_scale" text="文字最小缩放比例"/>
     <string id="mlf_killfeed_shrink_scale_hint" text="最旧击杀信息条目应用的最小字号比例（0.7 = 正常字号的 70%；较新的条目在此比例与 100% 之间插值）"/>
+
+    <!-- ════════ 坐镇指挥模拟重平衡（Auto Resolve Rebalance） ════════ -->
+    <string id="mlf_autoresolve_enabled" text="启用坐镇指挥重平衡"/>
+    <string id="mlf_autoresolve_enabled_hint" text="重构坐镇指挥（自动战斗结算）的计算逻辑：士兵拥有独立生命值、伤害会累计而非一击即死；每次命中的伤害来自攻击方实际携带的武器（按 4×4 兵种克制表选择武器）；护甲按原版公式减伤；持盾部队可格挡；兵力悬殊的战斗会追加回合直到打完。关闭后坐镇指挥全部恢复原版逻辑"/>
+    <string id="mlf_autoresolve_ai" text="作用于 AI 对 AI 战斗"/>
+    <string id="mlf_autoresolve_ai_hint" text="大地图上 AI 部队之间的战斗也应用重平衡逻辑。关闭后仅玩家坐镇指挥的战斗受影响"/>
+    <string id="mlf_autoresolve_ai_speed" text="AI 对 AI 战斗速度"/>
+    <string id="mlf_autoresolve_ai_speed_hint" text="缩短大地图上 AI 部队之间战斗的回合结算间隔（默认 3 = AI 间战斗以 3 倍速度分出胜负）。单次命中伤害、护甲与武器公式完全不变；玩家坐镇模拟永不受影响"/>
+    <string id="mlf_autoresolve_armor" text="护甲减免伤害"/>
+    <string id="mlf_autoresolve_armor_hint" text="按原版真实战斗的护甲减伤公式作用于被击部队的护甲（随机命中部位：头部/手臂/腿部/躯干，完全使用原版部位护甲）：打击力先经 50/(50+护甲) 衰减，再按伤害类型线性减甲（切割减 50% 护甲、穿刺减 33% 护甲、钝击减 20% 护甲），同时钝击因子（钝击 60% / 切割 10%）比例的伤害无视护甲直接穿透。关闭后坐镇指挥忽略护甲"/>
+    <string id="mlf_autoresolve_shield_block" text="盾牌格挡概率"/>
+    <string id="mlf_autoresolve_shield_block_hint" text="对携带盾牌的步兵/骑手的攻击有概率被盾牌挡住而不造成伤害（默认 0.1 = 10%）。射手/骑射手不参与盾牌格挡判定"/>
+    <string id="mlf_autoresolve_javelin" text="标枪使用概率"/>
+    <string id="mlf_autoresolve_javelin_hint" text="携带标枪的步兵/骑手在攻击时有概率投掷标枪而非近战（默认 0.05 = 5%）。只携带标枪的士兵 100% 投掷标枪、不会空手战斗。射手/骑射手不使用标枪"/>
+    <string id="mlf_autoresolve_ranged_hit" text="远程命中概率"/>
+    <string id="mlf_autoresolve_ranged_hit_hint" text="坐镇指挥中远程攻击（弓/弩/投石以及投掷的标枪）的命中概率（默认 0.8 = 80%）。未命中则本次攻击不造成伤害"/>
+    <string id="mlf_debug_autoresolve" text="坐镇重平衡调试日志"/>
+    <string id="mlf_debug_autoresolve_hint" text="在屏幕左下角显示坐镇重平衡的调试日志（每次命中的 HP 变化、数据重建、异常等）"/>
 
     <!-- ════════ 游戏内功能文本 ════════ -->
     <!-- 村庄重建 -->
