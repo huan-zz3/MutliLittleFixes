@@ -512,7 +512,11 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
         public float AutoResolveAttackRatioCap { get; set; } = 2.0f;
 
-        [SettingPropertyBool("{=mlf_debug_autoresolve}Auto Resolve Debug Log", Order = 98, RequireRestart = false, HintText = "{=mlf_debug_autoresolve_hint}Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen")]
+        [SettingPropertyBool("{=mlf_autoresolve_battlelog}Auto Resolve Battle Log (CSV)", Order = 98, RequireRestart = false, HintText = "{=mlf_autoresolve_battlelog_hint}Write a full CSV log of every player-simulated auto-resolve battle for later analysis (battle summary, per-round stats, per-hit weapon/armor/damage details, and every casualty event). Files are saved to '<game root>\\MutliLittleFixes_AutoResolveLogs\\<timestamp>\\' with UTF-8 BOM encoding and can be opened directly in Excel/WPS. Only battles simulated by the player are logged; AI vs AI battles are never recorded")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public bool EnableAutoResolveBattleLog { get; set; } = false;
+
+        [SettingPropertyBool("{=mlf_debug_autoresolve}Auto Resolve Debug Log", Order = 99, RequireRestart = false, HintText = "{=mlf_debug_autoresolve_hint}Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen")]
         [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableAutoResolveDebugLog { get; set; } = false;
 

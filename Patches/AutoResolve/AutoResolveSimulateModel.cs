@@ -21,7 +21,7 @@ namespace MutliLittleFixes.Patches
     /// </summary>
     internal static class AutoResolveSimulateModel
     {
-        /// <summary>武器选择结果：伤害基准 + 伤害类型 + 是否远程（用于命中判定）。</summary>
+        /// <summary>武器选择结果：伤害基准 + 伤害类型 + 是否远程（用于命中判定）+ 武器名（供坐镇日志记录）。</summary>
         internal struct WeaponSelection
         {
             /// <summary>面板伤害基准（近战 SwingDamage / 远程 ThrustDamage）。</summary>
@@ -30,6 +30,8 @@ namespace MutliLittleFixes.Patches
             public DamageTypes DamageType;
             /// <summary>是否远程攻击（弓/弩/标枪，需过命中判定）。</summary>
             public bool IsRanged;
+            /// <summary>武器名（ItemObject.Name，空手时为 "Unarmed"），仅用于坐镇日志 CSV。</summary>
+            public string WeaponName;
         }
 
         /// <summary>
@@ -63,7 +65,8 @@ namespace MutliLittleFixes.Patches
                     {
                         Damage = bow.ThrustDamage,
                         DamageType = bow.ThrustDamageType,
-                        IsRanged = true
+                        IsRanged = true,
+                        WeaponName = GetWeaponName(strikerTroop, WeaponClass.Bow, WeaponClass.Crossbow, WeaponClass.Sling)
                     };
                 }
                 // 未带弓/弩（罕见）：回退到近战逻辑
@@ -88,7 +91,8 @@ namespace MutliLittleFixes.Patches
                         {
                             Damage = javelin.ThrustDamage,
                             DamageType = javelin.ThrustDamageType,
-                            IsRanged = true
+                            IsRanged = true,
+                            WeaponName = GetWeaponName(strikerTroop, WeaponClass.Javelin, WeaponClass.ThrowingAxe, WeaponClass.ThrowingKnife)
                         };
                     }
                 }
@@ -101,12 +105,44 @@ namespace MutliLittleFixes.Patches
                 return new WeaponSelection
                 {
                     Damage = melee.SwingDamage,
-                    DamageType = melee.SwingDamageType
+                    DamageType = melee.SwingDamageType,
+                    WeaponName = GetWeaponName(strikerTroop,
+                        WeaponClass.OneHandedPolearm, WeaponClass.TwoHandedPolearm, WeaponClass.LowGripPolearm,
+                        WeaponClass.Dagger, WeaponClass.OneHandedSword, WeaponClass.OneHandedAxe,
+                        WeaponClass.Mace, WeaponClass.Pick,
+                        WeaponClass.TwoHandedSword, WeaponClass.TwoHandedAxe, WeaponClass.TwoHandedMace)
                 };
             }
 
             // 空手兜底：原版基础伤害 40 + 钝击
-            return new WeaponSelection { Damage = 40, DamageType = DamageTypes.Blunt };
+            return new WeaponSelection { Damage = 40, DamageType = DamageTypes.Blunt, WeaponName = "Unarmed" };
+        }
+
+        /// <summary>按类别查找武器的同时返回武器名（ItemObject.Name），仅用于坐镇日志；找不到返回空串。</summary>
+        private static string GetWeaponName(CharacterObject troop, params WeaponClass[] weaponClasses)
+        {
+            Equipment equipment = troop.Equipment;
+            for (int i = 0; i < 5; i++)
+            {
+                EquipmentElement element = equipment[(EquipmentIndex)i];
+                if (element.IsEmpty || element.Item == null)
+                {
+                    continue;
+                }
+                WeaponComponentData primary = element.Item.PrimaryWeapon;
+                if (primary == null)
+                {
+                    continue;
+                }
+                foreach (WeaponClass weaponClass in weaponClasses)
+                {
+                    if (primary.WeaponClass == weaponClass)
+                    {
+                        return element.Item.Name?.ToString() ?? weaponClass.ToString();
+                    }
+                }
+            }
+            return string.Empty;
         }
 
         /// <summary>按守方骑乘状态选近战武器：骑乘目标长杆优先（刺击），非骑乘目标单手/双手优先。</summary>

@@ -1,6 +1,7 @@
 using System;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.CampaignSystem.MapEvents;
+using TaleWorlds.CampaignSystem.Party;
 using TaleWorlds.Core;
 
 namespace MutliLittleFixes.Patches
@@ -24,11 +25,18 @@ namespace MutliLittleFixes.Patches
     /// </summary>
     internal static class AutoResolveDamagePatch
     {
-        internal static void Postfix(ref ExplainedNumber __result, CharacterObject strikerTroop, CharacterObject struckTroop, MapEvent battle)
+        internal static void Postfix(ref ExplainedNumber __result, CharacterObject strikerTroop, CharacterObject struckTroop,
+            PartyBase strikerParty, MapEvent battle)
         {
-            // MCM 运行时开关 — 关闭时不干预
+            float originalDamage = __result.ResultNumber;
+
+            // MCM 运行时开关 — 关闭时不干预（日志仍记录原版伤害）
             if (Settings.Instance?.AutoResolveEnabled != true)
+            {
+                AutoResolveBattleLog.RecordHit(strikerTroop, struckTroop, strikerParty, battle, originalDamage,
+                    default, 0f, blocked: false, missed: false, originalDamage);
                 return;
+            }
 
             try
             {
@@ -40,6 +48,12 @@ namespace MutliLittleFixes.Patches
                         && MBRandom.RandomFloat < Settings.Instance.AutoResolveShieldBlockChance)
                     {
                         __result = new ExplainedNumber(0f);
+                        // 记录实际使用的武器：格挡判定虽在 SelectWeapon 之前，但被格挡的这次攻击
+                        // 用的正是 4×4 表选出的武器——用真实 SelectWeapon 计算（非标枪兵零随机消耗，
+                        // 战斗结果不受影响；带标枪兵会掷一次标枪判定骰，语义等价于该次攻击本会掷的骰）
+                        AutoResolveSimulateModel.WeaponSelection blockedSelection = AutoResolveSimulateModel.SelectWeapon(strikerTroop, struckTroop);
+                        AutoResolveBattleLog.RecordHit(strikerTroop, struckTroop, strikerParty, battle, originalDamage,
+                            blockedSelection, 0f, blocked: true, missed: false, 0f);
                         return;
                     }
 
@@ -51,6 +65,8 @@ namespace MutliLittleFixes.Patches
                         && MBRandom.RandomFloat >= Settings.Instance.AutoResolveRangedHitChance)
                     {
                         __result = new ExplainedNumber(0f);
+                        AutoResolveBattleLog.RecordHit(strikerTroop, struckTroop, strikerParty, battle, originalDamage,
+                            selection, 0f, blocked: false, missed: true, 0f);
                         return;
                     }
 
@@ -66,6 +82,8 @@ namespace MutliLittleFixes.Patches
                         newDamage = 1f;
                     }
                     __result = new ExplainedNumber(newDamage);
+                    AutoResolveBattleLog.RecordHit(strikerTroop, struckTroop, strikerParty, battle, originalDamage,
+                        selection, armor, blocked: false, missed: false, newDamage);
                 }
             }
             catch (Exception ex)

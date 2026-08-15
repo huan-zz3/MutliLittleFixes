@@ -287,6 +287,8 @@
     <string id="mlf_autoresolve_ranged_hit_hint" text="坐镇指挥中远程攻击（弓/弩/投石以及投掷的标枪）的命中概率（默认 0.8 = 80%）。未命中则本次攻击不造成伤害"/>
     <string id="mlf_autoresolve_attack_cap" text="最大兵力比（攻击频次上限）"/>
     <string id="mlf_autoresolve_attack_cap_hint" text="限制坐镇指挥中双方攻击频次之比。攻击频次随 (兵力比)^0.6 增长；默认上限 2.0 时频次比最高不超过 2^0.6 ≈ 1.52，即兵力占优的一方无论悬殊多大，每轮攻击次数最多约为对方的 1.5 倍。设为 1 表示取消上限"/>
+    <string id="mlf_autoresolve_battlelog" text="坐镇战斗日志 (CSV)"/>
+    <string id="mlf_autoresolve_battlelog_hint" text="为每一场玩家坐镇的自动战斗写入完整 CSV 日志供事后分析（战斗总览、每轮统计、每次命中的武器/护甲/伤害明细、每个伤亡事件）。文件保存到 &lt;游戏根目录&gt;\MutliLittleFixes_AutoResolveLogs\&lt;时间戳&gt;\，UTF-8 带 BOM，可直接用 Excel/WPS 打开。仅记录玩家坐镇的战斗，AI 对 AI 战斗从不记录"/>
     <string id="mlf_debug_autoresolve" text="坐镇重平衡调试日志"/>
     <string id="mlf_debug_autoresolve_hint" text="在屏幕左下角显示坐镇重平衡的调试日志（每次命中的 HP 变化、数据重建、异常等）"/>
 

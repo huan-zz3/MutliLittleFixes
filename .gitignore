@@ -6,3 +6,5 @@ obj/*
 bin/*
 MutliLittleFixes.zip
 MutliLittleFixes/*
+Tools/out_prefix_rounds.csv
+Tools/out_prefix_weapons.csv

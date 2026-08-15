@@ -452,7 +452,7 @@ namespace MutliLittleFixes.Patches
             }
         }
 
-        // ── 坐镇指挥模拟重平衡（7 个目标方法，移植自 AutoResolveRebalanced） ──
+        // ── 坐镇指挥模拟重平衡（13 个目标方法，移植自 AutoResolveRebalanced） ──
         // 1. MapEvent.SimulateBattleRound      Postfix 追加回合 —— 兵力悬殊 >10:1 且未分胜负时给大兵力侧补 10 轮
         // 2. DefaultCombatSimulationModel.SimulateHit  Postfix 伤害 —— 纯武器伤害模型（4×4 武器优先表 + 护甲减伤 + 盾牌格挡）
         // 3. MapEventSide.ApplySimulationDamageToSelectedTroop  Prefix 伤亡 —— 累计 HP 模型整体替换
@@ -460,6 +460,12 @@ namespace MutliLittleFixes.Patches
         // 5. MapEventSide.EndSimulation        Prefix 状态 —— 回合结束前存剩余兵数与平均 HP 供续算
         // 6. DefaultCombatSimulationModel.GetSimulationTickInterval  Postfix 加速 —— 仅 AI 对 AI 战斗缩短结算间隔
         // 7. DefaultCombatSimulationModel.GetSimulationTicksForBattleRound  Postfix 上限 —— 攻击频次比 clamp 到 (兵力比上限)^0.6
+        // 8. MapEvent.SimulateBattleRound      Prefix 日志 —— 轮开始（玩家坐镇全量 CSV 日志）
+        // 9. MapEvent.SimulateBattleRound      Postfix 日志 —— 轮结束（战斗结束时收尾落盘）
+        // 10. MapEventSide.OnTroopWounded       Postfix 日志 —— 伤亡事件（伤）
+        // 11. MapEventSide.OnTroopKilled        Postfix 日志 —— 伤亡事件（亡）
+        // 12. MapEventSide.OnTroopRouted        Postfix 日志 —— 伤亡事件（溃逃）
+        // 13. MapEvent.FinalizeEvent / BattleSimulation.OnFinished  Postfix 日志 —— 兜底收尾落盘
         // 目标均为游戏核心程序集（TaleWorlds.CampaignSystem.dll）方法，启动注册安全。
         // 旧版目标名 SimulateBattleForRounds / GetSimulatedDamage 在 1.4.5 中已分别更名/下沉到模型类，按行为对齐。
 
@@ -469,7 +475,10 @@ namespace MutliLittleFixes.Patches
             if (simulateBattleRound != null)
             {
                 harmony.Patch(simulateBattleRound,
+                    prefix: Patch(typeof(AutoResolveBattleLogPatch), "PrefixSimulateBattleRound"),
                     postfix: Patch(typeof(AutoResolveExtraRoundsPatch), "Postfix"));
+                harmony.Patch(simulateBattleRound,
+                    postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixSimulateBattleRound"));
             }
 
             var simulateHit = AccessTools.Method(
@@ -518,6 +527,44 @@ namespace MutliLittleFixes.Patches
             {
                 harmony.Patch(getSimulationTicksForBattleRound,
                     postfix: Patch(typeof(AutoResolveAttackRatioCapPatch), "Postfix"));
+            }
+
+            // ── 玩家坐镇 CSV 日志（EnableAutoResolveBattleLog 门控，零随机污染） ──
+            // 伤亡事件走 public OnTroopWounded/Killed/Routed（重平衡与原版路径全覆盖）
+            var onTroopWounded = AccessTools.Method(typeof(MapEventSide), "OnTroopWounded");
+            if (onTroopWounded != null)
+            {
+                harmony.Patch(onTroopWounded,
+                    postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixOnTroopWounded"));
+            }
+
+            var onTroopKilled = AccessTools.Method(typeof(MapEventSide), "OnTroopKilled");
+            if (onTroopKilled != null)
+            {
+                harmony.Patch(onTroopKilled,
+                    postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixOnTroopKilled"));
+            }
+
+            var onTroopRouted = AccessTools.Method(typeof(MapEventSide), "OnTroopRouted");
+            if (onTroopRouted != null)
+            {
+                harmony.Patch(onTroopRouted,
+                    postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixOnTroopRouted"));
+            }
+
+            // 兜底收尾：战斗最终收尾 / 玩家退出坐镇界面
+            var finalizeEvent = AccessTools.Method(typeof(MapEvent), "FinalizeEvent");
+            if (finalizeEvent != null)
+            {
+                harmony.Patch(finalizeEvent,
+                    postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixFinalizeEvent"));
+            }
+
+            var battleSimulationFinished = AccessTools.Method(typeof(BattleSimulation), "OnFinished");
+            if (battleSimulationFinished != null)
+            {
+                harmony.Patch(battleSimulationFinished,
+                    postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixBattleSimulationFinished"));
             }
         }
     }

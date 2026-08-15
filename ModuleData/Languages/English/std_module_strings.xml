@@ -287,6 +287,8 @@
     <string id="mlf_autoresolve_ranged_hit_hint" text="Hit chance for ranged attacks (bows/crossbows/slings and thrown javelins) in auto-resolve (default 0.8 = 80%). A miss deals no damage this hit"/>
     <string id="mlf_autoresolve_attack_cap" text="Max Force Ratio (Attack Frequency Cap)"/>
     <string id="mlf_autoresolve_attack_cap_hint" text="Cap the attack-frequency ratio between the two sides in auto-resolve. Attack frequency scales with (force ratio)^0.6; with the default cap of 2.0 the frequency ratio never exceeds 2^0.6 ≈ 1.52, so a bigger army attacks at most ~1.5x more often no matter how lopsided the battle gets. Set to 1 to remove the cap"/>
+    <string id="mlf_autoresolve_battlelog" text="Auto Resolve Battle Log (CSV)"/>
+    <string id="mlf_autoresolve_battlelog_hint" text="Write a full CSV log of every player-simulated auto-resolve battle for later analysis (battle summary, per-round stats, per-hit weapon/armor/damage details, and every casualty event). Files are saved to '&lt;game root&gt;\MutliLittleFixes_AutoResolveLogs\&lt;timestamp&gt;\' with UTF-8 BOM encoding and can be opened directly in Excel/WPS. Only battles simulated by the player are logged; AI vs AI battles are never recorded"/>
     <string id="mlf_debug_autoresolve" text="Auto Resolve Debug Log"/>
     <string id="mlf_debug_autoresolve_hint" text="Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen"/>
 
