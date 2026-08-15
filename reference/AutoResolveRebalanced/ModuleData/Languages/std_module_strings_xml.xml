@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="utf-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+    <tags>
+        <tag language="English" />
+    </tags>
+    <strings>
+        <string id="Azt5UxgZ0" text="Main Functions" />
+        <string id="AdZW2ReSX" text="Armor Bonus Settings" />
+        <string id="ALgNmM7LG" text="Weapon Bonus Settings" />
+        <string id="A9G576Zxn" text="Debug Settings" />
+        <string id="AWqIUpd3S" text="Battle Speed" />
+        <string id="AcvJM7L2E" text="Increase this if you feel AIvsAI combat is taking too long. If increased too much, HP may not be simulated properly and troops will die more randomly." />
+        <string id="AJn978XeY" text="Armor Reduce Damage" />
+        <string id="AsQMXi3i9" text="Enable troops damage to be reduced based on armor they are equipped." />
+        <string id="A4pArFFd3" text="Weapon Type Bonus to Damage" />
+        <string id="AP428vsus" text="Enable troops damage to be increased based on weapon type they are equipped." />
+        <string id="AyNzxwwuF" text="Apply Mod to AI battles" />
+        <string id="Av411FSiO" text="Make mod's features apply to AIvsAI battles. Disable this if you have troubles with AIvsAI battles." />
+        <string id="AyaxvxQnm" text="Armor Reduce Percentage to DMG" />
+        <string id="As8dxw5cW" text="Armor percentage subtracted from damage" />
+        <string id="AWxluQzpF" text="Shield Reduce Damage" />
+        <string id="Ap89MtOjq" text="Enable troops armor which reduce damage to be increased when equipped with shield." />
+        <string id="AtJckbS0C" text="Shield Bonus to Armor" />
+        <string id="AtchMifgr" text="Amount of bonus armor receives when equipped with a shield." />
+        <string id="ADOICHLqJ" text="TwoHanded Bonus to Unmounted" />
+        <string id="Au6Y4XFPn" text="Amount of bonus damage when TwoHanded troop attacks Unmounted troop." />
+        <string id="A66DkBe5G" text="Ranged Bonus to Unshielded" />
+        <string id="ALr4cNdpc" text="Amount of bonus damage when Ranged troop attacks troop without shield." />
+        <string id="Ax1tgHtCF" text="Polearm Bonus to Mounted" />
+        <string id="AjoVAOHzl" text="Amount of bonus damage when Polearm troop attacks Mounted troop." />
+    </strings>
+</base>

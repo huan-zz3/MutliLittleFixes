@@ -1,0 +1,32 @@
+﻿<?xml version="1.0" encoding="UTF-8"?>
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:xsd="http://www.w3.org/2001/XMLSchema" type="string">
+ <tags>
+  <tag language="简体中文"/>
+ </tags>
+ <strings>
+  <string id="Azt5UxgZ0" text="主要功能"/>
+  <string id="AdZW2ReSX" text="盔甲收益设置"/>
+  <string id="ALgNmM7LG" text="武器收益设置"/>
+  <string id="A9G576Zxn" text="调试设置"/>
+  <string id="AWqIUpd3S" text="战斗速度"/>
+  <string id="AcvJM7L2E" text="如果NPC部队与NPC部队之间的战斗花费时间太长，可以调高战斗速度。不过战斗速度太快的话会导致坐镇指挥优化效果变差。"/>
+  <string id="AJn978XeY" text="盔甲减少承伤"/>
+  <string id="AsQMXi3i9" text="允许士兵根据他们穿的盔甲减少承受的伤害"/>
+  <string id="A4pArFFd3" text="武器类型伤害增益"/>
+  <string id="AP428vsus" text="允许士兵根据他们的武器增加造成的伤害"/>
+  <string id="AyNzxwwuF" text="将坐镇指挥优化应用于NPC部队之间的战斗"/>
+  <string id="Av411FSiO" text="如果NPC部队间的战斗有bug，请关闭此功能"/>
+  <string id="AyaxvxQnm" text="盔甲具有a%护甲值减伤"/>
+  <string id="As8dxw5cW" text="士兵们拥有(a%护甲值)%的减伤，在这里调整a的数值"/>
+  <string id="AWxluQzpF" text="开启盾牌减伤"/>
+  <string id="Ap89MtOjq" text="开启后装备盾牌的士兵将拥有额外b%护甲值"/>
+  <string id="AtJckbS0C" text="盾牌增加b%护甲值"/>
+  <string id="AtchMifgr" text="装备盾牌的士兵拥有额外b%护甲值，在这里调整b的数值"/>
+  <string id="ADOICHLqJ" text="双手武器对步兵的伤害增益"/>
+  <string id="Au6Y4XFPn" text="装备双手武器对步兵造成该百分比的额外伤害"/>
+  <string id="A66DkBe5G" text="远程武器对无盾士兵的伤害增益"/>
+  <string id="ALr4cNdpc" text="装备远程武器的士兵对无盾士兵造成该百分比的额外伤害"/>
+  <string id="Ax1tgHtCF" text="枪矛武器对骑兵的伤害增益"/>
+  <string id="AjoVAOHzl" text="装备枪矛武器的士兵对骑兵造成该百分比的额外伤害"/>
+ </strings>
+</base>
