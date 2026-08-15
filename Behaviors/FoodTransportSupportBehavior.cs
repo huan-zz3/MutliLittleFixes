@@ -759,9 +759,8 @@ namespace MutliLittleFixes.Behaviors
                 town.FoodStocks = upper;
             }
 
-            // 销毁剩余实物粮(不进市场)
-            DestroyPhysicalFood(party);
-
+            // 实物粮保留供返程路上消耗(交付时不可清空,否则返程队伍无粮挨饿 → 每日 25% 士兵受伤);
+            // 回到源城 ReturnAndDisband 时统一销毁剩余,防止实物粮回流
             transport.Phase = FoodTransportPartyComponent.TransportPhase.Returning;
             SetPartyAiAction.GetActionForVisitingSettlement(party, transport.SourceSettlement, MobileParty.NavigationType.Default, false, false);
 

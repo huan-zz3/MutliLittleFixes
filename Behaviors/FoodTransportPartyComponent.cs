@@ -15,7 +15,7 @@ namespace MutliLittleFixes.Behaviors
     /// - 抽象粮(FoodCarried): 出发时从源城 FoodStocks 扣除,交付时直接加入目标城 FoodStocks,
     ///   途中不消耗;未交付返程时全额退回源城。彻底不走市场消费转化。
     /// - 实物粮(队伍背包谷物): 仅供运输队自身每日消耗(由原版 FoodConsumptionBehavior 自动吃掉),
-    ///   与抽象粮互不互通,交付/回收时销毁剩余。
+    ///   与抽象粮互不互通,交付时保留(供返程路上消耗),回到源城回收时销毁剩余(防回流)。
     /// 状态机: TravelingToTarget(前往) → Returning(返回) → Done(已回收销毁)。
     /// </summary>
     public class FoodTransportPartyComponent : PartyComponent
