@@ -159,6 +159,8 @@
     <string id="mlf_fief_candidacy_hint" text="玩家亲自率军攻下的城池，在分封投票中必定进入候选名单"/>
     <string id="mlf_siege_target" text="攻城器械优先攻击器械"/>
     <string id="mlf_siege_target_hint" text="玩家进攻方时，攻城器械优先攻击敌方远程器械"/>
+    <string id="mlf_siege_leadership" text="玩家攻城指挥权锁定"/>
+    <string id="mlf_siege_leadership_hint" text="玩家先发起围攻（单独或带领军团）时，围城指挥权始终留在玩家手上——中途加入的我方军团无法夺走指挥权。关闭后恢复原版行为（地位最高的在场指挥官，如国王或军团领队，接管指挥）"/>
 
     <!-- ════════ 阵型与战斗 ════════ -->
     <string id="mlf_crouch" text="自动蹲下"/>

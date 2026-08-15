@@ -70,6 +70,7 @@ namespace MutliLittleFixes.Patches
             RegisterTransportPartyMapVisibility(harmony);
             RegisterKillFeedDisplay(harmony);
             RegisterAutoResolveRebalance(harmony);
+            RegisterPlayerSiegeLeadershipLock(harmony);
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
@@ -566,6 +567,30 @@ namespace MutliLittleFixes.Patches
                 harmony.Patch(battleSimulationFinished,
                     postfix: Patch(typeof(AutoResolveBattleLogPatch), "PostfixBattleSimulationFinished"));
             }
+        }
+
+        // ── 玩家攻城指挥权锁定（2 目标 3 方法，实时开关） ──────────────────
+        // 原版 BesiegerCamp.AddSiegePartyInternal 每次有部队加入围攻都重新计算
+        // _leaderParty（GetLeaderOfSiegeEvent → 国王 > 军团领队 > 普通领主），
+        // 玩家单独围城会被中途加入的我方军团领队夺走指挥权。
+        // 本补丁在数据层（_leaderParty/_faction 覆写）与 UI 层（GetLeaderOfSiegeEvent
+        // 强制返回玩家）同时锁定，并跳过 ChangeSiegeStrategyIfNeeded 的 AI 策略重选
+        // （否则玩家的围攻策略会被 AI 顺带改掉）。
+        // 目标均为 TaleWorlds.CampaignSystem.dll 核心方法，启动注册安全。
+
+        private static void RegisterPlayerSiegeLeadershipLock(Harmony harmony)
+        {
+            var addParty = AccessTools.Method(typeof(BesiegerCamp), "AddSiegePartyInternal");
+            harmony.Patch(addParty,
+                postfix: Patch(typeof(SiegeLeadershipLockPatch), "LockLeadershipOnPartyJoin"));
+
+            var getLeader = AccessTools.Method(typeof(DefaultEncounterModel), "GetLeaderOfSiegeEvent");
+            harmony.Patch(getLeader,
+                postfix: Patch(typeof(SiegeLeadershipLockPatch), "ForcePlayerAsLeader"));
+
+            var changeStrategy = AccessTools.Method(typeof(BesiegerCamp), "ChangeSiegeStrategyIfNeeded");
+            harmony.Patch(changeStrategy,
+                prefix: Patch(typeof(SiegeLeadershipLockPatch), "SkipAiStrategyChange"));
         }
     }
 }

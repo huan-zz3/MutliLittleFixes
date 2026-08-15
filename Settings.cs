@@ -230,6 +230,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_siege}Siege")]
         public bool SiegeTargetSelectionEnabled { get; set; } = true;
 
+        [SettingPropertyBool("{=mlf_siege_leadership}Keep Player Siege Leadership", Order = 45, RequireRestart = false, HintText = "{=mlf_siege_leadership_hint}When the player starts a siege first (alone or leading their own army), the siege command stays with the player — a friendly army joining later cannot take it over. When disabled, restores vanilla behavior (the highest-ranking leader present, e.g. a king or an army leader, takes command)")]
+        [SettingPropertyGroup("{=mlf_group_siege}Siege")]
+        public bool KeepPlayerSiegeLeadership { get; set; } = true;
+
         [SettingPropertyBool("{=mlf_crouch}Auto Crouch", Order = 45, RequireRestart = false, HintText = "{=mlf_crouch_hint}Pure infantry/ranged squads auto-crouch when holding still (first rank of line formations / front half of ranged / all ranged in loose formations)")]
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool AutoCrouchEnabled { get; set; } = true;
