@@ -276,7 +276,7 @@
     <string id="mlf_autoresolve_ai" text="Apply to AI vs AI Battles"/>
     <string id="mlf_autoresolve_ai_hint" text="Apply the rebalanced logic to battles between AI parties on the campaign map. When disabled, only player-simulated battles (auto-resolve) are affected"/>
     <string id="mlf_autoresolve_ai_speed" text="AI vs AI Battle Speed"/>
-    <string id="mlf_autoresolve_ai_speed_hint" text="Shorten the simulation interval between battle rounds for AI vs AI battles on the campaign map (default 3 = battles between AI parties resolve 3x faster). Hit damage, armor and weapon formulas are unchanged; player-simulated auto-resolve is never affected"/>
+    <string id="mlf_autoresolve_ai_speed_hint" text="Shorten the simulation interval between battle rounds for AI vs AI battles on the campaign map (default 1.0 = battles between AI parties resolve at normal speed). Hit damage, armor and weapon formulas are unchanged; player-simulated auto-resolve is never affected"/>
     <string id="mlf_autoresolve_armor" text="Armor Reduces Damage"/>
     <string id="mlf_autoresolve_armor_hint" text="Apply the vanilla damage-reduction formula to the struck troop's armor (random hit location: head / arm / leg / torso): raw damage is reduced by 50/(50+armor) then further reduced by the armor value scaled by damage type (cut -50%, pierce -33%, blunt -20%), while a blunt-factor portion (blunt 60% / cut 10%) ignores armor entirely. When disabled, armor is ignored in auto-resolve"/>
     <string id="mlf_autoresolve_shield_block" text="Shield Block Chance"/>
@@ -285,6 +285,8 @@
     <string id="mlf_autoresolve_javelin_hint" text="Chance that an infantry/cavalry troop carrying a javelin throws it instead of attacking in melee (default 0.05 = 5%). A troop carrying only javelins always throws (100%) and never fights unarmed. Ranged troops never use javelins"/>
     <string id="mlf_autoresolve_ranged_hit" text="Ranged Hit Chance"/>
     <string id="mlf_autoresolve_ranged_hit_hint" text="Hit chance for ranged attacks (bows/crossbows/slings and thrown javelins) in auto-resolve (default 0.8 = 80%). A miss deals no damage this hit"/>
+    <string id="mlf_autoresolve_attack_cap" text="Max Force Ratio (Attack Frequency Cap)"/>
+    <string id="mlf_autoresolve_attack_cap_hint" text="Cap the attack-frequency ratio between the two sides in auto-resolve. Attack frequency scales with (force ratio)^0.6; with the default cap of 2.0 the frequency ratio never exceeds 2^0.6 ≈ 1.52, so a bigger army attacks at most ~1.5x more often no matter how lopsided the battle gets. Set to 1 to remove the cap"/>
     <string id="mlf_debug_autoresolve" text="Auto Resolve Debug Log"/>
     <string id="mlf_debug_autoresolve_hint" text="Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen"/>
 

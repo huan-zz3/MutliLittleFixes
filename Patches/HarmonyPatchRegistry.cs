@@ -452,13 +452,14 @@ namespace MutliLittleFixes.Patches
             }
         }
 
-        // ── 坐镇指挥模拟重平衡（6 个目标方法，移植自 AutoResolveRebalanced） ──
+        // ── 坐镇指挥模拟重平衡（7 个目标方法，移植自 AutoResolveRebalanced） ──
         // 1. MapEvent.SimulateBattleRound      Postfix 追加回合 —— 兵力悬殊 >10:1 且未分胜负时给大兵力侧补 10 轮
         // 2. DefaultCombatSimulationModel.SimulateHit  Postfix 伤害 —— 纯武器伤害模型（4×4 武器优先表 + 护甲减伤 + 盾牌格挡）
         // 3. MapEventSide.ApplySimulationDamageToSelectedTroop  Prefix 伤亡 —— 累计 HP 模型整体替换
         // 4. MapEventSide.AllocateTroops       Postfix 状态 —— 登记/更新每侧累计 HP 字典
         // 5. MapEventSide.EndSimulation        Prefix 状态 —— 回合结束前存剩余兵数与平均 HP 供续算
         // 6. DefaultCombatSimulationModel.GetSimulationTickInterval  Postfix 加速 —— 仅 AI 对 AI 战斗缩短结算间隔
+        // 7. DefaultCombatSimulationModel.GetSimulationTicksForBattleRound  Postfix 上限 —— 攻击频次比 clamp 到 (兵力比上限)^0.6
         // 目标均为游戏核心程序集（TaleWorlds.CampaignSystem.dll）方法，启动注册安全。
         // 旧版目标名 SimulateBattleForRounds / GetSimulatedDamage 在 1.4.5 中已分别更名/下沉到模型类，按行为对齐。
 
@@ -510,6 +511,13 @@ namespace MutliLittleFixes.Patches
             {
                 harmony.Patch(getSimulationTickInterval,
                     postfix: Patch(typeof(AutoResolveSimulationSpeedPatch), "Postfix"));
+            }
+
+            var getSimulationTicksForBattleRound = AccessTools.Method(typeof(DefaultCombatSimulationModel), "GetSimulationTicksForBattleRound");
+            if (getSimulationTicksForBattleRound != null)
+            {
+                harmony.Patch(getSimulationTicksForBattleRound,
+                    postfix: Patch(typeof(AutoResolveAttackRatioCapPatch), "Postfix"));
             }
         }
     }

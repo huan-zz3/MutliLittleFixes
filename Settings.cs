@@ -488,9 +488,9 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
         public bool AutoResolveAiEnabled { get; set; } = true;
 
-        [SettingPropertyFloatingInteger("{=mlf_autoresolve_ai_speed}AI vs AI Battle Speed", 1.0f, 10.0f, "0.0x", Order = 92, RequireRestart = false, HintText = "{=mlf_autoresolve_ai_speed_hint}Shorten the simulation interval between battle rounds for AI vs AI battles on the campaign map (default 3 = battles between AI parties resolve 3x faster). Hit damage, armor and weapon formulas are unchanged; player-simulated auto-resolve is never affected")]
+        [SettingPropertyFloatingInteger("{=mlf_autoresolve_ai_speed}AI vs AI Battle Speed", 1.0f, 10.0f, "0.0x", Order = 92, RequireRestart = false, HintText = "{=mlf_autoresolve_ai_speed_hint}Shorten the simulation interval between battle rounds for AI vs AI battles on the campaign map (default 1.0 = battles between AI parties resolve at normal speed). Hit damage, armor and weapon formulas are unchanged; player-simulated auto-resolve is never affected")]
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
-        public float AutoResolveAiSimulationSpeed { get; set; } = 3.0f;
+        public float AutoResolveAiSimulationSpeed { get; set; } = 1.0f;
 
         [SettingPropertyBool("{=mlf_autoresolve_armor}Armor Reduces Damage", Order = 93, RequireRestart = false, HintText = "{=mlf_autoresolve_armor_hint}Apply the vanilla damage-reduction formula to the struck troop's armor (random hit location: head / arm / leg / torso): raw damage is reduced by 50/(50+armor) then further reduced by the armor value scaled by damage type (cut -50%, pierce -33%, blunt -20%), while a blunt-factor portion (blunt 60% / cut 10%) ignores armor entirely. When disabled, armor is ignored in auto-resolve")]
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
@@ -508,7 +508,11 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
         public float AutoResolveRangedHitChance { get; set; } = 0.8f;
 
-        [SettingPropertyBool("{=mlf_debug_autoresolve}Auto Resolve Debug Log", Order = 97, RequireRestart = false, HintText = "{=mlf_debug_autoresolve_hint}Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen")]
+        [SettingPropertyFloatingInteger("{=mlf_autoresolve_attack_cap}Max Force Ratio (Attack Frequency Cap)", 1.0f, 10.0f, "0.0x", Order = 97, RequireRestart = false, HintText = "{=mlf_autoresolve_attack_cap_hint}Cap the attack-frequency ratio between the two sides in auto-resolve. Attack frequency scales with (force ratio)^0.6; with the default cap of 2.0 the frequency ratio never exceeds 2^0.6 ≈ 1.52, so a bigger army attacks at most ~1.5x more often no matter how lopsided the battle gets. Set to 1 to remove the cap")]
+        [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
+        public float AutoResolveAttackRatioCap { get; set; } = 2.0f;
+
+        [SettingPropertyBool("{=mlf_debug_autoresolve}Auto Resolve Debug Log", Order = 98, RequireRestart = false, HintText = "{=mlf_debug_autoresolve_hint}Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen")]
         [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableAutoResolveDebugLog { get; set; } = false;
 

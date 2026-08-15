@@ -276,7 +276,7 @@
     <string id="mlf_autoresolve_ai" text="作用于 AI 对 AI 战斗"/>
     <string id="mlf_autoresolve_ai_hint" text="大地图上 AI 部队之间的战斗也应用重平衡逻辑。关闭后仅玩家坐镇指挥的战斗受影响"/>
     <string id="mlf_autoresolve_ai_speed" text="AI 对 AI 战斗速度"/>
-    <string id="mlf_autoresolve_ai_speed_hint" text="缩短大地图上 AI 部队之间战斗的回合结算间隔（默认 3 = AI 间战斗以 3 倍速度分出胜负）。单次命中伤害、护甲与武器公式完全不变；玩家坐镇模拟永不受影响"/>
+    <string id="mlf_autoresolve_ai_speed_hint" text="缩短大地图上 AI 部队之间战斗的回合结算间隔（默认 1.0 = AI 间战斗以正常速度分出胜负）。单次命中伤害、护甲与武器公式完全不变；玩家坐镇模拟永不受影响"/>
     <string id="mlf_autoresolve_armor" text="护甲减免伤害"/>
     <string id="mlf_autoresolve_armor_hint" text="按原版真实战斗的护甲减伤公式作用于被击部队的护甲（随机命中部位：头部/手臂/腿部/躯干，完全使用原版部位护甲）：打击力先经 50/(50+护甲) 衰减，再按伤害类型线性减甲（切割减 50% 护甲、穿刺减 33% 护甲、钝击减 20% 护甲），同时钝击因子（钝击 60% / 切割 10%）比例的伤害无视护甲直接穿透。关闭后坐镇指挥忽略护甲"/>
     <string id="mlf_autoresolve_shield_block" text="盾牌格挡概率"/>
@@ -285,6 +285,8 @@
     <string id="mlf_autoresolve_javelin_hint" text="携带标枪的步兵/骑手在攻击时有概率投掷标枪而非近战（默认 0.05 = 5%）。只携带标枪的士兵 100% 投掷标枪、不会空手战斗。射手/骑射手不使用标枪"/>
     <string id="mlf_autoresolve_ranged_hit" text="远程命中概率"/>
     <string id="mlf_autoresolve_ranged_hit_hint" text="坐镇指挥中远程攻击（弓/弩/投石以及投掷的标枪）的命中概率（默认 0.8 = 80%）。未命中则本次攻击不造成伤害"/>
+    <string id="mlf_autoresolve_attack_cap" text="最大兵力比（攻击频次上限）"/>
+    <string id="mlf_autoresolve_attack_cap_hint" text="限制坐镇指挥中双方攻击频次之比。攻击频次随 (兵力比)^0.6 增长；默认上限 2.0 时频次比最高不超过 2^0.6 ≈ 1.52，即兵力占优的一方无论悬殊多大，每轮攻击次数最多约为对方的 1.5 倍。设为 1 表示取消上限"/>
     <string id="mlf_debug_autoresolve" text="坐镇重平衡调试日志"/>
     <string id="mlf_debug_autoresolve_hint" text="在屏幕左下角显示坐镇重平衡的调试日志（每次命中的 HP 变化、数据重建、异常等）"/>
 
