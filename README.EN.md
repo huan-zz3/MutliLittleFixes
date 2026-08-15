@@ -6,7 +6,7 @@
 
 **Version Notes & Prerequisites**
 
-- Current version: v1.2.0 (see changelog at the end)
+- Current version: v1.3.0 (see changelog at the end)
 - Requires the "Four Prerequisites" (framework mods)
 - Tested compatible with 1.4.5 and 1.4.6; 1.4.7 and 1.4.8 are unconfirmed — feedback in the comments is appreciated. 1.3.x is **not** supported.
 
@@ -21,6 +21,7 @@
 - **Vanilla Kingdom AI Playability Fixes:** Disable AI declarations of war, player's sieges always a candidate, forbid clan party conscription, forbid clan parties donating troops.
 - **Grain Support Between Player Fiefs:** Every 3 in-game hours, surplus towns automatically send garrison-converted grain convoys to player-clan towns/castles that are short on grain.
 - **Village Funded Reconstruction:** Razed villages can be rebuilt by the player for 10,000 denars, completing after three days and raising relation with the village's notables.
+- **Realistic Auto-Resolve Simulation:** Soldiers accumulate injuries by individual HP, hit damage comes from their actual weapons and is reduced by armor — escaping the vanilla "pure troop-count crush" rough settlement; can also be applied to campaign-map battles between AI forces.
 
 **MutliLittleFixes Full Feature Guide**
 **I. Progression & Experience**
@@ -66,26 +67,35 @@
 - **Mounted Polearm Guaranteed Knockdown:** Couched lance (passive attack) and ordinary mounted polearm thrusts that hit dismounted infantry/ranged units always knock them down — symmetric for both sides and blockable; the thrust also has two tunable parameters: a minimum relative-speed threshold (so stabbing in place doesn't knock down) and a damage bonus on knockdown.
 - **Battle Results Sort Order Reversal:** The sort cycle when clicking column headers on the results screen is reversed to "Default → Descending → Ascending", matching most players' intuition.
 - **Free Retreat After Joining a Battle:** After the player joins an existing friendly battle on the campaign map, the encounter menu always offers a "Leave" option regardless of whether the friend is the attacker or defender, so you can pull out with your party at any time; self-initiated siege/defense battles keep the vanilla rules.
-- **No Party Takeover on Player Death:** When the player character dies, the system is prevented from forcing the player's party under full AI command — the party keeps fighting with the last order given at the moment of death; note that the vanilla command UI is still closed after death, so no further manual orders are possible. When disabled, the vanilla "AI takes full control on death" behavior is restored. (Off by default)
+- **No Party Takeover on Player Death:** When the player character dies, the system is prevented from forcing the player's party under full AI command — the party keeps fighting with the last order given at the moment of death; note that the vanilla command UI is still closed after death, so no further manual orders are possible. When disabled, the vanilla "AI takes full control on death" behavior is restored.
 
-**VII. Sieges & Naval Combat**
+**VII. Auto-Resolve**
+
+- **Realistic Auto-Resolve Simulation:** The vanilla auto-resolve settlement only calculates damage from "military-power ratio × advantage × morale", and every hit is an instant kill. This feature switches to realistic settlement — soldiers have individual HP and accumulate injuries (no more one-hit deaths); each hit's damage comes from their actual weapon (weapon category chosen from a 4×4 troop-type priority table: infantry/archer/cavalry/horse archer), armor reduces damage via the vanilla formula with a random hit location (head/arm/leg/torso); shielded infantry/cavalry have a chance to block and negate damage; infantry/cavalry carrying javelins have a chance to throw them (guaranteed if only carrying javelins); ranged attacks (bow/crossbow/catapult/javelin) have a hit check. Armor reduction, block chance, javelin chance, and ranged hit chance are all independently configurable; the whole feature can be toggled, and can optionally apply to campaign-map AI-vs-AI battles (with an AI battle simulation interval speed adjuster).
+- **Auto-Resolve Attack Frequency Cap:** In vanilla, each round's attack frequency scales without bound with troop disparity (a 10:1 troop ratio yields about a 4:1 frequency ratio). This feature caps the two sides' attack-frequency ratio within a configurable limit (default 2:1 troop ratio, corresponding to about a 1.52 frequency ratio), so the gap no longer widens endlessly as the weaker side loses troops.
+- **Auto-Resolve Battle Log (CSV):** For debugging — outputs the full flow of every player auto-resolve battle to CSV (four files: battle_summary / round / tick / casualty, UTF-8 BOM encoded, openable directly in Excel/WPS), plus a Python analysis script Tools/analyze_autoresolve.py that generates summary reports and chart data.
+
+**VIII. Sieges & Naval Combat**
 
 - **Siege Engines Prioritize Enemy Engines:** When the player is attacking, siege engines prioritize enemy engines, eliminating the most threatening firepower first.
 - **Projectile Trajectory Preview:** Individually toggleable trajectory previews for ballistae/scorpions and catapults/trebuchets, so you can see where shots will land before firing. Middle mouse button switches to the global view.
 - **Coordinate-Targeted AI Artillery:** After marking a target coordinate with the period key (.), AI-controlled siege engines will volley at the marked point, concentrating AI fire on the designated area; the mark point is automatically raised 1.5 meters, fixing the problem of projectiles hitting the ground early and landing short.
 - **Player Artillery Precision:** Corrects the trajectory error when the player manually operates siege engines, making manual shots hit exactly where you aim.
 - **Naval Battle Ship Cap:** The maximum number of ships the player can field simultaneously in naval battles/coastal raids is adjustable (3\~8 ships); requires the Naval DLC (战帆) — this feature is safely skipped when the DLC isn't installed.
+- **Player Siege Command Lock:** When the player initiates a siege first (alone or leading an army), the siege command always stays with the player — allied armies/kings joining mid-siege can't take it away; after the player leaves the siege, command is transferred per vanilla rules.
 
-**VIII. Saves & Notifications**
+**IX. Saves & Notifications**
 
 - **Saves Named by Date & Time:** Quick Saves and Auto Saves are named with the date/time of saving; each campaign rotates independently, and once full, saving a new file automatically retires that campaign's oldest save; Save As and Ironman mode keep the vanilla logic, and previously generated date-named saves are not auto-deleted when the feature is disabled.
 - **Clan Member Available Alert:** When a clan member becomes available after being released from captivity or escaping, a toast notification pops up on screen — no more manually combing through the roster.
 
-**IX. UI**
+**X. UI**
 
 - **Special NPC Labels for Prisoners:** In the Prisoners tab of the party screen, rulers, lords, and mercenary leaders are labeled with their identity, so you can tell at a glance who's worth keeping.
 - **Encyclopedia Clan Exile Filter:** The "Status" filter group on the encyclopedia's clan list gains "In Exile / Not in Exile" filters; "exile" means a clan with no kingdom, no settlement, and not a rebel/bandit/minor faction (excluding the player's clan), making it easy to track clans wandering after their kingdom's fall.
 - **Bilingual EN/CN Support:** All player-visible text (MCM settings and hints, in-game menu options, notification messages, etc.) is integrated with the game's native localization system, automatically switching between English and Chinese with the game language; untranslated entries fall back to English.
+- **Kill Feed Display Optimization:** The all-army kill/death feed at the top-right of the battlefield can cap the number of simultaneously displayed entries (excess entries immediately remove the oldest, preventing dozens of entries piling up in a big brawl and pushing the feed off screen), or gradually shrink the text and icons of older entries beyond a threshold (the oldest shrink to the smallest scale, the newest stay full-size), forming a clear visual hierarchy. The two optimizations have independent toggles.
+- **Main Menu Custom Battle Land-First:** The Naval DLC makes the main menu's "Custom Battle" open the naval battle setup by default; this feature restores land-battle-first. When disabled, the DLC default behavior is restored, and the "Switch Mode" button still cycles between the two modes.
 
 **Acknowledgments to Predecessor Mods:** 
 Throughout the journey of developing this mod, I've learned from countless mods along the way — some for the creativity I admired and reimplemented in my own way, others for the technical ingenuity that solved puzzles that had troubled me for a long time. Every generation brings new talents, and here I list all the predecessors who have had a direct influence on this mod, as a token of gratitude.
@@ -98,6 +108,7 @@ Throughout the journey of developing this mod, I've learned from countless mods 
 - Quick Cover Retreat (快速掩护撤退): Inspired the "Free Retreat After Joining a Battle" feature.
 - Enemy Party Enhancement (敌人部队增强): Inspired the "Lord Release Replenishment and Lost-Settlement Bonuses" features.
 - Village Rebuild (村庄重建): Inspired me to recreate the "Fund Reconstruction" feature.
+- Auto Resolve Rebalanced (合理坐镇): Inspired and ported its "accumulated HP casualties + pure weapon damage + extra rounds for troop disparity" auto-resolve approach, rewriting it into this mod's Realistic Auto-Resolve Simulation feature.
 
 This mod is also open source on GitHub — any fellow player is welcome to reference and create: huan-zz3/MutliLittleFixes
 
@@ -105,7 +116,17 @@ This mod is also open source on GitHub — any fellow player is welcome to refer
 
 **Changelog**
 
-**v1.2.0** (current version)
+**v1.3.0** (current version)
+- New feature: Realistic auto-resolve simulation — soldiers no longer die in one hit; instead they accumulate injuries by individual HP. Each hit's damage comes from the soldier's actual weapon (4×4 troop-type weapon priority table), armor reduces damage by the vanilla formula with a random hit location, shielded soldiers can block, infantry/cavalry with javelins have a chance to throw them, and ranged attacks have a hit check; when troop disparity is large, extra simulation rounds are appended so the battle plays out to the end. Armor reduction, block chance, javelin chance, and ranged hit chance are all independently configurable; the whole feature can be toggled, and can optionally apply to AI-vs-AI campaign battles with adjustable speed.
+- New feature: Auto-resolve attack frequency ratio cap — the two sides' attack-frequency ratio is limited within a configurable cap (default 2:1 troop ratio, corresponding to about a 1.52 frequency ratio); with large troop disparity, the gap no longer widens endlessly as the weaker side loses troops. Also restores the AI-vs-AI simulation interval to the vanilla 1.0x speed by default.
+- New feature: Player siege command lock — when the player initiates a siege first, command always stays with the player; allied armies/kings joining mid-siege can't take it away; after the player leaves, command transfers per vanilla rules.
+- New feature: Main menu custom battle land-first — the Naval DLC makes the Custom Battle entry open naval setup by default; this feature restores land-battle-first.
+- New feature: Battlefield kill feed display optimization — can cap the number of simultaneously displayed entries (excess immediately removes the oldest), or gradually shrink the text/icons of older entries beyond a threshold, forming a clear visual hierarchy.
+- New debug feature: Auto-resolve battle log (CSV) + visualization script — every player auto-resolve battle outputs four CSVs (battle_summary / round / tick / casualty, UTF-8 BOM, openable directly in Excel/WPS), plus the Python analysis script Tools/analyze_autoresolve.py.
+- Bug fix: Grain convoys no longer clear physical grain when delivering abstract grain — physical grain is kept for consumption on the return trip and uniformly destroyed when recovered at the source town to prevent reflux; default physical grain carried per soldier changed 2→5.
+- Added reference mod: Auto Resolve Rebalanced (合理坐镇) source code into reference/ for learning.
+
+**v1.2.0**
 - New feature: First-row shield-bearer formation fix — fixes the vanilla formation-layout convergence flaw, guaranteeing shield-bearers/pikemen land in the front row whenever a swappable unit exists, eliminating the "non-shield front row + shielded second row" mess; sorting anomalies automatically fall back to vanilla logic, avoiding crashes and stutters.
 - New feature: Village funded reconstruction — the "Fund Reconstruction" option appears in the menu of completely razed villages: pay 10,000 denars and the village is automatically rebuilt after 3 days (village returns to normal + 20 militia + 25~35 relation with all village notables).
 - Improvement: Village reconstruction can't be funded twice — after paying, the button immediately turns into a disabled "Reconstruction in Progress" state, preventing the same village from being funded repeatedly within the same menu session.
