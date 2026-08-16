@@ -25,7 +25,6 @@ namespace MutliLittleFixes
     /// </summary>
     public class ShieldPlantingBehavior : MissionLogic
     {
-        private const string PLANTED_SHIELD_PREFAB = "planted_shield";
         private const float PLACE_DISTANCE = 0.65f;
         private const float KEY_COOLDOWN = 0.5f;
 
@@ -150,7 +149,7 @@ namespace MutliLittleFixes
             GameEntity? entity = SpawnProp(agent);
             if (entity == null)
             {
-                Debug.PrintError("盾牌插地: 插地盾实体生成失败 (prefab=" + PLANTED_SHIELD_PREFAB + ")", "MutliLittleFixes.ShieldPlanting");
+                Debug.PrintError("盾牌插地: 插地盾实体生成失败", "MutliLittleFixes.ShieldPlanting");
                 _savedShieldWeapons.Remove(agent);
                 return;
             }
@@ -198,11 +197,17 @@ namespace MutliLittleFixes
 
         /// <summary>
         /// 在 agent 前方 PLACE_DISTANCE 处的地面上生成插地盾实体。
+        /// 实体用士兵盾牌自身的模型（ItemObject.MultiMeshName）与物理体（ItemObject.BodyName）动态生成，
+        /// 任意盾型（筝形盾/圆盾/塔盾/步兵盾等）都使用匹配的模型，不再硬编码单一盾型。
         /// </summary>
         private GameEntity? SpawnProp(Agent agent)
         {
             try
             {
+                // 用卸盾前保存的原盾牌生成实体（保留修饰符与当前耐久的 MissionWeapon）
+                if (!_savedShieldWeapons.TryGetValue(agent, out MissionWeapon weapon) || weapon.IsEmpty)
+                    return null;
+
                 Vec3 pos = agent.Position;
                 Vec2 dir = agent.GetMovementDirection();
 
@@ -218,7 +223,30 @@ namespace MutliLittleFixes
                 rotation.RotateAboutSide((float)(-Math.PI / 2.0));
 
                 MatrixFrame frame = new MatrixFrame(rotation, spawnPos);
-                GameEntity entity = GameEntity.Instantiate(Mission.Scene, PLANTED_SHIELD_PREFAB, frame);
+
+                // 复用原生掉落物实体创建机制：从 MissionWeapon 生成带匹配网格（MultiMeshName）的场景实体
+                GameEntity entity = GameEntityExtensions.Instantiate(Mission.Scene, weapon, false, true);
+                // 移除掉落物脚本（SpawnedItemEntity/UsableMissionObject），防止玩家/敌人把插地盾拾取走
+                SpawnedItemEntity? itemScript = entity.GetFirstScriptOfType<SpawnedItemEntity>();
+                if (itemScript != null)
+                    entity.RemoveScriptComponent(itemScript.ScriptComponent.Pointer, 10);
+
+                entity.SetGlobalFrame(in frame);
+
+                // 加静态物理钉住（复用武器数据：物理体/质量/材质），实体不会被碰撞推飞
+                WeaponData weaponData = weapon.GetWeaponData(true);
+                GameEntityPhysicsExtensions.AddPhysics(
+                    entity,
+                    weaponData.BaseWeight,
+                    weaponData.CenterOfMassShift,
+                    weaponData.Shape,
+                    Vec3.Zero,
+                    Vec3.Zero,
+                    PhysicsMaterial.GetFromIndex(weaponData.PhysicsMaterialIndex),
+                    true,  // isStatic：钉在地上
+                    -1);
+                weaponData.DeinitializeManagedPointers();
+
                 entity.SetPhysicsState(true, false);
                 return entity;
             }
