@@ -524,9 +524,17 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableAutoResolveDebugLog { get; set; } = false;
 
+        [SettingPropertyBool("{=mlf_debug_shield_auto}Shield Auto Plant Debug Log", Order = 99, RequireRestart = false, HintText = "{=mlf_debug_shield_auto_hint}Display shield auto plant/pick-up debug logs (scan summary, formation order changes, auto plant/pick-up actions, skipped reasons) in the bottom-left corner of the screen")]
+        [SettingPropertyGroup("{=mlf_group_debug}Debug")]
+        public bool ShieldPlantingDebugLog { get; set; } = false;
+
         [SettingPropertyBool("{=mlf_shield_enabled}Plant Shields", Order = 0, RequireRestart = false, HintText = "{=mlf_shield_enabled_hint}Any ranged foot soldier carrying a shield (horse archers excluded) can plant their shield into the ground as an obstacle. In battle, press F11 to plant the shields of the selected formation (or all eligible soldiers if no formation is selected), and press J to pick them up. Planted troops keep fighting with their ranged weapons while the planted shield acts as cover. When disabled, all planted shields are picked up and the feature stops")]
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
         public bool ShieldPlantingEnabled { get; set; } = true;
+
+        [SettingPropertyBool("{=mlf_shield_auto_deploy}Auto Plant / Pick Up on Orders", Order = 1, RequireRestart = false, HintText = "{=mlf_shield_auto_deploy_hint}Your shield-bearing ranged soldiers automatically plant their shields when they are standing still with a hold/move-to-position order (fully arrived at the target point, not charging/advancing/falling back), and automatically pick them up when they receive a moving combat order (charge, advance, fall back, retreat, follow, attack entity) or are ordered to a new position while planted. Manual F11/J actions always take priority; the auto logic stands down for 3 seconds after a manual action")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public bool ShieldPlantingAutoDeployEnabled { get; set; } = true;
 
         [SettingPropertyBool("{=mlf_shield_formation_enabled}Shield Bearers on Front, Flanks and Rear", Order = 0, RequireRestart = false, HintText = "{=mlf_shield_formation_enabled_hint}In line and loose formations where ranged soldiers make up more than 95% of the unit, shield-bearing ranged soldiers are repositioned with this priority: first fill the front rank, then the left and right flank columns, then the last two ranks (all filled without gaps), and remaining shield bearers fill the ranks in between from front to back. Repositioning activates immediately when the formation layout changes (width/formation order) and recalculates every 1.5 seconds during battle; your own character is never moved. When disabled, soldiers return to vanilla positioning")]
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]

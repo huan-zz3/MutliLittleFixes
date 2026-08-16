@@ -32,6 +32,9 @@ namespace MutliLittleFixes
         private readonly Dictionary<Formation, (ArrangementOrder.ArrangementOrderEnum Order, float Width, float Depth)> _lastLayouts =
             new Dictionary<Formation, (ArrangementOrder.ArrangementOrderEnum Order, float Width, float Depth)>();
 
+        // 已插盾士兵判定（ShieldPlantingBehavior），用于重排时跳过已插盾的士兵
+        private ShieldPlantingBehavior? _plantingBehavior;
+
         public override void OnMissionTick(float dt)
         {
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
@@ -102,9 +105,12 @@ namespace MutliLittleFixes
             }
         }
 
-        private static void RearrangeFormation(Formation formation)
+        private void RearrangeFormation(Formation formation)
         {
             if (formation.Arrangement is not LineFormation line) return;
+
+            // 获取已插盾士兵判定（已插盾的士兵不再参与交换，避免与自动插盾/收盾互相反转导致不收敛）
+            _plantingBehavior ??= Mission.GetMissionBehavior<ShieldPlantingBehavior>();
 
             // FileCount 在 LineFormation 是 protected，无法直接访问；
             // 从所有已定位单位的 FormationFileIndex/RankIndex 推算行列数（未定位单位索引为 -1，跳过）
@@ -120,9 +126,10 @@ namespace MutliLittleFixes
             if (fileCount < 2 || rankCount < 2) return;
 
             // 收敛交换：目标是把所有持盾远程放到优先级最高的格子里。
-            // 优先级：第一排(0) → 左右列隔空(1) → 末排隔空(2) → 第二排起依次(3,4,5…) → 末排奇数列(最低)。
+            // 优先级：第一排(0) → 左右列(1) → 最后两排(2) → 中间各排自第二排起依次(3,4,5…)。
             // 每轮找"占着最优先格子的非持盾单位"与"占着最劣格子的持盾单位"交换，
             // 单调减小持盾单位占位的优先级总和，必然收敛（maxIterations 防御极端抖动死循环）。
+            // 已插盾的士兵被跳过：不参与交换，也不会被换走（它们已定位在插盾位置）。
             int maxIterations = fileCount * rankCount * 2;
             for (int iter = 0; iter < maxIterations; iter++)
             {
@@ -138,6 +145,8 @@ namespace MutliLittleFixes
                     for (int f = 0; f < fileCount; f++)
                     {
                         if (line.GetUnit(f, r) is not Agent a || a.IsMainAgent) continue;
+                        // 已插盾的士兵跳过（不参与交换，也不作为交换目标）
+                        if (_plantingBehavior != null && _plantingBehavior.IsDeployed(a)) continue;
                         int pri = GetSlotPriority(f, r, fileCount, rankCount);
                         if (IsShieldBearer(a))
                         {

@@ -293,6 +293,8 @@
     <string id="mlf_autoresolve_battlelog_hint" text="为每一场玩家坐镇的自动战斗写入完整 CSV 日志供事后分析（战斗总览、每轮统计、每次命中的武器/护甲/伤害明细、每个伤亡事件）。文件保存到 &lt;游戏根目录&gt;\MutliLittleFixes_AutoResolveLogs\&lt;时间戳&gt;\，UTF-8 带 BOM，可直接用 Excel/WPS 打开。仅记录玩家坐镇的战斗，AI 对 AI 战斗从不记录"/>
     <string id="mlf_debug_autoresolve" text="坐镇重平衡调试日志"/>
     <string id="mlf_debug_autoresolve_hint" text="在屏幕左下角显示坐镇重平衡的调试日志（每次命中的 HP 变化、数据重建、异常等）"/>
+    <string id="mlf_debug_shield_auto" text="盾牌自动插收调试日志"/>
+    <string id="mlf_debug_shield_auto_hint" text="在屏幕左下角显示盾牌自动插地/收盾的调试日志（扫描摘要、编队命令变化、自动插盾/收盾动作、跳过原因等）"/>
 
     <!-- ════════ 游戏内功能文本 ════════ -->
     <!-- 村庄重建 -->
@@ -372,6 +374,8 @@
     <string id="mlf_group_shield_planting" text="盾牌插地与站位"/>
     <string id="mlf_shield_enabled" text="盾牌插地"/>
     <string id="mlf_shield_enabled_hint" text="任何携带盾牌且装备远程武器（弓/弩/标枪）的步兵（骑射手除外）都可以把盾牌插进地里作为障碍物。战斗中按 F11 为选中阵型插盾（未选中阵型时为本方全部符合条件的士兵插盾），按 J 收盾。插盾后的士兵可继续用远程武器射击，插在地上的盾牌作为掩体。关闭后所有已插盾牌将被收回，功能停止"/>
+    <string id="mlf_shield_auto_deploy" text="按玩家命令自动插盾/收盾"/>
+    <string id="mlf_shield_auto_deploy_hint" text="你的带盾远程士兵在接到就位/移动到目标点命令且完全抵达目标点（非冲锋/开战/后退）时会自动插盾；接到移动战斗命令（冲锋、开战、后退、撤退、跟随、攻击实体），或已插盾时被命令（Move）前往新的坐标点或变换阵型时自动收盾——位置驱动的收盾仅在玩家下达过 Move/阵型变换命令且士兵离开插盾点后才发生，被敌方冲锋撞开等被动位移不会触发收盾。手动 F11/J 操作始终优先，手动操作后 3 秒内自动逻辑不干预该士兵"/>
     <string id="mlf_shield_none_found" text="未找到携带盾牌的远程士兵。"/>
     <string id="mlf_shield_deployed" text="{COUNT} 名士兵已插盾。"/>
     <string id="mlf_shield_none_deployed" text="没有已插地的盾牌。"/>
