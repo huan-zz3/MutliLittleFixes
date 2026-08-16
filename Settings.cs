@@ -228,7 +228,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("{=mlf_siege_target}Siege Engines Target Engines First", Order = 44, RequireRestart = false, HintText = "{=mlf_siege_target_hint}When attacking, siege engines prioritize enemy ranged siege engines")]
         [SettingPropertyGroup("{=mlf_group_siege}Siege")]
-        public bool SiegeTargetSelectionEnabled { get; set; } = true;
+        public bool SiegeTargetSelectionEnabled { get; set; } = false;
 
         [SettingPropertyBool("{=mlf_siege_leadership}Keep Player Siege Leadership", Order = 45, RequireRestart = false, HintText = "{=mlf_siege_leadership_hint}When the player starts a siege first (alone or leading their own army), the siege command stays with the player — a friendly army joining later cannot take it over. When disabled, restores vanilla behavior (the highest-ranking leader present, e.g. a king or an army leader, takes command)")]
         [SettingPropertyGroup("{=mlf_group_siege}Siege")]
@@ -396,7 +396,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("{=mlf_food_enabled}Enable Food Transport Support", Order = 70, RequireRestart = false, HintText = "{=mlf_food_enabled_hint}Every 6 in-game hours, surplus player-clan towns dispatch transport parties converted from garrisons to starving player-clan towns/castles, adding/subtracting town food values directly (bypassing market consumption)")]
         [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
-        public bool TransportSupportEnabled { get; set; } = true;
+        public bool TransportSupportEnabled { get; set; } = false;
 
         [SettingPropertyInteger("{=mlf_food_target_threshold}Starving Food Threshold", 0, 300, "0", Order = 71, RequireRestart = false, HintText = "{=mlf_food_target_threshold_hint}Player-clan towns/castles with food below this value are listed as starving and await support from other towns (town cap 300, castle cap 450)")]
         [SettingPropertyGroup("{=mlf_group_food}Food Transport Support")]
@@ -498,7 +498,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("{=mlf_autoresolve_enabled}Enable Auto Resolve Rebalance", Order = 90, RequireRestart = false, HintText = "{=mlf_autoresolve_enabled_hint}Overhaul the auto-resolve (simulate battle) calculation: troops accumulate damage with individual HP instead of dying instantly, hit damage comes from the striker's actual weapon (4x4 class-vs-class priority table), armor reduces damage with the vanilla formula, shield-bearers can block, and lopsided battles get extra rounds to finish. When disabled, all auto-resolve logic reverts to vanilla")]
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
-        public bool AutoResolveEnabled { get; set; } = true;
+        public bool AutoResolveEnabled { get; set; } = false;
 
         [SettingPropertyBool("{=mlf_autoresolve_ai}Apply to AI vs AI Battles", Order = 91, RequireRestart = false, HintText = "{=mlf_autoresolve_ai_hint}Apply the rebalanced logic to battles between AI parties on the campaign map. When disabled, only player-simulated battles (auto-resolve) are affected")]
         [SettingPropertyGroup("{=mlf_group_autoresolve}Auto Resolve Rebalance")]
@@ -558,7 +558,7 @@ namespace MutliLittleFixes
 
         [SettingPropertyBool("{=mlf_shield_ai_enabled}Apply to AI Troops", Order = 3, RequireRestart = false, HintText = "{=mlf_shield_ai_enabled_hint}AI-controlled soldiers on all non-player teams (enemy armies and allied AI lords) also plant their shields automatically when holding a position, and shield-bearing ranged soldiers in their line/loose formations are rearranged to the front, flanks and rear, mirroring the player-side behavior. When disabled, only the player's own troops are affected")]
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
-        public bool ShieldPlantingAiEnabled { get; set; } = true;
+        public bool ShieldPlantingAiEnabled { get; set; } = false;
 
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
