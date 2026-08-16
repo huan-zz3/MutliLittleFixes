@@ -393,5 +393,7 @@
     <!-- 远程盾兵站位 -->
     <string id="mlf_shield_formation_enabled" text="Shield Bearers on Front, Flanks and Rear"/>
     <string id="mlf_shield_formation_enabled_hint" text="In line and loose formations where ranged soldiers make up more than 95% of the unit, shield-bearing ranged soldiers are repositioned with this priority: first fill the front rank, then the left and right flank columns, then the last two ranks (all filled without gaps), and remaining shield bearers fill the ranks in between from front to back. Repositioning activates immediately when the formation layout changes (width/formation order) and recalculates every 1.5 seconds during battle; your own character is never moved. When disabled, soldiers return to vanilla positioning"/>
+    <string id="mlf_shield_ai_enabled" text="Apply to AI Troops"/>
+    <string id="mlf_shield_ai_enabled_hint" text="AI-controlled soldiers on all non-player teams (enemy armies and allied AI lords) also plant their shields automatically when holding a position, and shield-bearing ranged soldiers in their line/loose formations are rearranged to the front, flanks and rear, mirroring the player-side behavior. When disabled, only the player's own troops are affected"/>
   </strings>
 </base>

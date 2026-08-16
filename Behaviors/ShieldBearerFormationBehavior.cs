@@ -22,6 +22,10 @@ namespace MutliLittleFixes
     /// 配套补丁 FormationFrontRankShieldSortPatch 已对非步兵编队（步兵占比 ≤ 95%）
     /// 禁用原生"持盾冒泡前排"机制，两者不再冲突，布局可稳定收敛。
     /// 主控玩家本人不会被移动；MCM 开关实时控制（关闭后停止干预，恢复原生排列）。
+    ///
+    /// 队伍范围（两侧开关独立门控）：玩家队伍仅当 ShieldBearerFormationEnabled 开启时参与；
+    /// 非玩家队伍（敌方/友方 AI）仅当 ShieldPlantingAiEnabled（「对 AI 部队生效」）开启时参与，
+    /// 与 ShieldPlantingBehavior 的 AI 自动插盾联动。
     /// </summary>
     public class ShieldBearerFormationBehavior : MissionLogic
     {
@@ -40,10 +44,9 @@ namespace MutliLittleFixes
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
-            // MCM 运行时开关 — 关闭时不干预
-            if (Settings.Instance?.ShieldBearerFormationEnabled != true)
-                return;
-
+            // MCM 运行时开关 — 玩家侧重排由 ShieldBearerFormationEnabled 门控、
+            // AI 侧重排由 ShieldPlantingAiEnabled 门控（见 GetEligibleTeams），
+            // 两侧独立：一侧关闭不影响另一侧；两侧均关闭时循环为空，不干预。
             _timer -= dt;
             if (HasLayoutChanged())
                 _timer = 0f; // 编队布局变化（玩家调整长宽/阵型命令）→ 立即重排
@@ -60,48 +63,76 @@ namespace MutliLittleFixes
         private bool HasLayoutChanged()
         {
             bool changed = false;
-            Team? team = Mission.PlayerTeam;
-            if (team == null) return false;
 
-            foreach (Formation formation in team.FormationsIncludingEmpty)
+            foreach (Team team in GetEligibleTeams())
             {
-                if (formation.CountOfUnits <= 0) continue;
-
-                var order = formation.ArrangementOrder.OrderEnum;
-                float width = formation.Arrangement.Width;
-                float depth = formation.Arrangement.Depth;
-
-                if (_lastLayouts.TryGetValue(formation, out var last))
+                foreach (Formation formation in team.FormationsIncludingEmpty)
                 {
-                    if (last.Order != order
-                        || Math.Abs(last.Width - width) > 0.01f
-                        || Math.Abs(last.Depth - depth) > 0.01f)
-                        changed = true;
+                    if (formation.CountOfUnits <= 0) continue;
+
+                    var order = formation.ArrangementOrder.OrderEnum;
+                    float width = formation.Arrangement.Width;
+                    float depth = formation.Arrangement.Depth;
+
+                    if (_lastLayouts.TryGetValue(formation, out var last))
+                    {
+                        if (last.Order != order
+                            || Math.Abs(last.Width - width) > 0.01f
+                            || Math.Abs(last.Depth - depth) > 0.01f)
+                            changed = true;
+                    }
+                    _lastLayouts[formation] = (order, width, depth);
                 }
-                _lastLayouts[formation] = (order, width, depth);
             }
             return changed;
         }
 
+        /// <summary>
+        /// 参与站位重排的队伍（两侧开关独立门控）：
+        /// 玩家队伍仅当「Shield Bearers on Front, Flanks and Rear」（ShieldBearerFormationEnabled）
+        /// 开启时参与；非玩家队伍（敌方/友方 AI）仅当「对 AI 部队生效」（ShieldPlantingAiEnabled）
+        /// 开启时参与。两侧互不影响，关闭一侧不阻断另一侧。
+        /// </summary>
+        private IEnumerable<Team> GetEligibleTeams()
+        {
+            Team? playerTeam = Mission.PlayerTeam;
+            bool playerEnabled = Settings.Instance?.ShieldBearerFormationEnabled == true;
+            bool aiEnabled = Settings.Instance?.ShieldPlantingAiEnabled == true;
+
+            foreach (Team team in Mission.Teams)
+            {
+                if (team == null) continue;
+                if (team == playerTeam)
+                {
+                    if (playerEnabled)
+                        yield return team;
+                }
+                else if (aiEnabled)
+                {
+                    yield return team;
+                }
+            }
+        }
+
         private void RearrangeFormations()
         {
-            Team? team = Mission.PlayerTeam;
-            if (team == null) return;
-
-            foreach (Formation formation in team.FormationsIncludingEmpty)
+            foreach (Team team in GetEligibleTeams())
             {
-                if (formation.CountOfUnits <= 0) continue;
+                foreach (Formation formation in team.FormationsIncludingEmpty)
+                {
+                    if (formation.CountOfUnits <= 0) continue;
 
-                // 仅处理线阵（Line）与散阵（Loose）；1.4.5 两者都是 LineFormation（IsLoose 区分）
-                ArrangementOrder.ArrangementOrderEnum order = formation.ArrangementOrder.OrderEnum;
-                if (order != ArrangementOrder.ArrangementOrderEnum.Line
-                    && order != ArrangementOrder.ArrangementOrderEnum.Loose)
-                    continue;
+                    // 仅处理线阵（Line）与散阵（Loose）；1.4.5 两者都是 LineFormation（IsLoose 区分）
+                    ArrangementOrder.ArrangementOrderEnum order = formation.ArrangementOrder.OrderEnum;
+                    if (order != ArrangementOrder.ArrangementOrderEnum.Line
+                        && order != ArrangementOrder.ArrangementOrderEnum.Loose)
+                        continue;
 
-                // 仅处理远程编队（远程兵占比 > 95%，兵种判定与 RangedNoAmmoBehavior 一致）
-                if (!IsRangedFormation(formation)) continue;
+                    // 仅处理远程编队（远程兵占比 > 95%，兵种判定与 RangedNoAmmoBehavior 一致）
+                    if (!IsRangedFormation(formation)) continue;
 
-                RearrangeFormation(formation);
+                    RearrangeFormation(formation);
+                }
             }
         }
 

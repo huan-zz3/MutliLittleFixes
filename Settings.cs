@@ -556,6 +556,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
         public bool ShieldBearerFormationEnabled { get; set; } = true;
 
+        [SettingPropertyBool("{=mlf_shield_ai_enabled}Apply to AI Troops", Order = 3, RequireRestart = false, HintText = "{=mlf_shield_ai_enabled_hint}AI-controlled soldiers on all non-player teams (enemy armies and allied AI lords) also plant their shields automatically when holding a position, and shield-bearing ranged soldiers in their line/loose formations are rearranged to the front, flanks and rear, mirroring the player-side behavior. When disabled, only the player's own troops are affected")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public bool ShieldPlantingAiEnabled { get; set; } = true;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

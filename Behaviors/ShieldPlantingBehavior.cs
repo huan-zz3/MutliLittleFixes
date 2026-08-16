@@ -31,7 +31,9 @@ namespace MutliLittleFixes
     ///
     /// MCM 实时开关（游戏中修改立即生效）：
     /// - ShieldPlantingEnabled：总开关，关闭时收回所有已插盾牌并停止干预
-    /// - ShieldPlantingAutoDeployEnabled：命令驱动的自动插盾/收盾
+    /// - ShieldPlantingAutoDeployEnabled：命令驱动的自动插盾/收盾（仅玩家方士兵）
+    /// - ShieldPlantingAiEnabled：对 AI 部队生效——非玩家队伍（敌方/友方 AI）的士兵
+    ///   同样自动插盾/收盾（收盾许可信号改用编队实时换位命令），开关关闭时立即收回其已插盾牌
     /// </summary>
     public class ShieldPlantingBehavior : MissionLogic
     {
@@ -432,6 +434,32 @@ namespace MutliLittleFixes
                 Undeploy(agent);
         }
 
+        /// <summary>
+        /// AI 部队开关关闭时：收回所有非玩家队伍的已插盾并清理其追踪状态。
+        /// AI 士兵无法手动 F11/J 收回，开关关闭必须立即收回；玩家队伍不受影响。
+        /// （在 TickAutoPlanting 开头调用，随 2s 扫描节奏最多延迟一个周期。）
+        /// </summary>
+        private void CleanupAiSideState()
+        {
+            Team? playerTeam = Mission.PlayerTeam;
+
+            foreach (Agent a in _deployedAgents.Keys.ToList())
+            {
+                if (playerTeam == null || a.Team != playerTeam)
+                    Undeploy(a);
+            }
+            foreach (Agent a in _stationaryTime.Keys.ToList())
+            {
+                if ((playerTeam == null || a.Team != playerTeam) && !_deployedAgents.ContainsKey(a))
+                    _stationaryTime.Remove(a);
+            }
+            foreach (Agent a in _moveOrderedAgents.ToList())
+            {
+                if (playerTeam == null || a.Team != playerTeam)
+                    _moveOrderedAgents.Remove(a);
+            }
+        }
+
         // ── 命令驱动的自动插盾/收盾 ──────────────────────────────────────
 
         /// <summary>
@@ -482,43 +510,60 @@ namespace MutliLittleFixes
         }
 
         /// <summary>
-        /// 自动插盾/收盾主逻辑（仅玩家方士兵，AUTO_SCAN_INTERVAL 节流调用）：
+        /// 自动插盾/收盾主逻辑（AUTO_SCAN_INTERVAL 节流调用）：
+        /// 玩家队伍受「自动插盾/收盾」开关（autoEnabled）门控，非玩家队伍（敌方/友方 AI）
+        /// 受「对 AI 部队生效」开关（aiEnabled）门控，两侧独立：
         /// - 编队处于移动战斗命令（冲锋/开战/后退/撤退/跟随/攻击实体）时，已插盾士兵立即收盾；
         /// - 编队处于"就位"（StandYourGround）或移动到位（Move 命令）等非移动战斗命令时，
         ///   士兵位移小于阈值持续 AUTO_STATIONARY_TIME 秒 → 自动插盾；
         ///   已插盾士兵离开插盾点超过 AUTO_UNDEPLOY_DISTANCE 米 → 自动收盾
-        ///   （对应"就位后玩家给予新坐标点需要前往"的场景，士兵移动后自动收起盾牌）。
+        ///   （对应"就位后给予新坐标点需要前往"的场景，士兵移动后自动收起盾牌）。
+        ///   收盾许可信号：玩家队伍 = 玩家下发的 Move/变阵命令（_moveOrderedAgents）；
+        ///   AI 队伍 = 编队当前命令为换位型（Move/Arrangement*/Form*，IsRepositionOrder）。
         /// 手动 F11/J 操作后 AUTO_MANUAL_COOLDOWN 秒内不自动干预，尊重玩家手动意图。
         /// </summary>
         private void TickAutoPlanting(float dt)
         {
             bool debug = Settings.Instance?.ShieldPlantingDebugLog == true;
             bool autoEnabled = Settings.Instance?.ShieldPlantingAutoDeployEnabled == true;
+            bool aiEnabled = Settings.Instance?.ShieldPlantingAiEnabled == true;
 
             // 调试摘要计时
             _summaryTick -= dt;
             bool summaryDue = _summaryTick <= 0f;
             if (summaryDue) _summaryTick = AUTO_SUMMARY_INTERVAL;
 
+            // AI 部队开关关闭时：收回所有非玩家队伍的已插盾并清理其追踪状态。
+            // AI 士兵无法手动 F11/J 收回，开关关闭必须立即收回；玩家队伍逻辑继续按 autoEnabled 执行。
+            if (!aiEnabled)
+                CleanupAiSideState();
+
+            Team? playerTeam = Mission.PlayerTeam;
+
+            // 玩家侧自动插盾关闭：清理玩家队伍未插盾士兵的静止计时（已插盾的保持不动，交回
+            // 手动控制）。AI 队伍的计时不受影响——AI 侧自动插盾由「对 AI 部队生效」开关独立控制。
             if (!autoEnabled)
             {
-                // 自动插盾关闭时：清理未插盾士兵的静止计时（已插盾的保持不动，交回手动控制）
                 foreach (Agent a in _stationaryTime.Keys.ToList())
                 {
-                    if (!_deployedAgents.ContainsKey(a))
+                    if (!_deployedAgents.ContainsKey(a)
+                        && (playerTeam == null || a.Team == playerTeam))
                         _stationaryTime.Remove(a);
                 }
                 if (debug && summaryDue && !_disabledLogged)
                 {
-                    LogDebug("[插盾自动] 自动插盾开关=关，仅手动 F11/J 生效（MCM: Shield Planting & Formation → Auto Plant / Pick Up on Orders）");
+                    LogDebug("[插盾自动] 自动插盾开关=关，仅手动 F11/J 生效（玩家侧；AI 侧由「对 AI 部队生效」开关独立控制）");
                     _disabledLogged = true;
                 }
-                return;
             }
-            _disabledLogged = false;
+            else
+            {
+                _disabledLogged = false;
+            }
 
-            Team? playerTeam = Mission.PlayerTeam;
-            if (playerTeam == null) return;
+            // 玩家与 AI 侧自动插盾均关闭时无需继续扫描
+            if (!autoEnabled && !aiEnabled)
+                return;
 
             // 缓冲池：每扫描周期最多自动插盾/收盾人数（MCM 实时读取；插盾与收盾各自独立计数，
             // 每周期各最多 maxAutoDeployPerScan 次，手动 F11/J 不受限）
@@ -533,8 +578,21 @@ namespace MutliLittleFixes
 
             foreach (Agent agent in Mission.Agents)
             {
-                if (!agent.IsActive() || agent.Team != playerTeam || agent.IsMainAgent)
+                if (!agent.IsActive() || agent.IsMainAgent)
                     continue;
+                Team? agentTeam = agent.Team;
+                if (agentTeam == null) continue;
+                // 玩家队伍受 autoEnabled 门控；非玩家队伍（敌方/友方 AI）受 aiEnabled 门控，
+                // 两侧自动插盾相互独立（一侧关闭不影响另一侧）
+                bool isPlayerSide = agentTeam == playerTeam;
+                if (isPlayerSide)
+                {
+                    if (!autoEnabled) continue;
+                }
+                else if (!aiEnabled)
+                {
+                    continue;
+                }
                 if (!IsPlantableAgent(agent) && !_deployedAgents.ContainsKey(agent))
                     continue;
 
@@ -599,10 +657,14 @@ namespace MutliLittleFixes
                 Vec3 pos = agent.Position;
                 if (_deployedAgents.ContainsKey(agent))
                 {
-                    // 已插盾：仅当玩家下发过 Move 命令（需要前往新位置）且士兵离开插盾点超过
-                    // AUTO_UNDEPLOY_DISTANCE 米时才收盾。士兵被敌方冲击/碰撞被迫位移（无玩家
-                    // 移动命令）时【不】收盾——盾留在原地，士兵回阵位即可继续使用。
-                    if (_moveOrderedAgents.Contains(agent)
+                    // 已插盾：士兵被要求前往新位置且离开插盾点超过 AUTO_UNDEPLOY_DISTANCE 米时才收盾。
+                    // 收盾许可信号：玩家队伍 = 玩家下发的 Move/变阵命令（_moveOrderedAgents）；
+                    // AI 队伍 = 编队当前命令为换位型（Move/Arrangement*/Form*，镜像玩家命令语义）。
+                    // 士兵被敌方冲击/碰撞被迫位移（无换位命令）时【不】收盾——盾留在原地，士兵回阵位即可继续使用。
+                    bool repositioning = isPlayerSide
+                        ? _moveOrderedAgents.Contains(agent)
+                        : (formation != null && IsRepositionOrder(formation.GetReadonlyMovementOrderReference().OrderType));
+                    if (repositioning
                         && _plantPoints.TryGetValue(agent, out Vec3 plantPoint)
                         && pos.Distance(plantPoint) > AUTO_UNDEPLOY_DISTANCE)
                     {
@@ -619,7 +681,7 @@ namespace MutliLittleFixes
                         else
                         {
                             if (debug)
-                                LogDebug($"[插盾自动] {agent.Name} 自动收盾（玩家 Move 命令，离开插盾点 {pos.Distance(plantPoint):F1}m）");
+                                LogDebug($"[插盾自动] {agent.Name} 自动收盾（换位命令，离开插盾点 {pos.Distance(plantPoint):F1}m）");
                             Undeploy(agent);
                             _autoUndeployCountThisScan++;
                         }
@@ -699,6 +761,36 @@ namespace MutliLittleFixes
                     return true;
                 default:
                     // StandYourGround / Move / None 等
+                    return false;
+            }
+        }
+
+        /// <summary>
+        /// 编队是否处于"换位命令"（士兵需要重新走位，允许离开插盾点后收盾）：
+        /// Move / MoveToLineSegment* / 阵型变换（Arrangement*/Form*）。
+        /// 对应玩家命令驱动时的 _moveOrderedAgents 语义；AI 队伍用编队实时命令作为镜像信号。
+        /// </summary>
+        private static bool IsRepositionOrder(OrderType orderType)
+        {
+            switch (orderType)
+            {
+                case OrderType.Move:
+                case OrderType.MoveToLineSegment:
+                case OrderType.MoveToLineSegmentWithHorizontalLayout:
+                case OrderType.ArrangementLine:
+                case OrderType.ArrangementCloseOrder:
+                case OrderType.ArrangementLoose:
+                case OrderType.ArrangementCircular:
+                case OrderType.ArrangementSchiltron:
+                case OrderType.ArrangementVee:
+                case OrderType.ArrangementColumn:
+                case OrderType.ArrangementScatter:
+                case OrderType.FormCustom:
+                case OrderType.FormDeep:
+                case OrderType.FormWide:
+                case OrderType.FormWider:
+                    return true;
+                default:
                     return false;
             }
         }
