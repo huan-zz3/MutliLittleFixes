@@ -389,7 +389,20 @@ namespace MutliLittleFixes.Behaviors
 
         private void MaintainActiveTransports()
         {
-            foreach (MobileParty party in MobileParty.All)
+            // 先收集在途运粮队再处理:源城丢失分支会销毁队伍(DestroyPartyAction 会从 MobileParties 移除),
+            // 若直接遍历 MobileParty.All 会在遍历中销毁元素导致集合修改异常(InvalidOperationException)。
+            // 与 OnCampaignTick 的处理保持一致。
+            List<MobileParty> transports = new List<MobileParty>();
+            foreach (MobileParty p in MobileParty.All)
+            {
+                if (p?.PartyComponent is FoodTransportPartyComponent t
+                    && t.Phase != FoodTransportPartyComponent.TransportPhase.Done)
+                {
+                    transports.Add(p);
+                }
+            }
+
+            foreach (MobileParty party in transports)
             {
                 if (party?.PartyComponent is not FoodTransportPartyComponent transport)
                 {
