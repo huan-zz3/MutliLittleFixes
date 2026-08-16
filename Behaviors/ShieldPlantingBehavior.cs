@@ -12,7 +12,7 @@ namespace MutliLittleFixes
 {
     /// <summary>
     /// 盾牌插地（移植自参考模组 PaviseShield 并泛化为通用功能）：
-    /// 任何携带盾牌且装备远程武器（弓/弩/标枪）的步兵（不含骑射手）都可把盾牌插在地上作为障碍物。
+    /// 任何携带盾牌且装备远程武器（弓/弩，不含标枪）的步兵（不含骑射手）都可把盾牌插在地上作为障碍物。
     ///
     /// 玩家方：按 F11 插盾、按 J 收盾。选中了阵型（有听令阵型）时只作用于选中阵型中符合条件的
     /// 士兵；未选中阵型时本方全部符合条件的士兵。
@@ -364,7 +364,7 @@ namespace MutliLittleFixes
         }
 
         /// <summary>
-        /// 插盾条件：携带盾牌 + 装备远程武器（弓/弩/标枪）+ 未骑乘（不含骑射手）。
+        /// 插盾条件：携带盾牌 + 装备远程武器（弓/弩，不含标枪）+ 未骑乘（不含骑射手）。
         /// </summary>
         private static bool IsPlantableAgent(Agent agent)
             => agent != null && agent.Character != null
@@ -393,8 +393,7 @@ namespace MutliLittleFixes
                 if (el.IsEmpty || el.Item == null) continue;
                 ItemObject.ItemTypeEnum type = el.Item.ItemType;
                 if (type == ItemObject.ItemTypeEnum.Bow
-                    || type == ItemObject.ItemTypeEnum.Crossbow
-                    || type == ItemObject.ItemTypeEnum.Thrown)
+                    || type == ItemObject.ItemTypeEnum.Crossbow)
                     return true;
             }
             return false;

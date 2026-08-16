@@ -8,8 +8,8 @@ namespace MutliLittleFixes
 {
     /// <summary>
     /// 远程盾兵站位（线阵/散阵）：
-    /// 仅对【远程兵占比 &gt; 95%】的 Line / Loose 阵型生效。阵型中携带盾牌且装备远程武器
-    /// （弓/弩/标枪）的士兵按以下优先级重排站位：
+    /// 仅对【实际装备弓/弩的士兵占比 &gt; 95%】的 Line / Loose 阵型生效。阵型中携带盾牌且装备
+    /// 远程武器（弓/弩，不含标枪）的士兵按以下优先级重排站位：
     ///   1. 第一排（所有列，排满不留空）
     ///   2. 最左侧列与最右侧列（排满不留空）
     ///   3. 最后两排（排满不留空）
@@ -189,8 +189,9 @@ namespace MutliLittleFixes
         }
 
         /// <summary>
-        /// 远程编队判定：远程兵（兵种类别 Ranged / 下马 HorseArcher）占比 &gt; 95%。
-        /// 兵种判定与 RangedNoAmmoBehavior 一致。
+        /// 远程编队判定：编队内【实际装备弓/弩】的士兵（不含标枪）占比 &gt; 95%。
+        /// 与逐士兵的 HasRangedWeapon 判定一致——纯近战编队（无任何远程武器）永不触发；
+        /// 判定标准与 RangedNoAmmoBehavior 的弹药检测一致（仅弓/弩，不含投掷武器）。
         /// </summary>
         private static bool IsRangedFormation(Formation formation)
         {
@@ -199,26 +200,13 @@ namespace MutliLittleFixes
             formation.ApplyActionOnEachUnit(a =>
             {
                 total++;
-                if (IsRangedTroop(a)) ranged++;
+                if (HasRangedWeapon(a)) ranged++;
             });
-            return total > 0 && ranged * 20 > total * 19; // 远程占比 > 95%
+            return total > 0 && ranged * 20 > total * 19; // 装备弓/弩占比 > 95%
         }
 
         /// <summary>
-        /// 远程兵种判定（与 RangedNoAmmoBehavior 一致）：兵种类别为 Ranged，
-        /// 或下马的 HorseArcher。
-        /// </summary>
-        private static bool IsRangedTroop(Agent agent)
-        {
-            if (agent?.Character == null) return false;
-            FormationClass defaultClass = agent.Character.GetFormationClass().DefaultClass();
-            if (defaultClass == FormationClass.Ranged) return true;
-            if (defaultClass == FormationClass.HorseArcher && !agent.HasMount) return true;
-            return false;
-        }
-
-        /// <summary>
-        /// 持盾远程判定：携带盾牌 + 装备远程武器（弓/弩/标枪）。
+        /// 持盾远程判定：携带盾牌 + 装备远程武器（弓/弩，不含标枪）。
         /// 与 ShieldPlantingBehavior 判定规则一致（此处不排除骑乘，Line/Loose 为步兵阵型，骑射手不会出现）。
         /// </summary>
         private static bool IsShieldBearer(Agent agent)
@@ -247,8 +235,7 @@ namespace MutliLittleFixes
                 if (el.IsEmpty || el.Item == null) continue;
                 ItemObject.ItemTypeEnum type = el.Item.ItemType;
                 if (type == ItemObject.ItemTypeEnum.Bow
-                    || type == ItemObject.ItemTypeEnum.Crossbow
-                    || type == ItemObject.ItemTypeEnum.Thrown)
+                    || type == ItemObject.ItemTypeEnum.Crossbow)
                     return true;
             }
             return false;
