@@ -49,6 +49,10 @@ namespace MutliLittleFixes
         // 由 MCM "Formations & Battle 类 → Ranged Shield Formation" 分组开关实时控制
         mission.AddMissionBehavior(new ShieldBearerFormationBehavior());
 
+        // 长矛兵近身换刀：贴身肉搏时从长杆切换到单手武器防卡刀，拉开后换回
+        // 由 MCM "Formations & Battle 类 → Spear Melee Switch" 分组开关实时控制
+        mission.AddMissionBehavior(new SpearMeleeSwitchBehavior());
+
             // 调试: 按 , 键随机 5% 远程士兵弹药归零（测试 RangedNoAmmoBehavior 用）
             // 由 MCM "调试 → 远程弹药归零调试" 开关控制，游戏中实时启用/禁用
             mission.AddMissionBehavior(new RangedNoAmmoDebugBehavior());

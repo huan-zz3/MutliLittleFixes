@@ -178,6 +178,14 @@
     <string id="mlf_frontrank_sort" text="Front Rank Shield Sort Fix"/>
     <string id="mlf_frontrank_sort_hint" text="Fix the vanilla formation arrangement convergence defect: shielded (or polearm-bracing) units keep bubbling forward until the column stabilizes, and cross-column gap filling skips full ranks instead of aborting the whole arrangement, ensuring the front rank is fully shielded whenever shield units are available (vanilla can leave a disordered mix of non-shield front rank + shield second rank). Only applies to infantry formations (infantry share above 95%); ranged formations keep this front-rank bubbling disabled so the Shield Bearer Formation repositioning can take over"/>
 
+    <!-- ════════ 长矛兵近身换刀 ════════ -->
+    <string id="mlf_spear_switch_enabled" text="Spear Melee Switch"/>
+    <string id="mlf_spear_switch_enabled_hint" text="AI foot soldiers carrying both a polearm and a one-handed melee weapon automatically switch to the one-handed weapon when enemies get within melee range (preventing the spear thrust from whiffing at point-blank range), and switch back to the polearm once enemies pull away. Symmetric for both sides; the player character is never affected. When disabled, soldiers keep vanilla weapon behavior"/>
+    <string id="mlf_spear_switch_dist" text="Switch to Melee Distance"/>
+    <string id="mlf_spear_switch_dist_hint" text="Distance to the nearest enemy (meters) at which a polearm-wielding soldier switches to the one-handed weapon. Smaller = the spear is kept longer, larger = earlier switch. Must not exceed the switch-back distance"/>
+    <string id="mlf_spear_switch_back" text="Switch Back to Polearm Distance"/>
+    <string id="mlf_spear_switch_back_hint" text="Distance from the nearest enemy (meters) at which a one-handed-wielding soldier switches back to the polearm (hysteresis band with the switch distance prevents weapon flickering). Smaller = quicker return to the spear, larger = the sword is kept longer"/>
+
     <!-- ════════ 骑马长杆击倒 ════════ -->
     <string id="mlf_lance_couch" text="Couch Lance Knockdown"/>
     <string id="mlf_lance_couch_hint" text="Mounted couch lance (passive attack) hits on unmounted infantry/ranged units always knock them down (symmetric for both sides; negated by blocking)"/>

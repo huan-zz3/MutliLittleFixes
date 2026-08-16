@@ -450,6 +450,18 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool FormationFrontRankSortEnabled { get; set; } = true;
 
+        [SettingPropertyBool("{=mlf_spear_switch_enabled}Spear Melee Switch", Order = 83, RequireRestart = false, HintText = "{=mlf_spear_switch_enabled_hint}AI foot soldiers carrying both a polearm and a one-handed melee weapon automatically switch to the one-handed weapon when enemies get within melee range (preventing the spear thrust from whiffing at point-blank range), and switch back to the polearm once enemies pull away. Symmetric for both sides; the player character is never affected. When disabled, soldiers keep vanilla weapon behavior")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
+        public bool SpearMeleeSwitchEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("{=mlf_spear_switch_dist}Switch to Melee Distance", 1.0f, 4.0f, "0.0", Order = 84, RequireRestart = false, HintText = "{=mlf_spear_switch_dist_hint}Distance to the nearest enemy (meters) at which a polearm-wielding soldier switches to the one-handed weapon. Smaller = the spear is kept longer, larger = earlier switch. Must not exceed the switch-back distance")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
+        public float SpearMeleeSwitchDistance { get; set; } = 2.0f;
+
+        [SettingPropertyFloatingInteger("{=mlf_spear_switch_back}Switch Back to Polearm Distance", 2.0f, 8.0f, "0.0", Order = 85, RequireRestart = false, HintText = "{=mlf_spear_switch_back_hint}Distance from the nearest enemy (meters) at which a one-handed-wielding soldier switches back to the polearm (hysteresis band with the switch distance prevents weapon flickering). Smaller = quicker return to the spear, larger = the sword is kept longer")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
+        public float SpearMeleeSwitchBackDistance { get; set; } = 4.0f;
+
         [SettingPropertyBool("{=mlf_village_rebuild}Village Funded Rebuild", Order = 83, RequireRestart = false, HintText = "{=mlf_village_rebuild_hint}The menu of fully raided (devastated) villages offers a \"Fund Reconstruction\" option: pay 10000 denars and the village rebuilds automatically in 3 days (returns to normal operation and rewards all notables with 15~20 relation). When disabled, the menu option is hidden; ongoing paid rebuilds are unaffected and still complete on time")]
         [SettingPropertyGroup("{=mlf_group_village}Village Rebuild")]
         public bool VillageRebuildEnabled { get; set; } = true;

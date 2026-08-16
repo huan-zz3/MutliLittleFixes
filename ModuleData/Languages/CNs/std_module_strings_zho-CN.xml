@@ -178,6 +178,14 @@
     <string id="mlf_frontrank_sort" text="首排持盾排序修复"/>
     <string id="mlf_frontrank_sort_hint" text="修复原版阵型整理的收敛缺陷：持盾兵（或架矛兵）反复向前冒泡至列稳定、跨列补位遇满排时跳过而非中止整个整理，保证首排在有持盾者可换时必然满盾（原版会出现首排非盾兵+第二排持盾兵并存的乱序）。仅对步兵编队（步兵占比超过 95%）生效；远程编队禁用该前排冒泡，交由「远程盾兵站位」重排接管"/>
 
+    <!-- ════════ 长矛兵近身换刀 ════════ -->
+    <string id="mlf_spear_switch_enabled" text="长矛兵近身换刀"/>
+    <string id="mlf_spear_switch_enabled_hint" text="同时携带长杆与单手近战武器的 AI 步兵，在敌人进入贴身距离时自动切换到单手武器（避免长杆刺击在贴脸距离判定落空「卡刀」），敌人拉开距离后自动换回长杆保持对骑兵的刺击/架矛能力。敌我双方对称生效，玩家本人不受影响。关闭后士兵保持原版武器行为"/>
+    <string id="mlf_spear_switch_dist" text="换刀距离"/>
+    <string id="mlf_spear_switch_dist_hint" text="持长杆士兵切换到单手武器的最近敌人距离（米）。越小长杆用得越久，越大换刀越早。不应超过回切距离"/>
+    <string id="mlf_spear_switch_back" text="回切长杆距离"/>
+    <string id="mlf_spear_switch_back_hint" text="持单手士兵换回长杆的最近敌人距离（米）。与换刀距离构成滞回区间，防止武器频繁抖动。越小越早换回长杆，越大单刀用得更久"/>
+
     <!-- ════════ 骑马长杆击倒 ════════ -->
     <string id="mlf_lance_couch" text="架矛骑枪必定击倒"/>
     <string id="mlf_lance_couch_hint" text="骑乘架矛（被动攻击）的长杆武器命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）"/>
