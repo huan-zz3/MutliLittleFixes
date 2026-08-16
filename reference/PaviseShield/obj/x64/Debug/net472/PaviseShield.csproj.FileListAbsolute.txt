@@ -1,0 +1,9 @@
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.csproj.AssemblyReference.cache
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.GeneratedMSBuildEditorConfig.editorconfig
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.AssemblyInfoInputs.cache
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.AssemblyInfo.cs
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.csproj.CoreCompileInputs.cache
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\bin\x64\Debug\net472\PaviseShield.dll
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\bin\x64\Debug\net472\PaviseShield.pdb
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.dll
+E:\SteamLibrary\steamapps\common\Mount & Blade II Bannerlord\Modules\PaviseShield\obj\x64\Debug\net472\PaviseShield.pdb
