@@ -6,7 +6,7 @@
 
 **Version Notes & Prerequisites**
 
-- Current version: v1.3.0 (see changelog at the end)
+- Current version: v1.4.0 (see changelog at the end)
 - Requires the "Four Prerequisites" (framework mods)
 - Tested compatible with 1.4.5 and 1.4.6; 1.4.7 and 1.4.8 are unconfirmed — feedback in the comments is appreciated. 1.3.x is **not** supported.
 
@@ -22,6 +22,8 @@
 - **Grain Support Between Player Fiefs:** Every 3 in-game hours, surplus towns automatically send garrison-converted grain convoys to player-clan towns/castles that are short on grain.
 - **Village Funded Reconstruction:** Razed villages can be rebuilt by the player for 10,000 denars, completing after three days and raising relation with the village's notables.
 - **Realistic Auto-Resolve Simulation:** Soldiers accumulate injuries by individual HP, hit damage comes from their actual weapons and is reduced by armor — escaping the vanilla "pure troop-count crush" rough settlement; can also be applied to campaign-map battles between AI forces.
+- **Shield Planting & Positioning:** Shield-carrying ranged infantry plant their shields in the ground as cover and keep shooting; plant/retrieve manually with F11/J or automatically via formation commands, and ranged shield-bearers automatically deploy to the front and flanks, forming a protective shell.
+- **Pikeman Close-Range Weapon Swap:** AI infantry automatically switch to a one-handed weapon when enemies get into melee range to avoid stuck pikes; they switch back to their polearm once distance opens up, keeping their brace ability.
 
 **MutliLittleFixes Full Feature Guide**
 **I. Progression & Experience**
@@ -68,6 +70,9 @@
 - **Battle Results Sort Order Reversal:** The sort cycle when clicking column headers on the results screen is reversed to "Default → Descending → Ascending", matching most players' intuition.
 - **Free Retreat After Joining a Battle:** After the player joins an existing friendly battle on the campaign map, the encounter menu always offers a "Leave" option regardless of whether the friend is the attacker or defender, so you can pull out with your party at any time; self-initiated siege/defense battles keep the vanilla rules.
 - **No Party Takeover on Player Death:** When the player character dies, the system is prevented from forcing the player's party under full AI command — the party keeps fighting with the last order given at the moment of death; note that the vanilla command UI is still closed after death, so no further manual orders are possible. When disabled, the vanilla "AI takes full control on death" behavior is restored.
+- **Shield Planting & Positioning:** Any infantry soldier (excluding mounted archers) carrying a shield and equipped with a ranged weapon (bow/crossbow, not javelins) can plant their shield in the ground as an obstacle cover, then un-equip it and keep shooting with their ranged weapon. The planted shield is dynamically generated from the soldier's actual carried shield's own model and physics body, matching any shield type (kite/round/tower, etc.). During battle press **F11 to plant, J to retrieve** (when a commanded formation is selected, it only affects that formation; when none is selected, it affects all eligible friendly soldiers); planted shields remain in the scene as leftover obstacles after the soldier dies or flees.
+- **Auto Plant/Retrieve Shields per Command:** Friendly soldiers automatically plant their shields after standing still for a while while their formation is under non-movement commands such as "Hold" or moved-into-position (Move and arrived at the target point); they immediately retrieve their shields upon receiving movement/combat commands like Charge/Advance/Fall Back/Retreat/Follow/Attack Entity. Position-driven retrieval (leaving the planting point by more than 0.5 m) is only allowed after the player issues a Move or formation-change command — soldiers forcibly displaced by enemy charges/collisions won't retrieve. Manual F11/J always takes priority, and auto logic doesn't interfere with a soldier within 3 seconds of a manual operation; the stillness check uses movement speed (same as Auto Crouch), so AI soldiers' tiny in-combat displacements aren't misjudged.
+- **Pikeman Close-Range Weapon Swap:** AI infantry carrying a polearm + one-handed melee weapon (symmetric for both sides; the player character is unaffected) automatically switch from the polearm to the one-handed weapon when an enemy enters swap range (default 2 m), preventing polearm thrusts from missing at point-blank range (stuck pike); when the enemy moves beyond the switch-back range (default 4 m) or no enemy remains, they switch back to the polearm, keeping their thrust/brace ability against cavalry charges. The switch has a per-soldier cooldown debounce to avoid oscillating back and forth at the threshold boundary; the brace (passive attack) itself is triggered by the vanilla engine — this feature only handles weapon selection. Both distances are adjustable.
 
 **VII. Auto-Resolve**
 
@@ -109,6 +114,8 @@ Throughout the journey of developing this mod, I've learned from countless mods 
 - Enemy Party Enhancement (敌人部队增强): Inspired the "Lord Release Replenishment and Lost-Settlement Bonuses" features.
 - Village Rebuild (村庄重建): Inspired me to recreate the "Fund Reconstruction" feature.
 - Auto Resolve Rebalanced (合理坐镇): Inspired and ported its "accumulated HP casualties + pure weapon damage + extra rounds for troop disparity" auto-resolve approach, rewriting it into this mod's Realistic Auto-Resolve Simulation feature.
+- PaviseShield: Inspired and generalized into this mod's "Shield Planting & Positioning" feature — any shield-carrying ranged infantry can plant their shield in the ground as an obstacle, and on top of that the auto plant/retrieve and ranged shield-bearer positioning optimization were extended.
+- BetterPikes and friend 朱天宇 (Zhu Tianyu): Inspired this mod's "Pikeman Close-Range Weapon Swap" feature — polearm thrusts easily miss in point-blank melee, so AI soldiers should switch to a one-handed weapon at close range and switch back to the polearm after creating distance.
 
 This mod is also open source on GitHub — any fellow player is welcome to reference and create: huan-zz3/MutliLittleFixes
 
@@ -116,7 +123,16 @@ This mod is also open source on GitHub — any fellow player is welcome to refer
 
 **Changelog**
 
-**v1.3.0** (current version)
+**v1.4.0** (current version)
+- New feature: Shield planting & positioning — any infantry (excluding mounted archers) carrying a shield and equipped with a ranged weapon (bow/crossbow, not javelins) can plant their shield in the ground as an obstacle cover and keep shooting after un-equipping it; during battle press F11 to plant, J to retrieve (when a commanded formation is selected, only that formation is affected); the planted shield is dynamically generated from the soldier's actual carried shield's own model and physics body, matching any shield type; planted shields remain in the scene as leftover obstacles after the soldier dies or flees.
+- New feature: Ranged shield-bearer positioning optimization — in line/loose formations where ranged soldiers make up more than 95%, shield-carrying ranged soldiers are automatically rearranged by the priority "front row → left/right columns → last two rows → remaining middle rows", forming a protective shell at the front, flanks, and rear; layout changes trigger immediate rearrangement, and in combat it recalculates on a 1.5-second cycle; soldiers with planted shields don't participate in swaps, avoiding oscillation with auto plant/retrieve that could prevent convergence.
+- New feature: Auto plant/retrieve shields per player command — when a formation is under non-movement commands like "Hold" or moved-into-position, soldiers automatically plant their shields after standing still for a while; they immediately retrieve upon receiving movement/combat commands like Charge/Advance/Fall Back/Retreat/Follow/Attack Entity. Position-driven retrieval (leaving the planting point by more than 0.5 m) is only allowed after the player issues Move/formation-change commands; soldiers forcibly displaced by enemy charges/collisions won't retrieve. Manual F11/J always takes priority, with auto logic not interfering within 3 seconds of a manual operation.
+- New feature: Pikeman close-range weapon swap — AI infantry carrying a polearm + one-handed melee weapon (symmetric for both sides; player character unaffected) automatically switch to the one-handed weapon when an enemy enters swap range (default 2 m) to prevent stuck pikes, and switch back to the polearm when the enemy moves beyond switch-back range (default 4 m), keeping the brace ability; the switch has a per-soldier cooldown debounce, and both distances are adjustable.
+- Improvement: First-row shield-bearer formation fix extended — now only applies to infantry formations (infantry ratio above 95%); non-infantry formations (e.g., pure ranged) completely disable the native "shield bubbles to front row" mechanism, letting the ranged shield-bearer rearrangement converge exclusively.
+- Bug fix: Grain convoy crash on fief change — fixes the InvalidOperationException crash caused by destroying parties while iterating MobileParty.All during convoy processing; now the list of in-transit convoys is collected first, then each convoy is processed one by one.
+- Added reference mods: PaviseShield and BetterPikes source code into reference/ for learning.
+
+**v1.3.0**
 - New feature: Realistic auto-resolve simulation — soldiers no longer die in one hit; instead they accumulate injuries by individual HP. Each hit's damage comes from the soldier's actual weapon (4×4 troop-type weapon priority table), armor reduces damage by the vanilla formula with a random hit location, shielded soldiers can block, infantry/cavalry with javelins have a chance to throw them, and ranged attacks have a hit check; when troop disparity is large, extra simulation rounds are appended so the battle plays out to the end. Armor reduction, block chance, javelin chance, and ranged hit chance are all independently configurable; the whole feature can be toggled, and can optionally apply to AI-vs-AI campaign battles with adjustable speed.
 - New feature: Auto-resolve attack frequency ratio cap — the two sides' attack-frequency ratio is limited within a configurable cap (default 2:1 troop ratio, corresponding to about a 1.52 frequency ratio); with large troop disparity, the gap no longer widens endlessly as the weaker side loses troops. Also restores the AI-vs-AI simulation interval to the vanilla 1.0x speed by default.
 - New feature: Player siege command lock — when the player initiates a siege first, command always stays with the player; allied armies/kings joining mid-siege can't take it away; after the player leaves, command transfers per vanilla rules.
