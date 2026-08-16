@@ -373,6 +373,10 @@ namespace MutliLittleFixes
                     && weapon.AmmoCount > 0
                     && weapon.Side == (Agent.Main?.Team?.Side ?? BattleSideEnum.Attacker)
                     && IsLobber(weapon)
+                    // PilotAgent 为 null（无人操作：换班间隙/操作员阵亡/未分配机组）时，
+                    // 游戏代码 CanShootAtPoint → CanShootPointBallistic → IsEnemyOf(null) 会 NRE，
+                    // 故无人操作的器械不参与标定（原版 AI 路径从不调用该状态）。
+                    && weapon.PilotAgent != null
                     && weapon.CanShootAtPoint(hitPos))
                 {
                     // 排除玩家当前正在操控的这台
