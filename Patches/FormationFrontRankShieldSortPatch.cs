@@ -1,6 +1,7 @@
 using System;
 using System.Reflection;
 using HarmonyLib;
+using TaleWorlds.Core;
 using TaleWorlds.MountAndBlade;
 
 namespace MutliLittleFixes.Patches
@@ -31,6 +32,8 @@ namespace MutliLittleFixes.Patches
         private static readonly PropertyInfo IntervalProperty =
             AccessTools.Property(typeof(LineFormation), "Interval");
 
+        private static readonly FieldInfo OwnerField = AccessTools.Field(typeof(LineFormation), "owner");
+
         internal static bool Prefix(LineFormation __instance)
         {
             try
@@ -54,6 +57,13 @@ namespace MutliLittleFixes.Patches
             // 反射成员缺失（游戏版本差异）时放行原方法，安全降级
             if (FrontUnitDelegateField == null || FileCountProperty == null || IntervalProperty == null)
                 return true;
+
+            // 非步兵编队（步兵占比 ≤ 95%）→ 完全禁用前排冒泡（跳过原生方法且不执行替换逻辑），
+            // 避免与 ShieldBearerFormationBehavior 的远程编队站位重排持续冲突：
+            // 本补丁高频运行（每 3 tick），会把重排到两翼/后排的持盾远程又挤回前排，
+            // 导致远程编队的自定义布局永远无法收敛
+            if (!IsInfantryFormation(__instance))
+                return false;
 
             // 复刻原版 Interval <= 0 早退语义（单位间隔未就绪时不整理站位）
             if ((float)IntervalProperty.GetValue(__instance) <= 0f)
@@ -117,6 +127,40 @@ namespace MutliLittleFixes.Patches
             }
 
             return false; // 已用修正逻辑完整替代原方法
+        }
+
+        /// <summary>
+        /// 步兵编队判定：步兵（非远程兵种）占比 &gt; 95%。
+        /// 仅步兵编队保留前排冒泡机制；非步兵编队（如纯远程编队）完全禁用，
+        /// 让 ShieldBearerFormationBehavior 的站位重排独占收敛。
+        /// </summary>
+        private static bool IsInfantryFormation(LineFormation line)
+        {
+            if (OwnerField?.GetValue(line) is not Formation formation)
+                return false;
+
+            int ranged = 0;
+            int total = 0;
+            formation.ApplyActionOnEachUnit(a =>
+            {
+                total++;
+                if (IsRangedTroop(a)) ranged++;
+            });
+            if (total == 0) return false;
+            return ranged * 20 < total; // 远程占比 < 5% ⇒ 步兵占比 > 95%
+        }
+
+        /// <summary>
+        /// 远程兵种判定（与 RangedNoAmmoBehavior 一致）：兵种类别为 Ranged，
+        /// 或下马的 HorseArcher。
+        /// </summary>
+        private static bool IsRangedTroop(Agent agent)
+        {
+            if (agent?.Character == null) return false;
+            FormationClass defaultClass = agent.Character.GetFormationClass().DefaultClass();
+            if (defaultClass == FormationClass.Ranged) return true;
+            if (defaultClass == FormationClass.HorseArcher && !agent.HasMount) return true;
+            return false;
         }
     }
 }

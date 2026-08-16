@@ -446,7 +446,7 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool PlayerDeathNoAITakeoverEnabled { get; set; } = false;
 
-        [SettingPropertyBool("{=mlf_frontrank_sort}Front Rank Shield Sort Fix", Order = 82, RequireRestart = false, HintText = "{=mlf_frontrank_sort_hint}Fix the vanilla formation arrangement convergence defect: shielded (or polearm-bracing) units keep bubbling forward until the column stabilizes, and cross-column gap filling skips full ranks instead of aborting the whole arrangement, ensuring the front rank is fully shielded whenever shield units are available (vanilla can leave a disordered mix of non-shield front rank + shield second rank)")]
+        [SettingPropertyBool("{=mlf_frontrank_sort}Front Rank Shield Sort Fix", Order = 82, RequireRestart = false, HintText = "{=mlf_frontrank_sort_hint}Fix the vanilla formation arrangement convergence defect: shielded (or polearm-bracing) units keep bubbling forward until the column stabilizes, and cross-column gap filling skips full ranks instead of aborting the whole arrangement, ensuring the front rank is fully shielded whenever shield units are available (vanilla can leave a disordered mix of non-shield front rank + shield second rank). Only applies to infantry formations (infantry share above 95%); ranged formations keep this front-rank bubbling disabled so the Shield Bearer Formation repositioning can take over")]
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool FormationFrontRankSortEnabled { get; set; } = true;
 
@@ -523,6 +523,14 @@ namespace MutliLittleFixes
         [SettingPropertyBool("{=mlf_debug_autoresolve}Auto Resolve Debug Log", Order = 99, RequireRestart = false, HintText = "{=mlf_debug_autoresolve_hint}Display auto-resolve rebalance debug logs (per-hit HP changes, data rebuilds, errors) in the bottom-left corner of the screen")]
         [SettingPropertyGroup("{=mlf_group_debug}Debug")]
         public bool EnableAutoResolveDebugLog { get; set; } = false;
+
+        [SettingPropertyBool("{=mlf_shield_enabled}Plant Shields", Order = 0, RequireRestart = false, HintText = "{=mlf_shield_enabled_hint}Any ranged foot soldier carrying a shield (horse archers excluded) can plant their shield into the ground as an obstacle. In battle, press F11 to plant the shields of the selected formation (or all eligible soldiers if no formation is selected), and press J to pick them up. Planted troops keep fighting with their ranged weapons while the planted shield acts as cover. When disabled, all planted shields are picked up and the feature stops")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public bool ShieldPlantingEnabled { get; set; } = true;
+
+        [SettingPropertyBool("{=mlf_shield_formation_enabled}Shield Bearers on Front, Flanks and Rear", Order = 0, RequireRestart = false, HintText = "{=mlf_shield_formation_enabled_hint}In line and loose formations where ranged soldiers make up more than 95% of the unit, shield-bearing ranged soldiers are repositioned with this priority: first fill the front rank, then the left and right flank columns, then the last two ranks (all filled without gaps), and remaining shield bearers fill the ranks in between from front to back. Repositioning activates immediately when the formation layout changes (width/formation order) and recalculates every 1.5 seconds during battle; your own character is never moved. When disabled, soldiers return to vanilla positioning")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public bool ShieldBearerFormationEnabled { get; set; } = true;
 
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {

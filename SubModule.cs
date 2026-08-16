@@ -42,6 +42,13 @@ namespace MutliLittleFixes
             mission.AddMissionBehavior(new AutoCrouchMissionLogic());
             mission.AddMissionBehavior(new RangedNoAmmoBehavior());
 
+            // 盾牌插地：带盾远程步兵把盾插在地上作障碍物（F11 插盾 / J 收盾，仅玩家手动操作）
+        // 由 MCM "Formations & Battle 类 → Shield Planting" 分组开关实时控制
+        mission.AddMissionBehavior(new ShieldPlantingBehavior());
+
+        // 由 MCM "Formations & Battle 类 → Ranged Shield Formation" 分组开关实时控制
+        mission.AddMissionBehavior(new ShieldBearerFormationBehavior());
+
             // 调试: 按 , 键随机 5% 远程士兵弹药归零（测试 RangedNoAmmoBehavior 用）
             // 由 MCM "调试 → 远程弹药归零调试" 开关控制，游戏中实时启用/禁用
             mission.AddMissionBehavior(new RangedNoAmmoDebugBehavior());
