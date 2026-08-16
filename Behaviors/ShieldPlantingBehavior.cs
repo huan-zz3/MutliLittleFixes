@@ -299,7 +299,9 @@ namespace MutliLittleFixes
         }
 
         /// <summary>
-        /// 清理死亡/逃跑 agent 对应的插地盾实体与记录。
+        /// 清理死亡/逃跑 agent 对应的插地盾记录。
+        /// 插地盾实体【保留】在场景中作为遗留障碍物，仅移除字典追踪；
+        /// 实体随 Mission 结束（场景销毁）自动消失。
         /// </summary>
         private void CleanupDeadAgents()
         {
@@ -307,14 +309,6 @@ namespace MutliLittleFixes
             {
                 if (kvp.Key == null || !kvp.Key.IsActive())
                 {
-                    try
-                    {
-                        kvp.Value?.Remove(0);
-                    }
-                    catch (Exception ex)
-                    {
-                        Debug.PrintError("盾牌插地: 清理死亡士兵插地盾失败 " + ex.Message, "MutliLittleFixes.ShieldPlanting");
-                    }
                     _deployedAgents.Remove(kvp.Key!);
                     _shieldSlots.Remove(kvp.Key!);
                     _savedShieldWeapons.Remove(kvp.Key!);
@@ -334,16 +328,10 @@ namespace MutliLittleFixes
 
         public override void OnAgentRemoved(Agent affectedAgent, Agent affectorAgent, AgentState agentState, KillingBlow blow)
         {
-            if (_deployedAgents.TryGetValue(affectedAgent, out GameEntity? entity))
+            // 士兵死亡/离场时插地盾【保留】在场景中作遗留障碍物，仅清除字典追踪；
+            // 实体随 Mission 结束（场景销毁）自动消失。
+            if (_deployedAgents.ContainsKey(affectedAgent))
             {
-                try
-                {
-                    entity?.Remove(0);
-                }
-                catch (Exception ex)
-                {
-                    Debug.PrintError("盾牌插地: OnAgentRemoved 移除插地盾失败 " + ex.Message, "MutliLittleFixes.ShieldPlanting");
-                }
                 _deployedAgents.Remove(affectedAgent);
                 _shieldSlots.Remove(affectedAgent);
                 _savedShieldWeapons.Remove(affectedAgent);
