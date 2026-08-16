@@ -376,6 +376,8 @@
     <string id="mlf_shield_enabled_hint" text="任何携带盾牌且装备远程武器（弓/弩/标枪）的步兵（骑射手除外）都可以把盾牌插进地里作为障碍物。战斗中按 F11 为选中阵型插盾（未选中阵型时为本方全部符合条件的士兵插盾），按 J 收盾。插盾后的士兵可继续用远程武器射击，插在地上的盾牌作为掩体。关闭后所有已插盾牌将被收回，功能停止"/>
     <string id="mlf_shield_auto_deploy" text="按玩家命令自动插盾/收盾"/>
     <string id="mlf_shield_auto_deploy_hint" text="你的带盾远程士兵在接到就位/移动到目标点命令且完全抵达目标点（非冲锋/开战/后退）时会自动插盾；接到移动战斗命令（冲锋、开战、后退、撤退、跟随、攻击实体），或已插盾时被命令（Move）前往新的坐标点或变换阵型时自动收盾——位置驱动的收盾仅在玩家下达过 Move/阵型变换命令且士兵离开插盾点后才发生，被敌方冲锋撞开等被动位移不会触发收盾。手动 F11/J 操作始终优先，手动操作后 3 秒内自动逻辑不干预该士兵"/>
+    <string id="mlf_shield_max_per_scan" text="每次扫描最大自动插盾数"/>
+    <string id="mlf_shield_max_per_scan_hint" text="每个自动扫描周期（每 2 秒）内最多插盾或收盾的士兵数量——插盾与收盾各自独立节流，每周期各最多执行该次数。当带盾远程兵很多时，该参数限制同一时刻生成/移除的插地盾数量，防止同时大量插盾或收盾造成卡顿；超出上限的士兵顺延到后续周期执行。手动 F11/J 操作不受此限制"/>
     <string id="mlf_shield_none_found" text="未找到携带盾牌的远程士兵。"/>
     <string id="mlf_shield_deployed" text="{COUNT} 名士兵已插盾。"/>
     <string id="mlf_shield_none_deployed" text="没有已插地的盾牌。"/>

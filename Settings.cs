@@ -536,6 +536,10 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
         public bool ShieldPlantingAutoDeployEnabled { get; set; } = true;
 
+        [SettingPropertyInteger("{=mlf_shield_max_per_scan}Max Auto-Plants per Scan", 1, 50, "0", Order = 2, RequireRestart = false, HintText = "{=mlf_shield_max_per_scan_hint}Maximum number of soldiers that can plant OR pick up their shields in a single auto-scan cycle (every 2 seconds) - planting and picking up are throttled independently, each up to this many per cycle. With many shield-bearing ranged soldiers, this prevents stuttering from many shields being spawned or removed at the same moment; the remaining soldiers are handled on the following cycles. Manual F11/J actions are never limited")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public int ShieldPlantingMaxAutoDeployPerScan { get; set; } = 20;
+
         [SettingPropertyBool("{=mlf_shield_formation_enabled}Shield Bearers on Front, Flanks and Rear", Order = 0, RequireRestart = false, HintText = "{=mlf_shield_formation_enabled_hint}In line and loose formations where ranged soldiers make up more than 95% of the unit, shield-bearing ranged soldiers are repositioned with this priority: first fill the front rank, then the left and right flank columns, then the last two ranks (all filled without gaps), and remaining shield bearers fill the ranks in between from front to back. Repositioning activates immediately when the formation layout changes (width/formation order) and recalculates every 1.5 seconds during battle; your own character is never moved. When disabled, soldiers return to vanilla positioning")]
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
         public bool ShieldBearerFormationEnabled { get; set; } = true;

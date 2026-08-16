@@ -72,6 +72,16 @@ namespace MutliLittleFixes
         private float _cooldown;
         private float _autoTick;
         private float _summaryTick = AUTO_SUMMARY_INTERVAL; // 首次扫描立即输出调试摘要
+        // 缓冲池：每扫描周期已自动插盾的人数（不超过 MCM 上限 ShieldPlantingMaxAutoDeployPerScan，
+        // 防止大量盾远程兵同一时刻放盾造成卡顿；手动 F11/J 不受限）
+        private int _autoDeployCountThisScan;
+        // 超限提示去重（每扫描周期只提示一次）
+        private bool _autoDeployLimitLogged;
+        // 缓冲池：每扫描周期已自动收盾的人数（与插盾【独立计数】，各自最多
+        // ShieldPlantingMaxAutoDeployPerScan 次，防止同一时刻大量收盾造成卡顿；手动 F11/J 不受限）
+        private int _autoUndeployCountThisScan;
+        // 收盾超限提示去重（每扫描周期只提示一次）
+        private bool _autoUndeployLimitLogged;
         private bool _manualCooldownLogged;   // 防抖提示去重（每次冷却期只提示一次）
         private bool _disabledLogged;         // 开关关闭提示去重
 
@@ -511,6 +521,14 @@ namespace MutliLittleFixes
             Team? playerTeam = Mission.PlayerTeam;
             if (playerTeam == null) return;
 
+            // 缓冲池：每扫描周期最多自动插盾/收盾人数（MCM 实时读取；插盾与收盾各自独立计数，
+            // 每周期各最多 maxAutoDeployPerScan 次，手动 F11/J 不受限）
+            int maxAutoDeployPerScan = Settings.Instance?.ShieldPlantingMaxAutoDeployPerScan ?? 5;
+            _autoDeployCountThisScan = 0;
+            _autoDeployLimitLogged = false;
+            _autoUndeployCountThisScan = 0;
+            _autoUndeployLimitLogged = false;
+
             int candidateCount = 0, movingOrderCount = 0, holdOrderCount = 0;
             bool anyManualCooldown = false;
 
@@ -553,9 +571,23 @@ namespace MutliLittleFixes
                     movingOrderCount++;
                     if (_deployedAgents.ContainsKey(agent))
                     {
-                        Undeploy(agent);
-                        if (debug)
-                            LogDebug($"[插盾自动] {agent.Name} 自动收盾（移动战斗命令 {orderType}）");
+                        // 缓冲池节流：收盾与插盾独立计数，每扫描周期最多自动收盾 maxAutoDeployPerScan 人。
+                        // 超限士兵保持已插盾状态，下一周期命令仍是移动战斗命令时再次尝试，逐周期消化。
+                        if (_autoUndeployCountThisScan >= maxAutoDeployPerScan)
+                        {
+                            if (debug && !_autoUndeployLimitLogged)
+                            {
+                                LogDebug($"[插盾自动] 本扫描周期已达收盾上限 {maxAutoDeployPerScan} 人，其余士兵顺延到下一周期");
+                                _autoUndeployLimitLogged = true;
+                            }
+                        }
+                        else
+                        {
+                            Undeploy(agent);
+                            _autoUndeployCountThisScan++;
+                            if (debug)
+                                LogDebug($"[插盾自动] {agent.Name} 自动收盾（移动战斗命令 {orderType}）");
+                        }
                     }
                     _stationaryTime[agent] = 0f;
                     continue;
@@ -575,9 +607,23 @@ namespace MutliLittleFixes
                         && _plantPoints.TryGetValue(agent, out Vec3 plantPoint)
                         && pos.Distance(plantPoint) > AUTO_UNDEPLOY_DISTANCE)
                     {
-                        if (debug)
-                            LogDebug($"[插盾自动] {agent.Name} 自动收盾（玩家 Move 命令，离开插盾点 {pos.Distance(plantPoint):F1}m）");
-                        Undeploy(agent);
+                        // 缓冲池节流：收盾与插盾独立计数（每周期各 maxAutoDeployPerScan 次）。
+                        // 超限时保持已插盾状态，下一周期士兵离插盾点更远，再次满足条件即收盾。
+                        if (_autoUndeployCountThisScan >= maxAutoDeployPerScan)
+                        {
+                            if (debug && !_autoUndeployLimitLogged)
+                            {
+                                LogDebug($"[插盾自动] 本扫描周期已达收盾上限 {maxAutoDeployPerScan} 人，其余士兵顺延到下一周期");
+                                _autoUndeployLimitLogged = true;
+                            }
+                        }
+                        else
+                        {
+                            if (debug)
+                                LogDebug($"[插盾自动] {agent.Name} 自动收盾（玩家 Move 命令，离开插盾点 {pos.Distance(plantPoint):F1}m）");
+                            Undeploy(agent);
+                            _autoUndeployCountThisScan++;
+                        }
                     }
                 }
                 else
@@ -594,10 +640,23 @@ namespace MutliLittleFixes
                         _stationaryTime[agent] = _stationaryTime.TryGetValue(agent, out float t) ? t + AUTO_SCAN_INTERVAL : AUTO_SCAN_INTERVAL;
                         if (_stationaryTime[agent] >= AUTO_STATIONARY_TIME)
                         {
+                            // 缓冲池节流：每扫描周期最多自动插盾 maxAutoDeployPerScan 人。
+                            // 超限士兵的静止计时保持已达阈值状态（不清零），顺延到下一扫描周期插盾，
+                            // 逐周期消化积压，避免同一时刻大量士兵放盾造成卡顿。
+                            if (_autoDeployCountThisScan >= maxAutoDeployPerScan)
+                            {
+                                if (debug && !_autoDeployLimitLogged)
+                                {
+                                    LogDebug($"[插盾自动] 本扫描周期已达插盾上限 {maxAutoDeployPerScan} 人，其余士兵顺延到下一周期");
+                                    _autoDeployLimitLogged = true;
+                                }
+                                continue;
+                            }
                             if (debug)
                                 LogDebug($"[插盾自动] {agent.Name} 自动插盾（速度静止 {AUTO_STATIONARY_TIME:F0}s，命令 {orderType}）");
                             _stationaryTime[agent] = 0f;
                             Deploy(agent);
+                            _autoDeployCountThisScan++;
                         }
                     }
                     else
