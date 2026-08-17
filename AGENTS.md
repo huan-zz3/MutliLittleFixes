@@ -125,3 +125,36 @@ ModuleData/Languages/
 1. 代码中玩家可见文本写成 `new TextObject("{=mlf_xxx}English fallback", null)`（变量用 `{VAR}` + `SetTextVariable`）。
 2. 在 `ModuleData/Languages/English/std_module_strings.xml` 与 `ModuleData/Languages/CNs/std_module_strings_zho-CN.xml` 各加一条同 ID 词条（中文词条取原中文文案）。
 3. 编译验证 + 脚本核对代码 ID 与两个词条文件数量一致。
+
+---
+
+## 4. 全局崩溃捕获（CrashLog）
+
+> 本 Mod 常驻的托管异常全量捕获系统，**对用户透明、无 MCM 开关、始终生效**。新增/修改任何代码前请理解本节，确保新代码不会破坏捕获机制，且新功能引发的异常能被正常记录定位。
+
+### 4.1 机制与覆盖范围
+
+- 由 `SubModule.OnSubModuleLoad` 挂载三个 AppDomain 级钩子（`OnSubModuleUnloaded` 卸载）：
+  - `AppDomain.CurrentDomain.FirstChanceException` —— 任何异常在抛出的瞬间触发（含被游戏高层 catch 吞掉的），过滤出本 Mod 相关帧后记录。**这是"全量捕获"的核心。**
+  - `AppDomain.CurrentDomain.UnhandledException` —— 异常逃逸到 CLR、游戏即将崩溃前记录完整堆栈。
+  - `TaskScheduler.UnobservedTaskException` —— Task 异步异常兜底（回调内调用 `SetObserved()`）。
+- 覆盖范围：Harmony 补丁方法、内部算法（TrajectorySystem / OrcaSystem / AutoResolve）、MissionBehavior / CampaignBehavior 回调、UI ViewModel —— 只要异常堆栈含 `MutliLittleFixes` 帧或抛出点属于本程序集即被记录。
+- **只记录、不吞异常**：异常仍按原路径传播。补丁方法内该有的 try-catch 仍需保留（尤其 Prefix 异常会中止原方法执行）。
+
+### 4.2 日志位置与限流
+
+- 日志文件：游戏标准用户目录（`PlatformFileType.User`，同 `rgl_log.txt` / `Configs` 所在目录）下
+  `%USERPROFILE%\Documents\Mount and Blade II Bannerlord\Logs\MutliLittleFixes_Crash.log`
+  （解析失败时兜底退回游戏安装目录）。UTF-8 无 BOM，追加写，线程安全。
+- 限流规则（防单点刷爆日志）：
+  - 同签名异常（异常类型 + 抛出位置）10 秒窗口内只写一次完整堆栈，期间只计数（`[xN]` 标注累计次数）；
+  - 单次会话详细条目上限 5000 条，超出后仅计数不再落盘。
+- 日志为**调试排障工具，保持中文，不本地化**（AGENTS.md §3.1）。
+
+### 4.3 新代码要求
+
+1. **无需**为新代码额外添加 try-catch 来"防崩溃记录"——异常会自动被捕获层记录。但**不得**依赖捕获层兜底来掩盖逻辑错误：被记录的异常 = 已有功能故障，应修复而非忽略。
+2. **禁止**在补丁方法内 `catch (Exception) { }` 静默吞掉异常（会导致捕获层与开发者都看不到问题）；如需优雅降级，catch 后应调用 `CrashLog.Write("功能名", ex)` 显式记录（参考 `AutoResolveLog.PrintError` 用法）。
+3. **禁止**修改 `CrashLog` 的常驻挂载逻辑、限流参数或过滤规则使其失效；`CrashLog` 自身全部静默兜底，绝不再抛异常（避免递归触发捕获钩子）。
+4. 新代码可随时调用 `CrashLog.Write(source, ex)` 记录任意异常（线程安全，自动限流）。
+5. 若需向玩家展示错误（toast 等），用本地化文本；崩溃日志本身保持中文不本地化。

@@ -1,4 +1,6 @@
-﻿using Bannerlord.UIExtenderEx;
+﻿using System;
+using System.Threading.Tasks;
+using Bannerlord.UIExtenderEx;
 using HarmonyLib;
 using TaleWorlds.CampaignSystem;
 using TaleWorlds.Core;
@@ -16,6 +18,15 @@ namespace MutliLittleFixes
         protected override void OnSubModuleLoad()
         {
             base.OnSubModuleLoad();
+
+            // ── 全局崩溃捕获（常驻生效，对用户透明，无 MCM 开关） ──────────
+            // 捕获本 Mod 代码（Harmony 补丁 / 内部算法 / Behavior / UI）抛出的
+            // 全部托管异常并落盘到游戏标准日志目录，详见 CrashLog.cs。
+            // 仅记录不吞异常：异常仍按原路径传播，补丁内该有的 try-catch 仍需保留。
+            AppDomain.CurrentDomain.FirstChanceException += CrashLog.OnFirstChanceException;
+            AppDomain.CurrentDomain.UnhandledException += CrashLog.OnUnhandledException;
+            TaskScheduler.UnobservedTaskException += CrashLog.OnUnobservedTaskException;
+            CrashLog.LogSessionStart();
 
             // 注册 Harmony 补丁 — 全部显式注册（见 Patches/HarmonyPatchRegistry.cs），
             // 不使用 PatchAll 自动发现。新补丁必须在注册器中逐条登记。
@@ -83,6 +94,11 @@ namespace MutliLittleFixes
 
         protected override void OnSubModuleUnloaded()
         {
+            // 卸载全局崩溃捕获钩子（避免重复加载时重复挂载）
+            AppDomain.CurrentDomain.FirstChanceException -= CrashLog.OnFirstChanceException;
+            AppDomain.CurrentDomain.UnhandledException -= CrashLog.OnUnhandledException;
+            TaskScheduler.UnobservedTaskException -= CrashLog.OnUnobservedTaskException;
+
             // 卸载 Harmony 补丁
             _harmony?.UnpatchAll("MutliLittleFixes");
             _harmony = null;
