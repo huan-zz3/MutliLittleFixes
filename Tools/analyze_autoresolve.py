@@ -10,10 +10,11 @@ tick_log.csv / casualty_log.csv），输出控制台汇总报告，可选导出 
 用法:
     conda activate mutlilittlefixes
     python analyze_autoresolve.py                          # 分析日志根目录下最新一场
-    python analyze_autoresolve.py --dir <时间戳文件夹>      # 指定一场
+    python analyze_autoresolve.py --dir <时间戳文件夹>      # 指定一场（纯时间戳名，相对日志根目录）
+    python analyze_autoresolve.py --dir <绝对路径>          # 指定一场（全局路径）
     python analyze_autoresolve.py --all                    # 全部场次汇总
     python analyze_autoresolve.py --json out.json          # 额外导出 JSON
-    python analyze_autoresolve.py --charts out_prefix      # 导出图数据 CSV（round/weapon/troop）
+    python analyze_autoresolve.py --charts out_prefix      # 导出图数据 CSV（写入时间戳目录内，round/weapon/troop）
 
 依赖: 纯标准库即可运行；若安装了 pandas 会自动使用加速（可 conda install pandas）。
 """
@@ -27,17 +28,33 @@ import sys
 from collections import Counter, defaultdict
 
 # ── 日志根目录定位 ──
-# 脚本位于 <游戏根>\Modules\MutliLittleFixes\Tools\，日志根在 <游戏根>\MutliLittleFixes_AutoResolveLogs\
-# 向上探测：Tools -> MutliLittleFixes -> Modules -> 游戏根
+# 日志根在 游戏标准用户目录（同 rgl_log.txt / Configs）：
+#   %USERPROFILE%\Documents\Mount and Blade II Bannerlord\MutliLittleFixes_AutoResolveLogs\
+# 旧版本日志位于 <游戏根>\MutliLittleFixes_AutoResolveLogs\（脚本向上探测兼容）；
+# 也可用环境变量 MLF_LOG_ROOT 显式指定。
 SCRIPT_DIR = os.path.dirname(os.path.abspath(__file__))
 
 
-def _find_log_root():
-    # 1) 环境变量显式指定
-    env = os.environ.get("MLF_LOG_ROOT")
-    if env and os.path.isdir(env):
-        return env
-    # 2) 从脚本位置向上探测游戏根
+def _user_documents_dir():
+    """游戏标准用户目录（同 rgl_log.txt / Configs，即"我的文档"）。
+
+    优先读注册表拿真实 Documents 路径（兼容 OneDrive 重定向），失败退回 ~/Documents。
+    """
+    try:
+        import winreg
+        with winreg.OpenKey(winreg.HKEY_CURRENT_USER,
+                            r"Software\Microsoft\Windows\CurrentVersion\Explorer\User Shell Folders") as key:
+            personal, _ = winreg.QueryValueEx(key, "Personal")
+        personal = os.path.expandvars(personal)
+        if personal and os.path.isabs(personal):
+            return personal
+    except Exception:
+        pass
+    return os.path.join(os.path.expanduser("~"), "Documents")
+
+
+def _find_game_log_root():
+    r"""旧版日志位置：从脚本位置向上探测游戏根（<游戏根>\MutliLittleFixes_AutoResolveLogs）。找不到返回 None。"""
     d = SCRIPT_DIR
     for _ in range(6):  # 最多上溯 6 层
         candidate = os.path.join(d, "MutliLittleFixes_AutoResolveLogs")
@@ -47,7 +64,23 @@ def _find_log_root():
         if parent == d:
             break
         d = parent
-    # 3) 回退：脚本目录本身
+    return None
+
+
+def _find_log_root():
+    # 1) 环境变量显式指定
+    env = os.environ.get("MLF_LOG_ROOT")
+    if env and os.path.isdir(env):
+        return env
+    # 2) 游戏标准用户目录（同 rgl_log.txt / Configs，新版本日志所在位置）
+    user_root = os.path.join(_user_documents_dir(), "Mount and Blade II Bannerlord", "MutliLittleFixes_AutoResolveLogs")
+    if os.path.isdir(user_root):
+        return user_root
+    # 3) 旧版本位置：从脚本位置向上探测游戏根（兼容旧日志）
+    game_root = _find_game_log_root()
+    if game_root:
+        return game_root
+    # 4) 回退：脚本目录本身
     return SCRIPT_DIR
 
 
@@ -345,39 +378,51 @@ def export_charts(b, prefix):
 
 def main():
     ap = argparse.ArgumentParser(description="MutliLittleFixes 坐镇战斗日志分析器")
-    ap.add_argument("--dir", help="指定时间戳文件夹（绝对路径或相对日志根目录）")
+    ap.add_argument("--dir", help="指定一场：纯时间戳文件夹名（如 2026-08-15_20-28-04，相对日志根目录）或全局路径（绝对路径）")
     ap.add_argument("--all", action="store_true", help="分析全部场次")
     ap.add_argument("--json", metavar="PATH", help="导出 JSON 汇总")
-    ap.add_argument("--charts", metavar="PREFIX", help="导出图数据 CSV（前缀）")
+    ap.add_argument("--charts", metavar="PREFIX", help="导出图数据 CSV 到时间戳目录内（文件前缀）")
     args = ap.parse_args()
 
     print(f"[MutliLittleFixes 坐镇日志分析器]  日志根目录: {LOG_ROOT}")
     print(f"[依赖] pandas={'已启用' if HAS_PANDAS else '未安装（使用标准库）'}")
 
-    all_dirs = find_battle_dirs(LOG_ROOT)
-    if not all_dirs:
-        print("错误: 未找到任何战斗日志（battle_summary.csv）")
-        sys.exit(1)
-
     if args.dir:
+        # --dir 同时支持两种形式：
+        #   纯时间戳文件夹（如 2026-08-15_20-28-04）→ 相对日志根目录解析，找不到时
+        #     再尝试旧版游戏根目录下的同名文件夹；
+        #   全局路径（绝对路径）→ 直接使用，不依赖日志根目录探测。
         target = args.dir
         if not os.path.isabs(target):
-            target = os.path.join(LOG_ROOT, target)
+            candidate = os.path.join(LOG_ROOT, target)
+            if not os.path.isfile(os.path.join(candidate, "battle_summary.csv")):
+                game_root = _find_game_log_root()
+                if game_root and game_root != LOG_ROOT:
+                    alt = os.path.join(game_root, target)
+                    if os.path.isfile(os.path.join(alt, "battle_summary.csv")):
+                        candidate = alt
+            target = candidate
         if not os.path.isfile(os.path.join(target, "battle_summary.csv")):
             print(f"错误: 目录不含 battle_summary.csv: {target}")
             sys.exit(1)
         dirs = [target]
-    elif args.all:
-        dirs = all_dirs
     else:
-        dirs = [all_dirs[-1]]  # 最新一场
+        all_dirs = find_battle_dirs(LOG_ROOT)
+        if not all_dirs:
+            print("错误: 未找到任何战斗日志（battle_summary.csv）")
+            sys.exit(1)
+        if args.all:
+            dirs = all_dirs
+        else:
+            dirs = [all_dirs[-1]]  # 最新一场
 
     all_json = []
     for d in dirs:
         b = analyze_battle(d)
         print_battle_report(b)
         if args.charts:
-            prefix = args.charts if len(dirs) == 1 else f"{args.charts}_{os.path.basename(d)}"
+            # 图表 CSV 写入该场次的时间戳目录内，避免散落在脚本运行目录
+            prefix = os.path.join(d, args.charts if len(dirs) == 1 else f"{args.charts}_{os.path.basename(d)}")
             export_charts(b, prefix)
         all_json.append(battle_to_json(b))
 

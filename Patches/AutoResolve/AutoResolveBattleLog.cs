@@ -14,6 +14,10 @@ namespace MutliLittleFixes.Patches
     /// <summary>
     /// 坐镇指挥模拟重平衡 —— 玩家坐镇过程全量数据日志（CSV）。
     ///
+    /// 日志位置：游戏标准用户目录（同 rgl_log.txt / Configs 所在目录）下的
+    /// Mount and Blade II Bannerlord\MutliLittleFixes_AutoResolveLogs\<时间戳>\，
+    /// 路径解析失败时退回游戏安装目录（EngineUtilities.GetBasePath）。
+    ///
     /// 记录内容（每场玩家坐镇战斗一个时间戳文件夹，UTF-8 BOM，Excel/WPS 可直接打开）：
     ///   battle_summary.csv  战斗总览 1 行：真实/游戏时间、战斗类型、攻防领主与派系、玩家阵营、
     ///                       初始兵力与战力、兵种构成（步/射/骑/骑射）、胜方、结束原因、剩余兵力、
@@ -36,6 +40,27 @@ namespace MutliLittleFixes.Patches
         private static BattleLogSession _session;
 
         private const string LogRootName = "MutliLittleFixes_AutoResolveLogs";
+
+        /// <summary>
+        /// 解析日志根目录：游戏标准用户目录（同 rgl_log.txt / Configs 所在目录，即
+        /// 我的文档\Mount and Blade II Bannerlord）；解析失败时兜底退回游戏安装目录。
+        /// </summary>
+        private static string ResolveLogRoot()
+        {
+            try
+            {
+                string docs = Environment.GetFolderPath(Environment.SpecialFolder.Personal);
+                if (!string.IsNullOrEmpty(docs))
+                {
+                    return Path.Combine(docs, "Mount and Blade II Bannerlord", LogRootName);
+                }
+            }
+            catch
+            {
+                // 解析失败，走兜底
+            }
+            return Path.Combine(EngineUtilities.GetBasePath(), LogRootName);
+        }
 
         // ── 会话状态 ──────────────────────────────────────────────
 
@@ -123,7 +148,7 @@ namespace MutliLittleFixes.Patches
             _session = new BattleLogSession(mapEvent);
             try
             {
-                _session.FolderPath = Path.Combine(EngineUtilities.GetBasePath(), LogRootName,
+                _session.FolderPath = Path.Combine(ResolveLogRoot(),
                     DateTime.Now.ToString("yyyy-MM-dd_HH-mm-ss"));
                 Directory.CreateDirectory(_session.FolderPath);
 
