@@ -568,6 +568,14 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
         public bool ShieldPlantingAiEnabled { get; set; } = false;
 
+        [SettingPropertyBool("{=mlf_shield_hp_enabled}Planted Shield Has Hit Points", Order = 4, RequireRestart = false, HintText = "{=mlf_shield_hp_enabled_hint}Planted shields have their own hit points and are destroyed when they run out. All vanilla damage sources count: arrows, bolts, thrown weapons and melee swings from swords, axes and polearms reduce a planted shield's hit points; at zero the shield disappears and the soldier permanently loses that shield (it is not returned when picking up). When disabled, planted shields act as indestructible obstacles as before. Applies immediately")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public bool ShieldPlantingShieldHpEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("{=mlf_shield_hp_percent}Planted Shield Hit Points", 0.01f, 2.0f, "0%", Order = 5, RequireRestart = false, HintText = "{=mlf_shield_hp_percent_hint}Hit points of a planted shield as a percentage of the shield's CURRENT hit points at the moment of planting (50% = half of the soldier's remaining shield durability when planting, e.g. a shield with 360/400 durability plants with 180 hit points). The percentage is read in real time each time a shield is planted; shields already on the ground keep their current hit points when this value is changed")]
+        [SettingPropertyGroup("{=mlf_group_shield_planting}Shield Planting & Formation")]
+        public float ShieldPlantingShieldHpPercent { get; set; } = 0.5f;
+
         public float GetAttributeMultiplier(CharacterAttribute attribute)
         {
             if (attribute == DefaultCharacterAttributes.Vigor)

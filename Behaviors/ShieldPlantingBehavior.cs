@@ -86,6 +86,9 @@ namespace MutliLittleFixes
         private bool _autoUndeployLimitLogged;
         private bool _manualCooldownLogged;   // 防抖提示去重（每次冷却期只提示一次）
         private bool _disabledLogged;         // 开关关闭提示去重
+        // 血量归零待销毁的插地盾组件（下一帧 OnMissionTick 统一移除实体，
+        // 避免在引擎伤害调用栈内修改场景）
+        private readonly List<PlantedShieldComponent> _pendingDestroy = new List<PlantedShieldComponent>();
 
         public override void OnMissionTick(float dt)
         {
@@ -110,6 +113,10 @@ namespace MutliLittleFixes
                 UndeployAllAgents();
                 return;
             }
+
+            // 处理血量归零的插地盾：移除实体 + 清理追踪（延迟一帧，
+            // 避免在引擎伤害调用栈内修改场景）
+            ProcessPendingShieldDestroy();
 
             _cooldown -= dt;
 
@@ -232,11 +239,24 @@ namespace MutliLittleFixes
             // 记录插盾点：自动收盾用（士兵离开插盾点 AUTO_UNDEPLOY_DISTANCE 米则收盾）
             _plantPoints[agent] = agent.Position;
             _stationaryTime[agent] = 0f;
+
+            // 挂载插地盾血量组件：原版近战/弹矢伤害经 Mission.OnEntityHit 路由到组件 OnHit
+            AttachShieldHitPoints(agent, entity);
         }
 
         private void Undeploy(Agent agent)
         {
             if (!_deployedAgents.TryGetValue(agent, out GameEntity? entity)) return;
+
+            // 收盾前先读取插地盾血量组件数据——实体移除后组件随之失效，必须先读再移除
+            float plantedRemainHp = -1f;   // -1 = 无组件（未挂载成功，按原行为归还原耐久）
+            float plantingPercent = 1f;
+            PlantedShieldComponent? comp = entity?.GetFirstScriptOfType<PlantedShieldComponent>();
+            if (comp != null)
+            {
+                plantedRemainHp = comp.HitPoints;
+                plantingPercent = comp.PlantingPercent;
+            }
 
             try
             {
@@ -256,6 +276,15 @@ namespace MutliLittleFixes
                     // 归还卸盾前保存的原盾牌（保留修饰符与耐久）；正常路径必有保存值
                     if (_savedShieldWeapons.TryGetValue(agent, out MissionWeapon weapon) && !weapon.IsEmpty)
                     {
+                        // 血量互通：插地盾与士兵手中盾牌是同一面盾——收盾时把插地盾的
+                        // 剩余血量按插盾百分比反算回士兵盾牌的新耐久，插地盾被打掉的血量
+                        // 按同比例从士兵盾牌上扣除后再归还。
+                        if (plantedRemainHp >= 0f && plantingPercent > 0.001f)
+                        {
+                            int returnedHp = (int)(plantedRemainHp / plantingPercent);
+                            returnedHp = Math.Max(0, Math.Min(returnedHp, (int)weapon.ModifiedMaxHitPoints));
+                            weapon.HitPoints = (short)returnedHp;
+                        }
                         agent.EquipWeaponWithNewEntity(slot, ref weapon);
                     }
                     else
@@ -357,6 +386,134 @@ namespace MutliLittleFixes
             }
         }
 
+        // ── 插地盾血量 ────────────────────────────────────────────────────
+
+        /// <summary>
+        /// 给插地盾实体挂载血量组件（PlantedShieldComponent）：
+        /// 原版近战/弹矢伤害经 Mission.OnEntityHit 路由到组件 OnHit，血量归零后盾牌消失。
+        /// 血量 = 插盾瞬间士兵盾牌的当前剩余耐久（MissionWeapon.HitPoints）× MCM 百分比。
+        /// 挂载失败时降级为原行为（不可摧毁的纯障碍物），不阻断插盾。
+        /// 组件【始终】挂载（与血量开关状态无关），开关实时性由组件 OnHit 内检查实现：
+        /// 关闭时不扣血，重新开启后按当前剩余血量继续扣减。
+        /// </summary>
+        private void AttachShieldHitPoints(Agent agent, GameEntity entity)
+        {
+            try
+            {
+                entity.CreateAndAddScriptComponent(typeof(PlantedShieldComponent).Name, true);
+                PlantedShieldComponent? comp = entity.GetFirstScriptOfType<PlantedShieldComponent>();
+                if (comp == null)
+                {
+                    Debug.PrintError("盾牌插地: 血量组件挂载后获取失败，插地盾降级为不可摧毁障碍物", "MutliLittleFixes.ShieldPlanting");
+                    return;
+                }
+
+                float percent = Settings.Instance?.ShieldPlantingShieldHpPercent ?? 0.5f;
+                float maxHp = ComputeShieldHp(agent, percent);
+                comp.MaxHitPoints = maxHp;
+                comp.HitPoints = maxHp;
+                comp.PlantingPercent = percent;
+                comp.OwnerAgent = agent;
+                comp.OnDestroyed = OnPlantedShieldDestroyed;
+            }
+            catch (Exception ex)
+            {
+                Debug.PrintError("盾牌插地: 血量组件挂载失败，插地盾降级为不可摧毁障碍物 " + ex.Message, "MutliLittleFixes.ShieldPlanting");
+            }
+        }
+
+        /// <summary>
+        /// 插地盾最大血量：插盾瞬间士兵盾牌的【当前】剩余耐久（MissionWeapon.HitPoints，
+        /// 满耐久时等于 ModifiedMaxHitPoints，受击后递减）× MCM 百分比。
+        /// 百分比实时读取（插盾时生效）；已插盾牌修改百分比后保持当前血量不变。
+        /// </summary>
+        private float ComputeShieldHp(Agent agent, float percent)
+        {
+            float currentHp = 100f; // 兜底默认值（异常时也保证盾牌有合理血量）
+            if (_savedShieldWeapons.TryGetValue(agent, out MissionWeapon shield) && !shield.IsEmpty)
+            {
+                short currentDurability = shield.HitPoints;
+                if (currentDurability > 0)
+                    currentHp = currentDurability;
+            }
+
+            float hp = currentHp * percent;
+            return Math.Max(1f, hp);
+        }
+
+        /// <summary>
+        /// 插地盾血量归零回调：仅记录到待销毁队列，下一帧 OnMissionTick 统一移除实体。
+        /// 不在引擎伤害处理调用栈内直接修改场景（Remove），避免伤害后续逻辑访问已移除实体。
+        /// </summary>
+        private void OnPlantedShieldDestroyed(PlantedShieldComponent comp)
+        {
+            if (comp != null && !_pendingDestroy.Contains(comp))
+                _pendingDestroy.Add(comp);
+        }
+
+        /// <summary>
+        /// 处理血量归零的插地盾：移除实体 + 清理该士兵的全部追踪状态。
+        /// 盾牌已碎，【不】归还给士兵（士兵永久失去此盾，IsPlantableAgent 因无盾自动失效）。
+        /// 玩家方一次性汇总提示（避免齐射瞬间刷屏），AI 侧静默。
+        /// </summary>
+        private void ProcessPendingShieldDestroy()
+        {
+            if (_pendingDestroy.Count == 0)
+                return;
+
+            int playerSideDestroyed = 0;
+            foreach (PlantedShieldComponent comp in _pendingDestroy)
+            {
+                if (comp == null)
+                    continue;
+
+                // 士兵已死亡/已收盾：追踪已清理、实体已随之移除，无需重复处理
+                Agent? owner = comp.OwnerAgent;
+                if (owner == null || !_deployedAgents.TryGetValue(owner, out GameEntity? entity) || entity == null)
+                    continue;
+
+                try
+                {
+                    entity.Remove(0);
+                }
+                catch (Exception ex)
+                {
+                    Debug.PrintError("盾牌插地: 移除被摧毁的插地盾失败 " + ex.Message, "MutliLittleFixes.ShieldPlanting");
+                }
+
+                // 清理追踪状态（不归还盾牌 —— 已碎）
+                ClearAgentState(owner);
+
+                if (owner.Team == Mission.PlayerTeam)
+                    playerSideDestroyed++;
+            }
+
+            if (playerSideDestroyed > 0)
+            {
+                InformationManager.DisplayMessage(new InformationMessage(
+                    new TextObject("{=mlf_shield_destroyed}{COUNT} planted shield(s) were destroyed.", null)
+                    .SetTextVariable("COUNT", playerSideDestroyed).ToString(),
+                    Color.FromUint(0xFFCC5555)));
+            }
+
+            _pendingDestroy.Clear();
+        }
+
+        /// <summary>
+        /// 清理指定士兵的插盾追踪状态（实体由调用方决定移除或保留）。
+        /// </summary>
+        private void ClearAgentState(Agent agent)
+        {
+            _deployedAgents.Remove(agent);
+            _shieldSlots.Remove(agent);
+            _savedShieldWeapons.Remove(agent);
+            _plantPoints.Remove(agent);
+            _stationaryTime.Remove(agent);
+            _lastManualActionTime.Remove(agent);
+            _lastOrderTypes.Remove(agent);
+            _moveOrderedAgents.Remove(agent);
+        }
+
         // ── 辅助方法 ───────────────────────────────────────────────────────
 
         /// <summary>
@@ -436,14 +593,7 @@ namespace MutliLittleFixes
             {
                 if (kvp.Key == null || !kvp.Key.IsActive())
                 {
-                    _deployedAgents.Remove(kvp.Key!);
-                    _shieldSlots.Remove(kvp.Key!);
-                    _savedShieldWeapons.Remove(kvp.Key!);
-                    _plantPoints.Remove(kvp.Key!);
-                    _stationaryTime.Remove(kvp.Key!);
-                    _lastManualActionTime.Remove(kvp.Key!);
-                    _lastOrderTypes.Remove(kvp.Key!);
-                    _moveOrderedAgents.Remove(kvp.Key!);
+                    ClearAgentState(kvp.Key!);
                 }
             }
         }
@@ -825,14 +975,7 @@ namespace MutliLittleFixes
             // 实体随 Mission 结束（场景销毁）自动消失。
             if (_deployedAgents.ContainsKey(affectedAgent))
             {
-                _deployedAgents.Remove(affectedAgent);
-                _shieldSlots.Remove(affectedAgent);
-                _savedShieldWeapons.Remove(affectedAgent);
-                _plantPoints.Remove(affectedAgent);
-                _stationaryTime.Remove(affectedAgent);
-                _lastManualActionTime.Remove(affectedAgent);
-                _lastOrderTypes.Remove(affectedAgent);
-                _moveOrderedAgents.Remove(affectedAgent);
+                ClearAgentState(affectedAgent);
             }
         }
 
@@ -864,6 +1007,7 @@ namespace MutliLittleFixes
             _lastManualActionTime.Clear();
             _lastOrderTypes.Clear();
             _moveOrderedAgents.Clear();
+            _pendingDestroy.Clear();
         }
 
         // ── 调试日志 ──
