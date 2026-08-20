@@ -169,8 +169,10 @@
     <string id="mlf_crouch_shield_hint" text="Front-rank soldiers raise shields upward instead of downward while crouching"/>
     <string id="mlf_banner_position" text="Banner Bearer Position Optimization"/>
     <string id="mlf_banner_position_hint" text="Move banner bearers from the left front to the middle of the last rank"/>
-    <string id="mlf_noammo_formation" text="No-Ammo Ranged Transfer to Formation 9"/>
-    <string id="mlf_noammo_formation_hint" text="Ranged soldiers with depleted ammunition are auto-moved to formation 9 and return when ammo is restored"/>
+    <string id="mlf_noammo_formation" text="No-Ammo Ranged Transfer"/>
+    <string id="mlf_noammo_formation_hint" text="Ranged soldiers with depleted ammunition are auto-moved to the configured target formation (see below). Once transferred, they are not moved back"/>
+    <string id="mlf_noammo_target" text="No-Ammo Transfer Target Formation"/>
+    <string id="mlf_noammo_target_hint" text="Formation that receives ranged soldiers with depleted ammunition (1-8 = standard squads, 9 = the standby squad, default). Changing it mid-battle takes effect immediately for newly transferred soldiers"/>
     <string id="mlf_scoreboard" text="Scoreboard Sort Order Reversal"/>
     <string id="mlf_scoreboard_hint" text="Reverse the sort cycle when clicking scoreboard column headers: default → descending → ascending"/>
     <string id="mlf_death_noai" text="No AI Takeover on Player Death"/>
@@ -328,17 +330,14 @@
     <string id="mlf_companion_available" text="{HERO_NAME} is now available to be recalled"/>
 
     <!-- 第9队 -->
-    <string id="mlf_d9_loaded" text="Formation 9: RangedNoAmmoBehavior loaded"/>
-    <string id="mlf_d9_disabled_returned" text="Formation 9: Feature disabled, {RETURNED} archers returned to their original formations"/>
-    <string id="mlf_d9_moved" text="Formation 9: Detected {MOVED} ranged soldiers out of ammo in squad {SQUAD_INDEX}, moved to Formation 9"/>
-    <string id="mlf_d9_ammo_restored" text="Formation 9: {RETURNED} archers recovered ammunition and returned to their original formations"/>
-    <string id="mlf_d9_died" text="Formation 9: {DIED} archers died and were removed from the Formation 9 records"/>
-    <string id="mlf_d9_noteam" text="Formation 9: playerTeam == null"/>
-    <string id="mlf_d9_noformation" text="Formation 9: GetFormation(8) == null"/>
-    <string id="mlf_d9_empty" text="Formation 9 is empty"/>
-    <string id="mlf_d9_noordercontroller" text="Formation 9: PlayerOrderController == null"/>
-    <string id="mlf_d9_notselectable" text="Formation 9: IsFormationSelectable returned false (CountOfUnits={COUNT_OF_UNITS})"/>
-    <string id="mlf_d9_selected" text="Formation 9 selected ({COUNT_OF_UNITS} units), orders can be issued"/>
+    <string id="mlf_d9_loaded" text="Formation {FORMATION}: RangedNoAmmoBehavior loaded"/>
+    <string id="mlf_d9_moved" text="Formation {FORMATION}: Detected {MOVED} ranged soldiers out of ammo in squad {SQUAD_INDEX}, moved to Formation {FORMATION}"/>
+    <string id="mlf_d9_noteam" text="Formation {FORMATION}: playerTeam == null"/>
+    <string id="mlf_d9_noformation" text="Formation {FORMATION}: GetFormation({INDEX}) == null"/>
+    <string id="mlf_d9_empty" text="Formation {FORMATION} is empty"/>
+    <string id="mlf_d9_noordercontroller" text="Formation {FORMATION}: PlayerOrderController == null"/>
+    <string id="mlf_d9_notselectable" text="Formation {FORMATION}: IsFormationSelectable returned false (CountOfUnits={COUNT_OF_UNITS})"/>
+    <string id="mlf_d9_selected" text="Formation {FORMATION} selected ({COUNT_OF_UNITS} units), orders can be issued"/>
 
     <!-- 俘虏标注 -->
     <string id="mlf_label_ruler" text="Ruler"/>

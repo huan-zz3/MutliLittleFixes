@@ -246,9 +246,13 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool BannerBearerPositionEnabled { get; set; } = true;
 
-        [SettingPropertyBool("{=mlf_noammo_formation}No-Ammo Ranged Transfer to Formation 9", Order = 48, RequireRestart = false, HintText = "{=mlf_noammo_formation_hint}Ranged soldiers with depleted ammunition are auto-moved to formation 9 and return when ammo is restored")]
+        [SettingPropertyBool("{=mlf_noammo_formation}No-Ammo Ranged Transfer", Order = 48, RequireRestart = false, HintText = "{=mlf_noammo_formation_hint}Ranged soldiers with depleted ammunition are auto-moved to the configured target formation (see below). Once transferred, they are not moved back")]
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public bool RangedNoAmmoEnabled { get; set; } = true;
+
+        [SettingPropertyInteger("{=mlf_noammo_target}No-Ammo Transfer Target Formation", 1, 9, "0", Order = 48, RequireRestart = false, HintText = "{=mlf_noammo_target_hint}Formation that receives ranged soldiers with depleted ammunition (1-8 = standard squads, 9 = the standby squad, default). Changing it mid-battle takes effect immediately for newly transferred soldiers")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
+        public int RangedNoAmmoTargetFormation { get; set; } = 9;
 
         [SettingPropertyBool("{=mlf_scoreboard}Scoreboard Sort Order Reversal", Order = 49, RequireRestart = false, HintText = "{=mlf_scoreboard_hint}Reverse the sort cycle when clicking scoreboard column headers: default → descending → ascending")]
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]

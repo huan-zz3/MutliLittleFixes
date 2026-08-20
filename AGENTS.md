@@ -68,11 +68,11 @@ if (Settings.Instance?.XxxEnabled != true)
 ```csharp
 if (Settings.Instance?.XxxEnabled != true)
 {
-    // 清理本功能造成的状态（如 ForceAllFormationsToStand / ReturnAllMovedAgents）
+    // 清理本功能造成的状态（如 ForceAllFormationsToStand）
     return;
 }
 ```
-参考：`RangedNoAmmoDebugBehavior`（简单早退）、`RangedNoAmmoBehavior`（关闭时归队）、`AutoCrouchMissionLogic`（关闭时站起）。
+参考：`RangedNoAmmoDebugBehavior`（简单早退）、`RangedNoAmmoBehavior`（简单早退，一经移交不再归还）、`AutoCrouchMissionLogic`（关闭时站起）。
 
 **CampaignBehavior 事件回调** —— 回调内最前检查（参考 `SkillLevelCapBehavior.OnDailyTickHero`）。
 
@@ -171,7 +171,7 @@ ModuleData/Languages/
   1. 自动蹲下（`AutoCrouchMissionLogic`）
   2. 蹲下时举盾向上（`ShieldDirectionForCrouchPatch`）
   3. 旗帜士兵站位优化（`BannerBearerPositionPatch`）
-  4. 无弹药远程移交第 9 队（`RangedNoAmmoBehavior`）
+  4. 无弹药远程移交（`RangedNoAmmoBehavior`）
   5. 骑马长杆必定击倒（`MountedKnockDownPatch`）
   6. 盾牌插地/收盾（`ShieldPlantingBehavior`）
   7. 远程盾兵站位重排（`ShieldBearerFormationBehavior`）

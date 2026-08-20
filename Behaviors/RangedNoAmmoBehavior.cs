@@ -10,64 +10,81 @@ using TaleWorlds.MountAndBlade.GauntletUI;
 namespace MutliLittleFixes
 {
     /// <summary>
-    /// 远程部队弹药耗尽自动移入第9队。
+    /// 远程部队弹药耗尽自动移入目标编队（默认第9队）。
     /// 
     /// 功能:
-    ///   1. 每 ~1s 检测 Ranged 阵型（排除 HorseArcher）中弹药耗尽的 AI 士兵，
-    ///      将其从原阵型 RemoveUnit 后 AddUnit 到第9队（FormationClass 索引 8）。
-    ///   2. 持续检测第9队中已恢复弹药的士兵，自动归还原阵型。
-    ///   3. 按数字键 9 可选中第9队，对其下达指令（与 1~8 队相同的全部命令）。
-    ///   4. 第9队初始化时屏蔽原版 BehaviorGeneral，设为玩家控制 + Stop 指令。
-    ///   5. 玩家本人跳过检测。
+    ///   1. 每 ~2s 检测 Ranged 阵型（排除 HorseArcher）中弹药耗尽的 AI 士兵，
+    ///      将其从原阵型转移到目标编队（默认第9队 = FormationClass 索引 8）。
+    ///   2. 目标编队可通过 MCM 配置（1~9，默认 9）；战斗中修改立即生效。
+    ///   3. 一经移交不再归还——士兵永久留在目标编队，即使恢复弹药也不移回原阵型。
+    ///   4. 按数字键 9 可选中目标编队（仅当目标=第9队时生效；目标为标准编队时
+    ///      玩家用 1~8 数字键即可选中，按键 9 不干预）。
+    ///   5. 第9队（待命池）初始化时设为玩家控制 + Stop 指令 + Loose 阵型；
+    ///      标准编队（1~8）保留玩家/原版 AI 的现有指令与站位，不干预。
+    ///   6. 阵型转移使用与原版手动移送（战前布阵拖拽）一致的链路：
+    ///      OnMassUnitTransferStart/End 批量包装 + Team.TriggerOnFormationsChanged 事件通知。
+    ///   7. 玩家本人跳过检测。
     /// </summary>
     public class RangedNoAmmoBehavior : MissionLogic
     {
         private const float CheckInterval = 2.0f;
-        private const FormationClass NoAmmoFormationClass = (FormationClass)8;
+        /// <summary>第9队（待命池）= 将军位 General 槽，FormationClass 索引 8；第 N 队 = FormationClass(N-1)。</summary>
+        private const FormationClass StandbyFormationClass = (FormationClass)8;
 
         private float _checkTimer;
         private bool _initialized;
         private bool _startupLogged;
+        /// <summary>当前生效的目标编队（每次 tick 从 MCM 实时解析）。</summary>
+        private FormationClass _targetFormationClass = StandbyFormationClass;
+        private bool _d9WasDown;
 
         /// <summary>
-        /// 记录被移入第9队的 Agent → 其原始阵型的映射，用于归队。
+        /// 从 MCM 实时解析目标编队：设置值 1~9 → FormationClass(N-1)，第9队 = 将军位 General 槽（默认）。
         /// </summary>
-        private readonly Dictionary<Agent, Formation> _movedAgents = new();
+        private static FormationClass GetTargetFormationClass()
+        {
+            int target = Settings.Instance?.RangedNoAmmoTargetFormation ?? 9;
+            target = MBMath.ClampInt(target, 1, 9);
+            return (FormationClass)(target - 1);
+        }
 
         public override void OnMissionTick(float dt)
         {
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
-            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 士兵绑定船编队，第9队无船，
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 士兵绑定船编队，目标编队无船，
             // 且 NavalTeamAgents 会在夺船/转移时把士兵强制拉回船编队，移交会被还原
             if (NavalBattleDetector.IsNavalBattle(Mission))
                 return;
 
-            // MCM 实时开关 — 关闭时归还第9队士兵并重置状态，重新启用时重新初始化
+            // MCM 实时开关 — 关闭时不干预（一经移交的士兵保持在目标编队，不归还）
             if (Settings.Instance?.RangedNoAmmoEnabled != true)
-            {
-                if (_initialized)
-                {
-                    ReturnAllMovedAgents();
-                    _initialized = false;
-                    _startupLogged = false;
-                }
                 return;
+
+            // MCM 实时目标编队 — 变更时重新初始化（新目标为待命池时需要接管控制权与待命指令）
+            FormationClass currentTarget = GetTargetFormationClass();
+            if (currentTarget != _targetFormationClass)
+            {
+                _initialized = false;
+                _startupLogged = false;
+                _targetFormationClass = currentTarget;
             }
 
-            // 启动诊断（仅首次）
+            // 启动诊断（仅首次/目标变更后）
             if (!_startupLogged)
             {
                 _startupLogged = true;
                 InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_loaded}Formation 9: RangedNoAmmoBehavior loaded", null).ToString()));
+                    new TextObject("{=mlf_d9_loaded}Formation {FORMATION}: RangedNoAmmoBehavior loaded", null)
+                    .SetTextVariable("FORMATION", (int)_targetFormationClass + 1)
+                    .ToString()));
             }
 
-            // 首次运行时初始化第9队
+            // 首次运行时初始化目标编队
             if (!_initialized)
             {
-                InitializeNoAmmoFormation();
+                InitializeTargetFormation(_targetFormationClass);
                 _initialized = true;
             }
 
@@ -80,75 +97,34 @@ namespace MutliLittleFixes
             _checkTimer = 0f;
 
             ProcessNoAmmoDetection();
-            ProcessReturnDetection();
-        }
-
-        /// <summary>
-        /// 开关关闭时调用：将所有仍滞留在第9队的士兵归还其原始阵型并清空记录。
-        /// </summary>
-        private void ReturnAllMovedAgents()
-        {
-            if (_movedAgents.Count == 0)
-                return;
-
-            var toRemove = new List<Agent>(_movedAgents.Count);
-            int returned = 0;
-
-            foreach (var kvp in _movedAgents)
-            {
-                Agent agent = kvp.Key;
-                Formation originalFormation = kvp.Value;
-
-                // 已死亡 → 仅清理记录
-                if (!agent.IsActive())
-                {
-                    toRemove.Add(agent);
-                    continue;
-                }
-
-                if (originalFormation != null)
-                {
-                    agent.Formation = originalFormation;
-                    toRemove.Add(agent);
-                    returned++;
-                }
-            }
-
-            foreach (Agent agent in toRemove)
-            {
-                _movedAgents.Remove(agent);
-            }
-
-            if (returned > 0)
-            {
-                InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_disabled_returned}Formation 9: Feature disabled, {RETURNED} archers returned to their original formations", null)
-                    .SetTextVariable("RETURNED", returned)
-                    .ToString()));
-            }
         }
 
         // ── 初始化 ────────────────────────────────────────────────────────
 
         /// <summary>
-        /// 将第9队设为玩家控制、屏蔽 BehaviorGeneral、默认 Stop。
+        /// 初始化目标编队：仅第9队（待命池）设为玩家控制、屏蔽 BehaviorGeneral、默认 Stop + Loose；
+        /// 标准编队（1~8）保留玩家/原版 AI 的现有指令与站位，不干预。
         /// </summary>
-        private void InitializeNoAmmoFormation()
+        private void InitializeTargetFormation(FormationClass targetClass)
         {
+            // 标准编队由玩家/原版 AI 正常指挥，无需初始化
+            if ((int)targetClass != (int)StandbyFormationClass)
+                return;
+
             foreach (Team team in Mission.Teams)
             {
                 if (team != Mission.PlayerTeam && team != Mission.PlayerAllyTeam)
                     continue;
 
-                var formation8 = team.GetFormation(NoAmmoFormationClass);
-                if (formation8 == null)
+                Formation targetFormation = team.GetFormation(targetClass);
+                if (targetFormation == null)
                     continue;
 
                 // 设置 PlayerOwner 为玩家，使得 OrderController 可以选中该阵型
                 // 同时 SetControlledByAI(false) 由 setter 自动调用
-                formation8.PlayerOwner = Agent.Main;
-                formation8.SetMovementOrder(MovementOrder.MovementOrderStop);
-                formation8.SetArrangementOrder(ArrangementOrder.ArrangementOrderLoose);
+                targetFormation.PlayerOwner = Agent.Main;
+                targetFormation.SetMovementOrder(MovementOrder.MovementOrderStop);
+                targetFormation.SetArrangementOrder(ArrangementOrder.ArrangementOrderLoose);
             }
         }
 
@@ -163,10 +139,10 @@ namespace MutliLittleFixes
 
                 foreach (Formation formation in team.FormationsIncludingSpecialAndEmpty)
                 {
-                    // 跳过空阵型和第9队自身
+                    // 跳过空阵型和目标编队自身
                     if (formation.CountOfUnits == 0)
                         continue;
-                    if ((int)formation.FormationIndex == (int)NoAmmoFormationClass)
+                    if ((int)formation.FormationIndex == (int)_targetFormationClass)
                         continue;
 
                     ScanFormationForNoAmmo(formation);
@@ -175,20 +151,21 @@ namespace MutliLittleFixes
         }
 
         /// <summary>
-        /// 扫描单个阵型中弹药耗尽的 Agent，移入第9队。
+        /// 扫描单个阵型中弹药耗尽的 Agent，批量移入目标编队（一经移交不再归还）。
         /// 先收集需要移动的 Agent 列表，遍历结束后再统一执行移动，
         /// 避免在 ApplyActionOnEachUnit 遍历期间修改阵型内 Agent.Formation 导致集合变更异常。
         /// </summary>
         private void ScanFormationForNoAmmo(Formation formation)
         {
+            Formation targetFormation = formation.Team.GetFormation(_targetFormationClass);
+            if (targetFormation == null || formation == targetFormation)
+                return;
+
             var agentsToMove = new List<Agent>();
 
             formation.ApplyActionOnEachUnit(agent =>
             {
                 if (agent == Mission.MainAgent)
-                    return;
-
-                if (_movedAgents.ContainsKey(agent))
                     return;
 
                 if (IsOutOfAmmo(agent))
@@ -197,21 +174,26 @@ namespace MutliLittleFixes
                 }
             });
 
-            int moved = agentsToMove.Count;
-            foreach (Agent agent in agentsToMove)
+            if (agentsToMove.Count == 0)
+                return;
+
+            // 与原版手动移送（战前布阵拖拽）一致的批量转移：Start/End 包装 + 事件通知
+            ExecuteFormationTransfer(formation, targetFormation, agentsToMove);
+
+            // 确保待命池（第9队）持续为玩家控制——某些系统可能重置其控制权，
+            // 失控会让待命士兵自动参战；标准编队保持原 AI/玩家控制状态，不干预
+            if ((int)_targetFormationClass == (int)StandbyFormationClass && targetFormation.IsAIControlled)
             {
-                MoveToNoAmmoFormation(agent, formation.Team);
+                targetFormation.SetControlledByAI(false);
             }
 
-            if (moved > 0)
-            {
-                int squadIndex = (int)formation.FormationIndex + 1;
-                InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_moved}Formation 9: Detected {MOVED} ranged soldiers out of ammo in squad {SQUAD_INDEX}, moved to Formation 9", null)
-                    .SetTextVariable("MOVED", moved)
-                    .SetTextVariable("SQUAD_INDEX", squadIndex)
-                    .ToString()));
-            }
+            int squadIndex = (int)formation.FormationIndex + 1;
+            InformationManager.DisplayMessage(new InformationMessage(
+                new TextObject("{=mlf_d9_moved}Formation {FORMATION}: Detected {MOVED} ranged soldiers out of ammo in squad {SQUAD_INDEX}, moved to Formation {FORMATION}", null)
+                .SetTextVariable("FORMATION", (int)_targetFormationClass + 1)
+                .SetTextVariable("MOVED", agentsToMove.Count)
+                .SetTextVariable("SQUAD_INDEX", squadIndex)
+                .ToString()));
         }
 
         /// <summary>
@@ -275,95 +257,50 @@ namespace MutliLittleFixes
             return hasBowOrCrossbow && totalAmmo <= 0;
         }
 
-        // ── 移入第9队 ────────────────────────────────────────────────────
+        // ── 阵型转移（与原版手动移送一致）──────────────────────────────────
 
-        private void MoveToNoAmmoFormation(Agent agent, Team team)
+        /// <summary>
+        /// 按原版手动移送（战前布阵拖拽）的链路执行批量阵型转移：
+        /// OnMassUnitTransferStart/End 批量包装（PostponeCostlyOperations 抑制单兵重算，
+        /// 结束后 ReapplyFormOrder + QuerySystem.Expire）+ Team.TriggerOnFormationsChanged
+        /// 事件通知——原版 TransferUnitsAux 移送后的必要步骤，通知 DetachmentManager
+        /// 清除 detachment 评分、MissionAgentLabelView 刷新名牌等。
+        /// try/finally 保证 End 一定执行，避免异常导致 PostponeCostlyOperations 残留。
+        /// </summary>
+        private static void ExecuteFormationTransfer(Formation source, Formation target, List<Agent> agents)
         {
-            Formation? currentFormation = agent.Formation;
-            Formation noAmmoFormation = team.GetFormation(NoAmmoFormationClass);
-
-            if (currentFormation == null || currentFormation == noAmmoFormation)
+            if (agents.Count == 0)
                 return;
 
-            // 记录原阵型，用于后续归队
-            _movedAgents[agent] = currentFormation;
-
-            // 使用原版 Agent.Formation 设置器进行阵型转移，
-            // 自动处理 native 引擎站位更新、SetPositioning、ForceUpdateCachedAndFormationValues 等
-            agent.Formation = noAmmoFormation;
-
-            // 确保第9队持续为玩家控制
-            if (noAmmoFormation.IsAIControlled)
+            source.OnMassUnitTransferStart();
+            target.OnMassUnitTransferStart();
+            try
             {
-                noAmmoFormation.SetControlledByAI(false);
-            }
-        }
-
-        // ── 归队检测 ──────────────────────────────────────────────────────
-
-        private void ProcessReturnDetection()
-        {
-            if (_movedAgents.Count == 0)
-                return;
-
-            var toRemove = new List<Agent>(_movedAgents.Count);
-            int returned = 0;
-            int died = 0;
-
-            foreach (var kvp in _movedAgents)
-            {
-                Agent agent = kvp.Key;
-                Formation originalFormation = kvp.Value;
-
-                // 已死亡 → 清理记录
-                if (!agent.IsActive())
+                foreach (Agent agent in agents)
                 {
-                    toRemove.Add(agent);
-                    died++;
-                    continue;
-                }
-
-                // 已恢复弹药 → 归还（使用原版 Agent.Formation 设置器）
-                if (!IsOutOfAmmo(agent))
-                {
-                    if (originalFormation != null)
-                    {
-                        agent.Formation = originalFormation;
-                    }
-
-                    toRemove.Add(agent);
-                    returned++;
+                    // 使用原版 Agent.Formation 设置器进行阵型转移，
+                    // 自动处理 native 引擎站位更新、SetPositioning、ForceUpdateCachedAndFormationValues 等
+                    agent.Formation = target;
                 }
             }
-
-            foreach (Agent agent in toRemove)
+            finally
             {
-                _movedAgents.Remove(agent);
+                source.OnMassUnitTransferEnd();
+                target.OnMassUnitTransferEnd();
             }
 
-            if (returned > 0)
-            {
-                InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_ammo_restored}Formation 9: {RETURNED} archers recovered ammunition and returned to their original formations", null)
-                    .SetTextVariable("RETURNED", returned)
-                    .ToString()));
-            }
-
-            if (died > 0)
-            {
-                InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_died}Formation 9: {DIED} archers died and were removed from the Formation 9 records", null)
-                    .SetTextVariable("DIED", died)
-                    .ToString()));
-            }
+            source.Team.TriggerOnFormationsChanged(source);
+            source.Team.TriggerOnFormationsChanged(target);
         }
-
-        private bool _d9WasDown;
 
         // ── 按键: 9 → 选中第9队 ──────────────────────────────────────────
 
         private void ProcessInput()
         {
+            // 目标为标准编队（1~8）时按键 9 不干预——玩家可直接用对应数字键选中该编队
+            if ((int)_targetFormationClass != (int)StandbyFormationClass)
+                return;
+
             // 手动边缘检测：仅在按下瞬间触发
             bool d9IsDown = Input.IsKeyDown(InputKey.D9);
             bool risingEdge = d9IsDown && !_d9WasDown;
@@ -372,56 +309,68 @@ namespace MutliLittleFixes
                 return;
 
             Team? playerTeam = Mission.PlayerTeam;
+            int formationNumber = (int)_targetFormationClass + 1;
 
             if (playerTeam == null)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_noteam}Formation 9: playerTeam == null", null).ToString()));
+                    new TextObject("{=mlf_d9_noteam}Formation {FORMATION}: playerTeam == null", null)
+                    .SetTextVariable("FORMATION", formationNumber)
+                    .ToString()));
                 return;
             }
 
-            Formation formation8 = playerTeam.GetFormation(NoAmmoFormationClass);
-            if (formation8 == null)
+            Formation formation = playerTeam.GetFormation(_targetFormationClass);
+            if (formation == null)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_noformation}Formation 9: GetFormation(8) == null", null).ToString()));
+                    new TextObject("{=mlf_d9_noformation}Formation {FORMATION}: GetFormation({INDEX}) == null", null)
+                    .SetTextVariable("FORMATION", formationNumber)
+                    .SetTextVariable("INDEX", (int)_targetFormationClass)
+                    .ToString()));
                 return;
             }
-            if (formation8.CountOfUnits <= 0)
+            if (formation.CountOfUnits <= 0)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_empty}Formation 9 is empty", null).ToString()));
+                    new TextObject("{=mlf_d9_empty}Formation {FORMATION} is empty", null)
+                    .SetTextVariable("FORMATION", formationNumber)
+                    .ToString()));
                 return;
             }
 
             // 每按9重新确保 PlayerOwner（某些系统可能会重置它）
-            formation8.PlayerOwner = Agent.Main;
+            formation.PlayerOwner = Agent.Main;
 
             OrderController controller = playerTeam.PlayerOrderController;
             if (controller == null)
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_noordercontroller}Formation 9: PlayerOrderController == null", null).ToString()));
+                    new TextObject("{=mlf_d9_noordercontroller}Formation {FORMATION}: PlayerOrderController == null", null)
+                    .SetTextVariable("FORMATION", formationNumber)
+                    .ToString()));
                 return;
             }
-            if (!controller.IsFormationSelectable(formation8))
+            if (!controller.IsFormationSelectable(formation))
             {
                 InformationManager.DisplayMessage(new InformationMessage(
-                    new TextObject("{=mlf_d9_notselectable}Formation 9: IsFormationSelectable returned false (CountOfUnits={COUNT_OF_UNITS})", null)
-                    .SetTextVariable("COUNT_OF_UNITS", formation8.CountOfUnits)
+                    new TextObject("{=mlf_d9_notselectable}Formation {FORMATION}: IsFormationSelectable returned false (CountOfUnits={COUNT_OF_UNITS})", null)
+                    .SetTextVariable("FORMATION", formationNumber)
+                    .SetTextVariable("COUNT_OF_UNITS", formation.CountOfUnits)
                     .ToString()));
                 return;
             }
 
             controller.ClearSelectedFormations();
-            controller.SelectFormation(formation8);
+            controller.SelectFormation(formation);
 
             // 直接打开阵型选择 UI（绕开 TroopList 查找，因为第9队不在 FormationsIncludingEmpty 中）
             OpenToggleOrderDirectly();
 
             InformationManager.DisplayMessage(new InformationMessage(
-                new TextObject("{=mlf_d9_selected}Formation 9 selected ({COUNT_OF_UNITS} units), orders can be issued", null)
-                .SetTextVariable("COUNT_OF_UNITS", formation8.CountOfUnits)
+                new TextObject("{=mlf_d9_selected}Formation {FORMATION} selected ({COUNT_OF_UNITS} units), orders can be issued", null)
+                .SetTextVariable("FORMATION", formationNumber)
+                .SetTextVariable("COUNT_OF_UNITS", formation.CountOfUnits)
                 .ToString()));
         }
 

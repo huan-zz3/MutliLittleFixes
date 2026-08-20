@@ -169,8 +169,10 @@
     <string id="mlf_crouch_shield_hint" text="前排士兵蹲下时盾牌方向由防下改为防上"/>
     <string id="mlf_banner_position" text="旗帜士兵站位优化"/>
     <string id="mlf_banner_position_hint" text="将旗手站位从最左前列调整到最后排中间"/>
-    <string id="mlf_noammo_formation" text="无弹药远程移交第9队"/>
-    <string id="mlf_noammo_formation_hint" text="弹药射完的远程士兵自动移入第9队，恢复弹药后归队"/>
+    <string id="mlf_noammo_formation" text="无弹药远程移交"/>
+    <string id="mlf_noammo_formation_hint" text="弹药射完的远程士兵自动移入下方配置的目标编队。一经移交不再归还"/>
+    <string id="mlf_noammo_target" text="无弹药移送目标编队"/>
+    <string id="mlf_noammo_target_hint" text="接收弹药耗尽远程士兵的编队（1-8 = 标准编队，9 = 待命队，默认）。战斗中修改立即生效，仅影响之后新移送的士兵"/>
     <string id="mlf_scoreboard" text="战斗结算排序反转"/>
     <string id="mlf_scoreboard_hint" text="结算窗口点击表头排序循环反转为：默认→降序→升序"/>
     <string id="mlf_death_noai" text="玩家阵亡不托管部队"/>
@@ -328,17 +330,14 @@
     <string id="mlf_companion_available" text="{HERO_NAME} 现可被召回"/>
 
     <!-- 第9队 -->
-    <string id="mlf_d9_loaded" text="[第9队] RangedNoAmmoBehavior 已加载"/>
-    <string id="mlf_d9_disabled_returned" text="[第9队] 功能已关闭，{RETURNED} 名弓手已归还至原阵型"/>
-    <string id="mlf_d9_moved" text="[第9队] 从第{SQUAD_INDEX}小队检测到 {MOVED} 名远程弹药耗尽，已移入第9队"/>
-    <string id="mlf_d9_ammo_restored" text="[第9队] {RETURNED} 名弓手已恢复弹药，归还至原阵型"/>
-    <string id="mlf_d9_died" text="[第9队] {DIED} 名弓手已阵亡，从第9队记录中清理"/>
-    <string id="mlf_d9_noteam" text="[第9队] playerTeam == null"/>
-    <string id="mlf_d9_noformation" text="[第9队] GetFormation(8) == null"/>
-    <string id="mlf_d9_empty" text="[第9队] 第9队为空"/>
-    <string id="mlf_d9_noordercontroller" text="[第9队] PlayerOrderController == null"/>
-    <string id="mlf_d9_notselectable" text="[第9队] IsFormationSelectable 返回 false（CountOfUnits={COUNT_OF_UNITS}）"/>
-    <string id="mlf_d9_selected" text="[第9队] 已选中（{COUNT_OF_UNITS} 人），可下达指令"/>
+    <string id="mlf_d9_loaded" text="[第{FORMATION}队] RangedNoAmmoBehavior 已加载"/>
+    <string id="mlf_d9_moved" text="[第{FORMATION}队] 从第{SQUAD_INDEX}小队检测到 {MOVED} 名远程弹药耗尽，已移入第{FORMATION}队"/>
+    <string id="mlf_d9_noteam" text="[第{FORMATION}队] playerTeam == null"/>
+    <string id="mlf_d9_noformation" text="[第{FORMATION}队] GetFormation({INDEX}) == null"/>
+    <string id="mlf_d9_empty" text="[第{FORMATION}队] 第{FORMATION}队为空"/>
+    <string id="mlf_d9_noordercontroller" text="[第{FORMATION}队] PlayerOrderController == null"/>
+    <string id="mlf_d9_notselectable" text="[第{FORMATION}队] IsFormationSelectable 返回 false（CountOfUnits={COUNT_OF_UNITS}）"/>
+    <string id="mlf_d9_selected" text="[第{FORMATION}队] 已选中（{COUNT_OF_UNITS} 人），可下达指令"/>
 
     <!-- 俘虏标注 -->
     <string id="mlf_label_ruler" text="统治者"/>
