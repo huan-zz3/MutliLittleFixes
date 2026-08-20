@@ -195,6 +195,10 @@
     <string id="mlf_lance_min_speed_hint" text="马上长杆刺击触发必定击倒所需的最小相对速度（攻击者与目标的移动速度向量差长度，单位与游戏速度一致）。默认 2.0，避免原地刺击也击倒；设为 0 则取消速度要求"/>
     <string id="mlf_lance_damage" text="刺击击倒伤害加成"/>
     <string id="mlf_lance_damage_hint" text="马上长杆刺击触发必定击倒时，本次攻击造成的伤害加成比例（默认 0.3 = +30%）。设为 0 则无伤害加成"/>
+    <string id="mlf_charge_dmg_enabled" text="马匹冲撞伤害倍率"/>
+    <string id="mlf_charge_dmg_enabled_hint" text="放大马匹本体冲撞（非武器攻击，马匹直接撞上敌人）造成的伤害（敌我双方对称生效）。关闭时下方倍率保留但不生效"/>
+    <string id="mlf_charge_dmg_mult" text="冲撞伤害倍率"/>
+    <string id="mlf_charge_dmg_mult_hint" text="马匹冲撞造成的伤害倍率（默认 2.0 = 200% 伤害；100% 为原版）"/>
 
     <!-- ════════ 出场比例 ════════ -->
     <string id="mlf_spawn_enabled" text="启用自定义出场比例"/>

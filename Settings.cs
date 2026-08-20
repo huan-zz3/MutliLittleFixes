@@ -334,6 +334,14 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
         public float MountedPolearmThrustKnockDownDamageBonus { get; set; } = 0.3f;
 
+        [SettingPropertyBool("{=mlf_charge_dmg_enabled}Horse Charge Damage Multiplier", Order = 55, RequireRestart = false, HintText = "{=mlf_charge_dmg_enabled_hint}Multiplies the damage dealt when a horse's body charges into enemies (pure horse collision, not weapon hits; symmetric for both sides). When disabled, the multiplier below is kept but not applied")]
+        [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
+        public bool ChargeDamageMultiplierEnabled { get; set; } = true;
+
+        [SettingPropertyFloatingInteger("{=mlf_charge_dmg_mult}Charge Damage Multiplier", 1.0f, 10.0f, "0%", Order = 56, RequireRestart = false, HintText = "{=mlf_charge_dmg_mult_hint}Damage multiplier for horse charge collisions (default 2.0 = 200% damage; 100% = vanilla)")]
+        [SettingPropertyGroup("{=mlf_group_lance}Mounted Polearm Knockdown")]
+        public float ChargeDamageMultiplier { get; set; } = 2.0f;
+
         [SettingPropertyBool("{=mlf_spawn_enabled}Enable Custom Spawn Ratios", Order = 55, RequireRestart = false, HintText = "{=mlf_spawn_enabled_hint}Active when game setting \"Unit Spawn Priority = High Tier First\": schedules spawn pacing by the four ratio weights below (infantry/archer/cavalry/horse archer), while within a troop type units still spawn highest tier first, preventing high-tier troops from monopolizing all spawn slots. When disabled, reverts to vanilla high-tier-first logic")]
         [SettingPropertyGroup("{=mlf_group_spawn}Spawn Ratios")]
         public bool UnitSpawnRatioEnabled { get; set; } = true;

@@ -58,6 +58,7 @@ namespace MutliLittleFixes.Patches
             RegisterSiegeWeapon(harmony);
             RegisterCoordinateTargetAI(harmony);
             RegisterMountedKnockDown(harmony);
+            RegisterChargeDamageMultiplier(harmony);
             RegisterUnitSpawnRatio(harmony);
             RegisterVolunteerRecruitRate(harmony);
             RegisterVolunteerUpgradeRate(harmony);
@@ -313,6 +314,16 @@ namespace MutliLittleFixes.Patches
                 typeof(MissionCombatMechanicsHelper), "DecideAgentKnockedDownByBlow");
             harmony.Patch(original,
                 postfix: Patch(typeof(MountedKnockDownPatch), "Postfix"));
+        }
+
+        // ── 马匹冲撞伤害倍率（2 个 MCM 开关，Postfix 放大冲撞伤害） ──
+
+        private static void RegisterChargeDamageMultiplier(Harmony harmony)
+        {
+            var original = AccessTools.Method(
+                typeof(MissionCombatMechanicsHelper), "ComputeBlowMagnitudeFromHorseCharge");
+            harmony.Patch(original,
+                postfix: Patch(typeof(ChargeDamageMultiplierPatch), "Postfix"));
         }
 
         // ── 自定义出场比例（Prefix 整体替换，仅 HighLevel 生效） ──────────

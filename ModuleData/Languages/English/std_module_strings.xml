@@ -195,6 +195,10 @@
     <string id="mlf_lance_min_speed_hint" text="Minimum relative speed required to trigger guaranteed knockdown on a mounted polearm thrust (length of the velocity difference vector between attacker and target, same unit as game speed). Default 2.0 prevents stationary thrusts from knocking down; 0 removes the speed requirement"/>
     <string id="mlf_lance_damage" text="Thrust Knockdown Damage Bonus"/>
     <string id="mlf_lance_damage_hint" text="Damage bonus applied when a mounted polearm thrust triggers guaranteed knockdown (default 0.3 = +30%). 0 means no damage bonus"/>
+    <string id="mlf_charge_dmg_enabled" text="Horse Charge Damage Multiplier"/>
+    <string id="mlf_charge_dmg_enabled_hint" text="Multiplies the damage dealt when a horse's body charges into enemies (pure horse collision, not weapon hits; symmetric for both sides). When disabled, the multiplier below is kept but not applied"/>
+    <string id="mlf_charge_dmg_mult" text="Charge Damage Multiplier"/>
+    <string id="mlf_charge_dmg_mult_hint" text="Damage multiplier for horse charge collisions (default 2.0 = 200% damage; 100% = vanilla)"/>
 
     <!-- ════════ 出场比例 ════════ -->
     <string id="mlf_spawn_enabled" text="Enable Custom Spawn Ratios"/>

@@ -24,7 +24,7 @@
 2. 在 `HarmonyPatchRegistry.Register()` 中调用新增的 `RegisterXxx(harmony)` 私有方法，加入注册清单。
 3. 如目标类/方法依赖外部 DLC（如战帆 DLC 的 `NavalDLC.GameComponents.NavalDLCShipDeploymentModel`），**必须用 `AccessTools.TypeByName` + null 检查**，未安装 DLC 时安全跳过（参考 `RegisterShipBattleLimit`）。
 4. 如目标方法是多方法（如 `[HarmonyTargetMethods]` 时代），改为在注册器中**循环注册**，找不到单个方法时跳过（参考 `RegisterScoreboardSortOrder`）。
-5. 编译验证 + 核对注册清单（当前共 36 个补丁类：Patches/ 下 34 个 + TrajectorySystem/ 下 2 个）。
+5. 编译验证 + 核对注册清单（当前共 37 个补丁类：Patches/ 下 35 个 + TrajectorySystem/ 下 2 个）。
 
 ### 1.3 Transpiler 特别说明
 
@@ -167,7 +167,7 @@ ModuleData/Languages/
 
 ### 5.1 原则
 
-- **禁用范围**（9 项士兵 AI 行为调整功能，全部必须海战禁用）：
+- **禁用范围**（10 项士兵 AI 行为调整功能，全部必须海战禁用）：
   1. 自动蹲下（`AutoCrouchMissionLogic`）
   2. 蹲下时举盾向上（`ShieldDirectionForCrouchPatch`）
   3. 旗帜士兵站位优化（`BannerBearerPositionPatch`）
@@ -177,6 +177,7 @@ ModuleData/Languages/
   7. 远程盾兵站位重排（`ShieldBearerFormationBehavior`）
   8. 首排持盾排序修复（`FormationFrontRankShieldSortPatch`）
   9. 长矛兵近身换刀（`SpearMeleeSwitchBehavior`）
+  10. 马匹冲撞伤害倍率（`ChargeDamageMultiplierPatch`）
 - **原因**：海战结构与陆战根本不同——士兵随船移动（静止判定/编队状态不成立）、编队绑定船只（每船一队，`NavalTeamAgents` 强管理，阵型转移会被还原）、甲板非地形（`GetTerrainHeight` 取到海面高度，静态实体无法随船移动）。上述功能在海上要么失效、要么产生异常行为（插盾实体落水、第 9 队无船、站位交换破坏船-编队绑定），故统一显式禁用、不干预。
 - **海战专属功能不受影响**：海战船只上限（`NavalBattleShipLimit` / `NavalDeployLimitPatch`）、自定义战斗陆地战优先（`CustomBattleModeOrderPatch`）等海战功能按原逻辑运行，不在禁用范围。
 
