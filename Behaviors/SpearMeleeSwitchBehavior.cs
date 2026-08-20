@@ -39,6 +39,10 @@ namespace MutliLittleFixes
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 统一原则：士兵 AI 行为调整在海战不干预
+            if (NavalBattleDetector.IsNavalBattle(Mission))
+                return;
+
             // MCM 总开关 — 关闭时把所有被本功能切到单刀的士兵恢复长杆并停止干预
             if (Settings.Instance?.SpearMeleeSwitchEnabled != true)
             {

@@ -50,6 +50,10 @@ namespace MutliLittleFixes.Patches
 
         private static bool PrefixCore(LineFormation __instance)
         {
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 放行原版方法，不干预船编队
+            if (NavalBattleDetector.IsNavalBattle())
+                return true;
+
             // MCM 运行时开关 — 关闭时放行原方法
             if (Settings.Instance?.FormationFrontRankSortEnabled != true)
                 return true;

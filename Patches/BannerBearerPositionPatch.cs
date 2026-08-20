@@ -18,6 +18,10 @@ namespace MutliLittleFixes.Patches
             ref List<FormationArrangementModel.ArrangementPosition> __result,
             Formation formation)
         {
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 统一原则：士兵 AI 行为调整在海战不干预
+            if (NavalBattleDetector.IsNavalBattle())
+                return;
+
             // MCM 运行时开关 — 关闭时不干预
             if (Settings.Instance?.BannerBearerPositionEnabled != true)
                 return;

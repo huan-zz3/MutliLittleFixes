@@ -44,6 +44,11 @@ namespace MutliLittleFixes
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 船编队排列为 ShieldWall/Line，
+            // 站位交换会破坏船-编队绑定（NavalTeamAgents 强管理）
+            if (NavalBattleDetector.IsNavalBattle(Mission))
+                return;
+
             // MCM 运行时开关 — 玩家侧重排由 ShieldBearerFormationEnabled 门控、
             // AI 侧重排由 ShieldPlantingAiEnabled 门控（见 GetEligibleTeams），
             // 两侧独立：一侧关闭不影响另一侧；两侧均关闭时循环为空，不干预。

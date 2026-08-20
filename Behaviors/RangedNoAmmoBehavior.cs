@@ -39,6 +39,11 @@ namespace MutliLittleFixes
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 士兵绑定船编队，第9队无船，
+            // 且 NavalTeamAgents 会在夺船/转移时把士兵强制拉回船编队，移交会被还原
+            if (NavalBattleDetector.IsNavalBattle(Mission))
+                return;
+
             // MCM 实时开关 — 关闭时归还第9队士兵并重置状态，重新启用时重新初始化
             if (Settings.Instance?.RangedNoAmmoEnabled != true)
             {

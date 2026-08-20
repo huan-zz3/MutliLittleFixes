@@ -26,6 +26,10 @@ namespace MutliLittleFixes
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 士兵随船移动，静止判定与编队状态不适用
+            if (NavalBattleDetector.IsNavalBattle(Mission))
+                return;
+
             // MCM 实时开关 — 关闭时强制站起所有可能被本功能蹲下的士兵
             if (Settings.Instance?.AutoCrouchEnabled != true)
             {

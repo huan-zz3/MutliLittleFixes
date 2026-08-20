@@ -46,6 +46,12 @@ namespace MutliLittleFixes.Patches
             ref Blow blow,
             ref bool __result)
         {
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 统一原则：士兵 AI 行为调整在海战不干预
+            if (NavalBattleDetector.IsNavalBattle())
+            {
+                return;
+            }
+
             // MCM 运行时开关 — 两个功能均关闭时不干预
             if (!IsCouchLanceEnabled && !IsMountedThrustEnabled)
             {

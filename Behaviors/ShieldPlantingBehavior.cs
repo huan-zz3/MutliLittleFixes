@@ -92,6 +92,11 @@ namespace MutliLittleFixes
             if (Mission == null || Mission.Mode == MissionMode.Deployment)
                 return;
 
+            // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 甲板非地形（GetTerrainHeight 取到海面高度），
+            // 且插地盾为静态实体无法随船移动，船上插盾会生成在错误高度/落水
+            if (NavalBattleDetector.IsNavalBattle(Mission))
+                return;
+
             // 懒订阅玩家命令事件：Move 命令 → 记录需要前往新位置的士兵（位置驱动收盾的允许集合）
             if (!_orderEventsSubscribed && Mission.PlayerTeam?.PlayerOrderController != null)
             {

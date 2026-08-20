@@ -158,3 +158,51 @@ ModuleData/Languages/
 3. **禁止**修改 `CrashLog` 的常驻挂载逻辑、限流参数或过滤规则使其失效；`CrashLog` 自身全部静默兜底，绝不再抛异常（避免递归触发捕获钩子）。
 4. 新代码可随时调用 `CrashLog.Write(source, ex)` 记录任意异常（线程安全，自动限流）。
 5. 若需向玩家展示错误（toast 等），用本地化文本；崩溃日志本身保持中文不本地化。
+
+---
+
+## 5. 海战模式禁用规则（战帆 Warsail DLC）
+
+> 士兵 AI 行为调整功能在战帆 DLC 海战模式中**一律显式禁用**，这是硬性原则，新增/修改任何士兵行为功能前必须遵守本节。
+
+### 5.1 原则
+
+- **禁用范围**（9 项士兵 AI 行为调整功能，全部必须海战禁用）：
+  1. 自动蹲下（`AutoCrouchMissionLogic`）
+  2. 蹲下时举盾向上（`ShieldDirectionForCrouchPatch`）
+  3. 旗帜士兵站位优化（`BannerBearerPositionPatch`）
+  4. 无弹药远程移交第 9 队（`RangedNoAmmoBehavior`）
+  5. 骑马长杆必定击倒（`MountedKnockDownPatch`）
+  6. 盾牌插地/收盾（`ShieldPlantingBehavior`）
+  7. 远程盾兵站位重排（`ShieldBearerFormationBehavior`）
+  8. 首排持盾排序修复（`FormationFrontRankShieldSortPatch`）
+  9. 长矛兵近身换刀（`SpearMeleeSwitchBehavior`）
+- **原因**：海战结构与陆战根本不同——士兵随船移动（静止判定/编队状态不成立）、编队绑定船只（每船一队，`NavalTeamAgents` 强管理，阵型转移会被还原）、甲板非地形（`GetTerrainHeight` 取到海面高度，静态实体无法随船移动）。上述功能在海上要么失效、要么产生异常行为（插盾实体落水、第 9 队无船、站位交换破坏船-编队绑定），故统一显式禁用、不干预。
+- **海战专属功能不受影响**：海战船只上限（`NavalBattleShipLimit` / `NavalDeployLimitPatch`）、自定义战斗陆地战优先（`CustomBattleModeOrderPatch`）等海战功能按原逻辑运行，不在禁用范围。
+
+### 5.2 检测方式（统一入口）
+
+- 统一调用 `NavalBattleDetector.IsNavalBattle(Mission)`（MissionLogic 内，传入 `this.Mission`）或 `NavalBattleDetector.IsNavalBattle()`（Harmony 补丁内，取 `Mission.Current`）。
+- 检测基于原版 `Mission.IsNavalBattle` / `Mission.IsNavalRaidBattle`（即 `MissionTeamAIType` 为 `NavalBattle` / `NavalRaid`，含自定义海战与战役沿海掠夺海战），**不依赖 DLC 程序集**——未安装战帆 DLC 时类型/属性恒为 false，安全无副作用。
+- **禁止**自行用场景名/地形类型/硬编码判断海战；**禁止**绕开 `NavalBattleDetector` 直接访问 DLC 类型（除非功能本身就是 DLC 专属，如 `NavalDeployLimitPatch` 用 `AccessTools.TypeByName` + null 检查的既有模式）。
+- **两条检测通道的分工（不得混用）**：
+  - **判断"当前任务是否海战" → 一律走 `NavalBattleDetector`**（原版 Mission 属性）。禁止用 `AccessTools.TypeByName` 判断是否海战——它检测的是"DLC 是否安装"而非"当前是否海战"，装了 DLC 的陆战会误判为海战。
+  - **解析 DLC 专属补丁目标 → 一律走 `AccessTools.TypeByName` + null 检查**（AGENTS.md §1.2 第 3 条，如 `NavalDeployLimitPatch`）。此类目标方法只在海战部署时被调用，注册后无需再叠加海战检测。
+
+### 5.3 实现位置要求
+
+- **MissionLogic 的 `OnMissionTick`**：在 `Mission == null` / `MissionMode.Deployment` 早退之后、MCM 开关检查之前插入：
+  ```csharp
+  // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— <注明该功能海战失效原因>
+  if (NavalBattleDetector.IsNavalBattle(Mission))
+      return;
+  ```
+  海战内本功能不会产生任何状态（无蹲姿/无插盾/无第 9 队记录），直接 `return` 即可，无需清理逻辑。
+- **Harmony 补丁方法（Postfix/Prefix）**：方法体最前、MCM 开关检查之前插入：
+  ```csharp
+  // 海战禁用（战帆 DLC 海战/沿海掠夺海战）— 统一原则：士兵 AI 行为调整在海战不干预
+  if (NavalBattleDetector.IsNavalBattle())
+      return;                    // Postfix：直接返回
+      // return true;           // Prefix（放行原方法）时用 true
+  ```
+- **新增任何士兵行为功能时**，必须同步添加海战禁用并核对本节清单（当前 9 项）。
