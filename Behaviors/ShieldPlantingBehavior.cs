@@ -280,6 +280,8 @@ namespace MutliLittleFixes
         /// 在 agent 前方 PLACE_DISTANCE 处的地面上生成插地盾实体。
         /// 实体用士兵盾牌自身的模型（ItemObject.MultiMeshName）与物理体（ItemObject.BodyName）动态生成，
         /// 任意盾型（筝形盾/圆盾/塔盾/步兵盾等）都使用匹配的模型，不再硬编码单一盾型。
+        /// 放置后按盾模型实际包围盒校正高度：实体原点（盾面中心）统一抬升会让小盾悬空、大盾入土，
+        /// 这里读取全局包围盒把盾底部最低点平移到地面高度，任意尺寸的盾都精确贴地。
         /// </summary>
         private GameEntity? SpawnProp(Agent agent)
         {
@@ -327,6 +329,23 @@ namespace MutliLittleFixes
                     true,  // isStatic：钉在地上
                     -1);
                 weaponData.DeinitializeManagedPointers();
+
+                // 贴地校正：实体原点位于盾面中心，固定抬升 0.9m 时大盾底部入土、小盾底部悬空。
+                // 这里重算网格包围盒并读取全局包围盒，把盾底部最低点（box.min.z）平移到地面高度，
+                // 使任意尺寸/形状的盾（圆盾/筝形盾/塔盾等）底部都精确贴地。
+                entity.RecomputeBoundingBox();
+                BoundingBox globalBox = entity.GetGlobalBoundingBox();
+                float bottomZ = globalBox.min.z;
+                if (!float.IsNaN(bottomZ) && !float.IsInfinity(bottomZ))
+                {
+                    float delta = groundZ - bottomZ;
+                    if (Math.Abs(delta) > 0.001f)
+                    {
+                        MatrixFrame adjustFrame = entity.GetGlobalFrame();
+                        adjustFrame.origin.z += delta;
+                        entity.SetGlobalFrame(in adjustFrame);
+                    }
+                }
 
                 entity.SetPhysicsState(true, false);
                 return entity;
