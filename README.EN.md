@@ -6,9 +6,9 @@
 
 **Version Notes & Prerequisites**
 
-- Current version: v1.5.0 (see changelog at the end)
+- Current version: v1.5.1 (see changelog at the end)
 - Requires the "Four Prerequisites" (framework mods)
-- Tested compatible with 1.4.5 and 1.4.6; 1.4.7 and 1.4.8 are unconfirmed — feedback in the comments is appreciated. 1.3.x is **not** supported.
+- Tested compatible with 1.4.5 and 1.4.6; 1.4.7 and 1.4.8 are unconfirmed — feedback in the comments is appreciated. 1.3.x/1.5.x is **not** supported.
 
 **Community & Bug Feedback QQ Group:** 
 **658975856** — New group, free to join.
@@ -24,6 +24,7 @@
 - **Realistic Auto-Resolve Simulation:** Soldiers accumulate injuries by individual HP, hit damage comes from their actual weapons and is reduced by armor — escaping the vanilla "pure troop-count crush" rough settlement; can also be applied to campaign-map battles between AI forces.
 - **Shield Planting & Positioning:** Shield-carrying ranged infantry plant their shields in the ground as cover and keep shooting; plant/retrieve manually with F11/J or automatically via formation commands, and ranged shield-bearers automatically deploy to the front and flanks, forming a protective shell. Planted shields have independent HP and can be destroyed, and the behavior also applies to AI troops.
 - **Pikeman Close-Range Weapon Swap:** AI infantry automatically switch to a one-handed weapon when enemies get into melee range to avoid stuck pikes; they switch back to their polearm once distance opens up, keeping their brace ability.
+- **Disable Thrown Weapon Melee:** Removes the melee usage from all thrown weapons (javelins/throwing axes/throwing knives), so soldiers at point-blank range use their drawn melee weapons instead of poking with thrown weapons.
 
 **MutliLittleFixes Full Feature Guide**
 **I. Progression & Experience**
@@ -76,6 +77,7 @@
 - **Planted Shield HP:** Planted shields have independent HP (the soldier's shield current remaining durability at the moment of planting × configurable percentage, default 50%). All vanilla damage sources (arrows, bolts, thrown weapons, and melee swings from swords, axes, polearms, etc.) consume the planted shield's HP; when it reaches zero, the shield is destroyed and disappears, and the soldier permanently loses that shield. When retrieved, the planted shield's remaining HP is converted back into the soldier's shield durability at the same percentage (the planted shield and the shield in hand are the same shield). When disabled, planted shields revert to indestructible pure obstacles. Takes effect in real time.
 - **Shield Planting & Positioning Applies to AI Troops:** AI soldiers of non-player parties (enemies and AI lord parties) also automatically plant shields while holding position, and ranged shield-bearers automatically rearrange to the front, flanks, and rear of their own line/loose formations, forming a protective shell — mirroring the player-side behavior.
 - **Pikeman Close-Range Weapon Swap:** AI infantry carrying a polearm + one-handed melee weapon (symmetric for both sides; the player character is unaffected) automatically switch from the polearm to the one-handed weapon when an enemy enters swap range (default 2 m), preventing polearm thrusts from missing at point-blank range (stuck pike); when the enemy moves beyond the switch-back range (default 4 m) or no enemy remains, they switch back to the polearm, keeping their thrust/brace ability against cavalry charges. The switch has a per-soldier cooldown debounce to avoid oscillating back and forth at the threshold boundary; the brace (passive attack) itself is triggered by the vanilla engine — this feature only handles weapon selection. Both distances are adjustable.
+- **Disable Thrown Weapon Melee:** A data-level global overhaul — removes the melee usage (one-handed polearm/one-handed axe/dagger) from all thrown weapons (javelins/throwing axes/throwing knives), so soldiers carrying melee weapons no longer "poke" with thrown weapons at point-blank range, instead using their drawn melee weapons. Enabled by default. This is the first toggle in this mod that requires a restart to take effect (weapon data is loaded when entering the game; changes made mid-campaign can't take effect in real time). Note: pure thrown-weapon troops completely lose their melee poke and can only fight bare-handed once ammo runs out.
 
 **VII. Auto-Resolve**
 
@@ -126,7 +128,11 @@ This mod is also open source on GitHub — any fellow player is welcome to refer
 
 **Changelog**
 
-**v1.5.0** (current version)
+**v1.5.1** (current version)
+- New feature: Disable thrown weapon melee — a data-level global overhaul that removes the melee usage (one-handed polearm/one-handed axe/dagger) from all thrown weapons (javelins/throwing axes/throwing knives), so soldiers carrying melee weapons no longer poke with thrown weapons at point-blank range, instead using their drawn melee weapons. Enabled by default. This is the first toggle in this mod that requires a restart to take effect (weapon data is loaded when entering the game; changes made mid-campaign can't take effect in real time). Note: pure thrown-weapon troops completely lose their melee poke and can only fight bare-handed once ammo runs out.
+- Bug fix: Prevent losing the whole formation's bonuses when the captain is transferred away — during no-ammo ranged transfer, the formation captain stays in their original formation even with exhausted ammo and doesn't participate in the transfer, preventing the vanilla Captain-clearing that would lose the entire formation's bonuses.
+
+**v1.5.0**
 - New feature: Planted shield HP — planted shields have independent HP (the soldier's shield current remaining durability at the moment of planting × configurable percentage, default 50%); all vanilla damage sources (arrows, bolts, thrown weapons, and melee swings from swords, axes, polearms, etc.) consume the planted shield's HP, and when it reaches zero the shield is destroyed and disappears, with the soldier permanently losing that shield; when retrieved, the planted shield's remaining HP is converted back into the soldier's shield durability at the same percentage. When disabled, planted shields revert to indestructible pure obstacles. Takes effect in real time.
 - New feature: Horse charge damage multiplier — damage from the horse body charge itself (pure horse collision, not weapon attacks) is amplified by an MCM multiplier (default 2.0 = 200% damage; 100% is vanilla), scaling base and special damage together while preserving the vanilla damage/knockdown judgment ratio; symmetric for both sides.
 - New feature: No-ammo ranged transfer with configurable target formation — ranged soldiers with exhausted ammo can be transferred to any formation from 1–9 (Formation 9 by default; MCM changes take effect immediately in battle); once transferred they never return — even after ammo is restored they permanently stay in the target formation. When the target is Formation 9 (the standby pool), they are taken over as player-controlled + Stop standby; when the target is a standard formation, they keep the vanilla AI's existing orders and position without interference.
