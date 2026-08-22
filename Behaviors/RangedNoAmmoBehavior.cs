@@ -24,6 +24,8 @@ namespace MutliLittleFixes
     ///   6. 阵型转移使用与原版手动移送（战前布阵拖拽）一致的链路：
     ///      OnMassUnitTransferStart/End 批量包装 + Team.TriggerOnFormationsChanged 事件通知。
     ///   7. 玩家本人跳过检测。
+    ///   8. 阵型队长（Formation.Captain，为全队提供加成）即使弹药耗尽也保留在原阵型，不参与移交，
+    ///      避免队长被移走后原版清空 Captain 导致全队加成丢失。
     /// </summary>
     public class RangedNoAmmoBehavior : MissionLogic
     {
@@ -166,6 +168,11 @@ namespace MutliLittleFixes
             formation.ApplyActionOnEachUnit(agent =>
             {
                 if (agent == Mission.MainAgent)
+                    return;
+
+                // 队长保留在原阵型——队长为全队提供加成（Formation.Captain），
+                // 即使弹药耗尽也不移交，避免原版清空 Captain 导致加成丢失
+                if (agent == formation.Captain)
                     return;
 
                 if (IsOutOfAmmo(agent))
