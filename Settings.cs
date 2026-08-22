@@ -474,6 +474,14 @@ namespace MutliLittleFixes
         [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
         public float SpearMeleeSwitchBackDistance { get; set; } = 4.0f;
 
+        // 禁用投掷武器近战：移除投掷锻造模板的近战 WeaponDescription（数据级全局改造）。
+        // 这是本文件第一个 RequireRestart = true 的开关——武器数据在进入游戏时（LoadBasicFiles→LoadXML("Items")）
+        // 烘焙，战役中途修改无法实时生效，故必须重启（或重新进入游戏）。开关在 Game.LoadBasicFiles
+        // Postfix 中每次进入游戏读取一次（新开/读档/自定义战斗均覆盖）。
+        [SettingPropertyBool("{=mlf_thrown_melee_disable}Disable Thrown Weapon Melee", Order = 100, RequireRestart = true, HintText = "{=mlf_thrown_melee_disable_hint}Remove the melee (one-handed polearm/axe/dagger) usage from all throwing weapons (javelins, throwing axes, throwing knives) so soldiers wielding a melee weapon no longer jab with a thrown weapon at close range; they use their drawn melee weapon instead. Requires a restart because weapon data is baked at game start. Note: pure thrown-only soldiers lose their melee jab entirely and fight unarmed once ammunition runs out.")]
+        [SettingPropertyGroup("{=mlf_group_battle}Formations & Battle")]
+        public bool DisableThrownWeaponMeleeEnabled { get; set; } = true;
+
         [SettingPropertyBool("{=mlf_village_rebuild}Village Funded Rebuild", Order = 83, RequireRestart = false, HintText = "{=mlf_village_rebuild_hint}The menu of fully raided (devastated) villages offers a \"Fund Reconstruction\" option: pay 10000 denars and the village rebuilds automatically in 3 days (returns to normal operation and rewards all notables with 15~20 relation). When disabled, the menu option is hidden; ongoing paid rebuilds are unaffected and still complete on time")]
         [SettingPropertyGroup("{=mlf_group_village}Village Rebuild")]
         public bool VillageRebuildEnabled { get; set; } = true;

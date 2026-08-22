@@ -188,6 +188,10 @@
     <string id="mlf_spear_switch_back" text="Switch Back to Polearm Distance"/>
     <string id="mlf_spear_switch_back_hint" text="Distance from the nearest enemy (meters) at which a one-handed-wielding soldier switches back to the polearm (hysteresis band with the switch distance prevents weapon flickering). Smaller = quicker return to the spear, larger = the sword is kept longer"/>
 
+    <!-- ════════ 禁用投掷武器近战 ════════ -->
+    <string id="mlf_thrown_melee_disable" text="Disable Thrown Weapon Melee"/>
+    <string id="mlf_thrown_melee_disable_hint" text="Remove the melee (one-handed polearm/axe/dagger) usage from all throwing weapons (javelins, throwing axes, throwing knives) so soldiers wielding a melee weapon no longer jab with a thrown weapon at close range; they use their drawn melee weapon instead. Requires a restart because weapon data is baked at game start. Note: pure thrown-only soldiers lose their melee jab entirely and fight unarmed once ammunition runs out."/>
+
     <!-- ════════ 骑马长杆击倒 ════════ -->
     <string id="mlf_lance_couch" text="Couch Lance Knockdown"/>
     <string id="mlf_lance_couch_hint" text="Mounted couch lance (passive attack) hits on unmounted infantry/ranged units always knock them down (symmetric for both sides; negated by blocking)"/>

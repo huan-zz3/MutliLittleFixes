@@ -33,6 +33,10 @@ namespace MutliLittleFixes
             _harmony = new Harmony("MutliLittleFixes");
             Patches.HarmonyPatchRegistry.Register(_harmony);
 
+            // 禁用投掷武器近战（数据级全局改造）在 HarmonyPatchRegistry 中注册为
+            // Game.LoadBasicFiles 的 Postfix：模板数据加载完成后、物品生成前执行，
+            // 覆盖新开战役/读档/自定义战斗等所有路径（详见 DisableThrownWeaponMeleePatch 类注释）。
+
             // LordStrengthTypeDefiner 由存档系统自动发现。
             // 存档系统会扫描所有程序集，查找非抽象的 SaveableTypeDefiner 子类，
             // 并通过 Activator.CreateInstance 自动实例化它们（详见 DefinitionContext.cs:297-299）。

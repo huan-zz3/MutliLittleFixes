@@ -188,6 +188,10 @@
     <string id="mlf_spear_switch_back" text="回切长杆距离"/>
     <string id="mlf_spear_switch_back_hint" text="持单手士兵换回长杆的最近敌人距离（米）。与换刀距离构成滞回区间，防止武器频繁抖动。越小越早换回长杆，越大单刀用得更久"/>
 
+    <!-- ════════ 禁用投掷武器近战 ════════ -->
+    <string id="mlf_thrown_melee_disable" text="禁用投掷武器近战"/>
+    <string id="mlf_thrown_melee_disable_hint" text="移除所有投掷武器（标枪/飞斧/飞刀）上的近战用法（单手长杆/单手斧/匕首），使携带近战武器的士兵在贴身时不再拿投掷武器戳人，而是使用已拔出的近战武器。需重启生效（武器数据在启动时烘焙）。注意：纯投掷兵将彻底失去近战戳击，弹药耗尽后只能徒手肉搏。"/>
+
     <!-- ════════ 骑马长杆击倒 ════════ -->
     <string id="mlf_lance_couch" text="架矛骑枪必定击倒"/>
     <string id="mlf_lance_couch_hint" text="骑乘架矛（被动攻击）的长杆武器命中未上马的步兵/远程单位时必定击倒（敌我双方对称生效；格挡化解时不生效）"/>

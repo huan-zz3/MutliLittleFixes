@@ -72,6 +72,19 @@ namespace MutliLittleFixes.Patches
             RegisterKillFeedDisplay(harmony);
             RegisterAutoResolveRebalance(harmony);
             RegisterPlayerSiegeLeadershipLock(harmony);
+            RegisterDisableThrownWeaponMelee(harmony);
+        }
+
+        // ── 禁用投掷武器近战（数据级全局改造） ───────────────────────
+
+        private static void RegisterDisableThrownWeaponMelee(Harmony harmony)
+        {
+            // 在 Game.LoadBasicFiles（加载 CraftingTemplates 等基础数据）返回后、
+            // LoadXML("Items")（生成标枪/飞斧/飞刀等 CraftedItem）之前，剔除投掷模板的近战用法。
+            // 挂载时机与原因详见 DisableThrownWeaponMeleePatch 类注释。
+            var original = AccessTools.Method(typeof(Game), "LoadBasicFiles");
+            harmony.Patch(original,
+                postfix: Patch(typeof(DisableThrownWeaponMeleePatch), "Postfix"));
         }
 
         /// <summary>解析补丁类中的静态方法（含非公开），包装为 HarmonyMethod。</summary>
